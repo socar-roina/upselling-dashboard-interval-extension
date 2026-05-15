@@ -99,6 +99,16 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
 .chart-wrap { height: 280px; }
 
+/* FUNNEL BARS (노출 모수 시각화) */
+.funnel-bars { display: flex; flex-direction: column; gap: 12px; }
+.bar-row { display: grid; grid-template-columns: 280px 1fr 60px; align-items: center; gap: 14px; }
+.bar-label { font-size: 13px; color: #374151; font-weight: 600; }
+.bar-track { background: #f3f4f6; border-radius: 6px; height: 30px; position: relative; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; color: white; font-weight: 800; font-size: 13px; font-variant-numeric: tabular-nums; transition: width 0.4s; min-width: 50px; }
+.bar-pct { font-size: 12px; color: #6b7280; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.bar-row.final .bar-label { color: #92400e; font-weight: 700; }
+.bar-row.final .bar-pct { font-weight: 800; }
+
 /* SUMMARY */
 .summary-block { background: white; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 16px; padding: 24px 28px; }
 .summary-block h3 { font-size: 16px; font-weight: 800; color: #111827; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
@@ -322,27 +332,43 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
 
   <!-- ★ 노출 모수 단계 (왜 36명만 봤는지) -->
-  <div class="section-label">노출 모수가 단계별로 어떻게 좁아지는지 <span class="tag tag-fact">실측</span></div>
+  <div class="section-label">왜 36명만 봤는지 — 노출 모수 단계별 좁아짐 <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    하루 만들어진 12,900개 왕복 예약에서 노출 조건을 하나씩 적용해 모수가 어디까지 좁아지는지 단계별 추적.<br>
-    <b>빅쿼리에서 직접 확인 가능한 단계까지 표시.</b>
+    하루 만들어진 12,900개 왕복 예약에서 노출 조건을 하나씩 적용해보면 단계별로 모수가 줄어듦.<br>
+    막대 길이로 잔여 비율 시각화 (12,900건을 100% 기준).
   </div>
   <div class="card">
-    <table class="data-table" style="max-width:780px">
-      <thead>
-        <tr>
-          <th>단계</th>
-          <th class="num">잔여 모수</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>5/14에 만들어진 왕복 예약 전체 (취소 안 된 것)</td><td class="num">12,900</td></tr>
-        <tr><td>↓ 당일 출발만 (예약 만든 날 바로 차 빌림)</td><td class="num">8,107</td></tr>
-        <tr><td>↓ 출발 9~15시 + 반납 15~20시 + 4~24시간 길이</td><td class="num">573</td></tr>
-        <tr><td>↓ 개인 회원만 (비즈·법인 제외)</td><td class="num">530</td></tr>
-        <tr class="total"><td>실제 옵션 화면을 본 회원 (5/14)</td><td class="num" style="color:#b45309">36</td></tr>
-      </tbody>
-    </table>
+    <div class="funnel-bars">
+      <div class="bar-row">
+        <div class="bar-label">5/14 왕복 예약 전체</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%;background:#3b82f6">12,900</div></div>
+        <div class="bar-pct">100%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">↓ 당일 출발만</div>
+        <div class="bar-track"><div class="bar-fill" style="width:62.8%;background:#60a5fa">8,107</div></div>
+        <div class="bar-pct">62.8%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">↓ 출발 9~15시 / 반납 15~20시 / 4~24h</div>
+        <div class="bar-track"><div class="bar-fill" style="width:4.44%;background:#a78bfa">573</div></div>
+        <div class="bar-pct">4.4%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">↓ 개인 회원만 (비즈·법인 제외)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:4.11%;background:#c084fc">530</div></div>
+        <div class="bar-pct">4.1%</div>
+      </div>
+      <div class="bar-row final">
+        <div class="bar-label">↓ 차종 제외 / 차량 가용 / 추가금 / 빈도제한 등</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0.28%;background:#f59e0b;min-width:30px">36</div></div>
+        <div class="bar-pct" style="color:#b45309">0.3%</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:#fef3c7;border-radius:8px;font-size:13px;color:#92400e;line-height:1.8;border-left:3px solid #f59e0b">
+      <b>가장 큰 감소 구간 = "당일 출발 + 시간/길이 조건" 단계</b> (8,107 → 573, <b>약 14배 감소</b>)<br>
+      이 단계가 노출 모수를 가장 강하게 좁히는 핵심 필터. 시간연장 정책상 의도된 좁은 타겟팅이 그대로 반영된 결과로 보임.
+    </div>
   </div>
 
   <!-- ★ 노출 조건 9가지 -->
@@ -529,9 +555,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <div class="summary-block">
     <h3>위 데이터에서 확인된 사실 정리</h3>
     <div class="intro">
-      5/13 14:09:30 ~ 5/14 24:00 동안 옵션 화면 본 사람 누계 41명, <b>실제 수락 9명 (수락률 22.0%)</b>, 매출 증분 44,100원 발생.<br><br>
-      <b>기획 문서(4530962596) 예상은 일 평균 ~954건 노출인데 5/14 실측은 36건</b>으로 큰 차이 발생.<br>
-      이 차이의 원인과 해석 방향을 4가지로 정리.
+      5/13 14:09:30 ~ 5/14 24:00 동안 옵션 화면 본 사람 누계 41명, <b>실제 수락 9명 (수락률 22.0%)</b>, 매출 증분 44,100원 발생.<br>
+      5/14 하루 노출이 36명에 그친 절대 수치 해석과 향후 모니터링 방향 정리.
     </div>
     <div class="finding-list">
 
@@ -567,48 +592,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </div>
       </div>
 
-      <div class="finding-item">
-        <div class="head">
-          <div class="num">3</div>
-          <div class="title">기획서 예상 일일 ~954명 vs 실측 36명 — 기획과 구현 조건 차이가 원인</div>
-        </div>
-        <div class="body">
-          기획 문서(4530962596)에서 정의한 실 노출 모수는 <b>일 평균 ~954건</b>.<br>
-          그러나 실측은 36건으로 약 26배 차이 발생.<br><br>
-          빅쿼리로 확인한 결과 차이의 핵심은 <b>기획서엔 없는 조건이 실제 노출 코드에 추가됨</b>.
-        </div>
-        <div class="example">
-          <div class="example-label">기획서 vs 실제 코드 조건 비교</div>
-          <div class="example-body">
-            <table>
-              <thead>
-                <tr><th>조건</th><th>기획서</th><th>실제 코드</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>출발 9~15시 / 반납 15~20시 / 4~24h</td><td style="color:#059669">있음</td><td style="color:#059669">있음</td></tr>
-                <tr><td>주중+일 (토요일 제외) / 비제주</td><td style="color:#059669">있음</td><td style="color:#059669">있음</td></tr>
-                <tr><td>자정까지 차량 가용</td><td style="color:#059669">있음</td><td style="color:#059669">있음</td></tr>
-                <tr><td>A/B 50:50</td><td style="color:#059669">있음</td><td style="color:#059669">있음</td></tr>
-                <tr><td><b>당일 출발만</b></td><td style="color:#b91c1c;font-weight:700">없음</td><td style="color:#b91c1c;font-weight:700">있음 (추가)</td></tr>
-                <tr><td><b>수입차/전기차/대형 제외</b></td><td style="color:#b91c1c;font-weight:700">없음</td><td style="color:#b91c1c;font-weight:700">있음 (추가)</td></tr>
-                <tr><td><b>추가금 4,900원 초과</b></td><td style="color:#b91c1c;font-weight:700">없음</td><td style="color:#b91c1c;font-weight:700">있음 (추가)</td></tr>
-                <tr><td><b>제휴할인 없음</b></td><td style="color:#b91c1c;font-weight:700">없음</td><td style="color:#b91c1c;font-weight:700">있음 (추가)</td></tr>
-              </tbody>
-            </table>
-            <div style="margin-top:10px;padding:10px 12px;background:#fef3c7;border-radius:6px;font-size:12px;color:#92400e;line-height:1.7">
-              빅쿼리 실측으로 본 5/14 단계별 모수:<br>
-              • 시간 조건만 적용 (기획서 정의에 가까움): <b>1,183건</b><br>
-              • + 당일 출발 조건 추가: 573건 (절반 감소)<br>
-              • + 개인 회원만: 530건<br>
-              • + 차종 제외 / 추가금 / 제휴할인 등: <b>36건 (실측)</b>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div class="finding-item">
         <div class="head">
-          <div class="num">4</div>
+          <div class="num">3</div>
           <div class="title">결제 후 환불된 케이스 분리 필요</div>
         </div>
         <div class="body">
