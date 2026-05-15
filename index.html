@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>업셀링 시간연장 실험 모니터링</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif; background: #f7f8fa; color: #111827; font-size: 14px; line-height: 1.5; min-width: 1200px; }
+
+.top-bar { background: white; color: #111827; border-bottom: 1px solid #e5e7eb; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; }
+.top-bar h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+.top-bar .meta { font-size: 12px; color: #6b7280; margin-top: 6px; line-height: 1.6; max-width: 900px; }
+.top-bar .updated { font-size: 11px; color: #6b7280; text-align: right; line-height: 1.7; }
+.top-bar .updated b { color: #111827; }
+
+/* 실험 개요 박스 (최상단) */
+.experiment-overview { background: #f0f9ff; border-bottom: 1px solid #bae6fd; padding: 16px 24px; }
+.experiment-overview .inner { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.experiment-overview .o-block { padding: 8px 14px; border-left: 3px solid #3b82f6; }
+.experiment-overview .o-block .lbl { font-size: 11px; font-weight: 800; color: #0c4a6e; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.experiment-overview .o-block .val { font-size: 13px; color: #1e293b; line-height: 1.7; }
+
+.period-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 18px 24px; }
+.period-inner { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.period-block { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 14px; }
+.period-block .lbl { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.period-block .val { font-size: 13px; font-weight: 700; color: white; line-height: 1.4; }
+.period-block .sub { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; line-height: 1.5; }
+.period-block.highlight { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.4); }
+.period-block.highlight .lbl { color: #6ee7b7; }
+.period-block.highlight .val { color: #d1fae5; }
+
+.main { max-width: 1440px; margin: 0 auto; padding: 24px; }
+
+.section-label { font-size: 13px; font-weight: 800; color: #374151; margin: 30px 0 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.section-label::before { content: ""; display: inline-block; width: 4px; height: 16px; background: #3b82f6; border-radius: 2px; }
+.section-label .tag { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 600; letter-spacing: 0; }
+.tag-fact { background: #d1fae5; color: #065f46; }
+.tag-info { background: #dbeafe; color: #1e40af; }
+.tag-danger { background: #fee2e2; color: #991b1b; }
+
+.section-explain { font-size: 13px; color: #4b5563; line-height: 1.8; padding: 12px 16px; background: #f9fafb; border-radius: 8px; margin-bottom: 14px; border-left: 3px solid #6b7280; }
+.section-explain b { color: #111827; }
+
+.card { background: white; border-radius: 12px; border: 1px solid #e5e7eb; padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 16px; }
+.card-title { font-size: 15px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+.card-sub { font-size: 12px; color: #6b7280; margin-bottom: 16px; line-height: 1.7; }
+
+/* KPI 5개 */
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
+.kpi { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.kpi .lbl { font-size: 12px; font-weight: 700; color: #6b7280; margin-bottom: 8px; line-height: 1.5; min-height: 36px; }
+.kpi .num { font-size: 32px; font-weight: 900; line-height: 1; color: #111827; }
+.kpi .num.green { color: #059669; }
+.kpi .num.purple { color: #7c3aed; }
+.kpi .num.blue { color: #2563eb; }
+.kpi .num.amber { color: #b45309; }
+.kpi .unit { font-size: 14px; font-weight: 700; color: #6b7280; margin-left: 2px; }
+.kpi .sub { font-size: 11px; color: #6b7280; margin-top: 10px; line-height: 1.6; }
+
+/* FUNNEL */
+.funnel-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.funnel-card .step { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 10px; background: #fafafa; }
+.funnel-card .step .step-lbl { flex: 1; }
+.funnel-card .step .step-lbl-top { font-size: 13px; font-weight: 700; color: #111827; }
+.funnel-card .step .step-lbl-sub { font-size: 12px; color: #6b7280; margin-top: 4px; line-height: 1.6; }
+.funnel-card .step .step-val { font-size: 26px; font-weight: 900; color: #111827; }
+.funnel-card .step .step-pct { font-size: 11px; font-weight: 700; color: #6b7280; min-width: 60px; text-align: right; }
+.funnel-card .step.s1 { background: #eff6ff; border-color: #bfdbfe; }
+.funnel-card .step.s2 { background: #f5f3ff; border-color: #ddd6fe; }
+.funnel-card .step.s3 { background: #ecfdf5; border-color: #a7f3d0; }
+.funnel-card .step.s4 { background: #fef3c7; border-color: #fde68a; }
+.funnel-card .step.s4 .step-val { color: #92400e; }
+.funnel-card .step.s5 { background: #fee2e2; border-color: #fecaca; }
+.funnel-card .step.s5 .step-val { color: #b91c1c; }
+
+.query-block { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 12px 14px; font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.6; overflow-x: auto; white-space: pre; }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { background: #f9fafb; padding: 12px 14px; text-align: left; font-size: 12px; font-weight: 700; color: #374151; border-bottom: 2px solid #e5e7eb; }
+.data-table th .col-sub { font-weight: 400; color: #9ca3af; font-size: 11px; display: block; margin-top: 3px; line-height: 1.4; }
+.data-table th.num { text-align: right; }
+.data-table td { padding: 12px 14px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.data-table td.dt { font-weight: 700; color: #374151; }
+.data-table td .badge { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-weight: 700; }
+.data-table tr.total td { background: #f9fafb; font-weight: 700; }
+
+.cond-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cond-item { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; background: #f9fafb; border-radius: 8px; font-size: 13px; }
+.cond-item .cond-num { background: #1e40af; color: white; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 4px; flex-shrink: 0; line-height: 1.4; }
+.cond-item .cond-text { color: #374151; line-height: 1.6; flex: 1; }
+.cond-item .cond-text b { color: #111827; }
+.cond-item .cond-text .why { font-size: 12px; color: #6b7280; margin-top: 5px; display: block; line-height: 1.6; }
+
+.chart-wrap { height: 280px; }
+
+/* SUMMARY */
+.summary-block { background: white; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 16px; padding: 24px 28px; }
+.summary-block h3 { font-size: 16px; font-weight: 800; color: #111827; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.summary-block .intro { font-size: 13px; color: #374151; line-height: 1.9; margin-bottom: 18px; padding: 14px 18px; background: #f0f9ff; border-radius: 10px; border-left: 3px solid #3b82f6; }
+.summary-block .intro b { color: #0c4a6e; }
+
+.finding-list { display: flex; flex-direction: column; gap: 14px; }
+.finding-item { padding: 16px 18px; background: #fafafa; border: 1px solid #f3f4f6; border-radius: 10px; }
+.finding-item .head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.finding-item .head .num { background: white; border: 1.5px solid #d1d5db; color: #374151; font-weight: 800; font-size: 13px; padding: 3px 11px; border-radius: 6px; }
+.finding-item .head .title { font-size: 14px; font-weight: 800; color: #111827; }
+.finding-item .body { font-size: 13px; line-height: 1.9; color: #374151; }
+.finding-item .body b { color: #111827; font-weight: 700; }
+
+/* EXAMPLE BOX */
+.example { margin-top: 12px; padding: 12px 16px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; }
+.example-label { font-size: 11px; font-weight: 800; color: #6b7280; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.example-label::before { content: "예시"; background: #fef3c7; color: #92400e; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 800; }
+.example-body { font-size: 13px; color: #374151; line-height: 1.8; }
+.example-body code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-family: ui-monospace, monospace; }
+.example-body .row { display: flex; gap: 12px; padding: 4px 0; font-variant-numeric: tabular-nums; align-items: center; }
+.example-body .row .k { color: #6b7280; min-width: 180px; flex-shrink: 0; font-size: 12px; }
+.example-body .row .v { color: #111827; font-weight: 700; }
+.example-body .arrow { color: #9ca3af; font-weight: 700; margin: 4px 0; font-size: 12px; }
+.example-body table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+.example-body table th { background: #f9fafb; padding: 6px 10px; text-align: left; font-size: 11px; color: #6b7280; font-weight: 700; }
+.example-body table td { padding: 6px 10px; border-bottom: 1px solid #f3f4f6; }
+
+.action-list { display: flex; flex-direction: column; gap: 12px; }
+.action-row { padding: 16px 20px; background: #fafafa; border: 1px solid #f3f4f6; border-radius: 10px; }
+.action-row.urgent { background: #fff7f7; border-color: #fecaca; }
+.action-row.mid { background: #fffbeb; border-color: #fde68a; }
+.action-row .head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.action-row .head .n { background: white; color: #1e40af; font-weight: 800; font-size: 13px; padding: 4px 11px; border-radius: 6px; border: 1.5px solid #dbeafe; }
+.action-row.urgent .head .n { color: #b91c1c; border-color: #fecaca; }
+.action-row.mid .head .n { color: #92400e; border-color: #fde68a; }
+.action-row .head .title { font-size: 14px; font-weight: 800; color: #111827; flex: 1; }
+.action-row .head .when { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 4px; background: #dbeafe; color: #1e40af; }
+.action-row.urgent .head .when { background: #fee2e2; color: #b91c1c; }
+.action-row.mid .head .when { background: #fef3c7; color: #92400e; }
+.action-row .body { font-size: 13px; line-height: 1.8; color: #374151; }
+.action-row .body b { color: #111827; }
+
+/* BQ AVAILABILITY TABLE */
+.bq-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+.bq-table th { background: #f9fafb; padding: 12px 14px; text-align: left; font-size: 12px; font-weight: 700; color: #374151; border-bottom: 2px solid #e5e7eb; }
+.bq-table td { padding: 14px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+.bq-table td.status { white-space: nowrap; font-weight: 700; }
+.status-ok { color: #059669; }
+.status-partial { color: #b45309; }
+.status-no { color: #b91c1c; }
+.bq-table td .reason { font-size: 12px; color: #4b5563; margin-top: 5px; line-height: 1.7; }
+
+.foot-note { font-size: 13px; color: #4b5563; margin-top: 30px; padding: 18px 22px; line-height: 2; background: #f9fafb; border-radius: 10px; border: 1px solid #e5e7eb; }
+.foot-note h4 { font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 10px; }
+.foot-note .term { display: grid; grid-template-columns: 200px 1fr; gap: 12px; padding: 6px 0; border-bottom: 1px solid #f3f4f6; }
+.foot-note .term:last-child { border-bottom: none; }
+.foot-note .term b { color: #111827; }
+</style>
+</head>
+<body>
+
+<!-- ─── TOP BAR ─── -->
+<div class="top-bar">
+  <div>
+    <h1>업셀링 시간연장 실험 모니터링 대시보드</h1>
+    <div class="meta">
+      차를 빌리려는 사용자에게 결제 직전 시간연장 옵션을 보여주는 실험의 성과 추적용.<br>
+      어떤 화면이 얼마나 떠서 / 사용자가 어떻게 행동했고 / 실제로 회사에 얼마의 추가 매출이 발생했는지 확인.
+    </div>
+  </div>
+  <div class="updated">
+    조회 시점: <b>2026-05-15 14:30 KST</b><br>
+    데이터 출처: 앱 사용 로그 + 결제 내역
+  </div>
+</div>
+
+<!-- 실험 개요 -->
+<div class="experiment-overview">
+  <div class="inner">
+    <div class="o-block">
+      <div class="lbl">무엇을 노출</div>
+      <div class="val">결제 직전 화면에서 "조금 더 길게 빌리면 4,900원 추가" 옵션 카드 노출</div>
+    </div>
+    <div class="o-block">
+      <div class="lbl">누구에게 노출</div>
+      <div class="val">전체 회원 절반(B군 실험군)에게만 노출. 나머지 절반(A군 대조군)은 옵션 화면 미노출, 일반 결제로 진행</div>
+    </div>
+    <div class="o-block">
+      <div class="lbl">수익 구조</div>
+      <div class="val">사용자 수락 시 추가 매출 4,900원 발생. 실제 연장 요금이 4,900원보다 크면 차액은 회사가 할인 형태로 부담</div>
+    </div>
+  </div>
+</div>
+
+<!-- 분석 기간 배너 -->
+<div class="period-banner">
+  <div class="period-inner">
+    <div class="period-block">
+      <div class="lbl">PF0 옵션 화면 종료 시각</div>
+      <div class="val">2026-05-13<br>13:59:42 KST</div>
+      <div class="sub">PF0 옵션 카드를 누른 마지막 클릭 시각</div>
+    </div>
+    <div class="period-block highlight">
+      <div class="lbl">시간연장 옵션 화면 시작 시각</div>
+      <div class="val">2026-05-13<br>14:09:30 KST</div>
+      <div class="sub">시간연장 옵션 카드를 누른 첫 번째 클릭 시각<br>↑ 이 시각부터의 데이터만 분석에 사용</div>
+    </div>
+    <div class="period-block">
+      <div class="lbl">분석 가능한 데이터 마지막 시각</div>
+      <div class="val">2026-05-14<br>23:59:59 KST</div>
+      <div class="sub">로그가 하루 늦게 들어와서 오늘(5/15) 데이터는 아직 없음</div>
+    </div>
+    <div class="period-block">
+      <div class="lbl">총 분석 기간</div>
+      <div class="val">5/13 14:09:30<br>~ 5/14 24:00</div>
+      <div class="sub">약 1.4일치 (PF0와 섞이지 않은 순수 시간연장 노출 구간)</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ① 핵심 KPI -->
+  <div class="section-label">한눈에 보는 핵심 지표 (분석 기간 누계) <span class="tag tag-fact">실측</span></div>
+  <div class="section-explain">
+    아래 5개 지표는 5/13 14:09:30 ~ 5/14 24:00 누적 수치. <b>"수락률"</b>은 옵션 화면을 본 회원 중 실제로 시간연장 결제까지 마치고 환불 없이 유지된 회원 비율.
+  </div>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="lbl">옵션 화면을 본 사람</div>
+      <div class="num blue">41 <span class="unit">명</span></div>
+      <div class="sub">중복 제외 회원 수 합계<br>(5/13: 5명 · 5/14: 36명)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">시간연장 카드를 눌러본 사람</div>
+      <div class="num purple">13 <span class="unit">명</span></div>
+      <div class="sub">옵션 카드를 직접 누른 회원<br>(5/13: 3명 · 5/14: 10명)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">실제 수락 회원<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
+      <div class="num green">9 <span class="unit">명</span></div>
+      <div class="sub">총 9건 예약 / 9명 회원<br>(5/13: 0명 · 5/14: 9명)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(옵션 화면 본 사람 기준)</span></div>
+      <div class="num amber">22.0 <span class="unit">%</span></div>
+      <div class="sub">9명 ÷ 41명<br>(5/13: 0% · 5/14: 25.0%)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
+      <div class="num green">44,100 <span class="unit">원</span></div>
+      <div class="sub">회사 할인 부담: <b>142,080원</b><br>(평균 15,787원/건)</div>
+    </div>
+  </div>
+
+  <div class="example" style="background:#f0f9ff;border-color:#bae6fd;margin-top:0">
+    <div class="example-label" style="color:#0c4a6e">수락률 계산 방식</div>
+    <div class="example-body">
+      <div class="row"><span class="k">분자 (실제 수락한 회원)</span><span class="v">9명</span></div>
+      <div class="row" style="color:#9ca3af;padding-left:0;font-size:11px;padding-bottom:6px">= 시간연장 결제를 끝까지 유지한 회원 (환불되지 않은 예약이 있는 회원)</div>
+      <div class="row"><span class="k">분모 (옵션 화면 본 회원)</span><span class="v">41명</span></div>
+      <div class="row" style="color:#9ca3af;padding-left:0;font-size:11px;padding-bottom:6px">= 결제 직전 화면에서 시간연장 옵션이 떠 있는 화면을 본 회원</div>
+      <div class="row"><span class="k">결과</span><span class="v" style="color:#b45309;font-size:14px">22.0% (9 ÷ 41)</span></div>
+      <div class="row" style="color:#6b7280;padding-left:0;font-size:11px;padding-top:6px;line-height:1.6">
+        <b style="color:#111827">참고:</b> 옵션 카드를 직접 눌러본 13명 기준으로 보면 9/13 = 69.2%. 다만 표본이 작아 변동성 큼.<br>
+        1주 누적 데이터(5/13~5/19) 이후 의미 있는 수락률 추세 판단 가능.
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 일별 표 -->
+  <div class="section-label">화면별·동작별 일일 집계 <span class="tag tag-fact">실측</span></div>
+  <div class="section-explain">
+    사용자가 결제 직전 화면에서 어떤 행동을 했는지 일별로 집계. 각 숫자는 <b>중복 제외한 회원 수</b> (한 사람이 여러 번 눌러도 1명).
+  </div>
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>일자</th>
+          <th class="num">옵션 화면 본 회원<br><span class="col-sub">시간연장 옵션 카드가 있는 화면을 본 회원 수</span></th>
+          <th class="num">시간연장 카드 누른 회원<br><span class="col-sub">"시간연장 선택" 카드를 직접 누른 회원 수</span></th>
+          <th class="num">결제 버튼 누른 회원<br><span class="col-sub">맨 아래 결제 진행 버튼을 누른 회원 수</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dt">5/13<br><span style="font-size:11px;color:#9ca3af;font-weight:400">14:09:30 이후 (배포 직후 약 10시간)</span></td>
+          <td class="num">5</td>
+          <td class="num">3</td>
+          <td class="num">3</td>
+        </tr>
+        <tr>
+          <td class="dt">5/14<br><span style="font-size:11px;color:#9ca3af;font-weight:400">하루 종일</span></td>
+          <td class="num">36</td>
+          <td class="num">10</td>
+          <td class="num">35</td>
+        </tr>
+        <tr class="total">
+          <td class="dt">누계</td>
+          <td class="num">41</td>
+          <td class="num">13</td>
+          <td class="num">38</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <div class="example-label">"결제 버튼 누른 회원" 과 "시간연장 수락" 의 차이</div>
+      <div class="example-body">
+        결제 버튼은 옵션 화면 아래쪽 큰 버튼. 시간연장을 선택했든 안 했든, 결제로 넘어가기 위해 누르는 버튼이라 "결제까지 진행한 사람" 으로만 봐야 함.<br><br>
+        <div class="row"><span class="k">5/14 옵션 화면 본 회원 36명</span></div>
+        <div class="arrow">↓ 그 중 35명이 결제 버튼 누름 (97.2%)</div>
+        <div class="arrow">↓ 그 중 10명만 시간연장 카드를 누름 (나머지는 원래 시간 그대로 결제)</div>
+        <div class="arrow">↓ 시간연장으로 결제 완료된 예약 13건 (회원 10명, 일부 회원이 같은 날 여러 번 결제)</div>
+        <div class="arrow">↓ 그 중 9건만 환불 없이 끝까지 유지 (실제 수락)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ funnel 분해 -->
+  <div class="section-label">옵션 화면을 본 뒤 사용자가 어떻게 행동했는지 단계별 분해 <span class="tag tag-fact">실측</span></div>
+  <div class="section-explain">
+    옵션 화면을 본 36명(5/14)이 결제까지 가는 과정에서 단계마다 얼마나 줄어드는지 단계별로 분해. 100%는 첫 단계인 옵션 화면 본 사람 36명 기준.
+  </div>
+  <div class="funnel-wrap">
+    <div class="card funnel-card" style="padding:18px 22px">
+      <div class="card-title">5/14 단계별 흐름</div>
+      <div class="card-sub">각 숫자는 중복 제외한 회원 수, 옆 비율은 36명 기준</div>
+      <div class="step s1">
+        <div class="step-lbl">
+          <div class="step-lbl-top">① 시간연장 옵션 화면을 봄</div>
+          <div class="step-lbl-sub">서버가 "이 사람에게 시간연장 옵션 노출" 판단한 경우만 이 화면이 뜸</div>
+        </div>
+        <div class="step-val">36</div>
+        <div class="step-pct">100%</div>
+      </div>
+      <div class="step s2">
+        <div class="step-lbl">
+          <div class="step-lbl-top">② 시간연장 카드를 직접 누름</div>
+          <div class="step-lbl-sub">"연장 시간으로 변경" 카드를 명시적으로 선택한 회원</div>
+        </div>
+        <div class="step-val">10</div>
+        <div class="step-pct">27.8%</div>
+      </div>
+      <div class="step s3">
+        <div class="step-lbl">
+          <div class="step-lbl-top">③ 맨 아래 결제 버튼을 누름</div>
+          <div class="step-lbl-sub">시간연장이든 원래 시간이든 결제로 넘어감 (시간연장 수락 아님)</div>
+        </div>
+        <div class="step-val">35</div>
+        <div class="step-pct">97.2%</div>
+      </div>
+      <div class="step s4">
+        <div class="step-lbl">
+          <div class="step-lbl-top">④ 시간연장 결제 처리됨</div>
+          <div class="step-lbl-sub">결제 내역에 "시간연장 할인" 기록이 남은 예약 수</div>
+        </div>
+        <div class="step-val">13</div>
+        <div class="step-pct">36.1%</div>
+      </div>
+      <div class="step s5">
+        <div class="step-lbl">
+          <div class="step-lbl-top">⑤ 실제 수락 (환불 없음)</div>
+          <div class="step-lbl-sub">환불되지 않고 끝까지 유지된 예약 수</div>
+        </div>
+        <div class="step-val">9</div>
+        <div class="step-pct">25.0%</div>
+      </div>
+    </div>
+    <div class="card" style="padding:18px 22px">
+      <div class="card-title">각 단계 해석</div>
+      <div class="card-sub">표본이 작아 비율 변동성이 큼 (1주 누적 후 재평가 필요)</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #10b981">
+          <b style="font-size:13px;color:#065f46">옵션 화면을 본 사람의 97.2%가 결제 버튼까지 누름</b>
+          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">화면 본 사람 거의 대부분이 결제 단계까지 갔다는 뜻. 옵션 화면이 결제 흐름을 막거나 이탈을 일으키지는 않음.</div>
+        </div>
+        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #3b82f6">
+          <b style="font-size:13px;color:#1e40af">옵션 카드를 직접 누른 사람은 36명 중 10명 (27.8%)</b>
+          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">나머지 26명은 옵션 카드를 누르지 않고 원래 시간 그대로 결제. 시간연장에 적극적으로 반응한 사람의 비율.</div>
+        </div>
+        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #f59e0b">
+          <b style="font-size:13px;color:#92400e">결제 완료 13건 중 4건은 결국 환불됨 (30.8%)</b>
+          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">예약을 만들고 시간연장 결제까지 했으나 차량 인수 전에 취소/환불 처리된 케이스. 실제 매출에 잡히지 않음.</div>
+        </div>
+        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #ef4444">
+          <b style="font-size:13px;color:#b91c1c">5/13은 결제 3건 모두 환불 (100%)</b>
+          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">5/13 배포 직후 결제된 3건 모두 같은 금액으로 환불 처리됨 → 실제 수락 0건. 표본 3건이라 사유 단정은 불가.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 환불 분해 -->
+  <div class="section-label">결제와 환불 분해 — 실제 수락이 몇 건인지 정확히 보기 <span class="tag tag-fact">실측</span></div>
+  <div class="section-explain">
+    한 예약에서 결제 후 환불되면 결제 내역에 <b>두 개의 행</b>이 모두 들어옴 (결제 +금액, 환불 -금액). 단순히 "결제 행 개수"만 세면 환불을 무시하게 됨. <b>한 예약 단위로 합쳐서 합계가 양수인 경우만 진짜 수락</b>으로 봐야 정확함.
+  </div>
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>일자</th>
+          <th class="num">결제 행 (+)<br><span class="col-sub">결제가 일어난 예약 수</span></th>
+          <th class="num">환불 행 (-)<br><span class="col-sub">그 결제가 환불된 예약 수</span></th>
+          <th class="num">실제 수락 예약<br><span class="col-sub">결제 합계가 양수인 예약</span></th>
+          <th class="num">매출 증분<br><span class="col-sub">4,900원 × 실제 수락 건수</span></th>
+          <th class="num">회사 할인 부담<br><span class="col-sub">수락 예약의 결제 합계</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dt">5/13</td>
+          <td class="num">3</td>
+          <td class="num" style="color:#b91c1c;font-weight:700">3</td>
+          <td class="num" style="color:#b91c1c;font-weight:700">0</td>
+          <td class="num" style="color:#b91c1c">0원</td>
+          <td class="num" style="color:#b91c1c">0원</td>
+        </tr>
+        <tr>
+          <td class="dt">5/14</td>
+          <td class="num">13</td>
+          <td class="num" style="color:#b45309;font-weight:700">4</td>
+          <td class="num" style="color:#059669;font-weight:700">9</td>
+          <td class="num" style="color:#059669">44,100원</td>
+          <td class="num" style="color:#b45309">142,080원</td>
+        </tr>
+        <tr class="total">
+          <td class="dt">누계</td>
+          <td class="num">16</td>
+          <td class="num">7</td>
+          <td class="num">9</td>
+          <td class="num">44,100원</td>
+          <td class="num">142,080원</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <div class="example-label">왜 5/13 결제 3건 → 실제 수락 0건이 되는 건가요</div>
+      <div class="example-body">
+        5/13에 들어온 시간연장 결제 행을 모두 보면 결제와 환불이 짝지어서 들어와 있음.
+        <table>
+          <thead>
+            <tr>
+              <th>예약 ID</th>
+              <th>결제 금액 (+)</th>
+              <th>환불 금액 (-)</th>
+              <th>합계</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>91647418</td><td style="color:#059669;font-weight:700">+5,830원</td><td style="color:#b91c1c;font-weight:700">-5,830원</td><td><b>0원</b></td></tr>
+            <tr><td>91647855</td><td style="color:#059669;font-weight:700">+6,650원</td><td style="color:#b91c1c;font-weight:700">-6,650원</td><td><b>0원</b></td></tr>
+            <tr><td>91647989</td><td style="color:#059669;font-weight:700">+6,650원</td><td style="color:#b91c1c;font-weight:700">-6,650원</td><td><b>0원</b></td></tr>
+            <tr style="background:#f9fafb;font-weight:700"><td>합계</td><td>+19,130원</td><td>-19,130원</td><td>0원</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:#f0f9ff;border-radius:6px;font-size:12px;color:#0c4a6e;line-height:1.7;border-left:3px solid #3b82f6">
+          5/13의 3건 예약 모두 같은 금액으로 환불 처리되어 합계가 0원. 따라서 매출 증분도 0원, 회사 부담도 0원으로 봐야 정확함.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 일별 차트 -->
+  <div class="section-label">일별 추이 차트</div>
+  <div class="section-explain">
+    5/13은 배포 직후 약 10시간치 데이터, 5/14는 24시간치 데이터. 직접 비교 시 데이터 수집 시간이 다른 점 감안 필요.
+  </div>
+  <div class="card">
+    <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+  </div>
+
+  <!-- ⑥ 노출 조건 -->
+  <div class="section-label">시간연장 옵션이 노출되는 조건 9가지 <span class="tag tag-info">노출 정책</span></div>
+  <div class="section-explain">
+    결제 직전 화면에서 "이 사용자에게 시간연장 옵션을 보여줄지" 판단하는 정책. <b>아래 9가지 조건을 전부 통과한 경우에만</b> 옵션 화면 노출. 한 가지라도 안 맞으면 일반 결제 화면으로 빠짐 → 사용자가 옵션 화면 자체를 못 봄.
+  </div>
+  <div class="card">
+    <div class="cond-list">
+      <div class="cond-item"><span class="cond-num">1</span><span class="cond-text"><b>실험군 회원만 (전체의 50%)</b><span class="why">A/B 비교를 위해 회원의 절반에게만 노출. 나머지 절반은 대조군이라 옵션 화면 자체가 안 뜸.</span></span></div>
+      <div class="cond-item"><span class="cond-num">2</span><span class="cond-text"><b>왕복 예약만 (편도·도어투도어 제외)</b><span class="why">출발지에서 빌리고 같은 출발지로 반납하는 예약만 대상. 편도나 D2D는 시간연장 정책이 다름.</span></span></div>
+      <div class="cond-item"><span class="cond-num">3</span><span class="cond-text"><b>예약 만든 날 바로 차를 빌리는 경우만 (당일 출발)</b><span class="why">가장 강한 필터. 미리 예약하는 사람은 대상이 아님. "지금 바로 빌리려는 사람"만 노출 대상.</span></span></div>
+      <div class="cond-item"><span class="cond-num">4</span><span class="cond-text"><b>출발 9~15시 사이 / 반납 15~20시 사이</b><span class="why">자정까지 충분히 연장 가능한 시간대만 노출. 너무 늦게 출발하거나 너무 일찍 반납하는 케이스 제외.</span></span></div>
+      <div class="cond-item"><span class="cond-num">5</span><span class="cond-text"><b>토요일 출발 제외</b><span class="why">토요일에 출발하는 예약은 대상 아님.</span></span></div>
+      <div class="cond-item"><span class="cond-num">6</span><span class="cond-text"><b>예약 길이 4~24시간 사이</b><span class="why">너무 짧거나 너무 긴 예약은 대상 아님.</span></span></div>
+      <div class="cond-item"><span class="cond-num">7</span><span class="cond-text"><b>수입차/전기차/대형밴/대형RV 제외</b><span class="why">이 차종들은 시간연장 정책 대상이 아님.</span></span></div>
+      <div class="cond-item"><span class="cond-num">8</span><span class="cond-text"><b>실제 추가 요금이 4,900원보다 많을 때만</b><span class="why">사용자는 4,900원만 내고 차액은 회사가 부담. 차액이 4,900원보다 작으면 회사 손해라 노출 안 함.</span></span></div>
+      <div class="cond-item"><span class="cond-num">9</span><span class="cond-text"><b>이미 한 번 수락한 회원은 7일간 다시 노출 안 됨</b><span class="why">예약을 취소한 경우는 빈도 제한이 풀려서 다시 노출 가능.</span></span></div>
+      <div class="cond-item" style="grid-column:1/-1;background:#fef3c7"><span class="cond-num" style="background:#92400e">+</span><span class="cond-text"><b>추가 조건:</b> 자정까지 같은 차량이 비어있어야 + 일부 제외 지역(여행지 등)이 아니어야 + 사용자가 제휴 카드 할인을 안 받고 있어야 + 쿠폰 호환 가능해야 함</span></div>
+    </div>
+  </div>
+
+  <!-- ⑦ 모수 단계 -->
+  <div class="section-label">노출 모수가 단계별로 어떻게 좁아지는지 <span class="tag tag-fact">실측</span></div>
+  <div class="section-explain">
+    하루 만들어진 12,900개 왕복 예약에서 위 조건들을 하나씩 적용해 모수가 어디까지 좁아지는지 단계별로 표시. <b>빅쿼리에서 직접 확인 가능한 단계까지만 표시</b>, 이후 단계는 별도로 정리.
+  </div>
+  <div class="card">
+    <table class="data-table" style="max-width:780px">
+      <thead>
+        <tr>
+          <th>단계</th>
+          <th class="num">잔여 모수</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>5/14에 만들어진 왕복 예약 전체 (취소 안 된 것)</td><td class="num">12,900</td></tr>
+        <tr><td>↓ 당일 출발만 (예약 만든 날 바로 차 빌림)</td><td class="num">8,107</td></tr>
+        <tr><td>↓ 출발 9~15시 + 반납 15~20시 + 4~24시간 길이</td><td class="num">573</td></tr>
+        <tr><td>↓ 개인 회원만 (비즈·법인 제외)</td><td class="num">530</td></tr>
+        <tr class="total"><td>실제 옵션 화면을 본 회원 (5/14)</td><td class="num" style="color:#b45309">36</td></tr>
+      </tbody>
+    </table>
+    <div class="example">
+      <div class="example-label">530명 → 36명 사이 단계가 빅쿼리로 확인 안 되는 이유</div>
+      <div class="example-body">
+        빅쿼리에는 결제와 예약 결과 데이터만 적재됨. 노출 시점에 일어나는 판단(실험군 배정, 차량 가용 체크, 가격 계산 등)은 빅쿼리에 저장되지 않아 BE팀에 별도 통계 요청 필요.
+        <table class="bq-table" style="margin-top:10px">
+          <thead>
+            <tr>
+              <th>조건</th>
+              <th>빅쿼리로 확인 가능?</th>
+              <th>이유</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>실험군 50% 배정</b></td>
+              <td class="status status-partial">부분 가능</td>
+              <td class="reason">사용자를 실험군/대조군으로 나누는 기준이 빅쿼리와 노출 시스템에서 같으면 재현 가능. 현재 두 기준이 일치하는지 BE 확인 필요.</td>
+            </tr>
+            <tr>
+              <td><b>수입차/전기차/대형 제외</b></td>
+              <td class="status status-partial">부분 가능</td>
+              <td class="reason">제조사·연료 정보로 수입차/전기차는 추정 가능. 다만 "대형 밴/대형 RV" 분류는 빅쿼리에 정확한 매핑이 없어 BE 확인 필요.</td>
+            </tr>
+            <tr>
+              <td><b>자정까지 차량 가용</b></td>
+              <td class="status status-no">불가</td>
+              <td class="reason">"해당 시점에 그 차량이 다른 예약과 겹치지 않았는지"는 노출 시점에 즉시 판단됨. 빅쿼리에는 그 결과가 남지 않음.</td>
+            </tr>
+            <tr>
+              <td><b>추가 요금 4,900원 초과</b></td>
+              <td class="status status-no">불가</td>
+              <td class="reason">사용자별 추가 요금은 가격 정책에 따라 노출 시점에 계산됨. 빅쿼리에는 사후 결제된 결과만 있고 노출 시점 계산값은 없음.</td>
+            </tr>
+            <tr>
+              <td><b>1회 수락 후 7일 빈도 제한</b></td>
+              <td class="status status-ok">가능</td>
+              <td class="reason">결제 내역으로 회원별 이전 수락 시점을 추적 가능.</td>
+            </tr>
+            <tr>
+              <td><b>제외 지역</b></td>
+              <td class="status status-partial">부분 가능</td>
+              <td class="reason">제외 지역 목록이 빅쿼리에 있으면 가능. 정확한 목록 유지 여부 BE 확인 필요.</td>
+            </tr>
+            <tr>
+              <td><b>제휴 카드 할인 / 쿠폰 호환</b></td>
+              <td class="status status-no">불가</td>
+              <td class="reason">결제 수단별 제휴 할인 적용 여부는 외부 시스템 응답이라 빅쿼리에 없음.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:#f0f9ff;border-radius:6px;font-size:12px;color:#0c4a6e;line-height:1.7;border-left:3px solid #3b82f6">
+          <b>결론:</b> 빅쿼리로 530명까지는 확인 가능. 530명 → 36명 사이는 노출 시점 판단이 들어가서 BE팀 통계 없이는 정확한 단계별 통과율을 알 수 없음. <b>36명이 정상 수치인지 판단하려면 BE에 단계별 통과율 통계 요청 필요.</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑧ 데이터 종합 해석 -->
+  <div class="section-label">데이터 종합 해석 <span class="tag tag-info">위 표/그래프를 합쳐서 보면</span></div>
+  <div class="summary-block">
+    <h3>위 데이터에서 확인된 사실 정리</h3>
+    <div class="intro">
+      5/13 14:09:30 ~ 5/14 24:00 동안 옵션 화면 본 사람 누계 41명, <b>실제 수락 9명 (수락률 22.0%)</b>, 매출 증분 44,100원 발생. <b>5/14 하루 옵션 화면 노출이 36명에 그쳐 절대 수치가 적은 편</b>이라 이 수치 해석 방향을 5가지로 정리.
+    </div>
+    <div class="finding-list">
+
+      <div class="finding-item">
+        <div class="head">
+          <div class="num">1</div>
+          <div class="title">데이터 빠짐 없음 — 36명은 실제로 본 사람 수가 맞음</div>
+        </div>
+        <div class="body">
+          5/14 자정까지 데이터가 시간대별로 빠짐없이 들어와 있고, 결제 내역에서도 시간연장 결제 건을 정확히 식별 가능. 즉 <b>"기록이 누락돼서 36명으로 적게 나온 것"이 아니라 실제로 36명만 본 게 맞음.</b>
+        </div>
+      </div>
+
+      <div class="finding-item">
+        <div class="head">
+          <div class="num">2</div>
+          <div class="title">PF0 옵션 5/13 14시 완전 종료 — 노출 모수 자체가 변동</div>
+        </div>
+        <div class="body">
+          이전엔 같은 화면(업셀링 바텀시트)에서 PF0와 시간연장이 둘 다 노출. 5/13 14시 컷 이후엔 시간연장만 노출 → 본래 노출 모수가 줄어드는 게 정상. PF0 시절 노출량(일일 5,000명대)과 시간연장 단독 노출량을 같은 선상에서 비교 불가.
+        </div>
+        <div class="example">
+          <div class="example-label">PF0 종료 시점 전후 비교 (실측)</div>
+          <div class="example-body">
+            <div class="row"><span class="k">5/13 13시 (PF0 노출 중)</span><span class="v">시간당 275명 옵션 화면 봄</span></div>
+            <div class="row"><span class="k">5/13 14시 (전환 시점)</span><span class="v">시간당 6명으로 급감 — 14:00 컷이 정확히 데이터에 반영</span></div>
+            <div class="row"><span class="k">5/14 종일 (시간연장만)</span><span class="v">하루 36명 (시간당 평균 1.5명)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding-item">
+        <div class="head">
+          <div class="num">3</div>
+          <div class="title">노출 조건이 매우 좁아 절대 수치가 적은 게 자연스러움</div>
+        </div>
+        <div class="body">
+          위 "노출 조건 9가지" 섹션에서 본 것처럼 당일 출발 + 시간대 + 차종 + 실험군 50% 등 모든 조건을 통과해야만 옵션 화면 노출. 특히 <b>"당일 출발만"</b> 조건이 가장 강한 필터. 정책 변경 없이는 PF0 시절 노출량 수준 회복 불가.
+        </div>
+        <div class="example">
+          <div class="example-label">"당일 출발" 조건의 영향력 (5/14 실측)</div>
+          <div class="example-body">
+            <div class="row"><span class="k">5/14 왕복 예약 전체</span><span class="v">12,900건</span></div>
+            <div class="arrow">↓ "예약한 날 바로 차를 빌리는" 경우만 남기면</div>
+            <div class="row"><span class="k">당일 출발 예약</span><span class="v">8,107건 (전체의 62.8%)</span></div>
+            <div class="row" style="padding-top:8px;color:#6b7280;font-size:11px;line-height:1.6">
+              이 한 조건만으로 4,793건 걸러짐. 이후 시간대 조건까지 적용하면 573건까지 좁아짐. 즉 절대 수치가 작은 건 노출 정책의 의도된 결과.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding-item">
+        <div class="head">
+          <div class="num">4</div>
+          <div class="title">빅쿼리로는 530명까지 확인 가능, 그 이후는 BE 통계 필요</div>
+        </div>
+        <div class="body">
+          빅쿼리에서 시간/요일/요금제 조건까지 적용하면 5/14에 530명까지 좁힐 수 있음. 530명 → 36명 사이 갭(약 14배 차이)이 정상 범위인지 비정상인지는 빅쿼리만으로 단정 불가 → BE팀 통계로만 확인 가능. 위 "노출 모수 단계별로 어떻게 좁아지는지" 섹션 표에 어떤 정보가 빅쿼리에 있고 없는지 정리.
+        </div>
+        <div class="example">
+          <div class="example-label">BE팀에 요청해야 할 통계 5가지</div>
+          <div class="example-body">
+            <div class="row"><span class="k">① 실험군 배정율</span><span class="v">530명 중 실험군(50%)으로 분류된 회원 수</span></div>
+            <div class="row"><span class="k">② 차종 제외율</span><span class="v">수입차·전기차·대형밴·대형RV로 분류되어 빠진 회원 수</span></div>
+            <div class="row"><span class="k">③ 차량 가용 통과율</span><span class="v">자정까지 같은 차량이 비어있어 가용 판정된 비율</span></div>
+            <div class="row"><span class="k">④ 추가금 조건 통과율</span><span class="v">시간연장 시 추가 요금이 4,900원보다 많이 나오는 비율</span></div>
+            <div class="row"><span class="k">⑤ 제휴 할인 / 쿠폰 호환 통과율</span><span class="v">제휴 할인 적용 안 받고 있고 쿠폰도 호환되는 비율</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding-item">
+        <div class="head">
+          <div class="num">5</div>
+          <div class="title">결제 후 환불된 케이스 분리 필요</div>
+        </div>
+        <div class="body">
+          한 예약에서 결제 후 환불되면 결제 내역에 결제(+)와 환불(-) 두 행이 모두 들어옴. <b>한 예약 단위로 합계가 양수일 때만 진짜 수락</b>으로 봐야 정확. 분석 기간 동안 결제 16건 중 7건이 환불되어 실제 수락 9건. 자세한 내용은 위 "결제와 환불 분해" 섹션 참고.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑨ 조치 -->
+  <div class="section-label">필요한 조치 (우선순위순)</div>
+  <div class="section-explain">
+    위 5가지 사실 정리에서 도출된 조치 항목. <b>즉시 처리할 것</b>, <b>이번 주 안에 BE 확인할 것</b>, <b>1주 후 재평가할 것</b> 으로 구분.
+  </div>
+  <div class="action-list">
+
+    <div class="action-row urgent">
+      <div class="head">
+        <div class="n">1</div>
+        <div class="title">수락 카운트는 환불 분리 후 산정</div>
+        <div class="when">즉시</div>
+      </div>
+      <div class="body">
+        결제 내역에 결제(+)와 환불(-) 행이 같이 들어오므로, <b>한 예약 단위로 결제 합계가 양수일 때만 수락</b>으로 카운트. 분석 기간 누계 결제 16건 중 환불 7건 발생 → 실제 수락 9건.
+      </div>
+    </div>
+
+    <div class="action-row urgent">
+      <div class="head">
+        <div class="n">2</div>
+        <div class="title">환불(취소)율 가드레일 추가</div>
+        <div class="when">즉시</div>
+      </div>
+      <div class="body">
+        시간연장 결제 후 환불되는 비율을 일별로 추적. 너무 높으면 정책/UX 점검 필요. 환불 사유는 운영팀에 별도 확인.
+      </div>
+      <div class="example">
+        <div class="example-label">현재 추세 (실측)</div>
+        <div class="example-body">
+          <div class="row"><span class="k">5/13 환불율</span><span class="v" style="color:#b91c1c">100% (3건 결제 → 3건 다 환불)</span></div>
+          <div class="row"><span class="k">5/14 환불율</span><span class="v" style="color:#b45309">30.8% (13건 결제 → 4건 환불)</span></div>
+          <div class="row" style="padding-top:8px"><span class="k">계산식</span><span class="v">환불된 예약 수 ÷ 결제된 예약 수</span></div>
+          <div class="row" style="padding-top:4px;color:#6b7280;font-size:11px;line-height:1.6">표본 작아 변동성 큼 — 1주 누적 후 정확한 추세 판단 필요</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row mid">
+      <div class="head">
+        <div class="n">3</div>
+        <div class="title">BE팀에 노출 모수 정합성 확인 요청</div>
+        <div class="when">이번 주 안</div>
+      </div>
+      <div class="body">
+        빅쿼리로 확인되는 530명 → 실제 옵션 화면 본 36명 사이 단계별 통과율을 BE에서 측정해서 공유 요청.
+      </div>
+      <div class="example">
+        <div class="example-label">BE팀에 보낼 요청 사항</div>
+        <div class="example-body">
+          <div class="row"><span class="k">요청 1</span><span class="v">5/14 시간/요일 조건 부합 530명 중 실험군(50%)으로 분류된 회원 수</span></div>
+          <div class="row"><span class="k">요청 2</span><span class="v">차종 제외(수입차/전기차/대형) 후 잔여 회원 수</span></div>
+          <div class="row"><span class="k">요청 3</span><span class="v">차량 가용 (자정까지 비어있음) 통과 회원 수</span></div>
+          <div class="row"><span class="k">요청 4</span><span class="v">추가 요금 4,900원 초과 조건 통과 회원 수</span></div>
+          <div class="row"><span class="k">요청 5</span><span class="v">제휴 할인 / 쿠폰 호환 통과 회원 수</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row mid">
+      <div class="head">
+        <div class="n">4</div>
+        <div class="title">실험군/대조군 나누는 기준 일치 여부 검증</div>
+        <div class="when">이번 주 안</div>
+      </div>
+      <div class="body">
+        빅쿼리에서 회원을 실험군으로 분류할 때 쓰는 기준과 노출 시스템에서 쓰는 기준이 일치해야 A/B 비교가 의미가 있음. 두 기준이 다르면 BQ 기반 A/B 비교가 무의미해짐 → BE 확인 필요.
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="head">
+        <div class="n">5</div>
+        <div class="title">1주 누적 후 재평가</div>
+        <div class="when">5/20 이후</div>
+      </div>
+      <div class="body">
+        로그가 하루 늦게 들어오므로 5/13~5/19 누적 데이터로 다음 평가: 매출 증분 추이 / 환불율 추이 / 회사 부담 추이 / 수락률 추이. 표본이 충분히 쌓여야 의미 있는 판단 가능.
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="head">
+        <div class="n">6</div>
+        <div class="title">대시보드 자동 갱신 설정</div>
+        <div class="when">5/20 이후</div>
+      </div>
+      <div class="body">
+        일별 표와 환불 분해 표가 매일 오전 자동으로 어제 데이터로 갱신되게 설정. 매번 수동 재집계 불필요.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ⑩ BQ 쿼리 -->
+  <div class="section-label">사용된 빅쿼리 쿼리 (직접 검증용)</div>
+  <div class="section-explain">
+    위 표/차트에 들어간 숫자를 직접 검증할 때 사용 가능한 빅쿼리 쿼리. 그대로 실행하면 같은 결과 도출.
+  </div>
+  <div class="card">
+    <div class="card-title">1. 화면별·동작별 일일 집계 쿼리</div>
+    <div class="card-sub">"옵션 화면 본 회원", "옵션 카드 누른 회원", "결제 버튼 누른 회원" 등을 일별로 집계</div>
+    <div class="query-block">SELECT
+  DATE(event_at_kst) AS dt,
+  COUNT(DISTINCT CASE WHEN event_name='view'  AND component_name IS NULL              THEN member_id END) AS upsell_view,
+  COUNT(DISTINCT CASE WHEN event_name='click' AND component_name='interval_option'    THEN member_id END) AS interval_click,
+  COUNT(DISTINCT CASE WHEN event_name='click' AND component_name='cta_button'         THEN member_id END) AS cta_click
+FROM `socar-data.app_web_log.socar_app_web_log`
+WHERE event_date_kst BETWEEN "2026-05-13" AND "2026-05-14"
+  AND event_at_kst &gt;= DATETIME("2026-05-13 14:09:30")
+  AND page_name = 'upsell_bottomsheet'
+GROUP BY dt
+ORDER BY dt</div>
+  </div>
+  <div class="card">
+    <div class="card-title">2. 정확한 수락 건수 쿼리 (환불 제외)</div>
+    <div class="card-sub">한 예약 단위로 결제 합계가 양수인 경우만 진짜 수락으로 카운트</div>
+    <div class="query-block">WITH net_data AS (
+  SELECT
+    DATE(created_at, "Asia/Seoul") AS dt,
+    reservation_id,
+    SUM(amount) AS net_amount
+  FROM `socar-data.dbt.stg_tianjin_replica__paid_info`
+  WHERE DATE(created_at, "Asia/Seoul") BETWEEN "2026-05-13" AND "2026-05-14"
+    AND paid_type = 'upselling_discount'
+    AND DATETIME(created_at, "Asia/Seoul") &gt;= DATETIME("2026-05-13 14:09:30")
+  GROUP BY dt, reservation_id
+)
+SELECT
+  dt,
+  SUM(CASE WHEN net_amount &gt; 0 THEN 1 ELSE 0 END)              AS net_accepted_rsv,
+  SUM(CASE WHEN net_amount &gt; 0 THEN net_amount ELSE 0 END)     AS company_burden_net,
+  SUM(CASE WHEN net_amount &gt; 0 THEN 4900 ELSE 0 END)           AS revenue_increment
+FROM net_data
+GROUP BY dt
+ORDER BY dt</div>
+  </div>
+
+  <!-- 용어 정리 -->
+  <div class="foot-note">
+    <h4>대시보드 용어 정리</h4>
+    <div class="term"><b>옵션 화면 (업셀링 바텀시트)</b><span>결제 직전에 화면 아래에서 올라오는 시간연장 옵션 카드가 뜬 화면. 사용자가 이 화면을 봐야만 시간연장이 가능.</span></div>
+    <div class="term"><b>시간연장 카드 누르기 (옵션 토글)</b><span>옵션 화면에서 사용자가 "연장 시간으로 변경" 카드를 직접 눌러서 선택한 행위. 결제 의도 표시.</span></div>
+    <div class="term"><b>결제 버튼 누르기</b><span>옵션 화면 맨 아래 결제 진행 버튼 누른 행위. 시간연장을 선택했든 안 했든 결제로 넘어가는 의미라 "수락" 과는 다름.</span></div>
+    <div class="term"><b>실제 수락</b><span>한 예약의 결제 합계가 양수인 경우. 결제 후 환불되지 않고 끝까지 유지된 경우만 카운트.</span></div>
+    <div class="term"><b>매출 증분</b><span>사용자가 시간연장 옵션 수락으로 추가로 낸 돈. 한 건당 4,900원 고정 × 수락 건수.</span></div>
+    <div class="term"><b>회사 할인 부담</b><span>실제 연장 요금 - 사용자가 낸 4,900원. 차액은 회사가 할인 형태로 부담함. 수락 건들의 차액 합계.</span></div>
+    <div class="term"><b>수락률</b><span>옵션 화면을 본 회원 중 실제로 수락한 회원의 비율. 실제 수락 회원 수 ÷ 옵션 화면 본 회원 수.</span></div>
+    <div class="term"><b>실험군 / 대조군 (A/B)</b><span>실험군(B군) = 옵션 화면을 보는 회원, 대조군(A군) = 옵션 화면이 안 뜨는 회원. 50:50으로 무작위 분배.</span></div>
+  </div>
+
+</div>
+
+<script>
+new Chart(document.getElementById('dailyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['5/13 (14:09:30~)', '5/14'],
+    datasets: [
+      { label: '옵션 화면 본 회원',         data: [5, 36],  backgroundColor: '#93c5fd' },
+      { label: '시간연장 카드 누른 회원',    data: [3, 10],  backgroundColor: '#a78bfa' },
+      { label: '결제 버튼 누른 회원',        data: [3, 35],  backgroundColor: '#6ee7b7' },
+      { label: '실제 수락 (환불 제외)',      data: [0, 9],   backgroundColor: '#fbbf24' },
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { font: { size: 12 } } } },
+    scales: {
+      y: { beginAtZero: true, ticks: { font: { size: 11 } } },
+      x: { ticks: { font: { size: 11 } } },
+    }
+  }
+});
+</script>
+
+</body>
+</html>
