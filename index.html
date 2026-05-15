@@ -127,16 +127,16 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 .example-body table th { background: #f9fafb; padding: 6px 10px; text-align: left; font-size: 11px; color: #6b7280; font-weight: 700; }
 .example-body table td { padding: 6px 10px; border-bottom: 1px solid #f3f4f6; }
 
-.action-list { display: flex; flex-direction: column; gap: 12px; }
-.action-row { padding: 16px 20px; background: #fafafa; border: 1px solid #f3f4f6; border-radius: 10px; }
+.action-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.action-row { padding: 18px 20px; background: #fafafa; border: 1px solid #f3f4f6; border-radius: 12px; }
 .action-row.urgent { background: #fff7f7; border-color: #fecaca; }
 .action-row.mid { background: #fffbeb; border-color: #fde68a; }
-.action-row .head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-.action-row .head .n { background: white; color: #1e40af; font-weight: 800; font-size: 13px; padding: 4px 11px; border-radius: 6px; border: 1.5px solid #dbeafe; }
+.action-row .head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.action-row .head .n { background: white; color: #1e40af; font-weight: 800; font-size: 14px; padding: 5px 13px; border-radius: 8px; border: 1.5px solid #dbeafe; }
 .action-row.urgent .head .n { color: #b91c1c; border-color: #fecaca; }
 .action-row.mid .head .n { color: #92400e; border-color: #fde68a; }
-.action-row .head .title { font-size: 14px; font-weight: 800; color: #111827; flex: 1; }
-.action-row .head .when { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 4px; background: #dbeafe; color: #1e40af; }
+.action-row .head .title { font-size: 14px; font-weight: 800; color: #111827; flex: 1; line-height: 1.4; }
+.action-row .head .when { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 4px; background: #dbeafe; color: #1e40af; white-space: nowrap; }
 .action-row.urgent .head .when { background: #fee2e2; color: #b91c1c; }
 .action-row.mid .head .when { background: #fef3c7; color: #92400e; }
 .action-row .body { font-size: 13px; line-height: 1.8; color: #374151; }
@@ -225,7 +225,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ① 핵심 KPI -->
   <div class="section-label">한눈에 보는 핵심 지표 (분석 기간 누계) <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    아래 5개 지표는 5/13 14:09:30 ~ 5/14 24:00 누적 수치. <b>"수락률"</b>은 옵션 화면을 본 회원 중 실제로 시간연장 결제까지 마치고 환불 없이 유지된 회원 비율.
+    아래 5개 지표는 5/13 14:09:30 ~ 5/14 24:00 누적 수치.<br>
+    <b>"수락률"</b> = 옵션 화면을 본 회원 중 실제로 시간연장 결제까지 마치고 환불 없이 유지된 회원 비율.
   </div>
   <div class="kpi-row">
     <div class="kpi">
@@ -273,7 +274,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ② 일별 표 -->
   <div class="section-label">화면별·동작별 일일 집계 <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    사용자가 결제 직전 화면에서 어떤 행동을 했는지 일별로 집계. 각 숫자는 <b>중복 제외한 회원 수</b> (한 사람이 여러 번 눌러도 1명).
+    사용자가 결제 직전 화면에서 어떤 행동을 했는지 일별로 집계.<br>
+    각 숫자는 <b>중복 제외한 회원 수</b> (한 사람이 여러 번 눌러도 1명).
   </div>
   <div class="card">
     <table class="data-table">
@@ -322,7 +324,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ③ funnel 분해 -->
   <div class="section-label">옵션 화면을 본 뒤 사용자가 어떻게 행동했는지 단계별 분해 <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    옵션 화면을 본 36명(5/14)이 결제까지 가는 과정에서 단계마다 얼마나 줄어드는지 단계별로 분해. 100%는 첫 단계인 옵션 화면 본 사람 36명 기준.
+    옵션 화면을 본 36명(5/14)이 결제까지 가는 과정에서 단계마다 얼마나 줄어드는지 단계별로 분해.<br>
+    100%는 첫 단계인 옵션 화면 본 사람 36명 기준.
   </div>
   <div class="funnel-wrap">
     <div class="card funnel-card" style="padding:18px 22px">
@@ -396,7 +399,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ④ 환불 분해 -->
   <div class="section-label">결제와 환불 분해 — 실제 수락이 몇 건인지 정확히 보기 <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    한 예약에서 결제 후 환불되면 결제 내역에 <b>두 개의 행</b>이 모두 들어옴 (결제 +금액, 환불 -금액). 단순히 "결제 행 개수"만 세면 환불을 무시하게 됨. <b>한 예약 단위로 합쳐서 합계가 양수인 경우만 진짜 수락</b>으로 봐야 정확함.
+    한 예약에서 결제 후 환불되면 결제 내역에 <b>두 개의 행</b>이 모두 들어옴 (결제 +금액, 환불 -금액).<br>
+    단순히 "결제 행 개수"만 세면 환불을 무시하게 됨.<br>
+    <b>한 예약 단위로 합쳐서 합계가 양수인 경우만 진짜 수락</b>으로 봐야 정확함.
   </div>
   <div class="card">
     <table class="data-table">
@@ -476,7 +481,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ⑥ 노출 조건 -->
   <div class="section-label">시간연장 옵션이 노출되는 조건 9가지 <span class="tag tag-info">노출 정책</span></div>
   <div class="section-explain">
-    결제 직전 화면에서 "이 사용자에게 시간연장 옵션을 보여줄지" 판단하는 정책. <b>아래 9가지 조건을 전부 통과한 경우에만</b> 옵션 화면 노출. 한 가지라도 안 맞으면 일반 결제 화면으로 빠짐 → 사용자가 옵션 화면 자체를 못 봄.
+    결제 직전 화면에서 "이 사용자에게 시간연장 옵션을 보여줄지" 판단하는 정책.<br>
+    <b>아래 9가지 조건을 전부 통과한 경우에만</b> 옵션 화면 노출.<br>
+    한 가지라도 안 맞으면 일반 결제 화면으로 빠짐 → 사용자가 옵션 화면 자체를 못 봄.
   </div>
   <div class="card">
     <div class="cond-list">
@@ -496,7 +503,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ⑦ 모수 단계 -->
   <div class="section-label">노출 모수가 단계별로 어떻게 좁아지는지 <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    하루 만들어진 12,900개 왕복 예약에서 위 조건들을 하나씩 적용해 모수가 어디까지 좁아지는지 단계별로 표시. <b>빅쿼리에서 직접 확인 가능한 단계까지만 표시</b>, 이후 단계는 별도로 정리.
+    하루 만들어진 12,900개 왕복 예약에서 위 조건들을 하나씩 적용해 모수가 어디까지 좁아지는지 단계별로 표시.<br>
+    <b>빅쿼리에서 직접 확인 가능한 단계까지만 표시</b>, 이후 단계는 별도로 정리.
   </div>
   <div class="card">
     <table class="data-table" style="max-width:780px">
@@ -524,7 +532,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <div class="summary-block">
     <h3>위 데이터에서 확인된 사실 정리</h3>
     <div class="intro">
-      5/13 14:09:30 ~ 5/14 24:00 동안 옵션 화면 본 사람 누계 41명, <b>실제 수락 9명 (수락률 22.0%)</b>, 매출 증분 44,100원 발생. <b>기획 문서(4530962596) 예상은 일 평균 ~954건 노출인데 5/14 실측은 36건</b>으로 큰 차이 발생. 이 차이의 원인과 해석 방향을 4가지로 정리.
+      5/13 14:09:30 ~ 5/14 24:00 동안 옵션 화면 본 사람 누계 41명, <b>실제 수락 9명 (수락률 22.0%)</b>, 매출 증분 44,100원 발생.<br><br>
+      <b>기획 문서(4530962596) 예상은 일 평균 ~954건 노출인데 5/14 실측은 36건</b>으로 큰 차이 발생.<br>
+      이 차이의 원인과 해석 방향을 4가지로 정리.
     </div>
     <div class="finding-list">
 
@@ -534,7 +544,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <div class="title">데이터 빠짐 없음 — 36명은 실제로 본 사람 수가 맞음</div>
         </div>
         <div class="body">
-          5/14 자정까지 데이터가 시간대별로 빠짐없이 들어와 있고, 결제 내역에서도 시간연장 결제 건을 정확히 식별 가능. 즉 <b>"기록이 누락돼서 36명으로 적게 나온 것"이 아니라 실제로 36명만 본 게 맞음.</b>
+          5/14 자정까지 데이터가 시간대별로 빠짐없이 들어와 있고, 결제 내역에서도 시간연장 결제 건을 정확히 식별 가능.<br>
+          즉 <b>"기록이 누락돼서 36명으로 적게 나온 것"이 아니라 실제로 36명만 본 게 맞음.</b>
         </div>
       </div>
 
@@ -565,7 +576,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <div class="title">기획서 예상 일일 ~954명 vs 실측 36명 — 기획과 구현 조건 차이가 원인</div>
         </div>
         <div class="body">
-          기획 문서(4530962596)에서 정의한 실 노출 모수는 <b>일 평균 ~954건</b>. 그러나 실측 36건으로 약 26배 차이 발생. 빅쿼리로 확인한 결과 차이의 핵심은 <b>기획서엔 없는 조건이 실제 노출 코드에 추가됨</b>.
+          기획 문서(4530962596)에서 정의한 실 노출 모수는 <b>일 평균 ~954건</b>.<br>
+          그러나 실측은 36건으로 약 26배 차이 발생.<br><br>
+          빅쿼리로 확인한 결과 차이의 핵심은 <b>기획서엔 없는 조건이 실제 노출 코드에 추가됨</b>.
         </div>
         <div class="example">
           <div class="example-label">기획서 vs 실제 코드 조건 비교</div>
@@ -590,8 +603,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
               • 시간 조건만 적용 (기획서 정의에 가까움): <b>1,183건</b><br>
               • + 당일 출발 조건 추가: 573건 (절반 감소)<br>
               • + 개인 회원만: 530건<br>
-              • + 차종 제외 / 추가금 / 제휴할인 등 (BE 측 단계): <b>36건 (실측)</b><br><br>
-              <b>확인 필요 사항</b>: 기획서에 없는 4가지 조건이 실제 노출 코드에 들어간 게 합의된 정책 변경인지, 아니면 의도되지 않은 추가인지 확인 필요.
+              • + 차종 제외 / 추가금 / 제휴할인 등: <b>36건 (실측)</b>
             </div>
           </div>
         </div>
@@ -603,7 +615,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <div class="title">결제 후 환불된 케이스 분리 필요</div>
         </div>
         <div class="body">
-          한 예약에서 결제 후 환불되면 결제 내역에 결제(+)와 환불(-) 두 행이 모두 들어옴. <b>한 예약 단위로 합계가 양수일 때만 진짜 수락</b>으로 봐야 정확. 분석 기간 동안 결제 16건 중 7건이 환불되어 실제 수락 9건. 자세한 내용은 위 "결제와 환불 분해" 섹션 참고.
+          한 예약에서 결제 후 환불되면 결제 내역에 결제(+)와 환불(-) 두 행이 모두 들어옴.<br>
+          <b>한 예약 단위로 합계가 양수일 때만 진짜 수락</b>으로 봐야 정확.<br>
+          분석 기간 동안 결제 16건 중 7건이 환불되어 실제 수락 9건.<br>
+          자세한 내용은 위 "결제와 환불 분해" 섹션 참고.
         </div>
       </div>
 
@@ -613,7 +628,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ⑨ 조치 -->
   <div class="section-label">필요한 조치 (우선순위순)</div>
   <div class="section-explain">
-    위 5가지 사실 정리에서 도출된 조치 항목. <b>즉시 처리할 것</b>, <b>이번 주 안에 BE 확인할 것</b>, <b>1주 후 재평가할 것</b> 으로 구분.
+    위 분석에서 도출된 조치 항목 4가지.<br>
+    즉시 처리할 것과 1주 후 재평가할 것으로 구분.
   </div>
   <div class="action-list">
 
@@ -624,7 +640,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div class="when">즉시</div>
       </div>
       <div class="body">
-        결제 내역에 결제(+)와 환불(-) 행이 같이 들어오므로, <b>한 예약 단위로 결제 합계가 양수일 때만 수락</b>으로 카운트. 분석 기간 누계 결제 16건 중 환불 7건 발생 → 실제 수락 9건.
+        결제 내역에 결제(+)와 환불(-) 행이 같이 들어옴.<br>
+        <b>한 예약 단위로 결제 합계가 양수일 때만 수락</b>으로 카운트.<br><br>
+        분석 기간 누계: 결제 16건 중 환불 7건 → 실제 수락 9건.
       </div>
     </div>
 
@@ -635,70 +653,37 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div class="when">즉시</div>
       </div>
       <div class="body">
-        시간연장 결제 후 환불되는 비율을 일별로 추적. 너무 높으면 정책/UX 점검 필요. 환불 사유는 운영팀에 별도 확인.
-      </div>
-      <div class="example">
-        <div class="example-label">현재 추세 (실측)</div>
-        <div class="example-body">
-          <div class="row"><span class="k">5/13 환불율</span><span class="v" style="color:#b91c1c">100% (3건 결제 → 3건 다 환불)</span></div>
-          <div class="row"><span class="k">5/14 환불율</span><span class="v" style="color:#b45309">30.8% (13건 결제 → 4건 환불)</span></div>
-          <div class="row" style="padding-top:8px"><span class="k">계산식</span><span class="v">환불된 예약 수 ÷ 결제된 예약 수</span></div>
-          <div class="row" style="padding-top:4px;color:#6b7280;font-size:11px;line-height:1.6">표본 작아 변동성 큼 — 1주 누적 후 정확한 추세 판단 필요</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="action-row mid">
-      <div class="head">
-        <div class="n">3</div>
-        <div class="title">BE팀에 노출 모수 정합성 확인 요청</div>
-        <div class="when">이번 주 안</div>
-      </div>
-      <div class="body">
-        빅쿼리로 확인되는 530명 → 실제 옵션 화면 본 36명 사이 단계별 통과율을 BE에서 측정해서 공유 요청.
-      </div>
-      <div class="example">
-        <div class="example-label">BE팀에 보낼 요청 사항</div>
-        <div class="example-body">
-          <div class="row"><span class="k">요청 1</span><span class="v">5/14 시간/요일 조건 부합 530명 중 실험군(50%)으로 분류된 회원 수</span></div>
-          <div class="row"><span class="k">요청 2</span><span class="v">차종 제외(수입차/전기차/대형) 후 잔여 회원 수</span></div>
-          <div class="row"><span class="k">요청 3</span><span class="v">차량 가용 (자정까지 비어있음) 통과 회원 수</span></div>
-          <div class="row"><span class="k">요청 4</span><span class="v">추가 요금 4,900원 초과 조건 통과 회원 수</span></div>
-          <div class="row"><span class="k">요청 5</span><span class="v">제휴 할인 / 쿠폰 호환 통과 회원 수</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="action-row mid">
-      <div class="head">
-        <div class="n">4</div>
-        <div class="title">실험군/대조군 나누는 기준 일치 여부 검증</div>
-        <div class="when">이번 주 안</div>
-      </div>
-      <div class="body">
-        빅쿼리에서 회원을 실험군으로 분류할 때 쓰는 기준과 노출 시스템에서 쓰는 기준이 일치해야 A/B 비교가 의미가 있음. 두 기준이 다르면 BQ 기반 A/B 비교가 무의미해짐 → BE 확인 필요.
+        시간연장 결제 후 환불되는 비율 일별 추적.<br>
+        너무 높으면 정책/UX 점검 필요. 환불 사유는 운영팀에 별도 확인.<br><br>
+        <b>현재 추세 (실측):</b><br>
+        • 5/13: <span style="color:#b91c1c;font-weight:700">100%</span> (3건 결제 → 3건 다 환불)<br>
+        • 5/14: <span style="color:#b45309;font-weight:700">30.8%</span> (13건 결제 → 4건 환불)<br>
+        <span style="color:#6b7280;font-size:11px">표본 작아 변동성 큼 — 1주 누적 후 추세 판단 필요</span>
       </div>
     </div>
 
     <div class="action-row">
       <div class="head">
-        <div class="n">5</div>
+        <div class="n">3</div>
         <div class="title">1주 누적 후 재평가</div>
         <div class="when">5/20 이후</div>
       </div>
       <div class="body">
-        로그가 하루 늦게 들어오므로 5/13~5/19 누적 데이터로 다음 평가: 매출 증분 추이 / 환불율 추이 / 회사 부담 추이 / 수락률 추이. 표본이 충분히 쌓여야 의미 있는 판단 가능.
+        로그가 하루 늦게 들어오므로 5/13~5/19 누적 데이터로 다음 평가 진행.<br><br>
+        평가 항목: 매출 증분 추이 / 환불율 추이 / 회사 부담 추이 / 수락률 추이.<br>
+        표본이 충분히 쌓여야 의미 있는 판단 가능.
       </div>
     </div>
 
     <div class="action-row">
       <div class="head">
-        <div class="n">6</div>
+        <div class="n">4</div>
         <div class="title">대시보드 자동 갱신 설정</div>
         <div class="when">5/20 이후</div>
       </div>
       <div class="body">
-        일별 표와 환불 분해 표가 매일 오전 자동으로 어제 데이터로 갱신되게 설정. 매번 수동 재집계 불필요.
+        일별 표와 환불 분해 표가 매일 오전 자동으로 어제 데이터로 갱신되게 설정.<br>
+        매번 수동 재집계 불필요.
       </div>
     </div>
 
