@@ -321,6 +321,52 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
 
+  <!-- ★ 노출 모수 단계 (왜 36명만 봤는지) -->
+  <div class="section-label">노출 모수가 단계별로 어떻게 좁아지는지 <span class="tag tag-fact">실측</span></div>
+  <div class="section-explain">
+    하루 만들어진 12,900개 왕복 예약에서 노출 조건을 하나씩 적용해 모수가 어디까지 좁아지는지 단계별 추적.<br>
+    <b>빅쿼리에서 직접 확인 가능한 단계까지 표시.</b>
+  </div>
+  <div class="card">
+    <table class="data-table" style="max-width:780px">
+      <thead>
+        <tr>
+          <th>단계</th>
+          <th class="num">잔여 모수</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>5/14에 만들어진 왕복 예약 전체 (취소 안 된 것)</td><td class="num">12,900</td></tr>
+        <tr><td>↓ 당일 출발만 (예약 만든 날 바로 차 빌림)</td><td class="num">8,107</td></tr>
+        <tr><td>↓ 출발 9~15시 + 반납 15~20시 + 4~24시간 길이</td><td class="num">573</td></tr>
+        <tr><td>↓ 개인 회원만 (비즈·법인 제외)</td><td class="num">530</td></tr>
+        <tr class="total"><td>실제 옵션 화면을 본 회원 (5/14)</td><td class="num" style="color:#b45309">36</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ★ 노출 조건 9가지 -->
+  <div class="section-label">시간연장 옵션이 노출되는 조건 9가지 <span class="tag tag-info">노출 정책</span></div>
+  <div class="section-explain">
+    결제 직전 화면에서 "이 사용자에게 시간연장 옵션을 보여줄지" 판단하는 정책.<br>
+    <b>아래 9가지 조건을 전부 통과한 경우에만</b> 옵션 화면 노출.<br>
+    한 가지라도 안 맞으면 일반 결제 화면으로 빠짐 → 사용자가 옵션 화면 자체를 못 봄.
+  </div>
+  <div class="card">
+    <div class="cond-list">
+      <div class="cond-item"><span class="cond-num">1</span><span class="cond-text"><b>실험군 회원만 (전체의 50%)</b><span class="why">A/B 비교를 위해 회원의 절반에게만 노출. 나머지 절반은 대조군이라 옵션 화면 자체가 안 뜸.</span></span></div>
+      <div class="cond-item"><span class="cond-num">2</span><span class="cond-text"><b>왕복 예약만 (편도·도어투도어 제외)</b><span class="why">출발지에서 빌리고 같은 출발지로 반납하는 예약만 대상. 편도나 D2D는 시간연장 정책이 다름.</span></span></div>
+      <div class="cond-item"><span class="cond-num">3</span><span class="cond-text"><b>예약 만든 날 바로 차를 빌리는 경우만 (당일 출발)</b><span class="why">가장 강한 필터. 미리 예약하는 사람은 대상이 아님. "지금 바로 빌리려는 사람"만 노출 대상.</span></span></div>
+      <div class="cond-item"><span class="cond-num">4</span><span class="cond-text"><b>출발 9~15시 사이 / 반납 15~20시 사이</b><span class="why">자정까지 충분히 연장 가능한 시간대만 노출. 너무 늦게 출발하거나 너무 일찍 반납하는 케이스 제외.</span></span></div>
+      <div class="cond-item"><span class="cond-num">5</span><span class="cond-text"><b>토요일 출발 제외</b><span class="why">토요일에 출발하는 예약은 대상 아님.</span></span></div>
+      <div class="cond-item"><span class="cond-num">6</span><span class="cond-text"><b>예약 길이 4~24시간 사이</b><span class="why">너무 짧거나 너무 긴 예약은 대상 아님.</span></span></div>
+      <div class="cond-item"><span class="cond-num">7</span><span class="cond-text"><b>수입차/전기차/대형밴/대형RV 제외</b><span class="why">이 차종들은 시간연장 정책 대상이 아님.</span></span></div>
+      <div class="cond-item"><span class="cond-num">8</span><span class="cond-text"><b>실제 추가 요금이 4,900원보다 많을 때만</b><span class="why">사용자는 4,900원만 내고 차액은 회사가 부담. 차액이 4,900원보다 작으면 회사 손해라 노출 안 함.</span></span></div>
+      <div class="cond-item"><span class="cond-num">9</span><span class="cond-text"><b>이미 한 번 수락한 회원은 7일간 다시 노출 안 됨</b><span class="why">예약을 취소한 경우는 빈도 제한이 풀려서 다시 노출 가능.</span></span></div>
+      <div class="cond-item" style="grid-column:1/-1;background:#fef3c7"><span class="cond-num" style="background:#92400e">+</span><span class="cond-text"><b>추가 조건:</b> 자정까지 같은 차량이 비어있어야 + 일부 제외 지역(여행지 등)이 아니어야 + 사용자가 제휴 카드 할인을 안 받고 있어야 + 쿠폰 호환 가능해야 함</span></div>
+    </div>
+  </div>
+
   <!-- ③ funnel 분해 -->
   <div class="section-label">옵션 화면을 본 뒤 사용자가 어떻게 행동했는지 단계별 분해 <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
@@ -476,52 +522,6 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
   <div class="card">
     <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
-  </div>
-
-  <!-- ⑥ 노출 조건 -->
-  <div class="section-label">시간연장 옵션이 노출되는 조건 9가지 <span class="tag tag-info">노출 정책</span></div>
-  <div class="section-explain">
-    결제 직전 화면에서 "이 사용자에게 시간연장 옵션을 보여줄지" 판단하는 정책.<br>
-    <b>아래 9가지 조건을 전부 통과한 경우에만</b> 옵션 화면 노출.<br>
-    한 가지라도 안 맞으면 일반 결제 화면으로 빠짐 → 사용자가 옵션 화면 자체를 못 봄.
-  </div>
-  <div class="card">
-    <div class="cond-list">
-      <div class="cond-item"><span class="cond-num">1</span><span class="cond-text"><b>실험군 회원만 (전체의 50%)</b><span class="why">A/B 비교를 위해 회원의 절반에게만 노출. 나머지 절반은 대조군이라 옵션 화면 자체가 안 뜸.</span></span></div>
-      <div class="cond-item"><span class="cond-num">2</span><span class="cond-text"><b>왕복 예약만 (편도·도어투도어 제외)</b><span class="why">출발지에서 빌리고 같은 출발지로 반납하는 예약만 대상. 편도나 D2D는 시간연장 정책이 다름.</span></span></div>
-      <div class="cond-item"><span class="cond-num">3</span><span class="cond-text"><b>예약 만든 날 바로 차를 빌리는 경우만 (당일 출발)</b><span class="why">가장 강한 필터. 미리 예약하는 사람은 대상이 아님. "지금 바로 빌리려는 사람"만 노출 대상.</span></span></div>
-      <div class="cond-item"><span class="cond-num">4</span><span class="cond-text"><b>출발 9~15시 사이 / 반납 15~20시 사이</b><span class="why">자정까지 충분히 연장 가능한 시간대만 노출. 너무 늦게 출발하거나 너무 일찍 반납하는 케이스 제외.</span></span></div>
-      <div class="cond-item"><span class="cond-num">5</span><span class="cond-text"><b>토요일 출발 제외</b><span class="why">토요일에 출발하는 예약은 대상 아님.</span></span></div>
-      <div class="cond-item"><span class="cond-num">6</span><span class="cond-text"><b>예약 길이 4~24시간 사이</b><span class="why">너무 짧거나 너무 긴 예약은 대상 아님.</span></span></div>
-      <div class="cond-item"><span class="cond-num">7</span><span class="cond-text"><b>수입차/전기차/대형밴/대형RV 제외</b><span class="why">이 차종들은 시간연장 정책 대상이 아님.</span></span></div>
-      <div class="cond-item"><span class="cond-num">8</span><span class="cond-text"><b>실제 추가 요금이 4,900원보다 많을 때만</b><span class="why">사용자는 4,900원만 내고 차액은 회사가 부담. 차액이 4,900원보다 작으면 회사 손해라 노출 안 함.</span></span></div>
-      <div class="cond-item"><span class="cond-num">9</span><span class="cond-text"><b>이미 한 번 수락한 회원은 7일간 다시 노출 안 됨</b><span class="why">예약을 취소한 경우는 빈도 제한이 풀려서 다시 노출 가능.</span></span></div>
-      <div class="cond-item" style="grid-column:1/-1;background:#fef3c7"><span class="cond-num" style="background:#92400e">+</span><span class="cond-text"><b>추가 조건:</b> 자정까지 같은 차량이 비어있어야 + 일부 제외 지역(여행지 등)이 아니어야 + 사용자가 제휴 카드 할인을 안 받고 있어야 + 쿠폰 호환 가능해야 함</span></div>
-    </div>
-  </div>
-
-  <!-- ⑦ 모수 단계 -->
-  <div class="section-label">노출 모수가 단계별로 어떻게 좁아지는지 <span class="tag tag-fact">실측</span></div>
-  <div class="section-explain">
-    하루 만들어진 12,900개 왕복 예약에서 위 조건들을 하나씩 적용해 모수가 어디까지 좁아지는지 단계별로 표시.<br>
-    <b>빅쿼리에서 직접 확인 가능한 단계까지만 표시</b>, 이후 단계는 별도로 정리.
-  </div>
-  <div class="card">
-    <table class="data-table" style="max-width:780px">
-      <thead>
-        <tr>
-          <th>단계</th>
-          <th class="num">잔여 모수</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>5/14에 만들어진 왕복 예약 전체 (취소 안 된 것)</td><td class="num">12,900</td></tr>
-        <tr><td>↓ 당일 출발만 (예약 만든 날 바로 차 빌림)</td><td class="num">8,107</td></tr>
-        <tr><td>↓ 출발 9~15시 + 반납 15~20시 + 4~24시간 길이</td><td class="num">573</td></tr>
-        <tr><td>↓ 개인 회원만 (비즈·법인 제외)</td><td class="num">530</td></tr>
-        <tr class="total"><td>실제 옵션 화면을 본 회원 (5/14)</td><td class="num" style="color:#b45309">36</td></tr>
-      </tbody>
-    </table>
   </div>
 
   <!-- ⑧ 데이터 종합 해석 -->
