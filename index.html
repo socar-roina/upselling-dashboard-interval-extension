@@ -181,7 +181,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
   <div class="updated">
-    조회 시점: <b>2026-05-15 14:30 KST</b><br>
+    조회 시점: <b>2026-05-18 14:40 KST</b><br>
     데이터 출처: 앱 사용 로그 + 결제 내역
   </div>
 </div>
@@ -219,13 +219,13 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <div class="period-block">
       <div class="lbl">분석 가능한 데이터 마지막 시각</div>
-      <div class="val">2026-05-14<br>23:59:59 KST</div>
-      <div class="sub">로그가 하루 늦게 들어와서 오늘(5/15) 데이터는 아직 없음</div>
+      <div class="val">2026-05-17<br>14:49 KST</div>
+      <div class="sub">로그가 하루 늦게 들어와서 오늘(5/18)·어제(5/17 일부) 데이터는 아직 적재 지연 상태. 결제 내역(paid_info)은 5/18까지 적재됨</div>
     </div>
     <div class="period-block">
       <div class="lbl">총 분석 기간</div>
-      <div class="val">5/13 14:09:30<br>~ 5/14 24:00</div>
-      <div class="sub">약 1.4일치 (PF0와 섞이지 않은 순수 시간연장 노출 구간)</div>
+      <div class="val">5/13 14:09:30<br>~ 5/17 23:59</div>
+      <div class="sub">약 4.4일치 (PF0와 섞이지 않은 순수 시간연장 노출 구간). 5/16 토요일은 노출 정책상 제외</div>
     </div>
   </div>
 </div>
@@ -235,48 +235,49 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- ① 핵심 KPI -->
   <div class="section-label">한눈에 보는 핵심 지표 (분석 기간 누계) <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    아래 5개 지표는 5/13 14:09:30 ~ 5/14 24:00 누적 수치.<br>
+    아래 5개 지표는 5/13 14:09:30 ~ 5/17 누적 수치 (이벤트 적재 완료 기준).<br>
+    5/18 paid_info 기준 추가 수락 6건/매출 29,400원은 일별 표에 별도 행으로 표기.<br>
     <b>"수락률"</b> = 옵션 화면을 본 회원 중 실제로 시간연장 결제까지 마치고 환불 없이 유지된 회원 비율.
   </div>
   <div class="kpi-row">
     <div class="kpi">
       <div class="lbl">옵션 화면을 본 사람</div>
-      <div class="num blue">41 <span class="unit">명</span></div>
-      <div class="sub">중복 제외 회원 수 합계<br>(5/13: 5명 · 5/14: 36명)</div>
+      <div class="num blue">114 <span class="unit">명</span></div>
+      <div class="sub">중복 제외 회원 수 합계<br>(5/13: 5 · 5/14: 36 · 5/15: 41 · 5/17: 33)</div>
     </div>
     <div class="kpi">
       <div class="lbl">시간연장 카드를 눌러본 사람</div>
-      <div class="num purple">13 <span class="unit">명</span></div>
-      <div class="sub">옵션 카드를 직접 누른 회원<br>(5/13: 3명 · 5/14: 10명)</div>
+      <div class="num purple">46 <span class="unit">명</span></div>
+      <div class="sub">옵션 카드를 직접 누른 회원<br>(5/13: 3 · 5/14: 10 · 5/15: 16 · 5/17: 19)</div>
     </div>
     <div class="kpi">
       <div class="lbl">실제 수락 회원<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
-      <div class="num green">9 <span class="unit">명</span></div>
-      <div class="sub">총 9건 예약 / 9명 회원<br>(5/13: 0명 · 5/14: 9명)</div>
+      <div class="num green">28 <span class="unit">명</span></div>
+      <div class="sub">총 28건 예약 / 28명 회원<br>(5/13: 0 · 5/14: 9 · 5/15: 10 · 5/17: 9)</div>
     </div>
     <div class="kpi">
       <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(옵션 화면 본 사람 기준)</span></div>
-      <div class="num amber">22.0 <span class="unit">%</span></div>
-      <div class="sub">9명 ÷ 41명<br>(5/13: 0% · 5/14: 25.0%)</div>
+      <div class="num amber">24.6 <span class="unit">%</span></div>
+      <div class="sub">28명 ÷ 114명<br>(5/14: 25.0% · 5/15: 24.4% · 5/17: 27.3%)</div>
     </div>
     <div class="kpi">
       <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
-      <div class="num green">44,100 <span class="unit">원</span></div>
-      <div class="sub">회사 할인 부담: <b>142,080원</b><br>(평균 15,787원/건)</div>
+      <div class="num green">137,200 <span class="unit">원</span></div>
+      <div class="sub">회사 할인 부담: <b>471,620원</b><br>(평균 16,843원/건)</div>
     </div>
   </div>
 
   <div class="example" style="background:#f0f9ff;border-color:#bae6fd;margin-top:0">
     <div class="example-label" style="color:#0c4a6e">수락률 계산 방식</div>
     <div class="example-body">
-      <div class="row"><span class="k">분자 (실제 수락한 회원)</span><span class="v">9명</span></div>
+      <div class="row"><span class="k">분자 (실제 수락한 회원)</span><span class="v">28명</span></div>
       <div class="row" style="color:#9ca3af;padding-left:0;font-size:11px;padding-bottom:6px">= 시간연장 결제를 끝까지 유지한 회원 (환불되지 않은 예약이 있는 회원)</div>
-      <div class="row"><span class="k">분모 (옵션 화면 본 회원)</span><span class="v">41명</span></div>
+      <div class="row"><span class="k">분모 (옵션 화면 본 회원)</span><span class="v">114명</span></div>
       <div class="row" style="color:#9ca3af;padding-left:0;font-size:11px;padding-bottom:6px">= 결제 직전 화면에서 시간연장 옵션이 떠 있는 화면을 본 회원</div>
-      <div class="row"><span class="k">결과</span><span class="v" style="color:#b45309;font-size:14px">22.0% (9 ÷ 41)</span></div>
+      <div class="row"><span class="k">결과</span><span class="v" style="color:#b45309;font-size:14px">24.6% (28 ÷ 114)</span></div>
       <div class="row" style="color:#6b7280;padding-left:0;font-size:11px;padding-top:6px;line-height:1.6">
-        <b style="color:#111827">참고:</b> 옵션 카드를 직접 눌러본 13명 기준으로 보면 9/13 = 69.2%. 다만 표본이 작아 변동성 큼.<br>
-        1주 누적 데이터(5/13~5/19) 이후 의미 있는 수락률 추세 판단 가능.
+        <b style="color:#111827">참고:</b> 옵션 카드를 직접 눌러본 46명 기준으로 보면 28/46 = 60.9%.<br>
+        5/18 paid_info 기준 추가 수락 6건까지 포함하면 누적 수락 34건, 매출 증분 166,600원, 회사 할인 부담 537,520원.
       </div>
     </div>
   </div>
@@ -310,11 +311,35 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num">10</td>
           <td class="num">35</td>
         </tr>
-        <tr class="total">
-          <td class="dt">누계</td>
+        <tr>
+          <td class="dt">5/15<br><span style="font-size:11px;color:#9ca3af;font-weight:400">하루 종일</span></td>
           <td class="num">41</td>
-          <td class="num">13</td>
+          <td class="num">16</td>
           <td class="num">38</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td class="dt">5/16<br><span style="font-size:11px;color:#9ca3af;font-weight:400">토요일 — 노출 정책상 제외</span></td>
+          <td class="num" style="color:#9ca3af">0</td>
+          <td class="num" style="color:#9ca3af">0</td>
+          <td class="num" style="color:#9ca3af">0</td>
+        </tr>
+        <tr>
+          <td class="dt">5/17<br><span style="font-size:11px;color:#9ca3af;font-weight:400">14:49 KST까지 적재 (이후 ETL 지연)</span></td>
+          <td class="num">33</td>
+          <td class="num">19</td>
+          <td class="num">32</td>
+        </tr>
+        <tr style="background:#fef3c7">
+          <td class="dt">5/18<br><span style="font-size:11px;color:#92400e;font-weight:600">이벤트 적재 지연 중. paid_info 기준 수락 6건 / 매출 29,400원</span></td>
+          <td class="num" style="color:#9ca3af">—</td>
+          <td class="num" style="color:#9ca3af">—</td>
+          <td class="num" style="color:#9ca3af">—</td>
+        </tr>
+        <tr class="total">
+          <td class="dt">누계 (5/13~5/17)</td>
+          <td class="num">114</td>
+          <td class="num">46</td>
+          <td class="num">107</td>
         </tr>
       </tbody>
     </table>
