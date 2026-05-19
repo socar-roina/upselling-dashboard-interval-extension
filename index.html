@@ -319,7 +319,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div class="row"><span class="k">결과</span><span class="v" style="color:#b45309;font-size:14px">23.9% (34 ÷ 142)</span></div>
       <div class="row" style="color:#6b7280;padding-left:0;font-size:11px;padding-top:6px;line-height:1.6">
         <b style="color:#111827">참고:</b> 옵션 카드를 직접 눌러본 56명 기준으로 보면 34/56 = 60.7%.<br>
-        5/19 paid_info 기준 추가 수락 11건까지 포함하면 누적 수락 45건, 매출 증분 220,500원, 회사 할인 부담 654,140원 (이벤트 미적재로 위 KPI엔 미반영).
+        5/19 paid_info 추가 수락 15건 (1차 14 + 2차 1) 포함 시 누적 수락 49건, 매출 증분 240,100원, 회사 할인 부담 735,730원 (이벤트 미적재로 위 KPI엔 미반영).
       </div>
     </div>
   </div>
@@ -378,13 +378,13 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num">27</td>
         </tr>
         <tr style="background:#fef3c7">
-          <td class="dt">5/19 (1차, ~15:50)<br><span style="font-size:11px;color:#92400e;font-weight:600">이벤트 적재 지연 중 (D+1). paid_info 수락 14건 / 매출 68,600원 / 부담 182,120원</span></td>
+          <td class="dt">5/19 (1차, ~15:50)<br><span style="font-size:11px;color:#92400e;font-weight:600">이벤트 5/20 적재 예정. paid_info만 수락 14건 / 매출 68,600원 / 부담 182,120원</span></td>
           <td class="num" style="color:#9ca3af">—</td>
           <td class="num" style="color:#9ca3af">—</td>
           <td class="num" style="color:#9ca3af">—</td>
         </tr>
         <tr style="background:#fef3c7;border-top:2px solid #f59e0b">
-          <td class="dt">5/19 (2차, 15:50~)<br><span style="font-size:11px;color:#92400e;font-weight:600">조건 완화 배포 후. paid_info 수락 1건 / 매출 4,900원 / 부담 16,110원 (진행 중)</span></td>
+          <td class="dt">5/19 (2차, 15:50~)<br><span style="font-size:11px;color:#92400e;font-weight:600">이벤트 5/20 적재 예정. paid_info만 수락 1건 / 매출 4,900원 / 부담 16,110원 · 진행 중</span></td>
           <td class="num" style="color:#9ca3af">—</td>
           <td class="num" style="color:#9ca3af">—</td>
           <td class="num" style="color:#9ca3af">—</td>
@@ -397,58 +397,6 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </tr>
       </tbody>
     </table>
-    <div class="example">
-      <div class="example-label">"결제 버튼 누른 회원" 과 "시간연장 수락" 의 차이</div>
-      <div class="example-body">
-        결제 버튼은 옵션 화면 아래쪽 큰 버튼. 시간연장을 선택했든 안 했든, 결제로 넘어가기 위해 누르는 버튼이라 "결제까지 진행한 사람" 으로만 봐야 함.<br><br>
-        <div class="row"><span class="k">5/14 옵션 화면 본 회원 36명</span></div>
-        <div class="arrow">↓ 그 중 35명이 결제 버튼 누름 (97.2%)</div>
-        <div class="arrow">↓ 그 중 10명만 시간연장 카드를 누름 (나머지는 원래 시간 그대로 결제)</div>
-        <div class="arrow">↓ 시간연장으로 결제 완료된 예약 13건 (회원 10명, 일부 회원이 같은 날 여러 번 결제)</div>
-        <div class="arrow">↓ 그 중 9건만 환불 없이 끝까지 유지 (실제 수락)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ★ 노출 모수 단계 (왜 36명만 봤는지) -->
-  <div class="section-label">1차 구간: 노출 모수 단계별 좁아짐 — 왜 5/14 36명만 봤는지 <span class="tag tag-fact">실측</span></div>
-  <div class="section-explain">
-    하루 만들어진 12,900개 왕복 예약에서 1차 구간 노출 조건을 하나씩 적용한 단계별 모수 (5/14 기준).<br>
-    가장 큰 감소 구간 = "당일 출발 + 시간/길이 조건" (8,107 → 573, 약 14배 감소).<br>
-    <b>2차 구간에서는 "당일 출발" 조건이 "출발 24h 이내"로 완화 → 이 구간 모수 약 1.2배 확대 예상.</b>
-  </div>
-  <div class="card">
-    <div class="funnel-bars">
-      <div class="bar-row">
-        <div class="bar-label">5/14 왕복 예약 전체</div>
-        <div class="bar-track"><div class="bar-fill" style="width:100%;background:#3b82f6">12,900</div></div>
-        <div class="bar-pct">100%</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">↓ 당일 출발만</div>
-        <div class="bar-track"><div class="bar-fill" style="width:62.8%;background:#60a5fa">8,107</div></div>
-        <div class="bar-pct">62.8%</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">↓ 출발 9~15시 / 반납 15~20시 / 4~24h</div>
-        <div class="bar-track"><div class="bar-fill" style="width:4.44%;background:#a78bfa">573</div></div>
-        <div class="bar-pct">4.4%</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">↓ 개인 회원만 (비즈·법인 제외)</div>
-        <div class="bar-track"><div class="bar-fill" style="width:4.11%;background:#c084fc">530</div></div>
-        <div class="bar-pct">4.1%</div>
-      </div>
-      <div class="bar-row final">
-        <div class="bar-label">↓ 차종 제외 / 차량 가용 / 추가금 / 빈도제한 등</div>
-        <div class="bar-track"><div class="bar-fill" style="width:0.28%;background:#f59e0b;min-width:30px">36</div></div>
-        <div class="bar-pct" style="color:#b45309">0.3%</div>
-      </div>
-    </div>
-    <div style="margin-top:14px;padding:12px 16px;background:#fef3c7;border-radius:8px;font-size:13px;color:#92400e;line-height:1.8;border-left:3px solid #f59e0b">
-      <b>가장 큰 감소 구간 = "당일 출발 + 시간/길이 조건" 단계</b> (8,107 → 573, <b>약 14배 감소</b>)<br>
-      이 단계가 노출 모수를 가장 강하게 좁히는 핵심 필터. 시간연장 정책상 의도된 좁은 타겟팅이 그대로 반영된 결과로 보임.
-    </div>
   </div>
 
   <!-- ★ 노출 조건 9가지 -->
@@ -470,81 +418,6 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div class="cond-item"><span class="cond-num">8</span><span class="cond-text"><b>실제 추가 요금이 4,900원보다 많을 때만</b><span class="why">사용자는 4,900원만 내고 차액은 회사가 부담. 차액이 4,900원보다 작으면 회사 손해라 노출 안 함.</span></span></div>
       <div class="cond-item"><span class="cond-num">9</span><span class="cond-text"><b>이미 한 번 수락한 회원은 7일간 다시 노출 안 됨</b><span class="why">예약을 취소한 경우는 빈도 제한이 풀려서 다시 노출 가능.</span></span></div>
       <div class="cond-item" style="grid-column:1/-1;background:#fef3c7"><span class="cond-num" style="background:#92400e">+</span><span class="cond-text"><b>추가 조건:</b> 자정까지 같은 차량이 비어있어야 + 일부 제외 지역(여행지 등)이 아니어야 + 사용자가 제휴 카드 할인을 안 받고 있어야 + 쿠폰 호환 가능해야 함</span></div>
-    </div>
-  </div>
-
-  <!-- ③ funnel 분해 -->
-  <div class="section-label">1차 구간: 옵션 화면 진입 후 단계별 분해 (5/14 기준) <span class="tag tag-fact">실측</span></div>
-  <div class="section-explain">
-    옵션 화면을 본 36명(5/14, 1차 구간)이 결제까지 가는 과정에서 단계마다 얼마나 줄어드는지 분해.<br>
-    100%는 첫 단계인 옵션 화면 본 사람 36명 기준. 2차 구간은 표본 형성 후 동일 구조로 분해 예정.
-  </div>
-  <div class="funnel-wrap">
-    <div class="card funnel-card" style="padding:18px 22px">
-      <div class="card-title">5/14 단계별 흐름</div>
-      <div class="card-sub">각 숫자는 중복 제외한 회원 수, 옆 비율은 36명 기준</div>
-      <div class="step s1">
-        <div class="step-lbl">
-          <div class="step-lbl-top">① 시간연장 옵션 화면을 봄</div>
-          <div class="step-lbl-sub">서버가 "이 사람에게 시간연장 옵션 노출" 판단한 경우만 이 화면이 뜸</div>
-        </div>
-        <div class="step-val">36</div>
-        <div class="step-pct">100%</div>
-      </div>
-      <div class="step s2">
-        <div class="step-lbl">
-          <div class="step-lbl-top">② 시간연장 카드를 직접 누름</div>
-          <div class="step-lbl-sub">"연장 시간으로 변경" 카드를 명시적으로 선택한 회원</div>
-        </div>
-        <div class="step-val">10</div>
-        <div class="step-pct">27.8%</div>
-      </div>
-      <div class="step s3">
-        <div class="step-lbl">
-          <div class="step-lbl-top">③ 맨 아래 결제 버튼을 누름</div>
-          <div class="step-lbl-sub">시간연장이든 원래 시간이든 결제로 넘어감 (시간연장 수락 아님)</div>
-        </div>
-        <div class="step-val">35</div>
-        <div class="step-pct">97.2%</div>
-      </div>
-      <div class="step s4">
-        <div class="step-lbl">
-          <div class="step-lbl-top">④ 시간연장 결제 처리됨</div>
-          <div class="step-lbl-sub">결제 내역에 "시간연장 할인" 기록이 남은 예약 수</div>
-        </div>
-        <div class="step-val">13</div>
-        <div class="step-pct">36.1%</div>
-      </div>
-      <div class="step s5">
-        <div class="step-lbl">
-          <div class="step-lbl-top">⑤ 실제 수락 (환불 없음)</div>
-          <div class="step-lbl-sub">환불되지 않고 끝까지 유지된 예약 수</div>
-        </div>
-        <div class="step-val">9</div>
-        <div class="step-pct">25.0%</div>
-      </div>
-    </div>
-    <div class="card" style="padding:18px 22px">
-      <div class="card-title">각 단계 해석</div>
-      <div class="card-sub">표본이 작아 비율 변동성이 큼 (1주 누적 후 재평가 필요)</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #10b981">
-          <b style="font-size:13px;color:#065f46">옵션 화면을 본 사람의 97.2%가 결제 버튼까지 누름</b>
-          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">화면 본 사람 거의 대부분이 결제 단계까지 갔다는 뜻. 옵션 화면이 결제 흐름을 막거나 이탈을 일으키지는 않음.</div>
-        </div>
-        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #3b82f6">
-          <b style="font-size:13px;color:#1e40af">옵션 카드를 직접 누른 사람은 36명 중 10명 (27.8%)</b>
-          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">나머지 26명은 옵션 카드를 누르지 않고 원래 시간 그대로 결제. 시간연장에 적극적으로 반응한 사람의 비율.</div>
-        </div>
-        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #f59e0b">
-          <b style="font-size:13px;color:#92400e">결제 완료 13건 중 4건은 결국 환불됨 (30.8%)</b>
-          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">예약을 만들고 시간연장 결제까지 했으나 차량 인수 전에 취소/환불 처리된 케이스. 실제 매출에 잡히지 않음.</div>
-        </div>
-        <div style="padding:12px 14px;background:#f9fafb;border-radius:8px;border-left:3px solid #ef4444">
-          <b style="font-size:13px;color:#b91c1c">5/13은 결제 3건 모두 환불 (100%)</b>
-          <div style="font-size:12px;color:#374151;margin-top:6px;line-height:1.7">5/13 배포 직후 결제된 3건 모두 같은 금액으로 환불 처리됨 → 실제 수락 0건. 표본 3건이라 사유 단정은 불가.</div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -673,69 +546,33 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <div class="section-label">일별 추이 차트 (1차 구간 + 5/19 phase 분리)</div>
   <div class="section-explain">
     5/13은 배포 직후 약 10시간치 데이터, 5/14~5/18은 하루치 데이터. 5/16 토요일은 노출 정책상 제외.<br>
-    <b>5/19는 1차 (~15:50, 당일 출발)와 2차 (15:50~, 24h 이내)로 분리.</b> 이벤트 D+1 적재 지연으로 5/19 양 phase 모두 paid_info 기준 실제 수락 막대만 표시.
+    <b>5/19는 1차 (~15:50, 당일 출발)와 2차 (15:50~, 24h 이내)로 분리.</b> 5/19 이벤트는 5/20 적재 예정으로 양 phase 모두 paid_info 기준 실제 수락 막대만 표시.
   </div>
   <div class="card">
     <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
   </div>
 
-  <!-- ⑧ 데이터 종합 해석 -->
-  <div class="section-label">데이터 종합 해석 <span class="tag tag-info">위 표/그래프를 합쳐서 보면</span></div>
+  <!-- ⑧ 누계 요약 -->
+  <div class="section-label">현재까지 누계 요약 <span class="tag tag-info">표/차트 종합</span></div>
   <div class="summary-block">
-    <h3>위 데이터에서 확인된 사실 정리</h3>
     <div class="intro">
-      <b>1차 구간 (5/13 14:09:30 ~ 5/18 24:00, 이벤트 적재 완료 기준)</b>: view 142명, 실제 수락 34건 (수락률 23.9%), 매출 증분 166,600원, 회사 부담 537,500원.<br>
-      <b>5/19 1차 (~15:50, paid only)</b>: 추가 수락 14건/68,600원/182,120원. <b>5/19 2차 (15:50~, 진행 중)</b>: 수락 1건/4,900원/16,110원.<br>
-      paid 기준 전체 누적: 49건 / 240,100원 / 735,730원. 5/19 15:50 KST 조건 완화 배포 직후라 2차 구간 view UV/수락률 비교는 5/20 D+1 이벤트 적재 후 본격 진행 가능.
+      <b>1차 구간 (5/13 14:09:30 ~ 5/18, 이벤트 완전 적재)</b>: view 142명, 실제 수락 34건 (수락률 23.9%), 매출 증분 166,600원, 회사 부담 537,500원.<br>
+      <b>5/19 1차 (~15:50, paid_info만)</b>: 추가 수락 14건 / 68,600원 / 182,120원.
+      <b>5/19 2차 (15:50~, 진행 중)</b>: 수락 1건 / 4,900원 / 16,110원.<br>
+      paid 기준 전체 누적 (5/13~5/19): <b>수락 49건 / 매출 240,100원 / 회사 부담 735,730원</b>. 2차 구간 view UV·수락률은 5/20 이벤트 적재 후 산정.
     </div>
     <div class="finding-list">
-
       <div class="finding-item">
         <div class="head">
-          <div class="num">1</div>
-          <div class="title">데이터 빠짐 없음 — 36명은 실제로 본 사람 수가 맞음</div>
+          <div class="num">!</div>
+          <div class="title">수락 카운트 시 환불 분리 주의</div>
         </div>
         <div class="body">
-          5/14 자정까지 데이터가 시간대별로 빠짐없이 들어와 있고, 결제 내역에서도 시간연장 결제 건을 정확히 식별 가능.<br>
-          즉 <b>"기록이 누락돼서 36명으로 적게 나온 것"이 아니라 실제로 36명만 본 게 맞음.</b>
+          한 예약에서 결제 후 환불되면 paid_info에 결제(+)와 환불(-) 두 행이 모두 들어옴.<br>
+          <b>한 예약 단위로 합계가 양수일 때만 실제 수락</b>으로 봐야 정확.<br>
+          5/13~5/19 paid_info 기준 결제 64건 중 15건 환불 → 실제 수락 49건. 상세는 위 "결제와 환불 분해" 섹션 참고.
         </div>
       </div>
-
-      <div class="finding-item">
-        <div class="head">
-          <div class="num">2</div>
-          <div class="title">노출 조건이 매우 좁아 절대 수치가 적은 게 자연스러움</div>
-        </div>
-        <div class="body">
-          위 "노출 조건 9가지" 섹션에서 본 것처럼 당일 출발 + 시간대 + 차종 + 실험군 50% 등 모든 조건을 통과해야만 옵션 화면 노출. 특히 <b>"당일 출발만"</b> 조건이 가장 강한 필터. 정책 변경 없이는 PF0 시절 노출량 수준 회복 불가.
-        </div>
-        <div class="example">
-          <div class="example-label">"당일 출발" 조건의 영향력 (5/14 실측)</div>
-          <div class="example-body">
-            <div class="row"><span class="k">5/14 왕복 예약 전체</span><span class="v">12,900건</span></div>
-            <div class="arrow">↓ "예약한 날 바로 차를 빌리는" 경우만 남기면</div>
-            <div class="row"><span class="k">당일 출발 예약</span><span class="v">8,107건 (전체의 62.8%)</span></div>
-            <div class="row" style="padding-top:8px;color:#6b7280;font-size:11px;line-height:1.6">
-              이 한 조건만으로 4,793건 걸러짐. 이후 시간대 조건까지 적용하면 573건까지 좁아짐. 즉 절대 수치가 작은 건 노출 정책의 의도된 결과.
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="finding-item">
-        <div class="head">
-          <div class="num">3</div>
-          <div class="title">결제 후 환불된 케이스 분리 필요</div>
-        </div>
-        <div class="body">
-          한 예약에서 결제 후 환불되면 결제 내역에 결제(+)와 환불(-) 두 행이 모두 들어옴.<br>
-          <b>한 예약 단위로 합계가 양수일 때만 진짜 수락</b>으로 봐야 정확.<br>
-          분석 기간 동안 결제 64건 중 15건이 환불되어 실제 수락 49건 (5/13~5/19 paid_info 기준, 1차 48 + 2차 1).<br>
-          자세한 내용은 위 "결제와 환불 분해" 섹션 참고.
-        </div>
-      </div>
-
     </div>
   </div>
 
