@@ -209,24 +209,6 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
 </div>
 
-<!-- ─── 5/19 조건 완화 배포 알림 ─── -->
-<div class="deploy-alert">
-  <div class="inner">
-    <div class="icon">🚀</div>
-    <div>
-      <div class="title">2026-05-19 15:50:05 KST — 시간연장 노출 조건 완화 배포 완료 (v1.522.0)</div>
-      <div class="desc">
-        9개 노출 조건 중 <b>리드타임 1개만 완화</b>: "당일 생성 + 당일 출발" → "출발 시각 24시간 이내 생성".
-        다른 8개 조건 (시간대/길이/토요일/차종/추가금/빈도/회원/A·B 비율) 동일하게 유지.
-        BQ 시뮬레이션 기준 <b>노출 모수 약 1.2배 증가 예상</b>.
-        본격 비교는 5/20 이후 D+1 이벤트 적재 완료 후 가능.
-        근거: <a href="https://github.com/socar-inc/socar-server/pull/8021" target="_blank">PR #8021</a> /
-        <a href="https://socarcorp.atlassian.net/browse/NEWCS-3614" target="_blank">NEWCS-3614</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- 실험 개요 -->
 <div class="experiment-overview">
   <div class="inner">
@@ -245,27 +227,25 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
 </div>
 
-<!-- 두 구간 비교 banner (2차 → 1차 순) -->
+<!-- 두 구간 비교 banner (분석 단위 분할 — 2차 → 1차 순) -->
 <div class="phase-banner">
   <div class="phase-inner">
     <div class="phase-block phase-after">
-      <div class="tag-top">2차 구간 · 진행 중</div>
-      <div class="name">조건 완화 후 (리드타임 24h 이내)</div>
-      <div class="range">2026-05-19 15:50:05 KST ~ 현재</div>
+      <div class="tag-top">2차 구간</div>
+      <div class="name">리드타임 24h 이내 (조건 완화 후)</div>
+      <div class="range">2026-05-19 15:50 KST ~ 현재 · 진행 중</div>
       <div class="meta">
-        리드타임 조건만 완화, 다른 8개 조건 동일.
-        <b>모수 1.2배 증가 예상</b> (BQ 시뮬레이션).
-        이벤트 D+1 적재 지연으로 view UV/수락률은 5/20 이후 산정 가능.
+        9개 노출 조건 중 리드타임 1개만 완화. 다른 8개 조건 동일.<br>
+        시뮬레이션 기준 <b>모수 1.2배 증가 예상</b>. 사후 비교는 5/20 이벤트 적재 후.
       </div>
     </div>
     <div class="phase-block phase-before">
-      <div class="tag-top">1차 구간 · 종료</div>
-      <div class="name">조건 완화 전 (당일 생성 + 당일 출발)</div>
-      <div class="range">2026-05-13 14:09:30 ~ 2026-05-19 15:50:05 KST</div>
+      <div class="tag-top">1차 구간</div>
+      <div class="name">당일 생성 + 당일 출발 (조건 완화 전)</div>
+      <div class="range">2026-05-13 14:09:30 ~ 2026-05-19 15:50 KST</div>
       <div class="meta">
-        시간연장 첫 발화 시각부터 조건 완화 배포 직전까지.
-        약 <b>145.7시간 (5/16 토요일 노출 제외 시 121.7시간)</b>.
-        view 누계(5/13~5/18 이벤트 적재 완료 기준): <b>142명</b>.
+        시간연장 첫 발화 시각 ~ 조건 완화 배포 직전.<br>
+        view UV(5/13~5/18 이벤트 적재 완료): <b>142명</b>, 수락 34건, 수락률 23.9%.
       </div>
     </div>
   </div>
@@ -273,72 +253,32 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
 <div class="main">
 
-  <!-- ① 2차 구간 (배포 후) - 위에 배치 -->
-  <div class="section-label">2차 구간 핵심 지표 (조건 완화 배포 후, 진행 중) <span class="tag tag-fact">실측</span> <span class="tag" style="background:#fef3c7;color:#92400e">이벤트 D+1 적재 대기</span></div>
-  <div class="section-explain">
-    <b>5/19 15:50:05 KST 배포 직후부터 현재까지</b> 발생한 paid_info 기반 수치. 옵션 화면 view 등 이벤트 로그는 D+1 적재 지연으로 5/20 이후 산정 가능, 따라서 현재 시점에서는 paid_info만 비교 가능.<br>
-    표본이 매우 작아 비율 해석은 5/20 D+1 적재 이후 본격 진행 권장.
-  </div>
-  <div class="kpi-row">
-    <div class="kpi">
-      <div class="lbl">경과 시간</div>
-      <div class="num blue">3.7 <span class="unit">시간</span></div>
-      <div class="sub">2026-05-19 15:50:05 ~ 19:32 KST<br>(약 1차 구간 평균 일별 24h 대비 짧음)</div>
-    </div>
-    <div class="kpi">
-      <div class="lbl">paid_info 수락 예약<br><span style="color:#9ca3af;font-weight:400">(reservation 단위 net&gt;0)</span></div>
-      <div class="num green">1 <span class="unit">건</span></div>
-      <div class="sub">reservation 91857768 (18:51)<br>+16,110원 net</div>
-    </div>
-    <div class="kpi">
-      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
-      <div class="num green">4,900 <span class="unit">원</span></div>
-      <div class="sub">표본 1건 (해석 보류)</div>
-    </div>
-    <div class="kpi">
-      <div class="lbl">회사 할인 부담</div>
-      <div class="num amber">16,110 <span class="unit">원</span></div>
-      <div class="sub">net 양수 reservation 합계</div>
-    </div>
-    <div class="kpi" style="background:#fffbeb;border-color:#fde68a">
-      <div class="lbl" style="color:#92400e">5/20 이후 가능</div>
-      <div class="num" style="font-size:18px;color:#92400e;line-height:1.4">view UV<br>수락률<br>모수 1.2배 검증</div>
-      <div class="sub" style="color:#92400e">웹 로그 D+1 적재 후<br>1차 구간 동기간과 직접 비교</div>
-    </div>
-  </div>
-
-  <div class="example" style="background:#fffbeb;border-color:#fde68a;margin-top:0">
-    <div class="example-label" style="color:#92400e">조건 완화 효과 — 시간별 노출 가능 여부 비교 (출발 5/22 14:00 기준)</div>
-    <div class="example-body">
-      <table>
-        <thead>
-          <tr>
-            <th>예약 생성 시각</th>
-            <th>출발까지 남은 시간</th>
-            <th>1차 (당일 출발)</th>
-            <th>2차 (24h 이내)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>5/22 09:00</td><td>5시간</td><td style="color:#059669;font-weight:700">노출 O</td><td style="color:#059669;font-weight:700">노출 O</td></tr>
-          <tr><td>5/22 00:30</td><td>13.5시간</td><td style="color:#059669;font-weight:700">노출 O</td><td style="color:#059669;font-weight:700">노출 O</td></tr>
-          <tr style="background:#fef3c7"><td>5/21 23:00</td><td>15시간</td><td style="color:#b91c1c;font-weight:700">노출 X</td><td style="color:#059669;font-weight:700">노출 O (신규)</td></tr>
-          <tr style="background:#fef3c7"><td>5/21 14:00</td><td>24시간 (경계)</td><td style="color:#b91c1c;font-weight:700">노출 X</td><td style="color:#059669;font-weight:700">노출 O (경계 포함)</td></tr>
-          <tr><td>5/21 13:00</td><td>25시간</td><td style="color:#b91c1c;font-weight:700">노출 X</td><td style="color:#b91c1c;font-weight:700">노출 X</td></tr>
-          <tr><td>5/20 14:00</td><td>48시간</td><td style="color:#b91c1c;font-weight:700">노출 X</td><td style="color:#b91c1c;font-weight:700">노출 X</td></tr>
-        </tbody>
-      </table>
-      <div style="margin-top:10px;padding:10px 12px;background:#f0f9ff;border-radius:6px;font-size:12px;color:#0c4a6e;line-height:1.7;border-left:3px solid #3b82f6">
-        2차에서 추가 노출되는 케이스 = "출발 전날 만든 예약" 중 출발 24시간 이내 진입. 이 한 단계로 모수 1.2배 확대 추정 (PR #8021 BQ 시뮬레이션 기준).
+  <!-- ① 2차 구간 (배포 후) — 진행 상황 카드 (KPI 박스 아님) -->
+  <div class="section-label">2차 구간 진행 상황 (5/19 15:50 KST ~) <span class="tag" style="background:#fef3c7;color:#92400e">이벤트 D+1 적재 대기</span></div>
+  <div class="card" style="padding:18px 22px;background:#fffbeb;border-color:#fde68a">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#92400e;letter-spacing:0.04em;margin-bottom:6px">현재까지 paid_info 기준</div>
+        <div style="font-size:13px;color:#374151;line-height:1.9">
+          수락 <b style="color:#059669">1건</b> · 매출 증분 <b style="color:#059669">4,900원</b> · 회사 부담 <b style="color:#b45309">16,110원</b><br>
+          (reservation 91857768, 18:51 결제, net +16,110원)
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#92400e;letter-spacing:0.04em;margin-bottom:6px">5/20 이벤트 적재 후 산정 항목</div>
+        <div style="font-size:13px;color:#374151;line-height:1.9">
+          view UV / interval click / cta click · <b>수락률</b><br>
+          1차 동기간(평일 1일) 대비 모수 1.2배 검증
+        </div>
       </div>
     </div>
   </div>
 
   <!-- ② 1차 구간 (배포 전) 핵심 KPI -->
-  <div class="section-label">1차 구간 핵심 지표 (조건 완화 배포 전, 종료) <span class="tag tag-fact">실측</span></div>
+  <div class="section-label">1차 구간 핵심 지표 (5/13 14:09:30 ~ 5/18 누계) <span class="tag tag-fact">실측</span></div>
   <div class="section-explain">
-    아래 5개 지표는 <b>5/13 14:09:30 ~ 5/18 누계</b> 수치 (이벤트 적재 완료 기준).<br>
-    5/19 00:00 ~ 15:50 동안 발생한 1차 구간 paid_info 추가 수락 14건/매출 68,600원/회사 부담 182,120원은 이벤트 미적재로 KPI 미반영, 일별 표에 별도 행 표기.<br>
+    아래 5개 지표는 이벤트 적재 완료된 <b>5/13~5/18 누계</b> 수치.<br>
+    5/19 00:00~15:50 발생 paid_info 14건/68,600원/182,120원은 이벤트 미적재로 KPI 미반영, 일별 표에 별도 행 표기.<br>
     <b>"수락률"</b> = 옵션 화면을 본 회원 중 실제로 시간연장 결제까지 마치고 환불 없이 유지된 회원 비율.
   </div>
   <div class="kpi-row">
