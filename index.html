@@ -204,8 +204,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
   <div class="updated">
-    조회 시점: <b>2026-05-19 19:32 KST</b><br>
-    데이터 출처: 웹 로그 (앱 내 웹뷰 바텀시트) + 결제 내역
+    <div style="font-weight:700;color:#111827;margin-bottom:4px">데이터 반영 범위</div>
+    이벤트(웹 로그): <b>2026-05-13 14:09 ~ 2026-05-18 23:59</b> (D+1 적재 완료)<br>
+    결제(paid_info): <b>2026-05-13 14:09 ~ 2026-05-19 20:55</b> (실시간)<br>
+    <span style="color:#9ca3af">※ 5/19 이벤트는 5/20 적재 예정</span>
   </div>
 </div>
 
@@ -227,25 +229,28 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
 </div>
 
-<!-- 두 구간 비교 banner (분석 단위 분할 — 2차 → 1차 순) -->
+<!-- 두 구간 분리 이유 + 두 구간 비교 banner -->
 <div class="phase-banner">
-  <div class="phase-inner">
-    <div class="phase-block phase-after">
-      <div class="tag-top">2차 구간</div>
-      <div class="name">리드타임 24h 이내 (조건 완화 후)</div>
-      <div class="range">2026-05-19 15:50 KST ~ 현재 · 진행 중</div>
-      <div class="meta">
-        9개 노출 조건 중 리드타임 1개만 완화. 다른 8개 조건 동일.<br>
-        시뮬레이션 기준 <b>모수 1.2배 증가 예상</b>. 사후 비교는 5/20 이벤트 적재 후.
-      </div>
+  <div class="phase-inner-wrap" style="max-width:1440px;margin:0 auto">
+    <div style="font-size:12px;color:rgba(255,255,255,0.85);padding:0 4px 14px;line-height:1.7">
+      <b style="color:white">두 구간 분리 이유</b> · 2026-05-19 15:50:05 KST에 노출 조건 #3 (리드타임)이 변경됨 (당일 출발 → 출발 24h 이내). 노출 대상 모수 자체가 달라져서, 동질성 보장을 위해 변경 전후 데이터를 분리 분석.
     </div>
-    <div class="phase-block phase-before">
-      <div class="tag-top">1차 구간</div>
-      <div class="name">당일 생성 + 당일 출발 (조건 완화 전)</div>
-      <div class="range">2026-05-13 14:09:30 ~ 2026-05-19 15:50 KST</div>
-      <div class="meta">
-        시간연장 첫 발화 시각 ~ 조건 완화 배포 직전.<br>
-        view UV(5/13~5/18 이벤트 적재 완료): <b>142명</b>, 수락 34건, 수락률 23.9%.
+    <div class="phase-inner">
+      <div class="phase-block phase-after">
+        <div class="tag-top">2차 구간 · 진행 중</div>
+        <div class="name">리드타임 24h 이내</div>
+        <div class="range">2026-05-19 15:50 KST ~ 현재</div>
+        <div class="meta">
+          노출 대상: 출발 시각 24시간 이내 생성된 예약. 다른 8개 조건 동일.
+        </div>
+      </div>
+      <div class="phase-block phase-before">
+        <div class="tag-top">1차 구간 · 종료</div>
+        <div class="name">당일 생성 + 당일 출발</div>
+        <div class="range">2026-05-13 14:09:30 ~ 2026-05-19 15:50 KST</div>
+        <div class="meta">
+          노출 대상: 예약 만든 날 바로 출발하는 예약. 다른 8개 조건 동일.
+        </div>
       </div>
     </div>
   </div>
@@ -253,32 +258,97 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
 <div class="main">
 
-  <!-- ① 2차 구간 (배포 후) — 진행 상황 카드 (KPI 박스 아님) -->
-  <div class="section-label">2차 구간 진행 상황 (5/19 15:50 KST ~) <span class="tag" style="background:#fef3c7;color:#92400e">이벤트 D+1 적재 대기</span></div>
-  <div class="card" style="padding:18px 22px;background:#fffbeb;border-color:#fde68a">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
-      <div>
-        <div style="font-size:11px;font-weight:800;color:#92400e;letter-spacing:0.04em;margin-bottom:6px">현재까지 paid_info 기준</div>
-        <div style="font-size:13px;color:#374151;line-height:1.9">
-          수락 <b style="color:#059669">1건</b> · 매출 증분 <b style="color:#059669">4,900원</b> · 회사 부담 <b style="color:#b45309">16,110원</b><br>
-          (reservation 91857768, 18:51 결제, net +16,110원)
-        </div>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:800;color:#92400e;letter-spacing:0.04em;margin-bottom:6px">5/20 이벤트 적재 후 산정 항목</div>
-        <div style="font-size:13px;color:#374151;line-height:1.9">
-          view UV / interval click / cta click · <b>수락률</b><br>
-          1차 동기간(평일 1일) 대비 모수 1.2배 검증
-        </div>
-      </div>
+  <!-- ★★ 2차 구간 (최신, 최상단) ★★ -->
+  <div class="section-label" style="font-size:14px"><span style="background:#fbbf24;color:#78350f;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">2차 구간</span> 핵심 지표 (5/19 15:50 KST ~ 현재, 진행 중)</div>
+  <div class="section-explain">
+    2차 구간 발생 데이터. 이벤트(view·click)는 5/20 적재 예정이라 현재 비어 있고, 결제(paid_info)는 실시간 반영.<br>
+    5/20 적재 시 view UV / 수락률 / 모수 비교가 자동 채워짐.
+  </div>
+  <div class="kpi-row">
+    <div class="kpi" style="background:#fafafa">
+      <div class="lbl">옵션 화면을 본 사람</div>
+      <div class="num" style="color:#9ca3af">— <span class="unit">명</span></div>
+      <div class="sub">5/20 이벤트 적재 후 자동 반영</div>
+    </div>
+    <div class="kpi" style="background:#fafafa">
+      <div class="lbl">시간연장 카드를 눌러본 사람</div>
+      <div class="num" style="color:#9ca3af">— <span class="unit">명</span></div>
+      <div class="sub">5/20 이벤트 적재 후 자동 반영</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">실제 수락 예약<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
+      <div class="num green">1 <span class="unit">건</span></div>
+      <div class="sub">reservation 91857768 · 18:51 결제<br>(paid_info 기준)</div>
+    </div>
+    <div class="kpi" style="background:#fafafa">
+      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(옵션 화면 본 사람 기준)</span></div>
+      <div class="num" style="color:#9ca3af">— <span class="unit">%</span></div>
+      <div class="sub">분모(view UV) 미적재로 산정 보류<br>5/20 적재 후 자동 반영</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
+      <div class="num green">4,900 <span class="unit">원</span></div>
+      <div class="sub" style="color:#9ca3af">회사 할인 비용 16,110원</div>
     </div>
   </div>
 
-  <!-- ② 1차 구간 (배포 전) 핵심 KPI -->
-  <div class="section-label">1차 구간 핵심 지표 (5/13 14:09:30 ~ 5/18 누계) <span class="tag tag-fact">실측</span></div>
+  <!-- 2차 구간 일별 집계 표 -->
+  <div class="section-label">2차 구간 일별 집계</div>
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>일자</th>
+          <th class="num">옵션 화면 본 회원<br><span class="col-sub">시간연장 옵션 카드가 있는 화면을 본 회원 수</span></th>
+          <th class="num">시간연장 카드 누른 회원<br><span class="col-sub">"시간연장 선택" 카드를 직접 누른 회원 수</span></th>
+          <th class="num">결제 버튼 누른 회원<br><span class="col-sub">맨 아래 결제 진행 버튼을 누른 회원 수</span></th>
+          <th class="num">실제 수락 예약<br><span class="col-sub">paid_info 기준 net&gt;0 reservation</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dt">5/19 (15:50 ~)<br><span style="font-size:11px;color:#9ca3af;font-weight:400">진행 중</span></td>
+          <td class="num" style="color:#9ca3af">— <span style="font-size:10px;color:#9ca3af;font-weight:400">(5/20 적재 후)</span></td>
+          <td class="num" style="color:#9ca3af">—</td>
+          <td class="num" style="color:#9ca3af">—</td>
+          <td class="num">1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2차 구간 결제·환불 분해 표 -->
+  <div class="section-label">2차 구간 결제·환불 분해</div>
+  <div class="card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>일자</th>
+          <th class="num">결제 행 (+)</th>
+          <th class="num">환불 행 (-)</th>
+          <th class="num">실제 수락 예약</th>
+          <th class="num">매출 증분</th>
+          <th class="num"><span style="color:#9ca3af;font-weight:600">회사 할인 비용</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dt">5/19 (15:50 ~)<br><span style="font-size:11px;color:#9ca3af;font-weight:400">진행 중</span></td>
+          <td class="num">1</td>
+          <td class="num" style="color:#9ca3af">0</td>
+          <td class="num" style="color:#059669;font-weight:700">1</td>
+          <td class="num" style="color:#059669">4,900원</td>
+          <td class="num" style="color:#9ca3af">16,110원</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ★★ 1차 구간 (배포 전, 그 아래) ★★ -->
+  <div class="section-label" style="margin-top:48px;font-size:14px"><span style="background:#e5e7eb;color:#374151;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">1차 구간</span> 핵심 지표 (5/13 14:09:30 ~ 5/18, 종료)</div>
   <div class="section-explain">
-    아래 5개 지표는 이벤트 적재 완료된 <b>5/13~5/18 누계</b> 수치.<br>
-    5/19 00:00~15:50 발생 paid_info 14건/68,600원/182,120원은 이벤트 미적재로 KPI 미반영, 일별 표에 별도 행 표기.<br>
+    1차 구간 중 이벤트 적재 완료된 <b>5/13~5/18</b> 누계.<br>
+    5/19 00:00 ~ 15:50 발생 paid_info 14건/68,600원/할인비 182,120원은 이벤트 미적재로 KPI 미반영, 일별 표에 별도 행 표기.<br>
     <b>"수락률"</b> = 옵션 화면을 본 회원 중 실제로 시간연장 결제까지 마치고 환불 없이 유지된 회원 비율.
   </div>
   <div class="kpi-row">
@@ -295,7 +365,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="kpi">
       <div class="lbl">실제 수락 예약<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
       <div class="num green">34 <span class="unit">건</span></div>
-      <div class="sub">paid_info reservation 단위 net&gt;0 카운트<br>(5/13: 0 · 5/14: 9 · 5/15: 10 · 5/17: 9 · 5/18: 6)</div>
+      <div class="sub">paid_info reservation 단위 net&gt;0<br>(5/13: 0 · 5/14: 9 · 5/15: 10 · 5/17: 9 · 5/18: 6)</div>
     </div>
     <div class="kpi">
       <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(옵션 화면 본 사람 기준)</span></div>
@@ -305,7 +375,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="kpi">
       <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
       <div class="num green">166,600 <span class="unit">원</span></div>
-      <div class="sub">회사 할인 부담: <b>537,500원</b><br>(평균 15,809원/건)</div>
+      <div class="sub" style="color:#9ca3af">회사 할인 비용 537,500원<br>(평균 15,809원/건)</div>
     </div>
   </div>
 
@@ -318,17 +388,15 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div class="row" style="color:#9ca3af;padding-left:0;font-size:11px;padding-bottom:6px">= 결제 직전 화면에서 시간연장 옵션이 떠 있는 화면을 본 회원 (중복 제외)</div>
       <div class="row"><span class="k">결과</span><span class="v" style="color:#b45309;font-size:14px">23.9% (34 ÷ 142)</span></div>
       <div class="row" style="color:#6b7280;padding-left:0;font-size:11px;padding-top:6px;line-height:1.6">
-        <b style="color:#111827">참고:</b> 옵션 카드를 직접 눌러본 56명 기준으로 보면 34/56 = 60.7%.<br>
-        5/19 paid_info 추가 수락 15건 (1차 14 + 2차 1) 포함 시 누적 수락 49건, 매출 증분 240,100원, 회사 할인 부담 735,730원 (이벤트 미적재로 위 KPI엔 미반영).
+        옵션 카드를 직접 눌러본 56명 기준으로는 34 / 56 = 60.7%.
       </div>
     </div>
   </div>
 
-  <!-- ② 일별 표 -->
-  <div class="section-label">1차 구간 일별 집계 (화면별·동작별) <span class="tag tag-fact">실측</span></div>
+  <!-- 1차 구간 일별 표 -->
+  <div class="section-label">1차 구간 일별 집계</div>
   <div class="section-explain">
-    사용자가 결제 직전 화면에서 어떤 행동을 했는지 일별로 집계 (1차 구간 = 조건 완화 전).<br>
-    각 숫자는 <b>중복 제외한 회원 수</b> (한 사람이 여러 번 눌러도 1명). 5/19는 이벤트 미적재로 paid_info만 표기 (1차/2차 phase 분리).
+    각 숫자는 <b>중복 제외한 회원 수</b> (한 사람이 여러 번 눌러도 1명). 5/19 (1차)는 이벤트 미적재로 paid_info만 표기.
   </div>
   <div class="card">
     <table class="data-table">
@@ -377,20 +445,14 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num">10</td>
           <td class="num">27</td>
         </tr>
-        <tr style="background:#fef3c7">
-          <td class="dt">5/19 (1차, ~15:50)<br><span style="font-size:11px;color:#92400e;font-weight:600">이벤트 5/20 적재 예정. paid_info만 수락 14건 / 매출 68,600원 / 부담 182,120원</span></td>
-          <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#9ca3af">—</td>
-        </tr>
-        <tr style="background:#fef3c7;border-top:2px solid #f59e0b">
-          <td class="dt">5/19 (2차, 15:50~)<br><span style="font-size:11px;color:#92400e;font-weight:600">이벤트 5/20 적재 예정. paid_info만 수락 1건 / 매출 4,900원 / 부담 16,110원 · 진행 중</span></td>
-          <td class="num" style="color:#9ca3af">—</td>
+        <tr style="background:#fafafa">
+          <td class="dt">5/19 (~15:50)<br><span style="font-size:11px;color:#9ca3af;font-weight:400">이벤트 5/20 적재 예정 · paid_info만 수락 14건</span></td>
+          <td class="num" style="color:#9ca3af">— <span style="font-size:10px;color:#9ca3af;font-weight:400">(5/20 적재 후)</span></td>
           <td class="num" style="color:#9ca3af">—</td>
           <td class="num" style="color:#9ca3af">—</td>
         </tr>
         <tr class="total">
-          <td class="dt">1차 구간 누계 (5/13~5/18, 이벤트 완전 적재)</td>
+          <td class="dt">누계 (5/13~5/18, 이벤트 완전 적재)</td>
           <td class="num">142</td>
           <td class="num">56</td>
           <td class="num">133</td>
@@ -410,7 +472,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="cond-list">
       <div class="cond-item"><span class="cond-num">1</span><span class="cond-text"><b>실험군 회원만 (전체의 50%)</b><span class="why">A/B 비교를 위해 회원의 절반에게만 노출. 나머지 절반은 대조군이라 옵션 화면 자체가 안 뜸.</span></span></div>
       <div class="cond-item"><span class="cond-num">2</span><span class="cond-text"><b>왕복 예약만 (편도·도어투도어 제외)</b><span class="why">출발지에서 빌리고 같은 출발지로 반납하는 예약만 대상. 편도나 D2D는 시간연장 정책이 다름.</span></span></div>
-      <div class="cond-item" style="background:#fffbeb;border:1px solid #fde68a"><span class="cond-num" style="background:#b45309">3</span><span class="cond-text"><b>리드타임 조건 — 1차/2차 차이</b><span class="why" style="line-height:1.8">· <b style="color:#374151">1차 (~5/19 15:50):</b> 예약 만든 날 바로 차를 빌리는 경우만 (당일 출발)<br>· <b style="color:#b45309">2차 (5/19 15:50~):</b> 출발 시각 24시간 이내에 예약을 생성한 경우 (출발 전날 ~ 당일 모두 포함)<br>이전엔 가장 강한 필터였고, 완화 후 모수 약 1.2배 확대 예상.</span></span></div>
+      <div class="cond-item" style="background:#fffbeb;border:1px solid #fde68a"><span class="cond-num" style="background:#b45309">3</span><span class="cond-text"><b>리드타임 조건 — 1차/2차 차이</b><span class="why" style="line-height:1.8">· <b style="color:#374151">1차 (~5/19 15:50):</b> 예약 만든 날 바로 차를 빌리는 경우만 (당일 출발)<br>· <b style="color:#b45309">2차 (5/19 15:50~):</b> 출발 시각 24시간 이내에 예약을 생성한 경우 (출발 전날 ~ 당일 모두 포함)</span></span></div>
       <div class="cond-item"><span class="cond-num">4</span><span class="cond-text"><b>출발 9~15시 사이 / 반납 15~20시 사이</b><span class="why">자정까지 충분히 연장 가능한 시간대만 노출. 너무 늦게 출발하거나 너무 일찍 반납하는 케이스 제외.</span></span></div>
       <div class="cond-item"><span class="cond-num">5</span><span class="cond-text"><b>토요일 출발 제외</b><span class="why">토요일에 출발하는 예약은 대상 아님.</span></span></div>
       <div class="cond-item"><span class="cond-num">6</span><span class="cond-text"><b>예약 길이 4~24시간 사이</b><span class="why">너무 짧거나 너무 긴 예약은 대상 아님.</span></span></div>
@@ -421,12 +483,11 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
 
-  <!-- ④ 환불 분해 -->
-  <div class="section-label">결제와 환불 분해 — 실제 수락 건수 정밀 집계 (1차/2차 phase 표기) <span class="tag tag-fact">실측</span></div>
+  <!-- 1차 구간 결제·환불 분해 -->
+  <div class="section-label">1차 구간 결제·환불 분해</div>
   <div class="section-explain">
-    한 예약에서 결제 후 환불되면 결제 내역에 <b>두 개의 행</b>이 모두 들어옴 (결제 +금액, 환불 -금액).<br>
-    단순히 "결제 행 개수"만 세면 환불을 무시하게 됨.<br>
-    <b>한 예약 단위로 합쳐서 합계가 양수인 경우만 진짜 수락</b>으로 봐야 정확함.
+    한 예약에서 결제 후 환불되면 paid_info에 결제(+)와 환불(-) 두 행이 모두 들어옴.<br>
+    <b>한 예약 단위로 합쳐서 합계가 양수인 경우만 실제 수락</b>으로 카운트.
   </div>
   <div class="card">
     <table class="data-table">
@@ -437,108 +498,75 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <th class="num">환불 행 (-)<br><span class="col-sub">그 결제가 환불된 예약 수</span></th>
           <th class="num">실제 수락 예약<br><span class="col-sub">결제 합계가 양수인 예약</span></th>
           <th class="num">매출 증분<br><span class="col-sub">4,900원 × 실제 수락 건수</span></th>
-          <th class="num">회사 할인 부담<br><span class="col-sub">수락 예약의 결제 합계</span></th>
+          <th class="num"><span style="color:#9ca3af;font-weight:600">회사 할인 비용</span><br><span class="col-sub">수락 예약의 차액 합계</span></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="dt">5/13</td>
+          <td class="dt">5/13<br><span style="font-size:11px;color:#9ca3af;font-weight:400">결제 3건 모두 net 0 (환불 처리)</span></td>
           <td class="num">3</td>
-          <td class="num" style="color:#b91c1c;font-weight:700">3</td>
-          <td class="num" style="color:#b91c1c;font-weight:700">0</td>
-          <td class="num" style="color:#b91c1c">0원</td>
-          <td class="num" style="color:#b91c1c">0원</td>
+          <td class="num" style="color:#9ca3af;font-weight:600">3</td>
+          <td class="num" style="color:#6b7280;font-weight:700">0</td>
+          <td class="num" style="color:#6b7280">0원</td>
+          <td class="num" style="color:#9ca3af">0원</td>
         </tr>
         <tr>
           <td class="dt">5/14</td>
           <td class="num">13</td>
-          <td class="num" style="color:#b45309;font-weight:700">4</td>
+          <td class="num" style="color:#9ca3af;font-weight:600">4</td>
           <td class="num" style="color:#059669;font-weight:700">9</td>
           <td class="num" style="color:#059669">44,100원</td>
-          <td class="num" style="color:#b45309">142,080원</td>
+          <td class="num" style="color:#9ca3af">142,080원</td>
         </tr>
         <tr>
           <td class="dt">5/15</td>
           <td class="num">12</td>
-          <td class="num" style="color:#b45309;font-weight:700">2</td>
+          <td class="num" style="color:#9ca3af;font-weight:600">2</td>
           <td class="num" style="color:#059669;font-weight:700">10</td>
           <td class="num" style="color:#059669">49,000원</td>
-          <td class="num" style="color:#b45309">260,420원</td>
+          <td class="num" style="color:#9ca3af">260,420원</td>
         </tr>
         <tr>
           <td class="dt">5/17</td>
           <td class="num">12</td>
-          <td class="num" style="color:#b45309;font-weight:700">3</td>
+          <td class="num" style="color:#9ca3af;font-weight:600">3</td>
           <td class="num" style="color:#059669;font-weight:700">9</td>
           <td class="num" style="color:#059669">44,100원</td>
-          <td class="num" style="color:#b45309">69,120원</td>
+          <td class="num" style="color:#9ca3af">69,120원</td>
         </tr>
         <tr>
           <td class="dt">5/18</td>
           <td class="num">6</td>
-          <td class="num" style="color:#9ca3af;font-weight:700">0</td>
+          <td class="num" style="color:#9ca3af;font-weight:600">0</td>
           <td class="num" style="color:#059669;font-weight:700">6</td>
           <td class="num" style="color:#059669">29,400원</td>
-          <td class="num" style="color:#b45309">65,880원</td>
+          <td class="num" style="color:#9ca3af">65,880원</td>
         </tr>
-        <tr style="background:#fef3c7">
-          <td class="dt">5/19 (1차, ~15:50)<br><span style="font-size:11px;color:#92400e;font-weight:600">조건 완화 직전까지</span></td>
+        <tr style="background:#fafafa">
+          <td class="dt">5/19 (~15:50)<br><span style="font-size:11px;color:#9ca3af;font-weight:400">진행 중 (1차 종료 시각까지)</span></td>
           <td class="num">17</td>
-          <td class="num" style="color:#b45309;font-weight:700">3</td>
+          <td class="num" style="color:#9ca3af;font-weight:600">3</td>
           <td class="num" style="color:#059669;font-weight:700">14</td>
           <td class="num" style="color:#059669">68,600원</td>
-          <td class="num" style="color:#b45309">182,120원</td>
-        </tr>
-        <tr style="background:#fff7ed;border-top:2px solid #f59e0b">
-          <td class="dt">5/19 (2차, 15:50~)<br><span style="font-size:11px;color:#b45309;font-weight:600">조건 완화 후 · 진행 중</span></td>
-          <td class="num">1</td>
-          <td class="num" style="color:#9ca3af;font-weight:700">0</td>
-          <td class="num" style="color:#059669;font-weight:700">1</td>
-          <td class="num" style="color:#059669">4,900원</td>
-          <td class="num" style="color:#b45309">16,110원</td>
+          <td class="num" style="color:#9ca3af">182,120원</td>
         </tr>
         <tr class="total">
-          <td class="dt">1차 누계 (5/13~5/19 15:50)</td>
+          <td class="dt">1차 구간 누계 (5/13 ~ 5/19 15:50)</td>
           <td class="num">63</td>
           <td class="num">15</td>
           <td class="num">48</td>
           <td class="num">235,200원</td>
-          <td class="num">719,620원</td>
-        </tr>
-        <tr class="total" style="background:#fff7ed">
-          <td class="dt">전체 누계 (1차 + 2차)</td>
-          <td class="num">64</td>
-          <td class="num">15</td>
-          <td class="num">49</td>
-          <td class="num">240,100원</td>
-          <td class="num">735,730원</td>
+          <td class="num" style="color:#6b7280">719,620원</td>
         </tr>
       </tbody>
     </table>
-    <div class="example">
-      <div class="example-label">왜 5/13 결제 3건 → 실제 수락 0건이 되는 건가요</div>
-      <div class="example-body">
-        5/13에 들어온 시간연장 결제 행을 모두 보면 결제와 환불이 짝지어서 들어와 있음.
-        <table>
-          <thead>
-            <tr>
-              <th>예약 ID</th>
-              <th>결제 금액 (+)</th>
-              <th>환불 금액 (-)</th>
-              <th>합계</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>91647418</td><td style="color:#059669;font-weight:700">+5,830원</td><td style="color:#b91c1c;font-weight:700">-5,830원</td><td><b>0원</b></td></tr>
-            <tr><td>91647855</td><td style="color:#059669;font-weight:700">+6,650원</td><td style="color:#b91c1c;font-weight:700">-6,650원</td><td><b>0원</b></td></tr>
-            <tr><td>91647989</td><td style="color:#059669;font-weight:700">+6,650원</td><td style="color:#b91c1c;font-weight:700">-6,650원</td><td><b>0원</b></td></tr>
-            <tr style="background:#f9fafb;font-weight:700"><td>합계</td><td>+19,130원</td><td>-19,130원</td><td>0원</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:10px;padding:10px 12px;background:#f0f9ff;border-radius:6px;font-size:12px;color:#0c4a6e;line-height:1.7;border-left:3px solid #3b82f6">
-          5/13의 3건 예약 모두 같은 금액으로 환불 처리되어 합계가 0원. 따라서 매출 증분도 0원, 회사 부담도 0원으로 봐야 정확함.
-        </div>
-      </div>
+  </div>
+
+  <!-- 5/13 환불 케이스 부연 -->
+  <div class="example" style="margin-top:0">
+    <div class="example-label">5/13 결제 3건이 모두 수락 0건이 된 이유</div>
+    <div class="example-body">
+      5/13 시간연장 결제 행 3건이 모두 같은 시각에 동일 금액으로 환불 처리됨 (net 0). 위 표의 "실제 수락 예약" 컬럼은 reservation 단위로 net&gt;0인 건만 카운트하기 때문에 5/13은 0건으로 집계됨.
     </div>
   </div>
 
@@ -552,14 +580,13 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
   </div>
 
-  <!-- ⑧ 누계 요약 -->
-  <div class="section-label">현재까지 누계 요약 <span class="tag tag-info">표/차트 종합</span></div>
+  <!-- 누계 요약 -->
+  <div class="section-label">현재까지 누계 요약</div>
   <div class="summary-block">
     <div class="intro">
-      <b>1차 구간 (5/13 14:09:30 ~ 5/18, 이벤트 완전 적재)</b>: view 142명, 실제 수락 34건 (수락률 23.9%), 매출 증분 166,600원, 회사 부담 537,500원.<br>
-      <b>5/19 1차 (~15:50, paid_info만)</b>: 추가 수락 14건 / 68,600원 / 182,120원.
-      <b>5/19 2차 (15:50~, 진행 중)</b>: 수락 1건 / 4,900원 / 16,110원.<br>
-      paid 기준 전체 누적 (5/13~5/19): <b>수락 49건 / 매출 240,100원 / 회사 부담 735,730원</b>. 2차 구간 view UV·수락률은 5/20 이벤트 적재 후 산정.
+      <b>2차 구간 (5/19 15:50 ~ 진행 중)</b>: paid_info 기준 수락 1건 / 매출 4,900원. view UV·수락률은 5/20 이벤트 적재 후 산정.<br>
+      <b>1차 구간 (5/13 ~ 5/19 15:50, 종료)</b>: 이벤트 완전 적재 5/13~5/18 누계 view 142명 / 수락 34건 / 수락률 23.9% / 매출 166,600원. paid_info 기준 1차 전체 누계 (5/19 1차 14건 포함) 수락 48건 / 매출 235,200원.<br>
+      <b>1차 + 2차 paid 전체 누적 (5/13~5/19)</b>: 수락 49건 / 매출 240,100원.
     </div>
     <div class="finding-list">
       <div class="finding-item">
@@ -568,9 +595,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <div class="title">수락 카운트 시 환불 분리 주의</div>
         </div>
         <div class="body">
-          한 예약에서 결제 후 환불되면 paid_info에 결제(+)와 환불(-) 두 행이 모두 들어옴.<br>
-          <b>한 예약 단위로 합계가 양수일 때만 실제 수락</b>으로 봐야 정확.<br>
-          5/13~5/19 paid_info 기준 결제 64건 중 15건 환불 → 실제 수락 49건. 상세는 위 "결제와 환불 분해" 섹션 참고.
+          한 예약에서 결제 후 환불되면 paid_info에 결제(+)와 환불(-) 두 행이 모두 들어옴.
+          <b>한 예약 단위로 합계가 양수일 때만 실제 수락</b>으로 카운트.
+          5/13~5/19 paid 결제 64건 중 15건 환불 → 실제 수락 49건.
         </div>
       </div>
     </div>
