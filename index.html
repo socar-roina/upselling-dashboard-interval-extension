@@ -204,10 +204,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
   <div class="updated">
-    <div style="font-weight:700;color:#111827;margin-bottom:4px">데이터 반영 범위</div>
-    옵션 화면 본 데이터: <b>~ 2026-05-18 23:59</b><br>
-    수락·매출 데이터: <b>~ 2026-05-19 20:55</b> (실시간)<br>
-    <span style="color:#9ca3af">※ 5/19 옵션 화면 본 데이터는 5/20 반영</span>
+    최종 갱신: <b>2026-05-19 20:55 KST</b><br>
+    <span style="color:#9ca3af">※ 옵션 화면 본 회원 수는 D+1 반영. 5/19분은 5/20에 채워짐</span>
   </div>
 </div>
 
@@ -316,12 +314,19 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
 
-  <!-- 일별 통합 표 (2차 → 1차 역순) -->
-  <div class="section-label">일별 집계</div>
-  <div class="section-explain">
-    실제 수락 = paid_info reservation 단위 net&gt;0 카운트 (환불 자동 제외). 회사 할인 비용은 매출 sub로 표기.
-  </div>
+  <!-- 일별 추이 차트 (메인) -->
+  <div class="section-label">일별 추이</div>
   <div class="card">
+    <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+  </div>
+
+  <!-- 일별 상세 수치 (접힘) -->
+  <details style="margin-top:14px;background:white;border:1px solid #e5e7eb;border-radius:12px;padding:16px 22px">
+    <summary style="font-size:13px;font-weight:700;color:#374151;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between">
+      <span>일별 상세 수치 (1차/2차 phase 분리)</span>
+      <span style="font-size:11px;color:#9ca3af;font-weight:500">▼ 펼치기</span>
+    </summary>
+    <div style="margin-top:14px">
     <table class="data-table">
       <thead>
         <tr>
@@ -409,13 +414,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <!-- 일별 차트 -->
-  <div class="section-label">일별 추이 차트</div>
-  <div class="card">
-    <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
-  </div>
+    </div>
+  </details>
 
   <!-- 노출 조건 (접힘) -->
   <details style="margin-top:24px;background:white;border:1px solid #e5e7eb;border-radius:12px;padding:16px 22px">
@@ -508,12 +508,10 @@ ORDER BY dt</div>
 new Chart(document.getElementById('dailyChart'), {
   type: 'bar',
   data: {
-    labels: ['5/13 (14:09:30~)', '5/14', '5/15', '5/17', '5/18', '5/19 (1차, ~15:50)', '5/19 (2차, 15:50~)'],
+    labels: ['5/13', '5/14', '5/15', '5/17', '5/18', '5/19 (1차)', '5/19 (2차)'],
     datasets: [
-      { label: '옵션 화면 본 회원',         data: [5, 36, 41, 33, 29, null, null], backgroundColor: '#93c5fd' },
-      { label: '시간연장 카드 누른 회원',    data: [3, 10, 16, 19, 10, null, null], backgroundColor: '#a78bfa' },
-      { label: '결제 버튼 누른 회원',        data: [3, 35, 38, 32, 27, null, null], backgroundColor: '#6ee7b7' },
-      { label: '실제 수락 (환불 제외)',      data: [0, 9, 10, 9, 6, 14, 1],         backgroundColor: '#fbbf24' },
+      { label: '옵션 화면 본 회원',  data: [5, 36, 41, 33, 29, null, null], backgroundColor: '#93c5fd' },
+      { label: '실제 수락 (환불 제외)', data: [0, 9, 10, 9, 6, 14, 1],     backgroundColor: '#fbbf24' },
     ]
   },
   options: {
