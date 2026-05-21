@@ -199,13 +199,14 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <div>
     <h1>업셀링 시간연장 실험 모니터링 대시보드</h1>
     <div class="meta">
-      차를 빌리려는 사용자에게 결제 직전 시간연장 옵션을 보여주는 실험의 성과 추적용.<br>
-      어떤 화면이 얼마나 떠서 / 사용자가 어떻게 행동했고 / 실제로 회사에 얼마의 추가 매출이 발생했는지 확인.
+      차를 빌리려는 사용자에게 결제 직전 시간연장 옵션을 보여주는 실험의 성과 추적용<br>
+      옵션 화면이 얼마나 떴고, 사용자가 어떻게 행동했고, 실제로 회사에 얼마의 추가 매출이 발생했는지 확인
     </div>
   </div>
   <div class="updated">
     최종 갱신: <b>2026-05-21 20:50 KST</b><br>
-    <span style="color:#9ca3af">※ 5/20 적재 완료, 5/21 옵션 화면 본 회원 수는 5/22 반영 예정 (paid_info는 실시간)</span>
+    <span style="color:#9ca3af">옵션 화면 노출 수치는 5/20까지 적재 완료, 5/21 분은 5/22에 반영 예정</span><br>
+    <span style="color:#9ca3af">결제·환불 수치는 실시간 반영</span>
   </div>
 </div>
 
@@ -218,11 +219,17 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <div class="o-block">
       <div class="lbl">누구에게 노출</div>
-      <div class="val">전체 회원 절반(B군 실험군)에게만 노출. 나머지 절반(A군 대조군)은 옵션 화면 미노출, 일반 결제로 진행</div>
+      <div class="val">
+        전체 회원의 절반(B군, 실험군)에게만 노출<br>
+        나머지 절반(A군, 대조군)은 옵션 화면을 보지 않고 일반 결제로 진행
+      </div>
     </div>
     <div class="o-block">
       <div class="lbl">노출 시점 조건</div>
-      <div class="val">결제 직전 시점에 <b>자정까지 그 차량이 비어있을 때만</b> 노출 (그 외 8개 조건 추가). 노출 조건 상세는 하단 펼침</div>
+      <div class="val">
+        결제 직전 시점에 <b>자정까지 그 차량이 비어있을 때만</b> 노출<br>
+        그 외 8가지 조건이 더 있음 (상세는 하단 펼침)
+      </div>
     </div>
   </div>
 </div>
@@ -241,8 +248,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div class="name">리드타임 24h 이내</div>
         <div class="range">2026-05-19 15:50 KST ~ 현재 (약 2.2일)</div>
         <div class="meta">
-          노출 대상: 출발 시각 24시간 이내 생성된 예약. 다른 8개 조건 동일.<br>
-          예정 종료: <b>2026-06-03 00:00 KST</b> (시작일 +14d, 공휴일 보정 없음)
+          노출 대상은 출발 시각 24시간 이내에 생성된 예약 (다른 8개 조건은 동일)<br>
+          예정 종료: <b>2026-06-03 00:00 KST</b> (시작일에서 14일 후, 공휴일 보정 없음)
         </div>
       </div>
       <div class="phase-block phase-before">
@@ -250,7 +257,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div class="name">당일 생성 + 당일 출발</div>
         <div class="range">2026-05-13 14:09:30 ~ 2026-05-19 15:50 KST (약 6일)</div>
         <div class="meta">
-          노출 대상: 예약 만든 날 바로 출발하는 예약. 다른 8개 조건 동일.
+          노출 대상은 예약 만든 날 바로 출발하는 예약 (다른 8개 조건은 동일)
         </div>
       </div>
     </div>
@@ -286,8 +293,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </div>
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+117%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
-          1차는 평일 4일 일별합을 4로 나눈 값<br>
-          2차는 5/19와 5/20 일별합을 1.34일로 나눈 값
+          1차는 평일 4일 합계를 4로 나눈 값<br>
+          2차는 5/19와 5/20 합계를 약 1.34일로 나눈 값
         </div>
       </div>
       <!-- 수락 -->
@@ -301,13 +308,13 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </div>
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+113%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
-          1차는 평일 4일 누계를 4로 나눈 값<br>
-          2차는 누적을 2.21일로 나눈 값 (5/21 paid 포함)
+          1차는 평일 4일 합계를 4로 나눈 값<br>
+          2차는 누적을 약 2.21일로 나눈 값 (5/21 결제 데이터 포함)
         </div>
       </div>
       <!-- 수락률 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:16px 18px">
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">수락률 (질 유지 확인)</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">수락률 (질이 유지됐는지)</div>
         <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">25.8%</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
@@ -316,7 +323,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div style="display:inline-block;background:#dbeafe;color:#1e40af;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">유지</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
           노출이 2배로 늘어도 수락 비율은 거의 동일하게 유지됨<br>
-          모수 확장 자체가 효과적임을 보여주는 지표
+          노출 대상을 넓혔지만 질이 떨어지지 않았다는 의미
         </div>
       </div>
       <!-- 매출 -->
@@ -338,7 +345,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <!-- 가동 전환 시간 (본 목적) -->
       <div style="background:white;border:2px solid #fbbf24;border-radius:10px;padding:16px 18px;position:relative">
         <div style="position:absolute;top:-8px;right:10px;background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:0.04em">본 목적</div>
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 유휴→가동 전환</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">하루 평균 차량 이용 시간 증가</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">31.4</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
@@ -347,8 +354,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </div>
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+128%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
-          유휴 차량이 가동(예약 점유) 상태로 전환된 시간<br>
-          reservation_info에서 reserved_end_at에서 end_at을 뺀 값
+          비어있던 차량이 시간연장으로 실제 이용된 시간<br>
+          최종 반납 시각에서 원래 반납 시각을 뺀 차이의 합
         </div>
       </div>
     </div>
@@ -356,14 +363,14 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <!-- 비교 기간 명시 -->
     <div style="margin-top:14px;padding:12px 16px;background:white;border-radius:8px;font-size:11px;color:#6b7280;line-height:1.8;display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div>
-        <b style="color:#374151">1차 baseline</b><br>
-        평일 4일 (5/14, 5/15, 5/17, 5/18)<br>
-        토요일과 부분일은 제외
+        <b style="color:#374151">1차 비교 기준</b><br>
+        평일 4일치 데이터만 사용 (5/14, 5/15, 5/17, 5/18)<br>
+        토요일과 부분일은 비교에서 제외
       </div>
       <div>
         <b style="color:#b45309">2차 누적</b><br>
         5/19 15:50부터 5/21 20:46까지 약 2.21일<br>
-        일별 노출은 5/21만 미적재
+        5/21 옵션 화면 노출 수치만 아직 적재 안 됨
       </div>
     </div>
   </div>
@@ -375,43 +382,43 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <span class="tag tag-fact">FACT</span>
   </div>
   <div class="section-explain">
-    이번 실험의 본 목적은 유휴 차량의 점유 시간을 늘리는 것임<br>
-    "수락 건수"는 결과 지표이고 진짜 측정 대상은 그로 인해 차량이 실제로 몇 시간 더 가동됐는가임<br>
-    산출 정의는 reservation_info에서 reserved_end_at(최종 반납)에서 end_at(원래 반납)을 뺀 시간 차이
+    이번 실험의 본래 목적은 비어있는 차량의 이용 시간을 늘리는 것<br>
+    "수락 건수"는 결과 지표일 뿐이고 진짜 봐야 할 것은 그래서 차량이 실제로 몇 시간 더 이용됐는가<br>
+    산출 방법은 예약 정보에서 <b>최종 반납 시각</b>에서 <b>원래 반납 시각</b>을 뺀 시간 차이의 합
   </div>
   <div class="card" style="background:#fffbeb;border-color:#fde68a;padding:22px 26px">
     <div style="display:grid;grid-template-columns:1.1fr 1.1fr 1fr;gap:14px">
       <!-- 누적 가동 전환 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">누적 유휴→가동 전환 시간</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">누적 차량 이용 시간 증가량</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
           <span style="font-size:36px;font-weight:900;color:#059669;line-height:1">337</span>
           <span style="font-size:14px;color:#6b7280;font-weight:600">시간</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;color:#6b7280;line-height:1.6">
-          <div><b style="color:#374151">1차 (6일)</b><br>178.5h</div>
-          <div><b style="color:#b45309">2차 (2.21일)</b><br>158.5h</div>
+          <div><b style="color:#374151">1차 (6일)</b><br>178.5 시간</div>
+          <div><b style="color:#b45309">2차 (약 2.21일)</b><br>158.5 시간</div>
         </div>
       </div>
       <!-- 일평균 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">일평균 가동 전환 페이스</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">하루 평균 가동 전환 시간</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
-          <span style="font-size:13px;color:#9ca3af;font-weight:600">29.8</span>
+          <span style="font-size:13px;color:#9ca3af;font-weight:600">31.4</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
           <span style="font-size:30px;font-weight:900;color:#059669;line-height:1">71.7</span>
           <span style="font-size:12px;color:#6b7280;font-weight:600">시간/일</span>
         </div>
-        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px;margin-bottom:8px">+141%</div>
+        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px;margin-bottom:8px">+128%</div>
         <div style="font-size:10px;color:#9ca3af;line-height:1.7">
-          1차는 6일 누계 178.5시간을 6으로 나눈 값<br>
-          2차는 158.5시간을 2.21일로 나눈 값<br>
-          조건 완화로 페이스 약 2.4배 증가
+          위 5지표 카드와 동일한 기준 사용<br>
+          1차는 평일 4일 합계(125.5시간)를 4로 나눈 값<br>
+          2차는 158.5시간을 2.21일로 나눈 값
         </div>
       </div>
       <!-- 평균 연장 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">건당 평균 연장 시간</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">한 건당 평균 연장 시간</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">3.8</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
@@ -420,25 +427,24 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </div>
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px;margin-bottom:8px">+26%</div>
         <div style="font-size:10px;color:#9ca3af;line-height:1.7">
-          조건 완화로 더 긴 연장도 수용 가능해짐<br>
-          건수만 늘어난 것이 아니라 건당 연장 길이도 함께 늘어남
+          수락 건수만 늘어난 게 아니라 한 건당 연장 길이도 함께 늘어남
         </div>
       </div>
     </div>
     <!-- 의미 해석 -->
     <div style="margin-top:14px;padding:14px 18px;background:white;border-radius:8px;font-size:12px;color:#374151;line-height:1.9">
       <div style="font-weight:800;color:#92400e;margin-bottom:6px">의미</div>
-      단순 매출 지표 외에 본 목적 관점에서도 효과가 확인됨<br>
-      유휴 슬롯이 가동 슬롯으로 전환된 절대 시간이 일평균 141% 증가<br>
-      수락 건수만 늘어난 것이 아니라 건당 연장 길이도 26% 함께 증가<br>
-      슬롯 활용 효율이 건수와 길이 양쪽에서 동시에 개선됨
+      매출 지표 외에 본래 목적이었던 차량 활용도 측면에서도 효과가 확인됨<br>
+      차량이 비어있던 시간이 실제 이용 시간으로 전환된 양이 하루 평균 128% 증가<br>
+      수락 건수만 늘어난 게 아니라 한 건당 연장 길이도 26% 함께 증가<br>
+      차량 활용도가 건수와 시간 길이 양쪽에서 동시에 개선됨
     </div>
     <!-- caveat -->
     <div style="margin-top:8px;padding:12px 16px;background:#fffbeb;border-radius:6px;font-size:11px;color:#92400e;line-height:1.9">
-      <div style="font-weight:800;margin-bottom:4px">비교 범위 안내</div>
-      공용 시트의 가동률(%)은 전국 인벤토리 약 15,790대 기준 광역 지표<br>
-      본 카드 수치는 시간연장 실험 노출 슬롯에 한정한 절대 시간 단위<br>
-      같은 원천(예약 점유 시간) 기반이지만 측정 단위가 달라 % 직접 비교는 불가
+      <div style="font-weight:800;margin-bottom:4px">공용 시트(#가동률)와 비교가 안 되는 이유</div>
+      공용 시트의 가동률(%)은 전국 보유 차량 약 15,790대 전체를 기준으로 잡은 평균값<br>
+      이 카드 수치는 시간연장 옵션이 노출된 예약에 한정해서 추가로 발생한 절대 시간<br>
+      두 지표 모두 예약 점유 시간을 본다는 점은 같지만 측정 단위가 달라 % 직접 비교는 불가
     </div>
   </div>
 
@@ -449,34 +455,34 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
   <div class="section-explain">
     옵션 화면 본 회원과 카드 누른 회원 수는 5/19와 5/20 적재 완료분만 집계 (5/21은 5/22 적재 예정)<br>
-    실제 수락 건수와 매출은 5/19, 5/20, 5/21 paid_info 실시간 반영<br>
+    실제 수락 건수와 매출은 5/19, 5/20, 5/21 결제 데이터 실시간 반영<br>
     수락률 계산은 5/19와 5/20만 사용함 (5/21은 노출 회원 수가 아직 없어서 비율을 낼 수 없음)
   </div>
   <div class="kpi-row">
     <div class="kpi">
       <div class="lbl">옵션 화면을 본 사람</div>
       <div class="num blue">99 <span class="unit">명</span></div>
-      <div class="sub">5/19+5/20 중복 제외 회원 수<br>(5/21 미적재)</div>
+      <div class="sub">5/19와 5/20 중복 제외 회원 수<br>(5/21은 아직 적재 안 됨)</div>
     </div>
     <div class="kpi">
       <div class="lbl">시간연장 카드를 눌러본 사람</div>
       <div class="num purple">42 <span class="unit">명</span></div>
-      <div class="sub">5/19+5/20 옵션 카드를 직접 누른 회원<br>(5/21 미적재)</div>
+      <div class="sub">5/19와 5/20 옵션 카드를 직접 누른 회원<br>(5/21은 아직 적재 안 됨)</div>
     </div>
     <div class="kpi">
       <div class="lbl">실제 수락 예약<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
       <div class="num green">40 <span class="unit">건</span></div>
-      <div class="sub">5/19+5/20+5/21 paid_info net&gt;0 reservation<br>(적재 완료 24 + 5/21 진행 중 16)</div>
+      <div class="sub">5/19, 5/20, 5/21 결제 데이터 기준<br>(적재 완료 24건 + 5/21 진행 중 16건)</div>
     </div>
     <div class="kpi">
-      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(분모·분자 기간 일치)</span></div>
+      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 본 회원 중 수락한 비율)</span></div>
       <div class="num amber">24.2 <span class="unit">%</span></div>
-      <div class="sub">24 ÷ 99 (5/19+5/20 기준)<br>(카드 누른 42명 기준: 57.1%)</div>
+      <div class="sub">24 ÷ 99 (5/19와 5/20만 사용)<br>(카드 누른 42명 기준으로는 57.1%)</div>
     </div>
     <div class="kpi">
-      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
+      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락당 4,900원 적용)</span></div>
       <div class="num green">196,000 <span class="unit">원</span></div>
-      <div class="sub">5/19+5/20+5/21 누적<br>(40건 × 4,900원)</div>
+      <div class="sub">5/19, 5/20, 5/21 누적<br>(40건 × 4,900원)</div>
     </div>
   </div>
 
@@ -487,7 +493,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     조건 완화 전 핵심 지표 (5/13 14:09 ~ 5/19 15:50, 종료)
   </div>
   <div class="section-explain">
-    1차 구간 전체 누계 (약 6일치, 이벤트 완전 적재).
+    1차 구간 전체 누계 (약 6일치 데이터 완전 적재 상태)
   </div>
   <div class="kpi-row">
     <div class="kpi">
@@ -503,15 +509,15 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="kpi">
       <div class="lbl">실제 수락 예약<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
       <div class="num green">48 <span class="unit">건</span></div>
-      <div class="sub">paid_info net&gt;0 reservation 단위</div>
+      <div class="sub">결제 데이터에서 환불 차감 후 남은 예약 수</div>
     </div>
     <div class="kpi">
-      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(옵션 화면 본 사람 기준)</span></div>
+      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 본 회원 중 수락한 비율)</span></div>
       <div class="num amber">25.8 <span class="unit">%</span></div>
-      <div class="sub">48 ÷ 186<br>(카드 누른 77명 기준: 62.3%)</div>
+      <div class="sub">48 ÷ 186<br>(카드 누른 77명 기준으로는 62.3%)</div>
     </div>
     <div class="kpi">
-      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
+      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락당 4,900원 적용)</span></div>
       <div class="num green">235,200 <span class="unit">원</span></div>
       <div class="sub">6일치 누계</div>
     </div>
@@ -526,7 +532,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- 일별 상세 수치 (접힘) -->
   <details style="margin-top:14px;background:white;border:1px solid #e5e7eb;border-radius:12px;padding:16px 22px">
     <summary style="font-size:13px;font-weight:700;color:#374151;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between">
-      <span>일별 상세 수치 (1차/2차 phase 분리)</span>
+      <span>일별 상세 수치 (1차/2차 구간 분리)</span>
       <span style="font-size:11px;color:#9ca3af;font-weight:500">▼ 펼치기</span>
     </summary>
     <div style="margin-top:14px">
@@ -559,7 +565,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num" style="color:#059669">88,200원</td>
         </tr>
         <tr style="background:#fffbeb">
-          <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/19 (15:50~)</td>
+          <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/19 (15:50 이후)</td>
           <td class="num">25</td>
           <td class="num">9</td>
           <td class="num" style="color:#059669;font-weight:700">6</td>
@@ -568,7 +574,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </tr>
         <tr><td colspan="6" style="padding:6px 14px;background:#f9fafb;font-size:11px;color:#6b7280;border-bottom:1px solid #e5e7eb"><span style="background:#e5e7eb;color:#374151;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">1차</span> 조건 완화 전 (5/13 14:09 ~ 5/19 15:50, 종료)</td></tr>
         <tr>
-          <td class="dt">5/19 (~15:50)</td>
+          <td class="dt">5/19 (15:50 이전)</td>
           <td class="num">48</td>
           <td class="num">21</td>
           <td class="num" style="color:#059669;font-weight:700">14</td>
@@ -592,7 +598,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num" style="color:#059669">44,100원</td>
         </tr>
         <tr style="background:#fafafa">
-          <td class="dt">5/16<br><span style="font-size:11px;color:#9ca3af;font-weight:400">토요일 — 노출 정책상 제외</span></td>
+          <td class="dt">5/16<br><span style="font-size:11px;color:#9ca3af;font-weight:400">토요일 (노출 정책상 제외)</span></td>
           <td class="num" style="color:#9ca3af">0</td>
           <td class="num" style="color:#9ca3af">0</td>
           <td class="num" style="color:#9ca3af">0</td>
@@ -616,7 +622,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num" style="color:#059669">44,100원</td>
         </tr>
         <tr>
-          <td class="dt">5/13<br><span style="font-size:11px;color:#9ca3af;font-weight:400">14:09부터 (배포 직후 약 10시간)<br>결제 3건이지만 net 0</span></td>
+          <td class="dt">5/13<br><span style="font-size:11px;color:#9ca3af;font-weight:400">14:09부터 (배포 직후 약 10시간)<br>결제 3건이지만 모두 환불되어 합계 0</span></td>
           <td class="num">5</td>
           <td class="num">3</td>
           <td class="num" style="color:#6b7280;font-weight:700">0</td>
@@ -644,20 +650,21 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </summary>
     <div style="margin-top:14px">
       <div class="section-explain" style="margin-bottom:12px">
-        결제 직전 화면에서 "이 사용자에게 시간연장 옵션을 보여줄지" 판단하는 정책. <b>9가지 조건 전부 통과 시에만</b> 옵션 화면 노출.<br>
-        <b>5/19 15:50 배포로 조건 ③ "리드타임"만 완화</b>, 나머지 8개는 그대로 유지.
+        결제 직전 화면에서 이 사용자에게 시간연장 옵션을 보여줄지 판단하는 정책<br>
+        9가지 조건을 전부 통과해야 옵션 화면이 노출됨<br>
+        5/19 15:50 배포로 3번 리드타임 조건만 완화됐고 나머지 8개는 그대로 유지
       </div>
       <div class="cond-list">
-        <div class="cond-item"><span class="cond-num">1</span><span class="cond-text"><b>실험군 회원만 (전체의 50%)</b><span class="why">A/B 비교를 위해 회원의 절반에게만 노출. 나머지 절반은 대조군이라 옵션 화면 자체가 안 뜸.</span></span></div>
-        <div class="cond-item"><span class="cond-num">2</span><span class="cond-text"><b>왕복 예약만 (편도·도어투도어 제외)</b><span class="why">출발지에서 빌리고 같은 출발지로 반납하는 예약만 대상.</span></span></div>
+        <div class="cond-item"><span class="cond-num">1</span><span class="cond-text"><b>실험군 회원만 (전체의 50%)</b><span class="why">A/B 비교를 위해 회원의 절반에게만 노출<br>나머지 절반은 대조군이라 옵션 화면 자체가 안 뜸</span></span></div>
+        <div class="cond-item"><span class="cond-num">2</span><span class="cond-text"><b>왕복 예약만 (편도·도어투도어 제외)</b><span class="why">출발지에서 빌리고 같은 출발지로 반납하는 예약만 대상</span></span></div>
         <div class="cond-item" style="background:#fffbeb;border:1px solid #fde68a"><span class="cond-num" style="background:#b45309">3</span><span class="cond-text"><b>리드타임 (1차와 2차에서 차이 있음)</b><span class="why" style="line-height:1.8"><b style="color:#374151">1차 (5/19 15:50 이전):</b> 당일 출발만<br><b style="color:#b45309">2차 (5/19 15:50 이후):</b> 출발 24시간 이내 생성된 예약</span></span></div>
-        <div class="cond-item"><span class="cond-num">4</span><span class="cond-text"><b>출발 9~15시 / 반납 15~20시</b><span class="why">자정까지 충분히 연장 가능한 시간대만 노출.</span></span></div>
-        <div class="cond-item"><span class="cond-num">5</span><span class="cond-text"><b>토요일 출발 제외</b><span class="why">토요일에 출발하는 예약은 대상 아님.</span></span></div>
-        <div class="cond-item"><span class="cond-num">6</span><span class="cond-text"><b>예약 길이 4~24시간</b><span class="why">너무 짧거나 너무 긴 예약은 대상 아님.</span></span></div>
-        <div class="cond-item"><span class="cond-num">7</span><span class="cond-text"><b>수입차/전기차/대형밴/대형RV 제외</b><span class="why">이 차종들은 시간연장 정책 대상이 아님.</span></span></div>
-        <div class="cond-item"><span class="cond-num">8</span><span class="cond-text"><b>실제 추가 요금이 4,900원 초과일 때만</b><span class="why">차액이 4,900원보다 작으면 회사 손해라 노출 안 함.</span></span></div>
-        <div class="cond-item"><span class="cond-num">9</span><span class="cond-text"><b>1회 수락 후 7일간 재노출 안 됨</b><span class="why">예약 취소 시 빈도 제한 reset.</span></span></div>
-        <div class="cond-item" style="grid-column:1/-1;background:#fef3c7"><span class="cond-num" style="background:#92400e">+</span><span class="cond-text"><b>추가:</b> 자정까지 차량 가용 + 제외 지역 아님 + 제휴 카드 할인 미적용 + 쿠폰 호환</span></div>
+        <div class="cond-item"><span class="cond-num">4</span><span class="cond-text"><b>출발은 9~15시, 반납은 15~20시</b><span class="why">자정까지 충분히 연장이 가능한 시간대만 노출</span></span></div>
+        <div class="cond-item"><span class="cond-num">5</span><span class="cond-text"><b>토요일 출발 제외</b><span class="why">토요일에 출발하는 예약은 대상이 아님</span></span></div>
+        <div class="cond-item"><span class="cond-num">6</span><span class="cond-text"><b>예약 길이 4~24시간</b><span class="why">너무 짧거나 너무 긴 예약은 대상이 아님</span></span></div>
+        <div class="cond-item"><span class="cond-num">7</span><span class="cond-text"><b>수입차, 전기차, 대형밴, 대형RV 제외</b><span class="why">이 차종들은 시간연장 정책 대상이 아님</span></span></div>
+        <div class="cond-item"><span class="cond-num">8</span><span class="cond-text"><b>실제 추가 요금이 4,900원을 초과할 때만</b><span class="why">차액이 4,900원보다 작으면 회사가 손해를 보므로 노출하지 않음</span></span></div>
+        <div class="cond-item"><span class="cond-num">9</span><span class="cond-text"><b>한 번 수락 후 7일간 재노출 안 됨</b><span class="why">예약이 취소되면 빈도 제한이 초기화됨</span></span></div>
+        <div class="cond-item" style="grid-column:1/-1;background:#fef3c7"><span class="cond-num" style="background:#92400e">+</span><span class="cond-text"><b>추가 조건</b><br>자정까지 차량 가용 / 제외 지역 아님 / 제휴 카드 할인 미적용 / 쿠폰 호환</span></div>
       </div>
     </div>
   </details>
@@ -671,8 +678,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div style="margin-top:14px;display:flex;flex-direction:column;gap:18px">
 
       <div>
-        <div class="card-title" style="font-size:13px">1. 화면별 동작별 일일 집계 (옵션 화면 본 / 카드 누름 / CTA 누름)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">대시보드 일별 표의 view, interval_click, cta_click 컬럼 산출</div>
+        <div class="card-title" style="font-size:13px">1. 화면별 동작별 일일 집계 (옵션 화면 본 / 시간연장 카드 누름 / 결제 버튼 누름)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">대시보드 일별 표의 옵션 화면 본 / 옵션 누름 / 결제 버튼 누름 수치 산출</div>
         <div class="query-block">SELECT
   DATE(event_at_kst) AS dt,
   COUNT(DISTINCT CASE WHEN event_name='view'  AND component_name IS NULL              THEN member_id END) AS upsell_view,
@@ -687,8 +694,8 @@ ORDER BY dt</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">2. 5/19 1차와 2차 phase 분리 (15:50:05 KST 배포 기준)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">5/19를 배포 전(1차)과 배포 후(2차)로 나누어 집계</div>
+        <div class="card-title" style="font-size:13px">2. 5/19 1차와 2차 구간 분리 (15:50:05 KST 배포 기준)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">5/19를 배포 전(1차 구간)과 배포 후(2차 구간)로 나누어 집계</div>
         <div class="query-block">SELECT
   CASE WHEN event_at_kst &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
   COUNT(DISTINCT CASE WHEN event_name='view'  AND component_name IS NULL              THEN member_id END) AS view_uu,
@@ -702,8 +709,8 @@ ORDER BY phase</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">3. 실제 수락 건수와 매출 (일별, 환불 제외 net &gt; 0)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">예약 단위로 amount 합산 후 양수인 경우만 수락으로 카운트</div>
+        <div class="card-title" style="font-size:13px">3. 실제 수락 건수와 매출 (일별, 환불 제외)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">예약 단위로 결제 금액을 합산해서 환불 차감 후 양수로 남은 예약만 수락으로 카운트</div>
         <div class="query-block">WITH net_data AS (
   SELECT
     DATE(created_at, "Asia/Seoul") AS dt,
@@ -726,8 +733,8 @@ ORDER BY dt</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">4. 1차와 2차 누계 distinct UU (수락률 분모 계산)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">기간 전체 distinct 회원 수 (일별 합과 다름, 중복 제거 효과)</div>
+        <div class="card-title" style="font-size:13px">4. 1차와 2차 구간 누계 중복 제외 회원 수 (수락률 분모용)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">전체 기간에서 같은 회원은 1명으로만 세는 방식 (일별 합과 다른 이유는 회원 중복 제거)</div>
         <div class="query-block">SELECT
   CASE WHEN event_at_kst &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
   COUNT(DISTINCT CASE WHEN event_name='view'  AND component_name IS NULL              THEN member_id END) AS view_uu,
@@ -741,8 +748,8 @@ ORDER BY phase</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">5. 유휴 가동 전환 시간 (시간연장 절대 시간 합계)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">본 목적 카드 산출 쿼리. 수락 예약의 최종 반납에서 원래 반납을 뺀 시간 차이 합산</div>
+        <div class="card-title" style="font-size:13px">5. 차량 이용 시간 증가량 (본 목적 카드용)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">수락 예약의 최종 반납 시각에서 원래 반납 시각을 빼서 시간 차이를 합산</div>
         <div class="query-block">WITH net AS (
   SELECT
     CASE WHEN DATETIME(created_at, "Asia/Seoul") &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
@@ -768,8 +775,8 @@ ORDER BY n.phase</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">6. 1차 baseline (평일 4일만, 일관성 유지)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">조건 완화 비교 카드의 1차 일평균 산출 (5/14, 5/15, 5/17, 5/18만 평일로 사용)</div>
+        <div class="card-title" style="font-size:13px">6. 1차 비교 기준값 (평일 4일만 사용)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">조건 완화 비교 카드의 1차 일평균 산출 (5/14, 5/15, 5/17, 5/18 평일 4일만 사용)</div>
         <div class="query-block">WITH net AS (
   SELECT
     DATE(p.created_at, "Asia/Seoul") AS dt,
@@ -789,8 +796,8 @@ JOIN `socar-data.dbt.stg_tianjin_replica__reservation_info` r ON r.id = n.reserv
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">7. 공용 시트와 크로스체킹 (가동률 raw 데이터 검증)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">공용 시트 #가동률 탭의 원천이 BQ operation_per_car_daily_v2와 일치하는지 확인</div>
+        <div class="card-title" style="font-size:13px">7. 공용 시트 가동률 원천 데이터 검증</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">공용 시트 #가동률 탭의 원천이 BQ 차량 운영 일별 데이터(operation_per_car_daily_v2)와 일치하는지 확인</div>
         <div class="query-block">SELECT
   car_name,
   COUNT(DISTINCT car_id) AS cnt_car,
@@ -808,14 +815,14 @@ GROUP BY car_name</div>
   <!-- 용어 정리 -->
   <div class="foot-note">
     <h4>대시보드 용어 정리</h4>
-    <div class="term"><b>옵션 화면 (업셀링 바텀시트)</b><span>결제 직전에 화면 아래에서 올라오는 시간연장 옵션 카드가 뜬 화면. 사용자가 이 화면을 봐야만 시간연장이 가능.</span></div>
-    <div class="term"><b>시간연장 카드 누르기 (옵션 토글)</b><span>옵션 화면에서 사용자가 "연장 시간으로 변경" 카드를 직접 눌러서 선택한 행위. 결제 의도 표시.</span></div>
-    <div class="term"><b>결제 버튼 누르기</b><span>옵션 화면 맨 아래 결제 진행 버튼 누른 행위. 시간연장을 선택했든 안 했든 결제로 넘어가는 의미라 "수락" 과는 다름.</span></div>
-    <div class="term"><b>실제 수락</b><span>한 예약의 결제 합계가 양수인 경우. 결제 후 환불되지 않고 끝까지 유지된 경우만 카운트.</span></div>
-    <div class="term"><b>매출 증분</b><span>사용자가 시간연장 옵션 수락으로 추가로 낸 돈. 한 건당 4,900원 고정 × 수락 건수.</span></div>
-    <div class="term"><b>회사 할인 비용</b><span>실제 연장 요금 - 사용자가 낸 4,900원. 차액은 회사가 할인 형태로 지원. 수락 건들의 차액 합계.</span></div>
-    <div class="term"><b>수락률</b><span>옵션 화면을 본 회원 중 실제로 수락한 회원의 비율. 실제 수락 회원 수 ÷ 옵션 화면 본 회원 수.</span></div>
-    <div class="term"><b>실험군 / 대조군 (A/B)</b><span>실험군(B군) = 옵션 화면을 보는 회원, 대조군(A군) = 옵션 화면이 안 뜨는 회원. 50:50으로 무작위 분배.</span></div>
+    <div class="term"><b>옵션 화면</b><span>결제 직전 화면 아래에서 올라오는 시간연장 옵션 카드<br>사용자가 이 화면을 봐야만 시간연장이 가능함</span></div>
+    <div class="term"><b>시간연장 카드 누르기</b><span>옵션 화면에서 "연장 시간으로 변경" 카드를 사용자가 직접 누른 행위<br>결제 의도를 표시하는 단계</span></div>
+    <div class="term"><b>결제 버튼 누르기</b><span>옵션 화면 맨 아래 결제 진행 버튼을 누른 행위<br>시간연장을 선택했든 안 했든 결제로 넘어가는 의미라서 "수락"과는 다름</span></div>
+    <div class="term"><b>실제 수락</b><span>한 예약의 결제 금액에서 환불을 뺀 합이 0보다 큰 경우<br>결제 후 환불되지 않고 끝까지 유지된 예약만 카운트</span></div>
+    <div class="term"><b>매출 증분</b><span>사용자가 시간연장 수락으로 추가로 낸 돈<br>한 건당 4,900원 고정으로 수락 건수만큼 발생</span></div>
+    <div class="term"><b>회사 할인 비용</b><span>실제 연장 요금에서 사용자가 낸 4,900원을 뺀 차액<br>차액은 회사가 할인 형태로 부담함 (수락 건들의 차액 합계)</span></div>
+    <div class="term"><b>수락률</b><span>옵션 화면을 본 회원 중 실제로 수락한 회원의 비율<br>실제 수락 회원 수를 옵션 화면 본 회원 수로 나눈 값</span></div>
+    <div class="term"><b>실험군 / 대조군 (A/B)</b><span>실험군(B군)은 옵션 화면을 보는 회원<br>대조군(A군)은 옵션 화면이 안 뜨는 회원 (50:50 무작위 분배)</span></div>
   </div>
 
 </div>
