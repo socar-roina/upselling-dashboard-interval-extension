@@ -267,8 +267,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div style="font-size:16px;font-weight:900;color:#92400e;margin-bottom:4px;letter-spacing:-0.02em">조건 완화 효과 (5/19 15:50 배포)</div>
     <div style="font-size:12px;color:#92400e;margin-bottom:18px;opacity:0.85">리드타임을 <b>당일 → 24h 이내</b>로 완화. 노출 모수가 2배로 늘었고, <b>수락률은 유지</b>되면서 수락·매출도 2배 페이스</div>
 
-    <!-- 4개 지표 한눈 비교 -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+    <!-- 5개 지표 한눈 비교 -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
       <!-- 노출 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:16px 18px">
         <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 노출 회원</div>
@@ -307,14 +307,27 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <!-- 매출 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:16px 18px">
         <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 매출 증분</div>
-        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">41,650</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
-          <span style="font-size:28px;font-weight:900;color:#059669;line-height:1">88,690</span>
-          <span style="font-size:12px;color:#6b7280;font-weight:600">원</span>
+          <span style="font-size:24px;font-weight:900;color:#059669;line-height:1">88,690</span>
+          <span style="font-size:11px;color:#6b7280;font-weight:600">원</span>
         </div>
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+113% ↑</div>
-        <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">수락 건 × 4,900원. 종료(6/3 00:00 KST)까지 잔여 ~12.1일 × 88,690원 = <b style="color:#374151">+약 108만 원 추정</b>, 누적 약 127만 원 (페이스 유지 시)</div>
+        <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">수락 건 × 4,900원. 종료(6/3)까지 잔여 ~12.1일 × 88,690원 = <b style="color:#374151">+약 108만 원</b>, 누적 약 127만 원 (페이스 유지 시)</div>
+      </div>
+      <!-- 가동 전환 시간 (본 목적) -->
+      <div style="background:white;border:2px solid #fbbf24;border-radius:10px;padding:16px 18px;position:relative">
+        <div style="position:absolute;top:-8px;right:10px;background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:0.04em">본 목적</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 유휴→가동 전환</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <span style="font-size:13px;color:#9ca3af;font-weight:600">31.4</span>
+          <span style="color:#9ca3af;font-size:14px">→</span>
+          <span style="font-size:24px;font-weight:900;color:#059669;line-height:1">71.7</span>
+          <span style="font-size:11px;color:#6b7280;font-weight:600">시간/일</span>
+        </div>
+        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+128% ↑</div>
+        <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">유휴 차량이 가동(예약 점유)으로 전환된 시간. reservation_info의 reserved_end_at - end_at</div>
       </div>
     </div>
 
@@ -322,6 +335,67 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div style="margin-top:14px;padding:11px 14px;background:white;border-radius:8px;font-size:11px;color:#6b7280;line-height:1.7;display:grid;grid-template-columns:1fr 1fr;gap:14px">
       <span><b style="color:#374151">1차 baseline</b> · 평일 4일 (5/14·5/15·5/17·5/18, 토요일·부분일 제외)</span>
       <span><b style="color:#b45309">2차 누적</b> · 5/19 15:50 ~ 5/21 20:46 (약 2.21일) · 일별 노출은 5/21 미적재</span>
+    </div>
+  </div>
+
+  <!-- ★★ 본 목적 효과 — 유휴차량 활용 (상세) ★★ -->
+  <div class="section-label" style="margin-top:30px">
+    <span style="background:#fbbf24;color:#78350f;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">본 목적</span>
+    유휴차량 활용 효과 (상세)
+    <span class="tag tag-fact">FACT</span>
+  </div>
+  <div class="section-explain">
+    이번 실험의 본 목적은 <b>유휴 차량의 점유 시간을 늘리는 것</b>.<br>
+    "수락 건수"는 결과 지표이고, 진짜 측정 대상은 <b>그로 인해 차량이 실제로 몇 시간 더 가동됐는가</b>.<br>
+    산출: <b>reservation_info</b>의 <code>reserved_end_at(최종 반납) - end_at(원래 반납)</code> 시간 차이.
+  </div>
+  <div class="card" style="background:#fffbeb;border-color:#fde68a;padding:22px 26px">
+    <div style="display:grid;grid-template-columns:1.1fr 1.1fr 1fr;gap:14px">
+      <!-- 누적 가동 전환 -->
+      <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">누적 유휴→가동 전환 시간</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
+          <span style="font-size:36px;font-weight:900;color:#059669;line-height:1">337</span>
+          <span style="font-size:14px;color:#6b7280;font-weight:600">시간</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;color:#6b7280;line-height:1.6">
+          <div><b style="color:#374151">1차 (6일)</b><br>178.5h</div>
+          <div><b style="color:#b45309">2차 (2.21일)</b><br>158.5h</div>
+        </div>
+      </div>
+      <!-- 일평균 -->
+      <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">일평균 가동 전환 페이스</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <span style="font-size:13px;color:#9ca3af;font-weight:600">29.8</span>
+          <span style="color:#9ca3af;font-size:14px">→</span>
+          <span style="font-size:30px;font-weight:900;color:#059669;line-height:1">71.7</span>
+          <span style="font-size:12px;color:#6b7280;font-weight:600">시간/일</span>
+        </div>
+        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px;margin-bottom:8px">+141% ↑</div>
+        <div style="font-size:10px;color:#9ca3af;line-height:1.6">1차 6일 누계 / 6일 · 2차 158.5h / 2.21일. 조건 완화로 페이스 2.4배</div>
+      </div>
+      <!-- 평균 연장 -->
+      <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">건당 평균 연장 시간</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <span style="font-size:13px;color:#9ca3af;font-weight:600">3.8</span>
+          <span style="color:#9ca3af;font-size:14px">→</span>
+          <span style="font-size:30px;font-weight:900;color:#059669;line-height:1">4.8</span>
+          <span style="font-size:12px;color:#6b7280;font-weight:600">시간/건</span>
+        </div>
+        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px;margin-bottom:8px">+26% ↑</div>
+        <div style="font-size:10px;color:#9ca3af;line-height:1.6">조건 완화로 더 긴 연장도 수용. 건 수 늘리고 건당 길이도 늘어남</div>
+      </div>
+    </div>
+    <!-- 의미 해석 -->
+    <div style="margin-top:14px;padding:12px 16px;background:white;border-radius:8px;font-size:12px;color:#374151;line-height:1.8">
+      <b style="color:#92400e">의미</b> · 단순 매출 지표 외에, 본 목적 관점에서 <b>유휴 슬롯이 가동 슬롯으로 전환된 절대 시간이 일평균 +141% 증가</b>.
+      조건 완화가 단순히 수락 건수만 늘린 게 아니라 <b>건당 연장 길이도 +26%로 함께 늘어</b>, 슬롯 활용 효율이 양쪽으로 개선됨.
+    </div>
+    <!-- caveat -->
+    <div style="margin-top:8px;padding:10px 14px;background:#fffbeb;border-radius:6px;font-size:11px;color:#92400e;line-height:1.7">
+      <b>비교 범위 안내</b> · 공용 시트(#가동률) 가동률(%)은 전국 인벤토리(약 15,790대) 기준 광역 지표. 본 카드 수치는 <b>시간연장 실험 노출 슬롯에 한정</b>한 절대 시간이라 % 비교는 불가. 같은 원천(예약 점유 시간) 기반이라 모순은 없음.
     </div>
   </div>
 
