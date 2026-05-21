@@ -288,9 +288,42 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div style="font-size:11px;margin-top:8px;opacity:0.85">1차 일평균 수락 대비</div>
       </div>
     </div>
-    <div style="margin-top:14px;padding:12px 14px;background:white;border-radius:8px;font-size:12px;color:#374151;line-height:1.7;display:flex;justify-content:space-between;align-items:center;gap:14px">
-      <span><b>2차 누적</b> · 실제 수락 <b style="color:#059669">40건</b> · 매출 증분 <b style="color:#059669">196,000원</b></span>
-      <span style="font-size:11px;color:#9ca3af">5/21 옵션 화면 본 회원은 5/22 적재 후 자동 반영</span>
+  </div>
+
+  <!-- 2차 구간 누계 KPI -->
+  <div class="section-label" style="margin-top:24px">
+    2차 구간 누계 (5/19 15:50 ~ 현재)
+    <span class="tag tag-fact">FACT</span>
+  </div>
+  <div class="section-explain">
+    옵션 화면 본 / 카드 누른 회원 수는 <b>5/19+5/20</b> 적재 완료분 (5/21은 5/22 적재 예정).<br>
+    실제 수락·매출은 <b>5/19+5/20+5/21</b> paid_info 실시간 반영. <b>수락률은 분모·분자 기간을 5/19+5/20으로 일치</b>시켜 계산.
+  </div>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="lbl">옵션 화면을 본 사람</div>
+      <div class="num blue">99 <span class="unit">명</span></div>
+      <div class="sub">5/19+5/20 중복 제외 회원 수<br>(5/21 미적재)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">시간연장 카드를 눌러본 사람</div>
+      <div class="num purple">42 <span class="unit">명</span></div>
+      <div class="sub">5/19+5/20 옵션 카드를 직접 누른 회원<br>(5/21 미적재)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">실제 수락 예약<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
+      <div class="num green">40 <span class="unit">건</span></div>
+      <div class="sub">5/19+5/20+5/21 paid_info net&gt;0 reservation<br>(적재 완료 24 + 5/21 진행 중 16)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(분모·분자 기간 일치)</span></div>
+      <div class="num amber">24.2 <span class="unit">%</span></div>
+      <div class="sub">24 ÷ 99 (5/19+5/20 기준)<br>(카드 누른 42명 기준: 57.1%)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(4,900원 × 수락)</span></div>
+      <div class="num green">196,000 <span class="unit">원</span></div>
+      <div class="sub">5/19+5/20+5/21 누적<br>(40건 × 4,900원)</div>
     </div>
   </div>
 
