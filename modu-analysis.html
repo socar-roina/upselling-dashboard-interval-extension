@@ -410,7 +410,7 @@
 
   <div class="callout">
     <strong>5/21 데이터 분리 한계:</strong> 5/21 14:20:09 KST부터 PF0 옵션이 같은 옵션 화면(`upsell_bottomsheet`)에 다시 노출되기 시작 (5/13 14:00 종료 후 8일 만, 배포 주체 미확인).
-    당일 PF0 클릭 UU 4,756 vs 비PF0 클릭 UU 303 → 시간연장 view 분리 정확도 떨어짐, 시간당 view 비교에서 5/21 14:20 이후 데이터 제외.
+    당일 PF0 클릭 UU 4,756 vs 비PF0 클릭 UU 303으로 시간연장 view 분리 정확도 떨어짐, 시간당 view 비교에서 5/21 14:20 이후 데이터 제외.
     단, <strong>수락 데이터는 paid_type='upselling_discount' 필터로 정확 분리</strong> (PF0 결제는 이 타입으로 잡히지 않음, 회원 단위 클릭 조인으로 5/21 33건 = interval_only 28 + both clicked 5 검증).
   </div>
 
