@@ -210,29 +210,6 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
 </div>
 
-<!-- 긴급 알림: PF0 옵션 재노출 -->
-<div style="max-width:1440px;margin:0 auto 0;padding:0 20px">
-  <div style="background:#fee2e2;border:2px solid #dc2626;border-radius:12px;padding:18px 22px;margin-top:18px">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="background:#dc2626;color:white;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;letter-spacing:0.04em">긴급 확인</span>
-      <span style="font-size:15px;font-weight:800;color:#991b1b">2026-05-21 14:20부터 PF0 차종 업셀링 옵션이 다시 노출되는 중</span>
-    </div>
-    <div style="font-size:12px;color:#7f1d1d;line-height:1.9">
-      <b>관찰 사실</b><br>
-      5/13 14:00 종료됐던 PF0 옵션(component_name='pf0_option') 클릭 이벤트가 5/21 14:20:09부터 23:59까지 7,590건 / 4,756 UU 발생<br>
-      5/14 ~ 5/20 사이엔 PF0 클릭 0건이었음<br>
-      <br>
-      <b>대시보드 영향</b><br>
-      옵션 화면(upsell_bottomsheet) 노출 UV는 PF0와 시간연장 노출이 섞임 → 5/21 view UV 5,058 중 4,755가 PF0 클릭자<br>
-      시간연장 노출만 분리하면 5/21 약 303 UU 추정 (PF0 클릭하지 않은 view 회원, 상한 추정)<br>
-      <br>
-      <b>결제 데이터는 영향 없음</b><br>
-      paid_info의 paid_type='upselling_discount' 행 33건(5/21 수락)을 회원 단위로 클릭 로그와 조인한 결과 28건이 interval_only / 5건이 both / 0건이 pf0_only<br>
-      매출·수락·회사 부담 수치는 시간연장 분리 신뢰 가능
-    </div>
-  </div>
-</div>
-
 <!-- 실험 개요 -->
 <div class="experiment-overview">
   <div class="inner">
