@@ -324,66 +324,116 @@
 
 <div class="toc">
   <a href="#summary">요약</a>
+  <a href="#intro">0. 실험 배경 및 용어</a>
   <a href="#current">1. 현재 노출 모수</a>
   <a href="#funnel">2. 모수 손실 깔때기</a>
   <a href="#power">3. 검정력 분석</a>
   <a href="#options">4. 조건 완화 시뮬레이션</a>
   <a href="#caveats">5. 분석 한계 및 후속 확인</a>
-  <a href="#appendix">부록: BQ 쿼리</a>
+  <a href="#appendix">부록: BigQuery 쿼리</a>
 </div>
 
 <!-- 요약 -->
 <div class="summary" id="summary">
   <h2>요약</h2>
   <ul>
-    <li><strong>1차에서 2차로 배포 효과 (시간당 시간연장 옵션 클릭 UV)</strong>
+    <li><strong>리드타임 완화 배포 (5/19) 효과</strong>
       <ul>
-        <li>측정 지표: component_name='interval_option' 클릭 UV</li>
-        <li>5/19 15:50 리드타임 완화 (당일출발에서 24h 이내로) 배포 시각 기준 분리</li>
-        <li>1차 (5/13 14:09~5/19 15:50, 144.8시간): 클릭 UV 77명, 시간당 0.53명</li>
-        <li>2차 (5/19 15:50~5/21 14:20, 54.0시간): 클릭 UV 74명, 시간당 1.37명</li>
-        <li>2차/1차 배수 약 2.6배 증가</li>
+        <li>핵심 지표: 옵션 추천 화면에서 "시간연장" 옵션을 클릭한 회원 수 (시간당)</li>
+        <li>1차 운영 (5/13 14:09 ~ 5/19 15:50, 144.8시간): 클릭한 회원 77명, 시간당 약 0.53명</li>
+        <li>2차 운영 (5/19 15:50 ~ 5/21 14:20, 54.0시간): 클릭한 회원 74명, 시간당 약 1.37명</li>
+        <li>2차 / 1차 배수 약 2.6배 증가 (5/19 배포 후 시간당 노출 약 2.6배로 늘어남)</li>
       </ul>
     </li>
-    <li><strong>모수 손실의 가장 큰 단일 구간</strong>
+    <li><strong>모수가 작은 이유</strong>
       <ul>
-        <li>조건 적용 순서를 왕복, 리드, 시간 순으로 가정한 경우</li>
-        <li>"출발 9-14시 / 반납 15-19시 / 길이 4-24시간" 조합이 약 10배 감소(−90%)의 주범</li>
+        <li>옵션 노출에 필요한 9개 조건 중 "출발 9-14시 / 반납 15-19시 / 대여 4-24시간" 조합이 모수 약 −90% 손실의 주범</li>
+        <li>다른 조건 (리드타임, 차종, 토요일 제외 등) 영향은 상대적으로 작음</li>
       </ul>
     </li>
-    <li><strong>검정력 분석 결과</strong>
+    <li><strong>현재 모수로 무엇을 답할 수 있는가</strong>
       <ul>
-        <li>노출자 중 수락률 추정 (예: 30% ±5%p) 현재 모수로 <span class="badge good">충분</span></li>
-        <li>실험군 vs 대조군 객단가 차이 통계 검증 (검정력 80%) 현재 모수의 <span class="badge bad">약 4.6배 부족</span></li>
+        <li>"옵션 본 회원 중 몇 %가 수락하는지" 추정: <span class="badge good">충분</span> (현재 누적 약 850명, 필요 360명)</li>
+        <li>"실험군 vs 대조군 매출 차이가 통계적으로 유의한지" 검증: <span class="badge bad">약 4.6배 부족</span> (현재 약 6,100명/군, 필요 약 28,000명/군)</li>
       </ul>
     </li>
-    <li><strong>조건 완화 시 모수 증가 시뮬레이션 (시간/길이 조건만 변경)</strong>
+    <li><strong>모수 늘리는 방안 (시간/길이 조건 완화 시뮬레이션)</strong>
       <ul>
-        <li>시간 조건 ±2시간 확장: 약 2.6배</li>
-        <li>시간 조건 완전 풀고 길이만 4-24h 유지: 약 5.1배 (검정력 확보 가능)</li>
-        <li>리드 48시간 완화: 약 1.1배 (효과 미미)</li>
+        <li>시간대 ±2시간 확장 (출발 7-16시 / 반납 13-21시): 약 2.6배</li>
+        <li>시간 조건 풀고 대여시간만 4-24h 유지: 약 5.1배 (이 경우 통계 검증 가능 표본 확보)</li>
+        <li>리드타임만 48시간으로 추가 완화: 약 1.1배 (효과 미미)</li>
       </ul>
     </li>
-    <li><strong>주요 분석 한계 (5장 상세)</strong>
+    <li><strong>분석 한계</strong>
       <ul>
-        <li>1차/2차 운영 일수 짧음 (1차 5일/2차 2일)</li>
-        <li>요일 매칭 불가</li>
-        <li>노출률 정의에 따라 검정력 추정치 변동</li>
+        <li>운영 일수 짧음 (1차 5일, 2차 2일)</li>
+        <li>요일 매칭 불가 (1차에 화/수 없음, 2차에 목/금/일/월 없음)</li>
+        <li>"노출률" 정의에 따라 검정력 추정치가 달라짐 (자세한 내용 5장)</li>
       </ul>
     </li>
   </ul>
 </div>
 
-<!-- 1. 현재 노출 모수 -->
-<h2 id="current">1. 현재 노출 모수 (BigQuery 실측)</h2>
+<!-- 0. 실험 배경 및 용어 -->
+<h2 id="intro">0. 실험 배경 및 용어</h2>
 
 <div class="card">
-  <h3>1-1. 1차 vs 2차 비교 (시간당 시간연장 옵션 클릭 UV)</h3>
-  <p>측정 지표: <strong>component_name='interval_option' 클릭 UV</strong></p>
+  <h3>0-1. 시간연장 업셀링 실험이란</h3>
+  <ul>
+    <li>예약 결제 직전, 일부 사용자에게 "출발 시간을 앞당기거나 반납 시간을 뒤로 미루는" 옵션을 추천하는 실험</li>
+    <li>옵션을 수락하면 추가 요금 발생 (시간당 추가 비용 적용)</li>
+    <li>실험 목적: 옵션 추천이 실제로 매출 상승에 기여하는지 검증</li>
+  </ul>
+
+  <h3 style="margin-top: 24px;">0-2. 실험군 구조 (A/B 테스트)</h3>
+  <ul>
+    <li><strong>A군 (대조군):</strong> 옵션 추천 화면 미노출. 기존 결제 흐름 그대로</li>
+    <li><strong>B군 (실험군):</strong> 옵션 추천 화면 노출. 시간연장 옵션 선택 가능</li>
+    <li>전체 예약 회원을 50:50으로 무작위 분배</li>
+    <li>B군 안에서 9개 노출 조건을 모두 만족하는 회원만 실제로 옵션 추천 화면을 봄</li>
+  </ul>
+
+  <h3 style="margin-top: 24px;">0-3. 배포 이력</h3>
+  <ul>
+    <li><strong>1차 배포 (2026-05-13 14:09):</strong> "당일 출발" 예약에만 옵션 노출</li>
+    <li><strong>2차 배포 (2026-05-19 15:50):</strong> "출발 시각 24시간 이내" 예약까지 확대 (리드타임 완화)</li>
+    <li>실험 종료 예정일: 2026-06-02 (2차 배포일 + 14일)</li>
+  </ul>
+
+  <h3 style="margin-top: 24px;">0-4. 본 문서에 사용된 용어</h3>
+  <ul>
+    <li><strong>옵션 추천 화면:</strong> 결제 직전 표시되는 바텀시트. 시간연장 옵션 선택 가능</li>
+    <li><strong>옵션 클릭 회원 (UV):</strong> 옵션 추천 화면에서 "시간연장" 항목을 클릭한 고유 회원 수</li>
+    <li><strong>수락:</strong> 옵션 클릭 후 추가 결제까지 완료한 건수</li>
+    <li><strong>노출 모수:</strong> 옵션 추천 화면을 본 회원 수 (혹은 그 후보 모집단)</li>
+    <li><strong>리드타임:</strong> 예약 시점에서 출발 시각까지 남은 시간</li>
+    <li><strong>BigQuery (BQ):</strong> 소카 내부 데이터 조회 시스템. 본 분석의 수치 소스</li>
+  </ul>
+
+  <h3 style="margin-top: 24px;">0-5. 9개 노출 조건 (코드 기준)</h3>
+  <ol>
+    <li>왕복 예약</li>
+    <li>리드타임 24시간 이내 (1차에는 "당일 출발")</li>
+    <li>출발 9-14시 / 반납 15-19시</li>
+    <li>대여 4-24시간</li>
+    <li>토요일 출발 제외</li>
+    <li>차종 제외 (외제차 / 전기차 / 중형 밴 / 중형 RV)</li>
+    <li>추가 요금 4,900원 초과 + 쿠폰 호환</li>
+    <li>자정까지 차량 가용 + 제외 zone 아님 + 제휴할인 없음</li>
+    <li>빈도 제한 (1회 수락 후 7일간 재노출 불가)</li>
+  </ol>
+</div>
+
+<!-- 1. 현재 노출 모수 -->
+<h2 id="current">1. 현재 노출 모수</h2>
+
+<div class="card">
+  <h3>1-1. 1차 vs 2차 비교 (시간당 옵션 클릭 회원 수 기준)</h3>
+  <p>핵심 지표: <strong>시간연장 옵션 클릭 회원 수 (시간당 UV)</strong></p>
   <ul style="margin-top: 4px;">
-    <li>시간연장 옵션에 대한 사용자 행동을 직접 측정</li>
-    <li>다른 옵션 동시 노출 여부와 무관하게 일관 비교 가능</li>
-    <li>5/19 15:50:05 KST 배포 시각 기준으로 정확 분리</li>
+    <li>옵션 추천 화면에서 "시간연장" 항목을 클릭한 고유 회원 수를 시간 단위로 측정</li>
+    <li>옵션을 본 직후 실제로 관심을 보인 사용자만 잡히는 가장 깨끗한 지표</li>
+    <li>5/19 15:50:05 KST 배포 시각 기준으로 1차 / 2차 정확히 분리</li>
   </ul>
   <table>
     <thead>
@@ -431,17 +481,17 @@
   <div class="chart-caption">회색 막대: 1차 (당일출발 조건). 파랑 막대: 2차 (리드 24h 조건). 주황 선: 수락 건수</div>
 
   <div class="callout" style="background: #f0f9ff; border-left-color: var(--accent);">
-    <strong>PR #8021 예상치(1.2배)와 실측치(2.6배) 비교 시 주의</strong>
+    <strong>5/19 배포 시 사전 예상치(1.2배)와 실측치(2.6배) 비교 시 주의</strong>
     <ul style="margin: 8px 0 0;">
-      <li>PR 예상치 1.2배: "왕복 예약 1단계 통과 모수 (리드 24h 조건 통과)" 기준</li>
-      <li>실측 2.6배: "시간연장 옵션 클릭 UV (모든 9개 조건 통과 후 클릭자)" 기준</li>
-      <li>두 수치는 비교 단위가 다름</li>
-      <li>BQ 실측 시 리드 24h 통과 모수도 약 1.2배로 PR 예상과 일치</li>
+      <li>5/19 배포 시 개발팀 사전 예상치 1.2배: "왕복 예약 중 리드타임 24시간 이내 조건을 통과한 회원 수" 기준</li>
+      <li>본 분석 실측치 2.6배: "옵션 추천 화면에서 시간연장 클릭한 회원 수" 기준 (9개 조건 전부 통과 후 클릭자)</li>
+      <li>두 수치는 비교 단계가 다름</li>
+      <li>실제 데이터 확인 시 리드타임 24시간 통과 모수도 약 1.2배로 사전 예상과 일치</li>
     </ul>
   </div>
 
   <div class="data-source">
-    Source: socar-data.app_web_log.socar_app_web_log (page_name='upsell_bottomsheet', component_name='interval_option')
+    Source: socar-data.app_web_log.socar_app_web_log
   </div>
 </div>
 
@@ -450,7 +500,11 @@
 
 <div class="card">
   <h3>2-1. 5/19~5/21 평일 평균 단계별 잔여 모수</h3>
-  <p>전체 예약에서 시간연장 노출 조건 9개를 단계별로 적용했을 때 남는 모수. BigQuery로 추적 가능한 5개 조건 표시 (차종, 추가금 4,900원 초과, 차량 가용성, 제외 zone, 제휴할인 없음 등은 BQ로 단계 분리 어려움).</p>
+  <p>전체 예약 수에서 노출 조건 9개를 하나씩 적용했을 때 남는 모수</p>
+  <ul style="margin-top: 4px;">
+    <li>BigQuery로 추적 가능한 5개 조건 (왕복 여부, 취소 여부, 리드타임, 출발/반납 시간대, 토요일 제외)</li>
+    <li>나머지 4개 조건 (차종, 추가 요금, 차량 가용성, 제외 zone, 제휴할인, 빈도 제한)은 데이터로 단계 분리 어려움</li>
+  </ul>
 
   <div style="margin: 24px 0;">
     <div class="funnel-bar">
@@ -459,7 +513,7 @@
       <div class="funnel-loss">기준</div>
     </div>
     <div class="funnel-bar">
-      <div>└ 왕복 + 취소 안 됨</div>
+      <div>└ 왕복 + 취소되지 않은 예약</div>
       <div><div class="funnel-fill" style="width: 35.8%;">11,757</div></div>
       <div class="funnel-loss">−64%</div>
     </div>
@@ -469,7 +523,7 @@
       <div class="funnel-loss">−25%</div>
     </div>
     <div class="funnel-bar">
-      <div>└ 출발 9-14시 / 반납 15-19시 / 길이 4-24h</div>
+      <div>└ 출발 9-14시 / 반납 15-19시 / 대여 4-24시간</div>
       <div><div class="funnel-fill dim" style="width: 2.7%;">876</div></div>
       <div class="funnel-loss"><strong>−90%</strong></div>
     </div>
@@ -479,33 +533,44 @@
       <div class="funnel-loss">0%</div>
     </div>
     <div class="funnel-bar" style="margin-top: 16px;">
-      <div><strong>실측 view UV (5/19~20 평균)</strong></div>
-      <div><div class="funnel-fill warn" style="width: 0.23%;">75</div></div>
-      <div class="funnel-loss"><strong>−91%</strong></div>
+      <div><strong>실제 옵션 클릭 회원 수 (5/19~20 평균)</strong></div>
+      <div><div class="funnel-fill warn" style="width: 0.23%;">31</div></div>
+      <div class="funnel-loss"><strong>−96%</strong></div>
     </div>
   </div>
 
   <div class="footnote">
-    876에서 75 사이 약 12배 추가 감소는 BigQuery로 단계 분리 불가한 조건들:
-    A/B 50:50 분배 (약 −50%) · 외제차/EV/M세그밴/M세그RV 제외 (약 −30%) · 추가금 4,900원 초과 · 자정까지 차량 가용 · 제외 zone 아님 · 제휴할인 없음 · 빈도 제한(7일 1회) · 개인 회원
+    876건에서 클릭 31명으로 추가 28배 감소가 나는 이유 (데이터로 단계 분리 불가한 조건들)
+    <ul style="margin: 6px 0 0;">
+      <li>A/B 50:50 분배로 B군만 노출 대상 (약 −50%)</li>
+      <li>차종 제외 (외제차/전기차/중형 밴/중형 RV) (약 −30%)</li>
+      <li>추가 요금 4,900원 초과 조건</li>
+      <li>자정까지 차량 가용 여부</li>
+      <li>제외 zone 아님</li>
+      <li>제휴할인 없음</li>
+      <li>빈도 제한 (7일 1회)</li>
+      <li>개인 회원만 (비즈 / 법인 제외)</li>
+      <li>옵션 노출 화면에서 실제 클릭한 회원 비율 (전체 노출자 중 일부만 시간연장 클릭)</li>
+    </ul>
   </div>
 
-  <h3 style="margin-top: 36px;">2-2. 결론: 가장 큰 손실은 "시간/길이 조건"</h3>
+  <h3 style="margin-top: 36px;">2-2. 결론: 가장 큰 손실 구간 정리</h3>
+  <p>위 깔때기에서 단계별 손실률을 비교한 결과</p>
   <div class="metric-grid">
     <div class="metric">
-      <div class="label">왕복에서 리드24h로</div>
+      <div class="label">왕복 예약에서 리드 24시간 통과로</div>
       <div class="value">−25%</div>
-      <div class="delta">5/19 완화로 흡수</div>
+      <div class="delta">5/19 배포로 이 조건 완화 (당일 출발에서 24h로)</div>
     </div>
     <div class="metric">
-      <div class="label">리드24h에서 시간/길이 조건으로</div>
+      <div class="label">리드 24시간 통과에서 시간/길이 조건 통과로</div>
       <div class="value bad">−90%</div>
-      <div class="delta bad">단일 최대 손실 구간</div>
+      <div class="delta bad">데이터로 분리 가능한 조건 중 가장 큰 손실</div>
     </div>
     <div class="metric">
-      <div class="label">876건에서 실측 view 75명</div>
-      <div class="value bad">−91%</div>
-      <div class="delta bad">차종+추가금+A/B 분할</div>
+      <div class="label">시간/길이 통과 (876) 에서 실제 클릭 (31) 로</div>
+      <div class="value bad">−96%</div>
+      <div class="delta bad">차종 / A/B 분할 등 분리 불가 조건 합산</div>
     </div>
   </div>
 </div>
@@ -541,40 +606,54 @@
     <thead>
       <tr>
         <th>검증 목표</th>
-        <th>필요 모수 (군당)</th>
-        <th>현재 14일 누적 예상</th>
+        <th>필요 표본 (군당)</th>
+        <th>현재 (6/2 종료 시 예상)</th>
         <th>판정</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>
-          <strong>A. 노출자 중 수락률 추정</strong><br/>
-          <small class="note">"옵션 본 사람 중 몇 %가 수락하나"</small>
+          <strong>A. 옵션 본 회원 중 수락률 추정</strong><br/>
+          <small class="note">"옵션을 본 사람 중 몇 %가 결제까지 갔는지 추정"</small>
         </td>
         <td class="num">약 360명<br/><small class="note">±5%p 정확도</small></td>
-        <td class="num">view 누계 약 850명</td>
+        <td class="num">옵션 클릭 회원 누적 약 850명</td>
         <td><span class="badge good">충분</span></td>
       </tr>
       <tr>
         <td>
-          <strong>B. 실험군 vs 대조군 객단가 평균 차이 검정</strong><br/>
-          <small class="note">"B군이 A군보다 평균 매출 통계적으로 더 높나"</small>
+          <strong>B. 실험군 vs 대조군 객단가 통계 검정</strong><br/>
+          <small class="note">"B군이 A군보다 예약당 평균 매출 통계적으로 더 높은지 검증"</small>
         </td>
-        <td class="num">약 28,000건<br/><small class="note">검정력 80%</small></td>
-        <td class="num">B군 모집단 약 6,100건</td>
+        <td class="num">약 28,000명<br/><small class="note">검정력 80%</small></td>
+        <td class="num">B군 모집단 누적 약 6,100명</td>
         <td><span class="badge bad">약 4.6배 부족</span></td>
       </tr>
     </tbody>
   </table>
 
   <div class="footnote">
-    <strong>A 계산 근거:</strong> 수락률 30% 가정 시 95% 신뢰구간 ±5%p 위한 표본 n = (1.96)² × 0.3 × 0.7 / 0.05² ≈ 323명. 안전 마진 포함 360명.<br/>
-    <strong>B 계산 근거:</strong> 시간연장 노출 대상 예약 객단가 평균 58,818원 / 표준편차 26,494원 (BQ 실측, n=11,191).
-    B군 ITT 효과 추정 약 623원/예약 (B군 노출률 16% × 수락률 35% × 평균 시간연장 매출 11,968원).
-    검정력 80%, 유의수준 5% 양측 검정 기준 n per group = 2 × 7.85 × 26,494² / 623² ≈ 28,400.<br/>
-    <strong>B군 노출률 16% 산출:</strong> 5/19~20 시간조건 통과 모수 평균 약 887건/일, A/B 50:50 분배 후 B군 약 444건/일.
-    실측 view UV 평균 75/일 ÷ 444 ≈ 16.9%. 5/19~20 시점 기준이며 차종/추가금 등 5개 조건은 BQ 단계 분리 불가라 정확한 B군 노출 자격 모수는 더 작을 수 있음.
+    <strong>A 계산 근거</strong>
+    <ul style="margin: 4px 0;">
+      <li>가정: 옵션 본 회원의 수락률 약 30% (실측 5/14~5/18 평균 31%)</li>
+      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.3 × 0.7 / 0.05² ≈ 323명</li>
+      <li>안전 마진 포함 약 360명</li>
+    </ul>
+    <strong style="margin-top: 8px; display: inline-block;">B 계산 근거</strong>
+    <ul style="margin: 4px 0;">
+      <li>옵션 노출 대상 예약의 평균 객단가: 58,818원 / 표준편차: 26,494원 (실데이터 n=11,191건)</li>
+      <li>B군 평균 매출 증가 효과 추정 (단계별 곱연산):
+        <ul>
+          <li>B군 안에서 옵션을 실제로 본 비율 약 16%</li>
+          <li>옵션을 본 사람 중 수락 비율 약 35%</li>
+          <li>수락 1건당 평균 시간연장 매출 약 11,968원</li>
+          <li>결과: 16% × 35% × 11,968 ≈ <strong>예약당 623원</strong> 평균 매출 증가</li>
+        </ul>
+      </li>
+      <li>이 623원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 28,400명 필요</li>
+      <li>"B군 노출률 16%" 산출: 5/19~5/20 시간 조건 통과 모수 평균 887건/일, 이 중 A/B 50:50 분배로 B군 444건/일. 실제 옵션 클릭 75명/일 ÷ 444 = 약 16.9%</li>
+    </ul>
   </div>
 
   <h3 style="margin-top: 36px;">3-3. 직관적 설명</h3>
@@ -582,16 +661,17 @@
     <div class="good">
       <h4>A 질문 (수락률 추정): 답 가능</h4>
       <p style="margin: 6px 0;">
-        옵션 본 사람 350명만 모이면 "수락률 약 30% (±5%p)" 같은 결론 도출 가능.<br/>
-        14일 누적 예상 view 850명일 때 정확도 ±3%p 수준까지 가능.
+        옵션을 클릭한 사람 350명만 모이면 "수락률 약 30% (±5%p)" 결론 가능.<br/>
+        6/2 종료 시 예상 누적 850명이라 ±3%p 수준 정확도까지 가능.
       </p>
     </div>
     <div class="bad">
       <h4>B 질문 (A vs B 매출 통계 검증): 모수 부족</h4>
       <p style="margin: 6px 0;">
-        시간연장 옵션은 일부 예약(약 15%)에만 노출되고, 노출자 중 일부(약 35%)만 수락.<br/>
-        결과적으로 B군 전체로 평균 매출 증가는 예약당 약 600원 (평균 객단가 59,000원의 1%).<br/>
-        1% 차이를 통계적으로 검증하려면 군당 약 28,000건 필요.
+        시간연장 옵션은 B군 안에서도 일부 (약 16%) 만 실제로 봄.<br/>
+        본 사람 중에서도 일부 (약 35%) 만 수락.<br/>
+        그래서 B군 전체로 보면 예약당 평균 매출 증가는 약 623원에 불과 (평균 객단가 58,818원의 약 1%).<br/>
+        이 1% 차이를 통계적으로 유의하다고 검증하려면 군당 약 28,400명 필요.
       </p>
     </div>
   </div>
@@ -601,7 +681,7 @@
 <h2 id="options">4. 조건 완화 시뮬레이션</h2>
 
 <div class="card">
-  <h3>4-1. 시간/길이 조건 단계별 완화 (5/19~5/21 BQ 실측 기반)</h3>
+  <h3>4-1. 시간/길이 조건 단계별 완화 (5/19~5/21 실측 데이터 기반)</h3>
   <p>베이스 = 리드 24h 통과 후 토요일 제외 (3일 합계 26,599건). 시간/길이 조건만 변경 시 잔여 모수.</p>
 
   <div style="margin: 24px 0;">
@@ -644,20 +724,23 @@
   </div>
 
   <div class="footnote">
-    데이터 기준: 5/19~5/21 (3일) round 예약 중 cancel_at IS NULL + 리드 24h + 토요일 제외 통과 = 26,599건.
-    차종 / 추가금 / A/B 분할 등 9개 조건 중 시간/길이만 변경한 시뮬레이션.
-    실제 view UV는 이 모수에 약 7%(5/19~21 실측 노출률) 적용한 값.
+    <ul style="margin: 0;">
+      <li>데이터 기준: 5/19~5/21 (3일간) 왕복 예약 중 취소되지 않은 예약, 리드 24시간 통과, 토요일 제외 통과 = 합계 26,599건</li>
+      <li>9개 노출 조건 중 시간 / 길이 조건만 바꾸고 다른 조건은 그대로 유지하는 시뮬레이션</li>
+      <li>이후 표(4-2)의 "예상 옵션 클릭 회원 수"는 이 모수에 5/19~5/21 실측 노출률 (약 7%)을 곱한 값</li>
+    </ul>
   </div>
 
-  <h3 style="margin-top: 36px;">4-2. 옵션별 예상 view 및 검정력 확보 여부</h3>
+  <h3 style="margin-top: 36px;">4-2. 조건 완화 시 검정력 확보 여부</h3>
+  <p>각 옵션별로 6/2 종료 시까지 모일 표본을 추정하고, 그 표본으로 통계 검정 가능한지 판정</p>
   <table>
     <thead>
       <tr>
-        <th>옵션</th>
-        <th>예상 view UV (14일)</th>
-        <th>예상 수락 (35% 가정)</th>
-        <th>B군 모집단 (14일)</th>
-        <th>B vs A 검정력</th>
+        <th>완화 옵션</th>
+        <th>옵션 클릭 회원 누적 (14일 예상)</th>
+        <th>예상 수락 건수 (35% 가정)</th>
+        <th>B군 모집단 (14일 예상)</th>
+        <th>매출 통계 검증 가능?</th>
       </tr>
     </thead>
     <tbody>
@@ -699,9 +782,11 @@
     </tbody>
   </table>
   <div class="footnote">
-    "예상 view UV"는 현재 view 75/일 ÷ 시간조건 모수 876/일 = 약 8.6% (전체 기준) 적용.
-    B군 노출률(50% 분배 후) 약 16-17%와 다른 기준이라 주의.
-    조건 완화 시 다른 조건 통과율이 달라질 수 있어 ±20% 오차 가능.
+    <ul style="margin: 0;">
+      <li>"예상 옵션 클릭 회원 수"는 현재 클릭 75/일 ÷ 시간 조건 모수 876/일 = 약 8.6% (전체 기준) 적용</li>
+      <li>3장의 "B군 노출률 16%" (A/B 50:50 분배 후 B군만 분모) 와 다른 기준이므로 직접 비교 시 주의</li>
+      <li>조건 완화 시 다른 조건 통과율이 달라질 수 있어 ±20% 오차 가능</li>
+    </ul>
   </div>
 
   <div class="chart-wrap tall" style="margin-top: 28px;"><canvas id="optionChart"></canvas></div>
@@ -750,30 +835,30 @@
       <ul>
         <li>전체 기준 (클릭 UV / 시간조건 모수) 약 8.6%</li>
         <li>B군 기준 (클릭 UV / 시간조건 모수의 절반) 약 16~17%</li>
-        <li>코드의 9개 조건 모두 통과한 노출 자격 모수 기준 약 100% (BQ 단계 분리 불가)</li>
+        <li>코드의 9개 조건을 모두 통과한 "노출 자격" 모수 기준 약 100% (이 모수는 데이터로 직접 측정 불가)</li>
         <li>본 검정력 분석은 "B군 노출률 16%" 기준</li>
         <li>노출 자격 모수가 더 작다면 B군 모집단도 작아져 검정력 부족 폭 더 커짐</li>
       </ul>
     </li>
   </ul>
 
-  <h3 style="margin-top: 28px;">5-3. BQ 단계 분리 불가 조건</h3>
-  <p>9개 노출 조건 중 다음 8개는 BQ 모수 깔때기로 단계 분리 어려움</p>
+  <h3 style="margin-top: 28px;">5-3. 데이터로 단계 분리 불가한 조건 (8개)</h3>
+  <p>9개 노출 조건 중 다음 8개는 데이터로 깔때기 단계를 분리하기 어려움</p>
   <ul>
-    <li>차종 제외 (외제/EV/M세그밴/M세그RV): 예약 시점 차종 정보 별도 조회 필요</li>
-    <li>추가금 4,900원 초과: 가격 계산 결과 필요</li>
-    <li>차량 가용성 (자정까지): BE 호출 시점 동적 판단</li>
-    <li>제외 zone 아님: zone 마스터 필요</li>
-    <li>제휴할인 없음: 쿠폰/할인 적용 결과</li>
-    <li>빈도 제한 (7일 1회): Redis 별도</li>
-    <li>개인 회원 (비즈/법인 제외): reservation_biz_info JOIN</li>
-    <li>A/B 50:50 분배: bucket 함수 적용</li>
+    <li>차종 제외 (외제차 / 전기차 / 중형 밴 / 중형 RV): 예약 시점 차종 정보를 별도로 조회해야 함</li>
+    <li>추가 요금 4,900원 초과 조건: 가격 계산 결과 필요</li>
+    <li>자정까지 차량 가용 여부: 서버 호출 시점에 동적으로 판단</li>
+    <li>제외 zone 아님: zone 마스터 데이터 필요</li>
+    <li>제휴할인 없음: 쿠폰 / 할인 적용 결과 필요</li>
+    <li>빈도 제한 (7일 1회): 별도 캐시 저장소에 기록</li>
+    <li>개인 회원만 (비즈 / 법인 제외): 비즈 프로필 정보 조회 필요</li>
+    <li>A/B 50:50 분배: 회원 ID 기반 해시 함수 결과</li>
   </ul>
 
   <h3 style="margin-top: 28px;">5-4. 후속 확인 필요</h3>
   <ul>
-    <li>토요일 제외 조건 영향도 다른 주 데이터로 별도 측정 (이번 분석 기간에 평일 + 일요일만 있음)</li>
-    <li>코드의 9개 조건 중 노출 자격 통과 모수 (BQ로 직접 측정 불가, BE 로깅 추가 필요)</li>
+    <li>토요일 제외 조건 영향도는 다른 주 데이터로 별도 측정 (본 분석 기간은 평일 + 일요일만 있어 측정 불가)</li>
+    <li>9개 노출 조건 중 8개를 모두 통과한 "노출 자격 모수"는 현재 데이터로 직접 측정 불가. 정확한 노출률 산출을 위해서는 서버 단 로깅 추가 필요</li>
   </ul>
 </div>
 
