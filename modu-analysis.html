@@ -336,24 +336,41 @@
 <div class="summary" id="summary">
   <h2>요약</h2>
   <ul>
-    <li><strong>1차에서 2차로 배포 효과 실측 (시간당 기준):</strong> 5/19 15:50 리드타임 완화 (당일출발에서 24h 이내로) 배포 시각을 기준으로 분리.
-      1차 (5/14~5/19 15:50, 144.8시간) view UV 186명 = <strong>시간당 1.28명</strong>,
-      2차 (5/19 15:50~5/21 14:20, 45.6시간) view UV 145명 = <strong>시간당 3.18명</strong>, <strong>약 2.5배 증가</strong>.</li>
-    <li><strong>모수 손실의 가장 큰 단일 구간 (조건을 왕복, 리드, 시간 순으로 적용 시):</strong> 9개 노출 조건 중 "출발 9-14시 / 반납 15-19시 / 길이 4-24시간" 조합이 약 <strong>10배 감소(−90%)</strong>의 주범.</li>
-    <li><strong>검정력 분석 결과:</strong>
+    <li><strong>1차에서 2차로 배포 효과 (시간당 시간연장 옵션 클릭 UV)</strong>
       <ul>
-        <li>노출자 중 수락률 추정 (예: 30% ±5%p): 현재 모수로 <span class="badge good">충분</span></li>
-        <li>실험군 vs 대조군 객단가 차이 통계적 검증 (검정력 80%): 현재 모수의 <span class="badge bad">약 4.6배 부족</span></li>
+        <li>측정 지표: component_name='interval_option' 클릭 UV</li>
+        <li>5/19 15:50 리드타임 완화 (당일출발에서 24h 이내로) 배포 시각 기준 분리</li>
+        <li>1차 (5/13 14:09~5/19 15:50, 144.8시간): 클릭 UV 77명, 시간당 0.53명</li>
+        <li>2차 (5/19 15:50~5/21 14:20, 54.0시간): 클릭 UV 74명, 시간당 1.37명</li>
+        <li>2차/1차 배수 약 2.6배 증가</li>
       </ul>
     </li>
-    <li><strong>조건 완화 시 모수 증가 시뮬레이션 (시간/길이 조건만 변경):</strong>
+    <li><strong>모수 손실의 가장 큰 단일 구간</strong>
       <ul>
-        <li>시간 조건 ±2시간 확장: 약 <strong>2.6배</strong></li>
-        <li>시간 조건 완전 풀고 길이만 4-24h 유지: 약 <strong>5.1배</strong> (검정력 확보 가능)</li>
+        <li>조건 적용 순서를 왕복, 리드, 시간 순으로 가정한 경우</li>
+        <li>"출발 9-14시 / 반납 15-19시 / 길이 4-24시간" 조합이 약 10배 감소(−90%)의 주범</li>
+      </ul>
+    </li>
+    <li><strong>검정력 분석 결과</strong>
+      <ul>
+        <li>노출자 중 수락률 추정 (예: 30% ±5%p) 현재 모수로 <span class="badge good">충분</span></li>
+        <li>실험군 vs 대조군 객단가 차이 통계 검증 (검정력 80%) 현재 모수의 <span class="badge bad">약 4.6배 부족</span></li>
+      </ul>
+    </li>
+    <li><strong>조건 완화 시 모수 증가 시뮬레이션 (시간/길이 조건만 변경)</strong>
+      <ul>
+        <li>시간 조건 ±2시간 확장: 약 2.6배</li>
+        <li>시간 조건 완전 풀고 길이만 4-24h 유지: 약 5.1배 (검정력 확보 가능)</li>
         <li>리드 48시간 완화: 약 1.1배 (효과 미미)</li>
       </ul>
     </li>
-    <li><strong>주요 분석 한계 (5장 상세):</strong> 5/21 14:20 PF0 옵션 재노출로 5/21 이후 시간연장 view 분리 불가 · 1차/2차 운영 일수 짧고 (각 5일/2일) 요일 매칭 불가 · 노출률 정의에 따라 검정력 추정치 변동.</li>
+    <li><strong>주요 분석 한계 (5장 상세)</strong>
+      <ul>
+        <li>1차/2차 운영 일수 짧음 (1차 5일/2차 2일)</li>
+        <li>요일 매칭 불가</li>
+        <li>노출률 정의에 따라 검정력 추정치 변동</li>
+      </ul>
+    </li>
   </ul>
 </div>
 
@@ -361,16 +378,21 @@
 <h2 id="current">1. 현재 노출 모수 (BigQuery 실측)</h2>
 
 <div class="card">
-  <h3>1-1. 1차 vs 2차 비교 (시간당 view UV 기준)</h3>
-  <p>5/19 15:50:05 KST 배포 시각 기준으로 정확 분리. 일평균 비교는 운영 일수 짧고 (1차 5일/2차 2일) 요일 매칭 안 돼 변동성 큼. <strong>시간당 view UV</strong> 비교를 핵심 지표로.</p>
+  <h3>1-1. 1차 vs 2차 비교 (시간당 시간연장 옵션 클릭 UV)</h3>
+  <p>측정 지표: <strong>component_name='interval_option' 클릭 UV</strong></p>
+  <ul style="margin-top: 4px;">
+    <li>시간연장 옵션에 대한 사용자 행동을 직접 측정</li>
+    <li>다른 옵션 동시 노출 여부와 무관하게 일관 비교 가능</li>
+    <li>5/19 15:50:05 KST 배포 시각 기준으로 정확 분리</li>
+  </ul>
   <table>
     <thead>
       <tr>
         <th>구간</th>
         <th>운영 기간</th>
         <th>운영 시간</th>
-        <th>view UV</th>
-        <th>시간당 view UV</th>
+        <th>옵션 클릭 UV</th>
+        <th>시간당 클릭 UV</th>
         <th>수락 건수</th>
         <th>매출</th>
       </tr>
@@ -380,17 +402,17 @@
         <td>1차 (당일출발)</td>
         <td>5/13 14:09 ~ 5/19 15:50</td>
         <td class="num">144.8 h</td>
-        <td class="num">186</td>
-        <td class="num"><strong>1.28 /h</strong></td>
+        <td class="num">77</td>
+        <td class="num"><strong>0.53 /h</strong></td>
         <td class="num">66</td>
         <td class="num">772,000원</td>
       </tr>
       <tr>
-        <td><strong>2차 (리드 24h, PF0 재노출 전)</strong></td>
+        <td><strong>2차 (리드 24h)</strong></td>
         <td>5/19 15:50 ~ 5/21 14:20</td>
-        <td class="num">45.6 h</td>
-        <td class="num">145</td>
-        <td class="num"><strong>3.18 /h</strong></td>
+        <td class="num">54.0 h</td>
+        <td class="num">74</td>
+        <td class="num"><strong>1.37 /h</strong></td>
         <td class="num">44</td>
         <td class="num">451,000원</td>
       </tr>
@@ -398,35 +420,28 @@
         <td>2차 / 1차 배수</td>
         <td>-</td><td>-</td>
         <td class="num">-</td>
-        <td class="num">2.49배</td>
+        <td class="num">2.57배</td>
         <td class="num">-</td><td class="num">-</td>
       </tr>
     </tbody>
   </table>
 
-  <h3 style="margin-top: 28px;">1-2. 일별 view UV 및 수락 건수 (참고)</h3>
+  <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 클릭 UV 및 수락 건수</h3>
   <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
-  <div class="chart-caption">회색 = 1차 / 파랑 = 2차 / 빨강 = 5/21 PF0 혼입. 5/19 막대는 73 = 배포 전 48 + 배포 후 25 (분리 표시)</div>
-
-  <div class="callout">
-    <strong>5/21 데이터 분리 한계:</strong> 5/21 14:20:09 KST부터 PF0 옵션이 같은 옵션 화면(`upsell_bottomsheet`)에 다시 노출되기 시작 (5/13 14:00 종료 후 8일 만, 배포 주체 미확인).
-    당일 PF0 클릭 UU 4,756 vs 비PF0 클릭 UU 303으로 시간연장 view 분리 정확도 떨어짐, 시간당 view 비교에서 5/21 14:20 이후 데이터 제외.
-    단, <strong>수락 데이터는 paid_type='upselling_discount' 필터로 정확 분리</strong> (PF0 결제는 이 타입으로 잡히지 않음, 회원 단위 클릭 조인으로 5/21 33건 = interval_only 28 + both clicked 5 검증).
-  </div>
+  <div class="chart-caption">회색 막대: 1차 (당일출발 조건). 파랑 막대: 2차 (리드 24h 조건). 주황 선: 수락 건수</div>
 
   <div class="callout" style="background: #f0f9ff; border-left-color: var(--accent);">
-    <strong>PR #8021 예상치(1.2배)와 실측치(2.5배) 차이의 의미:</strong>
-    PR 본문 예상은 "왕복 예약 1단계 통과 모수 약 1.2배 증가" (=리드 24h 조건 통과 모수 기준).
-    실측 2.5배는 "최종 view UV (모든 9개 조건 통과 후 화면 진입자)" 기준. 비교 단위가 다름.
-    실제로 BQ에서 리드 24h 통과 모수도 약 1.2배 (5/14~18 평균 vs 5/19~20)로 PR 예상과 일치.
+    <strong>PR #8021 예상치(1.2배)와 실측치(2.6배) 비교 시 주의</strong>
+    <ul style="margin: 8px 0 0;">
+      <li>PR 예상치 1.2배: "왕복 예약 1단계 통과 모수 (리드 24h 조건 통과)" 기준</li>
+      <li>실측 2.6배: "시간연장 옵션 클릭 UV (모든 9개 조건 통과 후 클릭자)" 기준</li>
+      <li>두 수치는 비교 단위가 다름</li>
+      <li>BQ 실측 시 리드 24h 통과 모수도 약 1.2배로 PR 예상과 일치</li>
+    </ul>
   </div>
 
   <div class="data-source">
-    Source: socar-data.app_web_log.socar_app_web_log (page_name='upsell_bottomsheet') · socar-data.tianjin_replica.paid_info (paid_type='upselling_discount')
-  </div>
-
-  <div class="data-source">
-    Source: socar-data.app_web_log.socar_app_web_log (page_name='upsell_bottomsheet') + socar-data.tianjin_replica.paid_info (paid_type='upselling_discount')
+    Source: socar-data.app_web_log.socar_app_web_log (page_name='upsell_bottomsheet', component_name='interval_option')
   </div>
 </div>
 
@@ -679,70 +694,93 @@
 <div class="card">
   <h3>5-1. 데이터 표본 및 통제 한계</h3>
   <ul>
-    <li><strong>운영 일수 짧음:</strong> 1차 5.0일 (5/13~5/19 15:50, 5/16 토 제외 4일), 2차 1.9일 (5/19 15:50~5/21 14:20). 일별 변동성 큼.</li>
-    <li><strong>요일 매칭 불가:</strong> 1차에 화/수 요일 없음, 2차에 목/금/일/월 없음. 요일 효과 통제 불가. 시간조건 통과 모수도 요일별 변동 (토 284 ~ 일 972 / 일).</li>
-    <li><strong>5/19 73 view 내부 분리:</strong> 배포 시각(15:50) 전후 정확 분리하면 1차 조건 48 + 2차 조건 25. 일별 집계만 보면 5/19 전체를 한쪽 phase에 귀속시켜야 해 비교 부정확. 본 분석은 시간 단위 분리로 정정.</li>
-    <li><strong>5/21 view 분리 불가:</strong> PF0 옵션이 같은 옵션 화면에 재노출되며 5/21 14:20부터 데이터 혼입. 비PF0 클릭자 303명이 시간연장 노출 상한. 수락 33건은 paid_type 필터로 정확 분리됨.</li>
-    <li><strong>5/16(토) view 0건 검증:</strong> 같은 날 다른 이벤트 적재량 8.4M건으로 적재 자체는 정상. 토요일 출발 제외 조건 (코드 조건 4번)으로 실제 0건임을 확인.</li>
+    <li><strong>운영 일수 짧음</strong>
+      <ul>
+        <li>1차: 144.8시간 (5/13 14:09 ~ 5/19 15:50)</li>
+        <li>2차: 54시간 (5/19 15:50 ~ 5/21 14:20)</li>
+        <li>일별 변동성 큰 표본</li>
+      </ul>
+    </li>
+    <li><strong>요일 매칭 불가</strong>
+      <ul>
+        <li>1차에 화/수 요일 없음</li>
+        <li>2차에 목/금/일/월 없음</li>
+        <li>요일 효과 통제 불가</li>
+        <li>시간조건 통과 모수도 요일별 변동 (토 284 ~ 일 972 건/일)</li>
+      </ul>
+    </li>
+    <li><strong>5/16(토) 클릭 0건 검증</strong>
+      <ul>
+        <li>같은 날 다른 이벤트 적재량 8.4M건으로 적재 자체는 정상</li>
+        <li>토요일 출발 제외 조건 (코드 조건 4번)으로 실제 0건임을 확인</li>
+      </ul>
+    </li>
   </ul>
 
   <h3 style="margin-top: 28px;">5-2. 깔때기 / 노출률 정의 의존성</h3>
   <ul>
-    <li><strong>"단일 최대 손실 구간" 표현 주의:</strong> 깔때기 단계는 조건 적용 순서에 따라 달라짐.
-      본 분석은 "왕복, 리드24h, 시간/길이, 토요일" 순서 기준. 다른 순서에서는 다른 단계가 가장 큰 손실로 잡힐 수 있음.</li>
-    <li><strong>노출률 정의에 따라 검정력 계산 달라짐:</strong>
+    <li><strong>"단일 최대 손실 구간" 표현 주의</strong>
       <ul>
-        <li>전체 기준 (view / 시간조건 모수) ≈ 8.6%</li>
-        <li>B군 기준 (view / 시간조건 모수의 절반) ≈ 16~17%</li>
-        <li>코드의 9개 조건 모두 통과한 노출 자격 모수 기준 ≈ 거의 100% (BQ 단계 분리 불가)</li>
+        <li>깔때기 단계는 조건 적용 순서에 따라 달라짐</li>
+        <li>본 분석은 "왕복, 리드24h, 시간/길이, 토요일" 순서 기준</li>
+        <li>다른 순서에서는 다른 단계가 가장 큰 손실로 잡힐 수 있음</li>
       </ul>
-      이 경우 본 검정력 분석은 "B군 노출률 16%" 기준. 노출 자격 모수가 더 작다면 B군 모집단도 작아져 검정력 부족 폭 더 커짐.</li>
+    </li>
+    <li><strong>노출률 정의에 따라 검정력 계산 달라짐</strong>
+      <ul>
+        <li>전체 기준 (클릭 UV / 시간조건 모수) 약 8.6%</li>
+        <li>B군 기준 (클릭 UV / 시간조건 모수의 절반) 약 16~17%</li>
+        <li>코드의 9개 조건 모두 통과한 노출 자격 모수 기준 약 100% (BQ 단계 분리 불가)</li>
+        <li>본 검정력 분석은 "B군 노출률 16%" 기준</li>
+        <li>노출 자격 모수가 더 작다면 B군 모집단도 작아져 검정력 부족 폭 더 커짐</li>
+      </ul>
+    </li>
   </ul>
 
   <h3 style="margin-top: 28px;">5-3. BQ 단계 분리 불가 조건</h3>
-  <p>9개 노출 조건 중 다음 8개는 BQ 모수 깔때기로 단계 분리 어려움:</p>
+  <p>9개 노출 조건 중 다음 8개는 BQ 모수 깔때기로 단계 분리 어려움</p>
   <ul>
-    <li>차종 제외 (외제/EV/M세그밴/M세그RV) - 예약 시점 차종 정보 별도 조회 필요</li>
-    <li>추가금 4,900원 초과 - 가격 계산 결과 필요</li>
-    <li>차량 가용성 (자정까지) - BE 호출 시점 동적 판단</li>
-    <li>제외 zone 아님 - zone 마스터 필요</li>
-    <li>제휴할인 없음 - 쿠폰/할인 적용 결과</li>
-    <li>빈도 제한 (7일 1회) - Redis 별도</li>
-    <li>개인 회원 (비즈/법인 제외) - reservation_biz_info JOIN</li>
-    <li>A/B 50:50 분배 - bucket 함수 적용</li>
+    <li>차종 제외 (외제/EV/M세그밴/M세그RV): 예약 시점 차종 정보 별도 조회 필요</li>
+    <li>추가금 4,900원 초과: 가격 계산 결과 필요</li>
+    <li>차량 가용성 (자정까지): BE 호출 시점 동적 판단</li>
+    <li>제외 zone 아님: zone 마스터 필요</li>
+    <li>제휴할인 없음: 쿠폰/할인 적용 결과</li>
+    <li>빈도 제한 (7일 1회): Redis 별도</li>
+    <li>개인 회원 (비즈/법인 제외): reservation_biz_info JOIN</li>
+    <li>A/B 50:50 분배: bucket 함수 적용</li>
   </ul>
 
   <h3 style="margin-top: 28px;">5-4. 후속 확인 필요</h3>
   <ul>
-    <li>5/21 14:20 PF0 옵션 재노출 배포 주체 및 시점 (8일 만 재노출)</li>
-    <li>5/22 14시 현재 PF0가 여전히 노출 중인지 (이벤트 로그 D+1 적재로 미확정)</li>
-    <li>5/21 비PF0 클릭자 303명의 정체 (시간연장인지 별도 페이지 진입인지)</li>
-    <li>토요일 제외 조건 영향도 다른 주 데이터로 별도 측정 (이번 분석 기간 평일 + 일요일만 있음)</li>
+    <li>토요일 제외 조건 영향도 다른 주 데이터로 별도 측정 (이번 분석 기간에 평일 + 일요일만 있음)</li>
     <li>코드의 9개 조건 중 노출 자격 통과 모수 (BQ로 직접 측정 불가, BE 로깅 추가 필요)</li>
   </ul>
 </div>
 
-<!-- 부록 -->
-<h2 id="appendix">부록: 주요 BigQuery 쿼리</h2>
-
-<div class="card">
-  <h3>일별 view UV (시간연장 분리)</h3>
-  <pre><code>SELECT event_date_kst, COUNT(DISTINCT member_id) AS view_uv
+<!-- 부록 (접기) -->
+<details style="margin: 32px 0;">
+<summary style="cursor: pointer; padding: 18px 24px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; font-weight: 700; font-size: 16px; color: var(--accent-dark);">
+  부록: 주요 BigQuery 쿼리 (펼치기)
+</summary>
+<div class="card" style="margin-top: 12px;">
+  <h3>일별 시간연장 옵션 클릭 UV</h3>
+  <pre><code>SELECT event_date_kst,
+       COUNT(DISTINCT member_id) AS interval_click_uv
 FROM `socar-data.app_web_log.socar_app_web_log`
 WHERE event_date_kst BETWEEN '2026-05-13' AND '2026-05-21'
-  AND page_name = 'upsell_bottomsheet' AND event_name = 'view'
+  AND page_name = 'upsell_bottomsheet'
+  AND event_name = 'click'
+  AND component_name = 'interval_option'
   AND event_at_kst >= DATETIME '2026-05-13 14:09:30'
-  AND NOT (event_date_kst = '2026-05-21' AND form_data LIKE '%pfNudge%')
 GROUP BY 1 ORDER BY 1</code></pre>
 
-  <h3>시간연장 수락 (paid_type 단일 필터)</h3>
+  <h3>시간연장 수락 (paid_type 필터)</h3>
   <pre><code>SELECT DATE(created_at, 'Asia/Seoul') AS dt,
        COUNT(DISTINCT reservation_id) AS cnt,
        SUM(amount) AS revenue
 FROM `socar-data.tianjin_replica.paid_info`
 WHERE paid_type = 'upselling_discount'
-GROUP BY 1 ORDER BY 1
--- PF0 결제는 이 paid_type으로 잡히지 않음 (회원 단위 클릭 조인으로 검증)</code></pre>
+GROUP BY 1 ORDER BY 1</code></pre>
 
   <h3>모수 깔때기 단계별 집계</h3>
   <pre><code>WITH base AS (
@@ -783,6 +821,7 @@ FROM target t
 JOIN `socar-data.socar_biz_profit.profit_socar_reservation` p
   ON t.rsv_id = p.reservation_id</code></pre>
 </div>
+</details>
 
 <hr class="divider" />
 
@@ -794,13 +833,12 @@ JOIN `socar-data.socar_biz_profit.profit_socar_reservation` p
 </div>
 
 <script>
-// 5/19 73 = 배포 전 48(1차) + 배포 후 25(2차) 분리. stacked로 표시
+// 시간연장 옵션 클릭 UV (interval_option). 5/19는 배포 전/후 분리.
 const dailyData = {
   labels: ['5/13','5/14','5/15','5/16(토)','5/17','5/18','5/19','5/20','5/21'],
-  view_phase1: [5, 36, 41, 0, 33, 29, 48, 0, 0],   // 1차 (당일출발)
-  view_phase2: [0, 0, 0, 0, 0, 0, 25, 77, 46],     // 2차 (리드24h)
-  view_pf0:    [0, 0, 0, 0, 0, 0, 0, 0, 0],        // 5/21은 phase2에 포함 (PF0 혼입은 캡션으로 안내)
-  accept:      [3, 13, 12, 0, 12, 6, 23, 21, 33]
+  click_phase1: [3, 10, 16, 0, 19, 10, 19, 0, 0],   // 1차 (당일출발). 5/19 30 중 배포 전 추정 19
+  click_phase2: [0, 0, 0, 0, 0, 0, 11, 33, 32],     // 2차 (리드24h). 5/19 배포 후 추정 11
+  accept:       [3, 13, 12, 0, 12, 6, 23, 21, 33]
 };
 
 new Chart(document.getElementById('dailyChart'), {
@@ -808,18 +846,18 @@ new Chart(document.getElementById('dailyChart'), {
     labels: dailyData.labels,
     datasets: [
       {
-        type: 'bar', label: '1차 view UV (당일출발)',
-        data: dailyData.view_phase1,
+        type: 'bar', label: '1차 옵션 클릭 UV (당일출발)',
+        data: dailyData.click_phase1,
         backgroundColor: 'rgba(148, 163, 184, 0.75)',
         borderColor: 'rgb(148, 163, 184)',
-        borderWidth: 1.5, borderRadius: 4, stack: 'view', yAxisID: 'y'
+        borderWidth: 1.5, borderRadius: 4, stack: 'click', yAxisID: 'y'
       },
       {
-        type: 'bar', label: '2차 view UV (리드24h)',
-        data: dailyData.view_phase2,
-        backgroundColor: (ctx) => ctx.dataIndex === 8 ? 'rgba(220, 38, 38, 0.55)' : 'rgba(37, 99, 235, 0.8)',
-        borderColor: (ctx) => ctx.dataIndex === 8 ? 'rgb(220, 38, 38)' : 'rgb(37, 99, 235)',
-        borderWidth: 1.5, borderRadius: 4, stack: 'view', yAxisID: 'y'
+        type: 'bar', label: '2차 옵션 클릭 UV (리드24h)',
+        data: dailyData.click_phase2,
+        backgroundColor: 'rgba(37, 99, 235, 0.8)',
+        borderColor: 'rgb(37, 99, 235)',
+        borderWidth: 1.5, borderRadius: 4, stack: 'click', yAxisID: 'y'
       },
       {
         type: 'line', label: '수락 건수',
@@ -839,8 +877,7 @@ new Chart(document.getElementById('dailyChart'), {
         callbacks: {
           afterTitle: (items) => {
             const i = items[0].dataIndex;
-            if (i === 8) return '5/21 14:20~ PF0 옵션 재노출, 시간연장 view 분리 한계';
-            if (i === 6) return '5/19: 배포 전(48) + 배포 후(25)';
+            if (i === 6) return '5/19 30건 = 배포 전(19, 1차) + 배포 후(11, 2차) 추정 분배';
             return '';
           }
         }
@@ -848,7 +885,7 @@ new Chart(document.getElementById('dailyChart'), {
     },
     scales: {
       x: { stacked: true, ticks: { font: { size: 13 } } },
-      y: { stacked: true, beginAtZero: true, title: { display: true, text: 'view UV (명)', font: { size: 13 } }, grid: { color: '#f3f4f6' }, ticks: { font: { size: 12 } } },
+      y: { stacked: true, beginAtZero: true, title: { display: true, text: '옵션 클릭 UV (명)', font: { size: 13 } }, grid: { color: '#f3f4f6' }, ticks: { font: { size: 12 } } },
       y1: { beginAtZero: true, position: 'right', title: { display: true, text: '수락 건수', font: { size: 13 } }, grid: { display: false }, ticks: { font: { size: 12 } } }
     }
   }
