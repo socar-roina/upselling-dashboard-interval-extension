@@ -495,9 +495,9 @@
     </ul>
   </div>
 
-  <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 클릭/수락 회원 수</h3>
+  <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 노출 / 수락 회원 수</h3>
   <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
-  <div class="chart-caption">회색 막대: 1차 (당일출발 조건). 파랑 막대: 2차 (리드 24h 조건). 주황 선: 유효 수락. 토요일 (5/16)은 토요일 출발 제외 조건으로 모수 0이라 차트에서 제외.</div>
+  <div class="chart-caption">회색 막대: 1차 노출 회원 (당일출발 조건). 파랑 막대: 2차 노출 회원 (리드 24h 조건). 주황 선: 유효 수락 회원. 토요일 (5/16)은 토요일 출발 제외 조건으로 모수 0이라 차트에서 제외.</div>
 
   <div class="callout" style="background: #f0f9ff; border-left-color: var(--accent);">
     <strong>5/19 배포 전 사전 추정치(1.2배 증가)와 실측치(2.6배 증가) 차이</strong>
@@ -958,14 +958,14 @@ JOIN `socar-data.socar_biz_profit.profit_socar_reservation` p
 </div>
 
 <script>
-// 시간연장 옵션 클릭/유효 수락 회원 수 기준. 5/19는 배포 전(21)/후(9) 실측 분리.
+// 시간연장 옵션 노출/유효 수락 회원 수 기준. 5/19는 배포 전(48)/후(25) 실측 분리.
 // 토요일 (5/16)은 토요일 출발 제외 조건으로 모수 0이라 차트에서 제외.
 // 유효 수락 = 결제 완료 + 예약 취소 안 함 (정책 "1인 1수락"과 일치)
 const dailyData = {
   labels: ['5/13','5/14','5/15','5/17','5/18','5/19','5/20','5/21'],
-  click_phase1: [3, 10, 16, 19, 10, 21, 0, 0],
-  click_phase2: [0, 0, 0, 0, 0, 9, 33, 32],
-  accept:       [0, 9, 10, 9, 6, 20, 17, 24]
+  view_phase1: [5, 36, 41, 33, 29, 48, 0, 0],
+  view_phase2: [0, 0, 0, 0, 0, 25, 77, 46],
+  accept:      [0, 9, 10, 9, 6, 20, 17, 24]
 };
 
 new Chart(document.getElementById('dailyChart'), {
@@ -973,18 +973,18 @@ new Chart(document.getElementById('dailyChart'), {
     labels: dailyData.labels,
     datasets: [
       {
-        type: 'bar', label: '1차 옵션 클릭 회원 (당일출발)',
-        data: dailyData.click_phase1,
+        type: 'bar', label: '1차 옵션 노출 회원 (당일출발)',
+        data: dailyData.view_phase1,
         backgroundColor: 'rgba(148, 163, 184, 0.75)',
         borderColor: 'rgb(148, 163, 184)',
-        borderWidth: 1.5, borderRadius: 4, stack: 'click'
+        borderWidth: 1.5, borderRadius: 4, stack: 'view'
       },
       {
-        type: 'bar', label: '2차 옵션 클릭 회원 (리드24h)',
-        data: dailyData.click_phase2,
+        type: 'bar', label: '2차 옵션 노출 회원 (리드24h)',
+        data: dailyData.view_phase2,
         backgroundColor: 'rgba(37, 99, 235, 0.8)',
         borderColor: 'rgb(37, 99, 235)',
-        borderWidth: 1.5, borderRadius: 4, stack: 'click'
+        borderWidth: 1.5, borderRadius: 4, stack: 'view'
       },
       {
         type: 'line', label: '유효 수락 회원',
@@ -1003,7 +1003,7 @@ new Chart(document.getElementById('dailyChart'), {
         callbacks: {
           afterTitle: (items) => {
             const i = items[0].dataIndex;
-            if (i === 5) return '5/19 클릭 회원 30명 = 배포 전 21 (1차) + 배포 후 9 (2차) 실측 분리';
+            if (i === 5) return '5/19 노출 회원 73명 = 배포 전 48 (1차) + 배포 후 25 (2차) 실측 분리';
             return '';
           }
         }
