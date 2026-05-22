@@ -338,12 +338,12 @@
 <div class="summary" id="summary">
   <h2>요약</h2>
   <ul>
-    <li><strong>5/19 리드타임 완화 배포 효과:</strong> 시간당 옵션 클릭 회원 수 1차 0.53명, 2차 1.37명 (약 2.6배 증가)</li>
+    <li><strong>5/19 리드타임 완화 배포 효과:</strong> 시간당 옵션 노출 회원 수 1차 1.28명, 2차 2.70명 (약 2.1배 증가)</li>
     <li><strong>모수가 작은 주된 이유:</strong> 9개 노출 조건 중 "출발 9-15시 / 반납 15-20시 / 대여 4-24시간" 조합이 약 −90% 손실의 주범</li>
     <li><strong>현재 모수로 답할 수 있는 것</strong>
       <ul>
-        <li>옵션 클릭 회원 중 유효 수락률 추정 (실측 약 63% ±5%p): <span class="badge good">충분</span></li>
-        <li>실험군 vs 대조군 매출 차이 통계 검증: <span class="badge bad">약 7.4배 부족</span> (필요 약 45,000명/군 vs 현재 약 6,100명)</li>
+        <li>노출자 중 수락률 추정 (실측 약 28~32% ±5%p): <span class="badge good">충분</span></li>
+        <li>실험군 vs 대조군 매출 차이 통계 검증: <span class="badge bad">약 25배 부족</span> (필요 약 155,000명/군 vs 현재 약 6,100명)</li>
       </ul>
     </li>
     <li><strong>모수 늘리는 방안 (조건 완화 시뮬레이션)</strong>
@@ -422,10 +422,12 @@
 
 <div class="card">
   <h3>1-1. 1차 vs 2차 비교</h3>
-  <p>핵심 지표: 시간당 옵션 클릭 회원 수</p>
+  <p>핵심 지표: 시간당 옵션 노출 회원 수 (옵션 화면 진입자)</p>
   <ul style="margin-top: 4px;">
-    <li>옵션 클릭 회원: 업셀링 바텀시트에서 시간연장 옵션을 클릭한 회원 수</li>
-    <li>유효 수락 회원: 클릭 후 결제 완료 + 예약을 취소하지 않은 회원 수 (정책 "1인 1수락"과 일치하는 정의)</li>
+    <li>옵션 노출 회원: 업셀링 바텀시트에 진입한 회원 수 (page view 회원, 중복 제외)</li>
+    <li>옵션 클릭 회원: 노출자 중 시간연장 옵션을 직접 클릭한 회원 수</li>
+    <li>유효 수락 회원: 결제 완료 + 예약을 취소하지 않은 회원 수 (정책 "1인 1수락"과 일치)</li>
+    <li>수락률 = 유효 수락 회원 ÷ 옵션 노출 회원 (노출자 중 수락 비율)</li>
     <li>5/19 15:50 KST 배포 시각 기준으로 1차 / 2차 정확히 분리</li>
   </ul>
   <table>
@@ -434,8 +436,9 @@
         <th>구간</th>
         <th>운영 기간</th>
         <th>운영 시간</th>
+        <th>옵션 노출 회원</th>
+        <th>시간당 노출 회원</th>
         <th>옵션 클릭 회원</th>
-        <th>시간당 클릭 회원</th>
         <th>유효 수락 회원</th>
         <th>수락률</th>
         <th>매출 (4,900원 × 수락)</th>
@@ -446,28 +449,32 @@
         <td>1차 (당일출발)</td>
         <td>5/13 14:09 ~ 5/19 15:50</td>
         <td class="num">144.8 h</td>
+        <td class="num">186</td>
+        <td class="num"><strong>1.28 /h</strong></td>
         <td class="num">77</td>
-        <td class="num"><strong>0.53 /h</strong></td>
         <td class="num">48</td>
-        <td class="num">62.3%</td>
+        <td class="num">25.8%</td>
         <td class="num">235,200원</td>
       </tr>
       <tr>
         <td><strong>2차 (리드 24h)</strong></td>
         <td>5/19 15:50 ~ 5/21 14:20</td>
         <td class="num">54.0 h</td>
+        <td class="num">146</td>
+        <td class="num"><strong>2.70 /h</strong></td>
         <td class="num">74</td>
-        <td class="num"><strong>1.37 /h</strong></td>
         <td class="num">47</td>
-        <td class="num">63.5%</td>
+        <td class="num">32.2%</td>
         <td class="num">230,300원</td>
       </tr>
       <tr style="background: #eff6ff; font-weight: 700; color: var(--accent-dark);">
         <td>2차 / 1차 배수 (시간당 기준)</td>
         <td>-</td><td>-</td>
         <td>-</td>
-        <td class="num">2.57배</td>
-        <td>-</td><td>-</td><td>-</td>
+        <td class="num">2.11배</td>
+        <td>-</td><td>-</td>
+        <td class="num">+6.4%p</td>
+        <td>-</td>
       </tr>
     </tbody>
   </table>
@@ -629,8 +636,8 @@
           <strong>A. 옵션 본 회원 중 수락률 추정</strong><br/>
           <small class="note">옵션을 본 사람 중 몇 %가 결제까지 갔는지 추정</small>
         </td>
-        <td class="num">약 380명<br/><small class="note">±5%p 정확도</small></td>
-        <td class="num">옵션 클릭 회원 누적 약 850명</td>
+        <td class="num">약 320명<br/><small class="note">±5%p 정확도</small></td>
+        <td class="num">옵션 노출 회원 누적 약 1,050명</td>
         <td><span class="badge good">충분</span></td>
       </tr>
       <tr>
@@ -638,9 +645,9 @@
           <strong>B. 실험군 vs 대조군 객단가 통계 검정</strong><br/>
           <small class="note">실험군이 대조군보다 예약당 평균 매출 더 높은지 통계적으로 검증</small>
         </td>
-        <td class="num">약 45,000명<br/><small class="note">검정력 80%</small></td>
+        <td class="num">약 155,000명<br/><small class="note">검정력 80%</small></td>
         <td class="num">실험군 회원 누적 약 6,100명</td>
-        <td><span class="badge bad">약 7.4배 부족</span></td>
+        <td><span class="badge bad">약 25배 부족</span></td>
       </tr>
     </tbody>
   </table>
@@ -648,9 +655,9 @@
   <div class="footnote">
     <strong>A 계산 근거</strong>
     <ul style="margin: 4px 0;">
-      <li>가정: 옵션 본 회원의 유효 수락률 약 63% (1차 62.3%, 2차 63.5% 실측 평균)</li>
-      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.63 × 0.37 / 0.05² ≈ 358명</li>
-      <li>안전 마진 포함 약 380명</li>
+      <li>가정: 옵션 본 회원의 유효 수락률 약 30% (1차 25.8%, 2차 32.2% 실측 평균)</li>
+      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.3 × 0.7 / 0.05² ≈ 323명</li>
+      <li>안전 마진 포함 약 320명</li>
     </ul>
     <strong style="margin-top: 8px; display: inline-block;">B 계산 근거</strong>
     <ul style="margin: 4px 0;">
@@ -659,13 +666,13 @@
       <li>실험군 평균 매출 증가 효과 (단계별 곱연산)
         <ul>
           <li>실험군 안에서 옵션을 실제로 본 비율 약 16%</li>
-          <li>옵션을 본 사람 중 유효 수락 비율 약 63%</li>
+          <li>옵션을 본 사람 중 유효 수락 비율 약 32% (2차 실측)</li>
           <li>수락 1건당 회사 매출 4,900원</li>
-          <li>결과: 16% × 63% × 4,900 ≈ <strong>예약당 494원</strong> 평균 매출 증가</li>
+          <li>결과: 17% × 32% × 4,900 ≈ <strong>예약당 267원</strong> 평균 매출 증가</li>
         </ul>
       </li>
-      <li>이 494원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 45,000명 필요</li>
-      <li>실험군 노출률 16% 산출: 5/19~5/20 시간 조건 통과 모수 평균 887건/일, A/B 50:50 분배 후 실험군 444건/일. 실제 옵션 클릭 75명/일 ÷ 444 = 약 16.9%</li>
+      <li>이 267원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 155,000명 필요</li>
+      <li>실험군 노출률 17% 산출: 2차 평균 시간 조건 통과 모수 887건/일, A/B 50:50 분배 후 실험군 444건/일. 실제 옵션 노출 75명/일 ÷ 444 = 약 16.9%</li>
     </ul>
   </div>
 
@@ -674,8 +681,8 @@
     <div class="good">
       <h4>A 질문 (수락률 추정): 답 가능</h4>
       <p style="margin: 6px 0;">
-        옵션 클릭한 회원이 380명만 모이면 "유효 수락률 약 63% (±5%p)" 라고 결론 낼 수 있음.<br/>
-        6/2 종료 시 예상 누적 850명이라 ±3%p 수준까지 정확도 확보 가능.
+        옵션 노출 회원이 320명만 모이면 "노출자 중 수락률 약 30% (±5%p)" 라고 결론 낼 수 있음.<br/>
+        6/2 종료 시 예상 누적 1,050명이라 ±3%p 수준까지 정확도 확보 가능.
       </p>
     </div>
     <div class="bad">
@@ -683,9 +690,9 @@
       <p style="margin: 6px 0;">
         결국 업셀링 바텀시트을 보는 실험군 회원 수 자체가 작다는 게 핵심.<br/>
         실험군 안에서도 옵션을 실제로 보는 사람은 약 16% 뿐 (나머지는 9개 조건 다 통과 못 함).<br/>
-        본 사람 중에서도 약 63%가 유효 수락. 수락 1건당 매출은 4,900원.<br/>
-        결국 실험군 전체로 보면 예약당 평균 매출 증가는 약 494원 (평균 객단가 58,818원의 약 0.84%).<br/>
-        0.84% 차이를 통계적으로 유의하다고 검증하려면 실험군이 약 45,000명 모여야 함 (현재 추세 6/2까지 약 6,100명).
+        본 사람 중에서도 약 32%가 유효 수락. 수락 1건당 매출은 4,900원.<br/>
+        결국 실험군 전체로 보면 예약당 평균 매출 증가는 약 267원 (평균 객단가 58,818원의 약 0.45%).<br/>
+        0.45% 차이를 통계적으로 유의하다고 검증하려면 실험군이 약 155,000명 모여야 함 (현재 추세 6/2까지 약 6,100명).
       </p>
     </div>
   </div>
@@ -746,13 +753,13 @@
   </div>
 
   <h3 style="margin-top: 36px;">4-2. 조건 완화 시 검정력 확보 여부</h3>
-  <p>매출 효과 검정 (검정력 80%) 필요 실험군 = 약 45,000명. 각 옵션별 14일 누적 실험군 규모와 비교</p>
+  <p>매출 효과 검정 (검정력 80%) 필요 실험군 = 약 155,000명. 각 옵션별 14일 누적 실험군 규모와 비교</p>
   <table>
     <thead>
       <tr>
         <th>완화 옵션</th>
         <th>옵션 클릭 회원 누적 (14일 예상)</th>
-        <th>예상 유효 수락 회원 (63% 가정)</th>
+        <th>예상 유효 수락 회원 (수락률 32% 가정)</th>
         <th>실험군 회원 누적 (14일 예상)</th>
         <th>매출 통계 검증 가능?</th>
       </tr>
@@ -761,37 +768,37 @@
       <tr>
         <td>현재 (변경 없음)</td>
         <td class="num">약 915</td>
-        <td class="num">약 575</td>
+        <td class="num">약 290</td>
         <td class="num">약 6,100</td>
-        <td><span class="badge bad">약 7.4배 부족</span></td>
+        <td><span class="badge bad">약 25배 부족</span></td>
       </tr>
       <tr>
         <td>±1h 확장</td>
         <td class="num">약 1,650</td>
-        <td class="num">약 1,040</td>
+        <td class="num">약 530</td>
         <td class="num">약 11,000</td>
-        <td><span class="badge bad">약 4배 부족</span></td>
+        <td><span class="badge bad">약 14배 부족</span></td>
       </tr>
       <tr>
         <td>±2h 확장</td>
         <td class="num">약 2,400</td>
-        <td class="num">약 1,510</td>
+        <td class="num">약 770</td>
         <td class="num">약 16,000</td>
-        <td><span class="badge warn">약 2.8배 부족</span></td>
+        <td><span class="badge bad">약 9.7배 부족</span></td>
       </tr>
       <tr style="background: #f0fdf4;">
         <td><strong>시간 풀고 길이만 유지</strong></td>
         <td class="num">약 4,650</td>
-        <td class="num">약 2,930</td>
+        <td class="num">약 1,490</td>
         <td class="num">약 31,000</td>
-        <td><span class="badge warn">약 1.5배 부족</span></td>
+        <td><span class="badge warn">약 5배 부족</span></td>
       </tr>
       <tr>
         <td>리드 48h만 추가</td>
         <td class="num">약 1,000</td>
-        <td class="num">약 630</td>
+        <td class="num">약 320</td>
         <td class="num">약 6,700</td>
-        <td><span class="badge bad">약 6.7배 부족</span></td>
+        <td><span class="badge bad">약 23배 부족</span></td>
       </tr>
     </tbody>
   </table>
