@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>시간연장 업셀링 실험 — 노출 모수 분석</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #fafafa;
+    --card: #ffffff;
+    --border: #e4e7eb;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --phase1: #94a3b8;
+    --phase2: #2563eb;
+    --good: #10b981;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 32px 24px 80px; }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  h1 { font-size: 24px; margin: 0 0 6px; font-weight: 700; }
+  .subtitle { color: var(--muted); font-size: 13px; }
+  h2 {
+    font-size: 19px;
+    margin: 36px 0 14px;
+    padding-left: 10px;
+    border-left: 4px solid var(--accent);
+    font-weight: 700;
+  }
+  h3 { font-size: 15px; margin: 22px 0 10px; font-weight: 600; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+  }
+  .tldr {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin-bottom: 28px;
+  }
+  .tldr h2 { border-left: none; padding-left: 0; margin-top: 0; margin-bottom: 10px; font-size: 17px; }
+  .tldr ul { margin: 8px 0 0; padding-left: 20px; }
+  .tldr li { margin-bottom: 4px; }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .metric {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .metric .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .metric .value { font-size: 22px; font-weight: 700; color: var(--text); }
+  .metric .delta { font-size: 12px; color: var(--good); margin-top: 2px; }
+  .metric .delta.bad { color: var(--bad); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 9px 12px;
+    text-align: right;
+  }
+  th { background: #f3f4f6; font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .chart-wrap { position: relative; height: 320px; margin: 12px 0 8px; }
+  .chart-wrap.tall { height: 380px; }
+  .chart-caption { font-size: 12px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 280px; }
+  .footnote {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: #f9fafb;
+    border-left: 3px solid var(--border);
+    border-radius: 0 4px 4px 0;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--accent-light);
+    color: var(--accent);
+    margin-right: 4px;
+  }
+  .badge.warn { background: #fef3c7; color: #b45309; }
+  .badge.bad { background: #fee2e2; color: #b91c1c; }
+  .badge.good { background: #d1fae5; color: #047857; }
+  .reco {
+    background: #ecfdf5;
+    border-left: 4px solid var(--good);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+  }
+  .reco strong { color: #047857; }
+  .funnel-bar {
+    display: grid;
+    grid-template-columns: 220px 1fr 80px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .funnel-fill {
+    height: 28px;
+    background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .funnel-fill.dim { background: linear-gradient(90deg, #94a3b8 0%, #cbd5e1 100%); color: #1f2937; }
+  .funnel-loss {
+    font-size: 11px;
+    color: var(--bad);
+    text-align: right;
+  }
+  .opt-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 100px 70px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .opt-fill {
+    height: 26px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 11px;
+  }
+  .opt-fill.current { background: #94a3b8; color: #1f2937; }
+  .opt-fill.option { background: #2563eb; }
+  .opt-fill.option.strong { background: #1d4ed8; }
+  small.note { color: var(--muted); font-size: 12px; }
+  .data-source {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'SF Mono', Monaco, monospace;
+  }
+  .toc {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    padding: 14px 20px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  .toc a { color: var(--accent); text-decoration: none; margin-right: 14px; }
+  .toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>시간연장 업셀링 실험 — 노출 모수 분석</h1>
+  <div class="subtitle">
+    작성: 2026-05-22 | 데이터 기간: 2026-05-13 (1차 배포) ~ 2026-05-21 | BigQuery 실측 기반
+  </div>
+</header>
+
+<div class="toc">
+  <a href="#tldr">요약</a>
+  <a href="#current">1. 현재 모수</a>
+  <a href="#funnel">2. 모수 손실 깔때기</a>
+  <a href="#power">3. 적정 모수 산정</a>
+  <a href="#options">4. 모수 증가 옵션</a>
+  <a href="#reco">5. 권고</a>
+</div>
+
+<!-- TL;DR -->
+<div class="tldr" id="tldr">
+  <h2>한눈에 요약</h2>
+  <ul>
+    <li><strong>1. 노출 모수 작은 것 사실:</strong> 5/19 리드타임 완화 배포 이후 일평균 65명/일 view (배포 전 35명/일 대비 1.9배 증가). 실험 종료일 6/2까지 누적 약 850명 view 예상.</li>
+    <li><strong>2. 필요한 모수는 "무엇을 검증할지"에 따라 다름:</strong>
+      <ul>
+        <li>노출자 중 수락률 추정 (예: 33%): 현재 모수로 ±3%p 수준 가능 → <span class="badge good">충분</span></li>
+        <li>실험군 vs 대조군 객단가 평균 차이 검정: 군당 약 28,000건 필요 (현재 약 6,100건) → <span class="badge bad">부족</span></li>
+      </ul>
+    </li>
+    <li><strong>3. 모수 줄어든 주범:</strong> 9개 노출 조건 중 "출발 9-14시 / 반납 15-19시 / 길이 4-24시간" 조합이 약 <strong>10배 감소</strong> 주범. 리드타임/토요일/차종 등 조건 영향은 상대적으로 작음.</li>
+    <li><strong>4. 모수 늘리기 가장 효과 큰 옵션:</strong>
+      <ul>
+        <li>시간 조건 ±2시간 확장 (출발 7-16시 / 반납 13-21시 / 길이 2-26h) → 약 <strong>2.6배</strong></li>
+        <li>시간 조건 완전 풀기 (길이 4-24h만 유지) → 약 <strong>5.1배</strong></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 섹션 1 -->
+<h2 id="current">1. 현재 노출 모수 — BQ 실측</h2>
+
+<div class="card">
+  <h3>1-1. 일별 view UV와 수락 건수 (5/13 ~ 5/21)</h3>
+  <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+  <div class="chart-caption">파란 막대 = view UV (옵션 본 회원수), 주황 선 = 시간연장 옵션 수락 건수</div>
+
+  <h3 style="margin-top:24px;">1-2. 1차 (당일출발) vs 2차 (리드 24h 이내) 비교</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>구간</th><th>운영일수</th><th>view 누계</th><th>일평균 view</th><th>수락 누계</th><th>일평균 수락</th><th>수락률</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1차 (5/14~5/18, 당일출발만)</td>
+        <td>4일 <small class="note">(5/16 토 모수 0건)</small></td>
+        <td>139</td><td>34.8</td><td>43</td><td>10.8</td><td>30.9%</td>
+      </tr>
+      <tr>
+        <td>2차 (5/19~5/21, 리드 24h 이내)</td>
+        <td>3일</td>
+        <td>196</td><td>65.3</td><td>77</td><td>25.7</td><td>39.3%</td>
+      </tr>
+      <tr style="background: #eff6ff; font-weight: 600;">
+        <td>2차 / 1차 배수</td>
+        <td>—</td><td>1.4배</td><td>1.9배</td><td>1.8배</td><td>2.4배</td><td>+8.4%p</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="footnote">
+    5/19 15:50:05 KST에 "당일 출발만"→"출발 24시간 이내 생성"으로 조건 완화 배포 (v1.522.0, PR #8021). 5/16(토)은 토요일 제외 조건으로 모수 0건.<br/>
+    5/21 14시부터 PF0 nudge 옵션이 같은 page_name에 다시 노출되기 시작해 시간연장 view만 분리한 수치(form_data에 pfNudge 미포함). 수락은 paid_info의 upselling_type='TIME_EXTENSION'로 정확히 분리.
+  </div>
+  <div class="data-source">소스: app_web_log.socar_app_web_log (page_name='upsell_bottomsheet') + paid_info × paid_meta_info JOIN</div>
+</div>
+
+<!-- 섹션 2 -->
+<h2 id="funnel">2. 모수 손실 깔때기 — 왜 이렇게 작은가</h2>
+
+<div class="card">
+  <h3>2-1. 5/19~5/21 평일 평균 단계별 잔여 모수</h3>
+  <p style="font-size: 13px; color: var(--muted); margin-top: 0;">
+    전체 예약에서 시간연장 노출 조건 9개를 하나씩 적용했을 때 남는 모수 (BQ 추적 가능한 5개 조건만 표시 — 차종/추가금/차량 가용성 등은 BQ로 분리 어려움).
+  </p>
+
+  <div style="margin: 16px 0;">
+    <div class="funnel-bar">
+      <div>전체 예약</div>
+      <div><div class="funnel-fill" style="width: 100%;">32,857건/일</div></div>
+      <div class="funnel-loss">기준</div>
+    </div>
+    <div class="funnel-bar">
+      <div>↓ 왕복 + 취소 안 됨</div>
+      <div><div class="funnel-fill" style="width: 35.8%;">11,757</div></div>
+      <div class="funnel-loss">−64%</div>
+    </div>
+    <div class="funnel-bar">
+      <div>↓ 리드타임 24시간 이내</div>
+      <div><div class="funnel-fill" style="width: 27.0%;">8,867</div></div>
+      <div class="funnel-loss">−25%</div>
+    </div>
+    <div class="funnel-bar">
+      <div>↓ 출발9-14시 / 반납15-19시 / 길이 4-24h</div>
+      <div><div class="funnel-fill dim" style="width: 2.66%;">876</div></div>
+      <div class="funnel-loss"><strong>−90%</strong></div>
+    </div>
+    <div class="funnel-bar">
+      <div>↓ 토요일 출발 제외 (5/19~21은 영향 없음)</div>
+      <div><div class="funnel-fill dim" style="width: 2.66%;">876</div></div>
+      <div class="funnel-loss">0%</div>
+    </div>
+    <div class="funnel-bar" style="margin-top: 10px;">
+      <div><strong>실측 view UV</strong></div>
+      <div><div class="funnel-fill" style="background: #ef4444; width: 0.20%;">65</div></div>
+      <div class="funnel-loss"><strong>−93%</strong></div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    876 → 65 사이 약 13배 추가 감소는 BQ로 단계 분리 불가한 조건들:<br/>
+    A/B 50:50 분배 (약 −50%) · 외제/EV/M세그밴/M세그RV 제외 (~−30%) · 추가금 4,900원 초과 · 자정까지 차량 가용 · 제외 zone 아님 · 제휴할인 없음 · 빈도 제한(7일 1회) · 개인 회원
+  </div>
+</div>
+
+<div class="card">
+  <h3>2-2. 결론 — 가장 큰 손실은 "시간/길이 조건"</h3>
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="label">왕복 → 리드24h</div>
+      <div class="value">−25%</div>
+      <div class="delta">조건 완화 효과 충분히 봄</div>
+    </div>
+    <div class="metric">
+      <div class="label">리드24h → 시간/길이 조건</div>
+      <div class="value" style="color: var(--bad);">−90%</div>
+      <div class="delta bad">가장 큰 손실 구간</div>
+    </div>
+    <div class="metric">
+      <div class="label">876 → 실측 view 65</div>
+      <div class="value" style="color: var(--bad);">−93%</div>
+      <div class="delta bad">기타 조건 + A/B 분할</div>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 3 -->
+<h2 id="power">3. 적정 모수 산정 — 어디까지 늘려야 하나</h2>
+
+<div class="card">
+  <h3>3-1. "적정 모수"는 무엇을 검증하느냐에 따라 달라짐</h3>
+  <p>실험으로 답하고 싶은 질문이 두 가지로 나뉘고, 각각 필요한 모수가 크게 다름.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>검증 목표</th>
+        <th>필요 모수 (군당)</th>
+        <th>현재 14일 누적 예상</th>
+        <th>판정</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>A. 노출자 중 수락률 추정</strong><br/><small class="note">"옵션 본 사람 중 몇 %가 수락하나"</small></td>
+        <td>≈ <strong>360명</strong><br/><small class="note">±5%p 정확도</small></td>
+        <td>view 누계 약 850명</td>
+        <td><span class="badge good">충분</span></td>
+      </tr>
+      <tr>
+        <td><strong>B. 실험군 vs 대조군 객단가 차이 검정</strong><br/><small class="note">"B군이 A군보다 평균 매출 더 높나"</small></td>
+        <td>≈ <strong>28,000건</strong><br/><small class="note">검정력 80%</small></td>
+        <td>B군 모집단 약 6,100건</td>
+        <td><span class="badge bad">약 4.5배 부족</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footnote">
+    <strong>A 계산 근거:</strong> 수락률 30% 가정 시 95% 신뢰구간 ±5%p 위한 표본 n = (1.96)² × 0.3 × 0.7 / 0.05² ≈ 323. 안전 마진 포함 360명.<br/>
+    <strong>B 계산 근거:</strong> 시간연장 노출 대상 예약의 객단가 평균 58,818원 / 표준편차 26,494원 (BQ 실측, n=11,191). B군 ITT 효과 추정 약 623원/예약 (노출률 14.8% × 수락률 35% × 평균 시간연장 매출 11,968원). 검정력 80%, 유의수준 5% 양측 검정 기준 n per group = 2 × 7.85 × 26,494² / 623² ≈ 28,400.
+  </div>
+
+  <h3 style="margin-top:24px;">3-2. 직관적 비유</h3>
+  <p>
+    <strong>A 질문 ("수락률은 얼마인가")</strong> 답하기는 쉬움. 옵션 본 사람 350명만 모이면 "30%다, ±5%p 신뢰"라고 말할 수 있음. 현재 모수로 가능.
+  </p>
+  <p>
+    <strong>B 질문 ("실험으로 매출 효과가 통계적으로 증명되나")</strong> 답하기 어려운 이유: 시간연장 옵션 자체가 일부 예약(약 15%)에만 노출되고, 그중 일부(약 35%)만 수락하니까 <strong>B군 전체로 평균 매출이 올라가는 폭이 예약당 약 600원에 불과</strong>함. 평균 객단가 약 59,000원과 비교하면 1% 정도. 이 1% 차이를 통계적으로 검증하려면 군당 수만 건이 필요.
+  </p>
+  <p style="background: #fef3c7; padding: 12px; border-radius: 6px; font-size: 14px;">
+    <strong>요청부서가 정말 알고 싶은 게 무엇인지부터 합의 필요.</strong>
+    "수락률이 얼마나 되는지"가 핵심이면 현재 모수로도 결론 가능. "A vs B 매출 차이가 통계적으로 유의한지"가 핵심이면 모수 4~5배 더 늘려야 함.
+  </p>
+</div>
+
+<!-- 섹션 4 -->
+<h2 id="options">4. 모수 증가 옵션 — 5/19~5/21 BQ 시뮬레이션</h2>
+
+<div class="card">
+  <h3>4-1. 시간/길이 조건 단계별 완화 (리드24h + 토요일 제외 베이스)</h3>
+  <p style="font-size: 13px; color: var(--muted);">베이스 = 리드24h 통과 후 토요일 제외 (3일 합계 26,599건). 시간/길이 조건만 변경 시 잔여 모수.</p>
+
+  <div style="margin: 14px 0;">
+    <div class="opt-row">
+      <div>현재 (출발9-14 / 반납15-19 / 4-24h)</div>
+      <div><div class="opt-fill current" style="width: 9.9%;">2,628</div></div>
+      <div style="text-align: right;">876/일</div>
+      <div style="text-align: right; color: var(--muted);">1.0x</div>
+    </div>
+    <div class="opt-row">
+      <div>±1h 확장 (8-15 / 14-20 / 3-25h)</div>
+      <div><div class="opt-fill option" style="width: 17.8%;">4,727</div></div>
+      <div style="text-align: right;">1,576/일</div>
+      <div style="text-align: right; color: var(--good);">1.8x</div>
+    </div>
+    <div class="opt-row">
+      <div>±2h 확장 (7-16 / 13-21 / 2-26h)</div>
+      <div><div class="opt-fill option" style="width: 25.8%;">6,857</div></div>
+      <div style="text-align: right;">2,286/일</div>
+      <div style="text-align: right; color: var(--good);">2.6x</div>
+    </div>
+    <div class="opt-row">
+      <div>시간 풀고 길이만 4-24h 유지</div>
+      <div><div class="opt-fill option strong" style="width: 50.0%;">13,295</div></div>
+      <div style="text-align: right;">4,432/일</div>
+      <div style="text-align: right; color: var(--good);">5.1x</div>
+    </div>
+    <div class="opt-row">
+      <div>시간/길이 모두 풀기 (이론 최대치)</div>
+      <div><div class="opt-fill option strong" style="width: 100%;">26,599</div></div>
+      <div style="text-align: right;">8,866/일</div>
+      <div style="text-align: right; color: var(--good);">10.1x</div>
+    </div>
+    <div class="opt-row">
+      <div>리드 48h로 추가 완화 (현재 시간조건 유지)</div>
+      <div><div class="opt-fill option" style="width: 10.9%;">2,887</div></div>
+      <div style="text-align: right;">962/일</div>
+      <div style="text-align: right; color: var(--muted);">1.1x</div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    데이터 기준: 5/19~5/21 (3일) round 예약 중 cancel_at IS NULL + 리드24h + 토요일제외 통과 = 26,599건. 차종/추가금/A/B 분할 등 9개 조건 중 시간/길이만 변경 시뮬레이션. 실제 view UV는 이 모수 × 약 7% (5/19~21 실측 비율).
+  </div>
+
+  <h3 style="margin-top:26px;">4-2. 옵션별 예상 view 및 검정력 비교</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>옵션</th>
+        <th>예상 view UV<br/>(14일 누계)</th>
+        <th>예상 수락<br/>(35% 가정)</th>
+        <th>B군 모집단<br/>(14일 누계)</th>
+        <th>B-A 검정력<br/>(80% 위해 필요)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>현재 (변경 없음)</td>
+        <td>~915</td>
+        <td>~320</td>
+        <td>~6,100</td>
+        <td><span class="badge bad">4.6배 부족</span></td>
+      </tr>
+      <tr>
+        <td>±1h 확장</td>
+        <td>~1,650</td>
+        <td>~580</td>
+        <td>~11,000</td>
+        <td><span class="badge warn">2.5배 부족</span></td>
+      </tr>
+      <tr>
+        <td>±2h 확장</td>
+        <td>~2,400</td>
+        <td>~840</td>
+        <td>~16,000</td>
+        <td><span class="badge warn">1.7배 부족</span></td>
+      </tr>
+      <tr style="background: #ecfdf5;">
+        <td><strong>시간 풀고 길이만 유지</strong></td>
+        <td>~4,650</td>
+        <td>~1,630</td>
+        <td>~31,000</td>
+        <td><span class="badge good">충분</span></td>
+      </tr>
+      <tr>
+        <td>리드 48h 추가</td>
+        <td>~1,000</td>
+        <td>~350</td>
+        <td>~6,700</td>
+        <td><span class="badge bad">4.2배 부족</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="footnote">
+    "예상 view UV"는 현재 view 65 / 시간조건 모수 876 = 7.4% 노출률 가정 적용. 실제 수치는 조건 완화 시 노출 가능 모집단의 다른 조건 통과율이 약간 달라질 수 있어 ±20% 오차 가능.
+  </div>
+
+  <div class="chart-wrap tall" style="margin-top: 20px;"><canvas id="optionChart"></canvas></div>
+  <div class="chart-caption">옵션별 일평균 모수 비교 (현재 대비 배수 표기)</div>
+</div>
+
+<!-- 섹션 5 -->
+<h2 id="reco">5. 권고</h2>
+
+<div class="card">
+  <div class="reco">
+    <strong>1. 먼저 합의할 것:</strong> 요청부서가 이 실험으로 답하고 싶은 게 "수락률 추정"인지 "A vs B 매출 효과 통계 검증"인지 확정.
+    <ul>
+      <li>전자라면 현재 모수로 6/2 종료 후 결론 가능</li>
+      <li>후자라면 조건 완화 필요</li>
+    </ul>
+  </div>
+
+  <div class="reco">
+    <strong>2. 후자 시 권고 — 시간/길이 조건 풀기:</strong>
+    <ul>
+      <li>현재 코드에서 출발 9-14시 / 반납 15-19시 조건이 단일 최대 손실 구간 (90% 감소)</li>
+      <li>이 조건을 푸는 게 다른 어떤 조건 완화보다 효과 큼 (5.1배 vs 리드 48h 1.1배)</li>
+      <li>"길이 4-24시간"만 남기면 검정력 확보 가능 모수까지 도달 가능</li>
+    </ul>
+  </div>
+
+  <div class="reco">
+    <strong>3. 일정 고려:</strong>
+    <ul>
+      <li>현재 종료일 6/2 (5/19 완화 + 14일)</li>
+      <li>5/27 ~ 6/10 부가서비스 3차 배포 공백기간 활용해 시간조건 완화 재배포 검토 가치 있음 (모수 부족 검토 시 5/15 메모에서 이미 논의)</li>
+      <li>단, 시간 조건은 "고객 행동 통제 변수" 성격이라 BE팀과 추가 협의 필요</li>
+    </ul>
+  </div>
+
+  <div class="reco">
+    <strong>4. 추가 검증 사항:</strong>
+    <ul>
+      <li>5/21 PF0 nudge 재노출 배포 사실 확인 — 시간연장 page_name 공유 중. 추후 분석 시 분리 필요</li>
+      <li>5/14 메모리 기록 수락 9건/44,100원 vs 본 분석 13건/262,800원 차이 — paid_info JOIN 키 정합성 확인 필요</li>
+      <li>토요일 제외 조건은 다른 주 데이터에서 영향도 별도 측정 (이번 분석 기간 5/19~21 평일만이라 측정 불가)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 부록 -->
+<h2 id="appendix">부록 — 주요 BQ 쿼리</h2>
+<div class="card">
+  <h3>일별 view UV</h3>
+  <pre style="background: #1f2937; color: #f3f4f6; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 12px;"><code>SELECT event_date_kst, COUNT(DISTINCT member_id) AS view_uv
+FROM `socar-data.app_web_log.socar_app_web_log`
+WHERE event_date_kst BETWEEN '2026-05-13' AND '2026-05-21'
+  AND page_name = 'upsell_bottomsheet' AND event_name = 'view'
+  AND event_at_kst >= DATETIME '2026-05-13 14:09:30'
+  AND NOT (event_date_kst = '2026-05-21' AND form_data LIKE '%pfNudge%')
+GROUP BY 1 ORDER BY 1</code></pre>
+
+  <h3>시간연장 수락 (paid_info × paid_meta_info)</h3>
+  <pre style="background: #1f2937; color: #f3f4f6; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 12px;"><code>SELECT DATE(pi.created_at, 'Asia/Seoul') AS dt,
+       COUNT(DISTINCT pi.reservation_id) AS cnt,
+       SUM(pi.amount) AS revenue
+FROM `socar-data.tianjin_replica.paid_info` pi
+JOIN `socar-data.tianjin_replica.paid_meta_info` pmi ON pi.id = pmi.id
+WHERE pi.paid_type = 'upselling_discount'
+  AND JSON_VALUE(pmi.meta, '$.upselling_type') = 'TIME_EXTENSION'
+GROUP BY 1 ORDER BY 1</code></pre>
+
+  <h3>모수 깔때기 + 시간 조건 시뮬레이션</h3>
+  <pre style="background: #1f2937; color: #f3f4f6; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 12px;"><code>SELECT COUNT(CASE WHEN lead_h <= 24 AND dow_s != 7
+              AND sh BETWEEN 7 AND 16 AND eh BETWEEN 13 AND 21
+              AND rent_h BETWEEN 2 AND 26 THEN 1 END) AS pm2h
+FROM (
+  SELECT DATETIME_DIFF(DATETIME(start_at,'Asia/Seoul'),
+                       DATETIME(created_at,'Asia/Seoul'), HOUR) AS lead_h,
+         DATETIME_DIFF(DATETIME(end_at,'Asia/Seoul'),
+                       DATETIME(start_at,'Asia/Seoul'), HOUR) AS rent_h,
+         EXTRACT(HOUR FROM DATETIME(start_at,'Asia/Seoul')) AS sh,
+         EXTRACT(HOUR FROM DATETIME(end_at,'Asia/Seoul')) AS eh,
+         EXTRACT(DAYOFWEEK FROM DATETIME(start_at,'Asia/Seoul')) AS dow_s
+  FROM `socar-data.tianjin_replica.reservation_info`
+  WHERE DATE(created_at,'Asia/Seoul') BETWEEN '2026-05-19' AND '2026-05-21'
+    AND way='round' AND cancel_at IS NULL
+)</code></pre>
+</div>
+
+<div style="margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); text-align: center;">
+  대시보드 본 KPI: <a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" style="color: var(--accent);">socar-roina.github.io/upselling-dashboard-interval-extension</a><br/>
+  이 분석 문서: modu-analysis.html | BigQuery socar-data-internal | 작성 2026-05-22
+</div>
+
+</div>
+
+<script>
+const dailyData = {
+  labels: ['5/13','5/14','5/15','5/16(토)','5/17','5/18','5/19','5/20','5/21'],
+  view: [5, 36, 41, 0, 33, 29, 73, 77, 46],
+  accept: [3, 13, 12, 0, 12, 6, 23, 21, 33]
+};
+
+new Chart(document.getElementById('dailyChart'), {
+  data: {
+    labels: dailyData.labels,
+    datasets: [
+      {
+        type: 'bar', label: 'view UV (옵션 본 회원수)',
+        data: dailyData.view,
+        backgroundColor: dailyData.labels.map((l, i) =>
+          i < 6 ? 'rgba(148, 163, 184, 0.7)' : 'rgba(37, 99, 235, 0.75)'),
+        borderColor: dailyData.labels.map((l, i) =>
+          i < 6 ? 'rgb(148, 163, 184)' : 'rgb(37, 99, 235)'),
+        borderWidth: 1,
+        yAxisID: 'y'
+      },
+      {
+        type: 'line', label: '수락 건수',
+        data: dailyData.accept,
+        borderColor: '#f59e0b', backgroundColor: '#f59e0b',
+        borderWidth: 2.5, tension: 0.3,
+        pointRadius: 4, pointHoverRadius: 6,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { font: { size: 12 } } },
+      tooltip: { callbacks: { afterTitle: (items) => items[0].dataIndex >= 6 ? '2차 (리드 24h)' : '1차 (당일출발)' } },
+      annotation: {}
+    },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: 'view UV (명)' }, grid: { color: '#f3f4f6' } },
+      y1: { beginAtZero: true, position: 'right', title: { display: true, text: '수락 건수' }, grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('optionChart'), {
+  type: 'bar',
+  data: {
+    labels: ['현재', '±1h 확장', '±2h 확장', '시간 풀기\n(길이만 유지)', '시간/길이\n모두 풀기', '리드 48h'],
+    datasets: [{
+      label: '일평균 모수 (건/일)',
+      data: [876, 1576, 2286, 4432, 8866, 962],
+      backgroundColor: ['#94a3b8', '#60a5fa', '#3b82f6', '#1d4ed8', '#1e3a8a', '#cbd5e1'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => {
+            const baseline = 876;
+            const v = ctx.parsed.x;
+            const mult = (v / baseline).toFixed(1);
+            return `${v.toLocaleString()}건/일 (현재 대비 ${mult}배)`;
+          }
+        }
+      },
+      datalabels: { color: 'white', font: { weight: 'bold' } }
+    },
+    scales: {
+      x: { title: { display: true, text: '일평균 노출 가능 모수 (건/일)' }, grid: { color: '#f3f4f6' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
