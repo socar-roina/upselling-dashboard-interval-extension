@@ -338,7 +338,7 @@
 <div class="summary" id="summary">
   <h2>요약</h2>
   <ul>
-    <li><strong>5/19 리드타임 완화 배포 효과:</strong> 시간당 옵션 클릭 회원 수 1차 0.53명 → 2차 1.37명 (약 2.6배 증가)</li>
+    <li><strong>5/19 리드타임 완화 배포 효과:</strong> 시간당 옵션 클릭 회원 수 1차 0.53명, 2차 1.37명 (약 2.6배 증가)</li>
     <li><strong>모수가 작은 주된 이유:</strong> 9개 노출 조건 중 "출발 9-15시 / 반납 15-20시 / 대여 4-24시간" 조합이 약 −90% 손실의 주범</li>
     <li><strong>현재 모수로 답할 수 있는 것</strong>
       <ul>
@@ -473,7 +473,7 @@
     </tbody>
   </table>
 
-  <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 클릭 UV 및 수락 건수</h3>
+  <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 클릭/수락 회원 수</h3>
   <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
   <div class="chart-caption">회색 막대: 1차 (당일출발 조건). 파랑 막대: 2차 (리드 24h 조건). 주황 선: 수락 건수</div>
 
@@ -566,7 +566,7 @@
     </div>
     <div class="metric">
       <div class="label">시간/길이 통과 후 실제 클릭까지</div>
-      <div class="value bad">876건 → 31명</div>
+      <div class="value bad">876건에서 31명으로</div>
       <div class="delta bad">2-2의 분리 불가 조건들이 합쳐진 결과</div>
     </div>
   </div>
@@ -866,7 +866,7 @@
   부록: 주요 BigQuery 쿼리 (펼치기)
 </summary>
 <div class="card" style="margin-top: 12px;">
-  <h3>일별 시간연장 옵션 클릭 UV</h3>
+  <h3>일별 시간연장 옵션 클릭 회원 수</h3>
   <pre><code>SELECT event_date_kst,
        COUNT(DISTINCT member_id) AS interval_click_uv
 FROM `socar-data.app_web_log.socar_app_web_log`
@@ -949,14 +949,14 @@ new Chart(document.getElementById('dailyChart'), {
     labels: dailyData.labels,
     datasets: [
       {
-        type: 'bar', label: '1차 옵션 클릭 UV (당일출발)',
+        type: 'bar', label: '1차 옵션 클릭 회원 (당일출발)',
         data: dailyData.click_phase1,
         backgroundColor: 'rgba(148, 163, 184, 0.75)',
         borderColor: 'rgb(148, 163, 184)',
         borderWidth: 1.5, borderRadius: 4, stack: 'click', yAxisID: 'y'
       },
       {
-        type: 'bar', label: '2차 옵션 클릭 UV (리드24h)',
+        type: 'bar', label: '2차 옵션 클릭 회원 (리드24h)',
         data: dailyData.click_phase2,
         backgroundColor: 'rgba(37, 99, 235, 0.8)',
         borderColor: 'rgb(37, 99, 235)',
@@ -988,7 +988,7 @@ new Chart(document.getElementById('dailyChart'), {
     },
     scales: {
       x: { stacked: true, ticks: { font: { size: 13 } } },
-      y: { stacked: true, beginAtZero: true, title: { display: true, text: '옵션 클릭 UV (명)', font: { size: 13 } }, grid: { color: '#f3f4f6' }, ticks: { font: { size: 12 } } },
+      y: { stacked: true, beginAtZero: true, title: { display: true, text: '옵션 클릭 회원 수 (명)', font: { size: 13 } }, grid: { color: '#f3f4f6' }, ticks: { font: { size: 12 } } },
       y1: { beginAtZero: true, position: 'right', title: { display: true, text: '수락 회원 수 (명)', font: { size: 13 } }, grid: { display: false }, ticks: { font: { size: 12 } } }
     }
   }
