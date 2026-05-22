@@ -342,8 +342,8 @@
     <li><strong>모수가 작은 주된 이유:</strong> 9개 노출 조건 중 "출발 9-15시 / 반납 15-20시 / 대여 4-24시간" 조합이 약 −90% 손실의 주범</li>
     <li><strong>현재 모수로 답할 수 있는 것</strong>
       <ul>
-        <li>옵션 본 회원 중 수락률 추정 (예: 30% ±5%p): <span class="badge good">충분</span></li>
-        <li>실험군 vs 대조군 매출 차이 통계 검증: <span class="badge bad">약 24배 부족</span> (필요 약 147,000명/군 vs 현재 약 6,100명)</li>
+        <li>옵션 클릭 회원 중 유효 수락률 추정 (실측 약 63% ±5%p): <span class="badge good">충분</span></li>
+        <li>실험군 vs 대조군 매출 차이 통계 검증: <span class="badge bad">약 7.4배 부족</span> (필요 약 45,000명/군 vs 현재 약 6,100명)</li>
       </ul>
     </li>
     <li><strong>모수 늘리는 방안 (조건 완화 시뮬레이션)</strong>
@@ -421,10 +421,11 @@
 <h2 id="current">1. 현재 노출 모수</h2>
 
 <div class="card">
-  <h3>1-1. 1차 vs 2차 비교 (모두 회원 수 기준)</h3>
-  <p>핵심 지표: <strong>업셀링 바텀시트에서 시간연장 옵션 클릭한 회원 수 (시간당)</strong></p>
+  <h3>1-1. 1차 vs 2차 비교</h3>
+  <p>핵심 지표: 시간당 옵션 클릭 회원 수</p>
   <ul style="margin-top: 4px;">
-    <li>옵션을 본 직후 실제로 관심을 보인 사용자만 잡히는 깨끗한 지표</li>
+    <li>옵션 클릭 회원: 업셀링 바텀시트에서 시간연장 옵션을 클릭한 회원 수</li>
+    <li>유효 수락 회원: 클릭 후 결제 완료 + 예약을 취소하지 않은 회원 수 (정책 "1인 1수락"과 일치하는 정의)</li>
     <li>5/19 15:50 KST 배포 시각 기준으로 1차 / 2차 정확히 분리</li>
   </ul>
   <table>
@@ -435,7 +436,9 @@
         <th>운영 시간</th>
         <th>옵션 클릭 회원</th>
         <th>시간당 클릭 회원</th>
-        <th>수락 회원</th>
+        <th>유효 수락 회원</th>
+        <th>수락률</th>
+        <th>매출 (4,900원 × 수락)</th>
       </tr>
     </thead>
     <tbody>
@@ -445,7 +448,9 @@
         <td class="num">144.8 h</td>
         <td class="num">77</td>
         <td class="num"><strong>0.53 /h</strong></td>
-        <td class="num">53</td>
+        <td class="num">48</td>
+        <td class="num">62.3%</td>
+        <td class="num">235,200원</td>
       </tr>
       <tr>
         <td><strong>2차 (리드 24h)</strong></td>
@@ -453,32 +458,33 @@
         <td class="num">54.0 h</td>
         <td class="num">74</td>
         <td class="num"><strong>1.37 /h</strong></td>
-        <td class="num">49</td>
+        <td class="num">47</td>
+        <td class="num">63.5%</td>
+        <td class="num">230,300원</td>
       </tr>
       <tr style="background: #eff6ff; font-weight: 700; color: var(--accent-dark);">
         <td>2차 / 1차 배수 (시간당 기준)</td>
         <td>-</td><td>-</td>
         <td>-</td>
         <td class="num">2.57배</td>
-        <td>-</td>
+        <td>-</td><td>-</td><td>-</td>
       </tr>
     </tbody>
   </table>
 
   <div class="footnote">
-    <strong>매출 (참고용)</strong>: 시간연장 수락 1건당 정액 4,900원 × 수락 예약 건수 (기획 문서 기준)
+    <strong>"유효 수락 회원" 정의</strong>: 정책 "1회 수락 후 7일간 재노출 불가, 단 예약 취소 시 카운트 리셋"과 일치하도록 다음 조건 모두 만족
     <ul style="margin: 4px 0;">
-      <li>1차: 수락 회원 53명이 63건 예약에서 수락, 매출 308,700원</li>
-      <li>2차: 수락 회원 49명이 60건 예약에서 수락, 매출 294,000원</li>
+      <li>업셀링 바텀시트에서 시간연장 옵션 클릭</li>
+      <li>결제 완료 (paid_info net amount > 0)</li>
+      <li>예약 취소하지 않음 (reservation.cancel_at IS NULL)</li>
     </ul>
-    <strong style="margin-top: 8px; display: inline-block;">회원 수와 예약 건수 차이가 나는 이유</strong>
+    <strong style="margin-top: 8px; display: inline-block;">참고: 회원이 예약을 다시 만드는 패턴</strong>
     <ul style="margin: 4px 0;">
-      <li>클릭 / 수락 모두 "클릭이 있어야 수락이 가능" (데이터 검증 완료, 클릭 없는 수락 0건)</li>
-      <li>단, 한 회원이 같은 기간 안에 여러 예약을 진행할 수 있고 각 예약마다 별개로 클릭 / 수락이 발생</li>
-      <li>예시: 회원 A가 하루에 예약 1, 예약 2 두 건 만들고 각 예약에서 시간연장 클릭 + 수락한 경우 (회원 수 1명, 예약 수 2건)</li>
-      <li>그래서 회원 수 < 예약 건수가 가능 (1차 53명 / 63건, 2차 49명 / 60건)</li>
-      <li>본 표/차트는 모두 "회원 수" 기준으로 통일 (클릭 회원 >= 수락 회원 항상 성립)</li>
-      <li>예약 건수는 매출 산출용으로만 위 (참고용) 항목에 별도 표기</li>
+      <li>BQ 점검 결과 회원이 같은 출발 시각으로 예약을 여러 번 만들면서 결제 시도하는 케이스 관측</li>
+      <li>예: 회원 A가 5/19 12:00 출발로 예약 1 만들어 시간연장 수락 후 1초 만에 취소, 즉시 예약 2 만들어 다시 수락</li>
+      <li>정책상 취소 시 빈도 카운트 리셋이라 재수락 정상 동작</li>
+      <li>이 케이스에서 회사가 실제로 받는 매출은 최종 1건 (4,900원)이라, 본 분석은 취소된 결제 시도를 제외한 "유효 수락" 만 집계</li>
     </ul>
   </div>
 
@@ -623,7 +629,7 @@
           <strong>A. 옵션 본 회원 중 수락률 추정</strong><br/>
           <small class="note">옵션을 본 사람 중 몇 %가 결제까지 갔는지 추정</small>
         </td>
-        <td class="num">약 360명<br/><small class="note">±5%p 정확도</small></td>
+        <td class="num">약 380명<br/><small class="note">±5%p 정확도</small></td>
         <td class="num">옵션 클릭 회원 누적 약 850명</td>
         <td><span class="badge good">충분</span></td>
       </tr>
@@ -632,9 +638,9 @@
           <strong>B. 실험군 vs 대조군 객단가 통계 검정</strong><br/>
           <small class="note">실험군이 대조군보다 예약당 평균 매출 더 높은지 통계적으로 검증</small>
         </td>
-        <td class="num">약 147,000명<br/><small class="note">검정력 80%</small></td>
+        <td class="num">약 45,000명<br/><small class="note">검정력 80%</small></td>
         <td class="num">실험군 회원 누적 약 6,100명</td>
-        <td><span class="badge bad">약 24배 부족</span></td>
+        <td><span class="badge bad">약 7.4배 부족</span></td>
       </tr>
     </tbody>
   </table>
@@ -642,9 +648,9 @@
   <div class="footnote">
     <strong>A 계산 근거</strong>
     <ul style="margin: 4px 0;">
-      <li>가정: 옵션 본 회원의 수락률 약 30% (실측 5/14~5/18 평균 31%)</li>
-      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.3 × 0.7 / 0.05² ≈ 323명</li>
-      <li>안전 마진 포함 약 360명</li>
+      <li>가정: 옵션 본 회원의 유효 수락률 약 63% (1차 62.3%, 2차 63.5% 실측 평균)</li>
+      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.63 × 0.37 / 0.05² ≈ 358명</li>
+      <li>안전 마진 포함 약 380명</li>
     </ul>
     <strong style="margin-top: 8px; display: inline-block;">B 계산 근거</strong>
     <ul style="margin: 4px 0;">
@@ -653,12 +659,12 @@
       <li>실험군 평균 매출 증가 효과 (단계별 곱연산)
         <ul>
           <li>실험군 안에서 옵션을 실제로 본 비율 약 16%</li>
-          <li>옵션을 본 사람 중 수락 비율 약 35%</li>
+          <li>옵션을 본 사람 중 유효 수락 비율 약 63%</li>
           <li>수락 1건당 회사 매출 4,900원</li>
-          <li>결과: 16% × 35% × 4,900 ≈ <strong>예약당 274원</strong> 평균 매출 증가</li>
+          <li>결과: 16% × 63% × 4,900 ≈ <strong>예약당 494원</strong> 평균 매출 증가</li>
         </ul>
       </li>
-      <li>이 274원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 147,000명 필요</li>
+      <li>이 494원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 45,000명 필요</li>
       <li>실험군 노출률 16% 산출: 5/19~5/20 시간 조건 통과 모수 평균 887건/일, A/B 50:50 분배 후 실험군 444건/일. 실제 옵션 클릭 75명/일 ÷ 444 = 약 16.9%</li>
     </ul>
   </div>
@@ -668,7 +674,7 @@
     <div class="good">
       <h4>A 질문 (수락률 추정): 답 가능</h4>
       <p style="margin: 6px 0;">
-        옵션 클릭한 회원이 350명만 모이면 "수락률 약 30% (±5%p)" 라고 결론 낼 수 있음.<br/>
+        옵션 클릭한 회원이 380명만 모이면 "유효 수락률 약 63% (±5%p)" 라고 결론 낼 수 있음.<br/>
         6/2 종료 시 예상 누적 850명이라 ±3%p 수준까지 정확도 확보 가능.
       </p>
     </div>
@@ -677,9 +683,9 @@
       <p style="margin: 6px 0;">
         결국 업셀링 바텀시트을 보는 실험군 회원 수 자체가 작다는 게 핵심.<br/>
         실험군 안에서도 옵션을 실제로 보는 사람은 약 16% 뿐 (나머지는 9개 조건 다 통과 못 함).<br/>
-        본 사람 중에서도 약 35%만 수락. 수락 1건당 매출은 4,900원.<br/>
-        결국 실험군 전체로 보면 예약당 평균 매출 증가는 약 274원 (평균 객단가 58,818원의 약 0.5%).<br/>
-        0.5% 차이를 통계적으로 유의하다고 검증하려면 실험군이 약 147,000명 모여야 함 (현재 추세 6/2까지 약 6,100명).
+        본 사람 중에서도 약 63%가 유효 수락. 수락 1건당 매출은 4,900원.<br/>
+        결국 실험군 전체로 보면 예약당 평균 매출 증가는 약 494원 (평균 객단가 58,818원의 약 0.84%).<br/>
+        0.84% 차이를 통계적으로 유의하다고 검증하려면 실험군이 약 45,000명 모여야 함 (현재 추세 6/2까지 약 6,100명).
       </p>
     </div>
   </div>
@@ -740,13 +746,13 @@
   </div>
 
   <h3 style="margin-top: 36px;">4-2. 조건 완화 시 검정력 확보 여부</h3>
-  <p>매출 효과 검정 (검정력 80%) 필요 실험군 = 약 147,000명. 각 옵션별 14일 누적 실험군 규모와 비교</p>
+  <p>매출 효과 검정 (검정력 80%) 필요 실험군 = 약 45,000명. 각 옵션별 14일 누적 실험군 규모와 비교</p>
   <table>
     <thead>
       <tr>
         <th>완화 옵션</th>
         <th>옵션 클릭 회원 누적 (14일 예상)</th>
-        <th>예상 수락 회원 (35% 가정)</th>
+        <th>예상 유효 수락 회원 (63% 가정)</th>
         <th>실험군 회원 누적 (14일 예상)</th>
         <th>매출 통계 검증 가능?</th>
       </tr>
@@ -755,37 +761,37 @@
       <tr>
         <td>현재 (변경 없음)</td>
         <td class="num">약 915</td>
-        <td class="num">약 320</td>
+        <td class="num">약 575</td>
         <td class="num">약 6,100</td>
-        <td><span class="badge bad">약 24배 부족</span></td>
+        <td><span class="badge bad">약 7.4배 부족</span></td>
       </tr>
       <tr>
         <td>±1h 확장</td>
         <td class="num">약 1,650</td>
-        <td class="num">약 580</td>
+        <td class="num">약 1,040</td>
         <td class="num">약 11,000</td>
-        <td><span class="badge bad">약 13배 부족</span></td>
+        <td><span class="badge bad">약 4배 부족</span></td>
       </tr>
       <tr>
         <td>±2h 확장</td>
         <td class="num">약 2,400</td>
-        <td class="num">약 840</td>
+        <td class="num">약 1,510</td>
         <td class="num">약 16,000</td>
-        <td><span class="badge bad">약 9배 부족</span></td>
+        <td><span class="badge warn">약 2.8배 부족</span></td>
       </tr>
-      <tr>
-        <td>시간 풀고 길이만 유지</td>
+      <tr style="background: #f0fdf4;">
+        <td><strong>시간 풀고 길이만 유지</strong></td>
         <td class="num">약 4,650</td>
-        <td class="num">약 1,630</td>
+        <td class="num">약 2,930</td>
         <td class="num">약 31,000</td>
-        <td><span class="badge warn">약 4.7배 부족</span></td>
+        <td><span class="badge warn">약 1.5배 부족</span></td>
       </tr>
       <tr>
         <td>리드 48h만 추가</td>
         <td class="num">약 1,000</td>
-        <td class="num">약 350</td>
+        <td class="num">약 630</td>
         <td class="num">약 6,700</td>
-        <td><span class="badge bad">약 22배 부족</span></td>
+        <td><span class="badge bad">약 6.7배 부족</span></td>
       </tr>
     </tbody>
   </table>
@@ -945,12 +951,13 @@ JOIN `socar-data.socar_biz_profit.profit_socar_reservation` p
 </div>
 
 <script>
-// 시간연장 옵션 클릭/수락 모두 회원 수 기준. 5/19는 배포 전(21)/후(9) 실측 분리
+// 시간연장 옵션 클릭/유효 수락 회원 수 기준. 5/19는 배포 전(21)/후(9) 실측 분리.
+// 유효 수락 = 결제 완료 + 예약 취소 안 함 (정책 "1인 1수락"과 일치)
 const dailyData = {
   labels: ['5/13','5/14','5/15','5/16(토)','5/17','5/18','5/19','5/20','5/21'],
-  click_phase1: [3, 10, 16, 0, 19, 10, 21, 0, 0],   // 1차 클릭 회원
-  click_phase2: [0, 0, 0, 0, 0, 0, 9, 33, 32],      // 2차 클릭 회원
-  accept:       [2, 10, 11, 0, 11, 6, 20, 19, 25]   // 수락 회원
+  click_phase1: [3, 10, 16, 0, 19, 10, 21, 0, 0],
+  click_phase2: [0, 0, 0, 0, 0, 0, 9, 33, 32],
+  accept:       [0, 9, 10, 0, 9, 6, 20, 17, 24]
 };
 
 new Chart(document.getElementById('dailyChart'), {
@@ -972,7 +979,7 @@ new Chart(document.getElementById('dailyChart'), {
         borderWidth: 1.5, borderRadius: 4, stack: 'click', yAxisID: 'y'
       },
       {
-        type: 'line', label: '수락 회원 수',
+        type: 'line', label: '유효 수락 회원 수',
         data: dailyData.accept,
         borderColor: '#f59e0b', backgroundColor: '#f59e0b',
         borderWidth: 3, tension: 0.35,
@@ -998,7 +1005,7 @@ new Chart(document.getElementById('dailyChart'), {
     scales: {
       x: { stacked: true, ticks: { font: { size: 13 } } },
       y: { stacked: true, beginAtZero: true, title: { display: true, text: '옵션 클릭 회원 수 (명)', font: { size: 13 } }, grid: { color: '#f3f4f6' }, ticks: { font: { size: 12 } } },
-      y1: { beginAtZero: true, position: 'right', title: { display: true, text: '수락 회원 수 (명)', font: { size: 13 } }, grid: { display: false }, ticks: { font: { size: 12 } } }
+      y1: { beginAtZero: true, position: 'right', title: { display: true, text: '유효 수락 회원 수 (명)', font: { size: 13 } }, grid: { display: false }, ticks: { font: { size: 12 } } }
     }
   }
 });
