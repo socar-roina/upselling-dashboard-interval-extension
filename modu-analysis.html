@@ -214,10 +214,10 @@
 <div class="tldr" id="tldr">
   <h2>한눈에 요약</h2>
   <ul>
-    <li><strong>1. 노출 모수 작은 것 사실:</strong> 5/19 리드타임 완화 배포 이후 일평균 65명/일 view (배포 전 35명/일 대비 1.9배 증가). 실험 종료일 6/2까지 누적 약 850명 view 예상.</li>
+    <li><strong>1. 노출 모수 작은 것 사실:</strong> 5/19 리드타임 완화 배포 이후 5/19~5/20 일평균 75명/일 view (배포 전 35명/일 대비 약 2배 증가). 실험 종료일 6/2까지 누적 약 850명 view 예상.</li>
     <li><strong>2. 필요한 모수는 "무엇을 검증할지"에 따라 다름:</strong>
       <ul>
-        <li>노출자 중 수락률 추정 (예: 33%): 현재 모수로 ±3%p 수준 가능 → <span class="badge good">충분</span></li>
+        <li>노출자 중 수락률 추정 (예: 30%): 현재 모수로 ±3%p 수준 가능 → <span class="badge good">충분</span></li>
         <li>실험군 vs 대조군 객단가 평균 차이 검정: 군당 약 28,000건 필요 (현재 약 6,100건) → <span class="badge bad">부족</span></li>
       </ul>
     </li>
@@ -228,6 +228,7 @@
         <li>시간 조건 완전 풀기 (길이 4-24h만 유지) → 약 <strong>5.1배</strong></li>
       </ul>
     </li>
+    <li><strong>주의:</strong> 5/21 14:20부터 PF0 옵션이 같은 옵션 화면에 재노출되기 시작 → 5/21 이후 시간연장만의 view 정확한 분리 불가. 본 분석 비교는 <strong>5/19~5/20</strong> 데이터 중심.</li>
   </ul>
 </div>
 
@@ -253,21 +254,30 @@
         <td>139</td><td>34.8</td><td>43</td><td>10.8</td><td>30.9%</td>
       </tr>
       <tr>
-        <td>2차 (5/19~5/21, 리드 24h 이내)</td>
-        <td>3일</td>
-        <td>196</td><td>65.3</td><td>77</td><td>25.7</td><td>39.3%</td>
+        <td><strong>2차 (5/19~5/20, 리드24h, PF0 재노출 전)</strong></td>
+        <td>2일</td>
+        <td>150</td><td>75.0</td><td>44</td><td>22.0</td><td>29.3%</td>
       </tr>
       <tr style="background: #eff6ff; font-weight: 600;">
         <td>2차 / 1차 배수</td>
-        <td>—</td><td>1.4배</td><td>1.9배</td><td>1.8배</td><td>2.4배</td><td>+8.4%p</td>
+        <td>—</td><td>—</td><td><strong>2.2배</strong></td><td>—</td><td><strong>2.0배</strong></td><td>−1.6%p</td>
+      </tr>
+      <tr style="background: #fef3c7; color: #92400e; font-size: 13px;">
+        <td colspan="7">
+          참고: 5/21 view 5,058명 (시간연장+PF0 혼입). 비PF0 클릭자 303명을 시간연장 노출 상한으로 추정.
+          시간연장만 분리 정확도 한계로 5/19~5/20 비교에 가중치.
+          5/21 수락 33건은 paid_type 필터로 정확 분리 가능.
+        </td>
       </tr>
     </tbody>
   </table>
   <div class="footnote">
     5/19 15:50:05 KST에 "당일 출발만"→"출발 24시간 이내 생성"으로 조건 완화 배포 (v1.522.0, PR #8021). 5/16(토)은 토요일 제외 조건으로 모수 0건.<br/>
-    5/21 14시부터 PF0 nudge 옵션이 같은 page_name에 다시 노출되기 시작해 시간연장 view만 분리한 수치(form_data에 pfNudge 미포함). 수락은 paid_info의 upselling_type='TIME_EXTENSION'로 정확히 분리.
+    5/21 14:20:09 KST부터 PF0 옵션이 같은 옵션 화면(`page_name='upsell_bottomsheet'`)에 다시 노출되기 시작 (8일 만에 재노출, 의도 여부 미확인).
+    PF0 클릭 UU 4,756 vs 비PF0 UU 303 → 5/21 시간연장 view 분리 정확도 떨어짐.<br/>
+    수락은 `paid_type='upselling_discount'` 단일 필터로 분리 (PF0 결제는 이 타입으로 안 잡힘, 회원 단위 클릭 조인으로 검증 완료).
   </div>
-  <div class="data-source">소스: app_web_log.socar_app_web_log (page_name='upsell_bottomsheet') + paid_info × paid_meta_info JOIN</div>
+  <div class="data-source">소스: app_web_log.socar_app_web_log (page_name='upsell_bottomsheet') + paid_info (paid_type='upselling_discount')</div>
 </div>
 
 <!-- 섹션 2 -->
@@ -529,8 +539,9 @@
   <div class="reco">
     <strong>4. 추가 검증 사항:</strong>
     <ul>
-      <li>5/21 PF0 nudge 재노출 배포 사실 확인 — 시간연장 page_name 공유 중. 추후 분석 시 분리 필요</li>
-      <li>5/14 메모리 기록 수락 9건/44,100원 vs 본 분석 13건/262,800원 차이 — paid_info JOIN 키 정합성 확인 필요</li>
+      <li>5/21 14:20 PF0 옵션 재노출 — 누가/언제 배포했는지 GitHub 이력 확인 필요. 의도 여부 확인 필요 (8일 만 재노출, A/B config 변경 가능성)</li>
+      <li>5/22 14시 현재 PF0가 여전히 노출 중인지 확인 (이벤트 로그 D+1 적재라 미확정)</li>
+      <li>5/21 5,058 view UU 중 비PF0 클릭자 303명의 정체 (시간연장 노출인지 별도 페이지인지)</li>
       <li>토요일 제외 조건은 다른 주 데이터에서 영향도 별도 측정 (이번 분석 기간 5/19~21 평일만이라 측정 불가)</li>
     </ul>
   </div>
@@ -548,15 +559,15 @@ WHERE event_date_kst BETWEEN '2026-05-13' AND '2026-05-21'
   AND NOT (event_date_kst = '2026-05-21' AND form_data LIKE '%pfNudge%')
 GROUP BY 1 ORDER BY 1</code></pre>
 
-  <h3>시간연장 수락 (paid_info × paid_meta_info)</h3>
-  <pre style="background: #1f2937; color: #f3f4f6; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 12px;"><code>SELECT DATE(pi.created_at, 'Asia/Seoul') AS dt,
-       COUNT(DISTINCT pi.reservation_id) AS cnt,
-       SUM(pi.amount) AS revenue
-FROM `socar-data.tianjin_replica.paid_info` pi
-JOIN `socar-data.tianjin_replica.paid_meta_info` pmi ON pi.id = pmi.id
-WHERE pi.paid_type = 'upselling_discount'
-  AND JSON_VALUE(pmi.meta, '$.upselling_type') = 'TIME_EXTENSION'
-GROUP BY 1 ORDER BY 1</code></pre>
+  <h3>시간연장 수락 (paid_type 단일 필터)</h3>
+  <pre style="background: #1f2937; color: #f3f4f6; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 12px;"><code>SELECT DATE(created_at, 'Asia/Seoul') AS dt,
+       COUNT(DISTINCT reservation_id) AS cnt,
+       SUM(amount) AS revenue
+FROM `socar-data.tianjin_replica.paid_info`
+WHERE paid_type = 'upselling_discount'
+GROUP BY 1 ORDER BY 1
+-- PF0 결제는 이 paid_type으로 안 잡히므로 시간연장 분리 신뢰 가능
+-- (회원 단위 클릭 로그 조인으로 5/21 33건 = interval_only 28 + both 5 검증 완료)</code></pre>
 
   <h3>모수 깔때기 + 시간 조건 시뮬레이션</h3>
   <pre style="background: #1f2937; color: #f3f4f6; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 12px;"><code>SELECT COUNT(CASE WHEN lead_h <= 24 AND dow_s != 7
@@ -590,17 +601,22 @@ const dailyData = {
   accept: [3, 13, 12, 0, 12, 6, 23, 21, 33]
 };
 
+// 5/21은 PF0 혼입으로 시간연장 view 분리 정확도 떨어짐 → 다른 색
+const phaseColors = (i) => {
+  if (i === 8) return { bg: 'rgba(239, 68, 68, 0.5)', border: 'rgb(239, 68, 68)' }; // 5/21 PF0 혼입
+  if (i >= 6) return { bg: 'rgba(37, 99, 235, 0.75)', border: 'rgb(37, 99, 235)' };  // 2차
+  return { bg: 'rgba(148, 163, 184, 0.7)', border: 'rgb(148, 163, 184)' };           // 1차
+};
+
 new Chart(document.getElementById('dailyChart'), {
   data: {
     labels: dailyData.labels,
     datasets: [
       {
-        type: 'bar', label: 'view UV (옵션 본 회원수)',
+        type: 'bar', label: 'view UV (1차/2차/PF0혼입)',
         data: dailyData.view,
-        backgroundColor: dailyData.labels.map((l, i) =>
-          i < 6 ? 'rgba(148, 163, 184, 0.7)' : 'rgba(37, 99, 235, 0.75)'),
-        borderColor: dailyData.labels.map((l, i) =>
-          i < 6 ? 'rgb(148, 163, 184)' : 'rgb(37, 99, 235)'),
+        backgroundColor: dailyData.labels.map((_, i) => phaseColors(i).bg),
+        borderColor: dailyData.labels.map((_, i) => phaseColors(i).border),
         borderWidth: 1,
         yAxisID: 'y'
       },
@@ -618,8 +634,14 @@ new Chart(document.getElementById('dailyChart'), {
     responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { position: 'top', labels: { font: { size: 12 } } },
-      tooltip: { callbacks: { afterTitle: (items) => items[0].dataIndex >= 6 ? '2차 (리드 24h)' : '1차 (당일출발)' } },
-      annotation: {}
+      tooltip: { callbacks: {
+        afterTitle: (items) => {
+          const i = items[0].dataIndex;
+          if (i === 8) return '5/21: PF0 옵션 재노출 (14:20~), 시간연장 view 분리 한계';
+          if (i >= 6) return '2차 (리드 24h)';
+          return '1차 (당일출발)';
+        }
+      } }
     },
     scales: {
       y: { beginAtZero: true, title: { display: true, text: 'view UV (명)' }, grid: { color: '#f3f4f6' } },
