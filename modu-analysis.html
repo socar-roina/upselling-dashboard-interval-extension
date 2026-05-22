@@ -495,20 +495,20 @@
     </ul>
   </div>
 
-  <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 노출 / 수락 회원 수</h3>
-  <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
-  <div class="chart-caption">회색 막대: 1차 노출 회원 (당일출발 조건). 파랑 막대: 2차 노출 회원 (리드 24h 조건). 주황 선: 유효 수락 회원. 토요일 (5/16)은 토요일 출발 제외 조건으로 모수 0이라 차트에서 제외.</div>
-
   <div class="callout" style="background: #f0f9ff; border-left-color: var(--accent);">
-    <strong>5/19 배포 전 사전 추정치(1.2배 증가)와 실측치(2.6배 증가) 차이</strong>
+    <strong>5/19 배포 전 사전 추정치(1.2배 증가)와 실측치(2.11배 증가) 차이</strong>
     <ul style="margin: 8px 0 0;">
       <li>5/19 배포 전 본 대시보드에 "리드타임 완화로 노출 모수 약 1.2배 증가 예상" 기재했음</li>
       <li>당시 추정치 1.2배 기준: "왕복 예약 중 리드타임 24시간 이내 조건을 통과한 회원 수" (1단계 통과 모수)</li>
-      <li>본 분석 실측치 2.6배 기준: "9개 조건을 모두 통과한 뒤 업셀링 바텀시트에서 시간연장을 클릭한 회원 수" (최종 단계)</li>
+      <li>본 분석 실측치 2.11배 기준: "9개 조건을 모두 통과한 뒤 업셀링 바텀시트에 진입한 회원 수" (최종 단계, 시간당 노출 회원 기준)</li>
       <li>두 수치는 측정 단계가 달라 직접 비교 불가</li>
       <li>실제 데이터 재확인 결과 1단계 통과 모수도 약 1.2배로 사전 추정과 일치</li>
     </ul>
   </div>
+
+  <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 노출 / 수락 회원 수</h3>
+  <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+  <div class="chart-caption">회색 막대: 1차 노출 회원 (당일출발 조건). 파랑 막대: 2차 노출 회원 (리드 24h 조건). 주황 선: 유효 수락 회원. 토요일 (5/16)은 토요일 출발 제외 조건으로 모수 0이라 차트에서 제외.</div>
 
   <div class="data-source">
     Source: socar-data.app_web_log.socar_app_web_log
