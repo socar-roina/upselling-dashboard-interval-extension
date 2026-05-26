@@ -622,73 +622,8 @@
 <h2 id="options">4. 조건 완화 시뮬레이션</h2>
 
 <div class="card">
-  <h3>4-1. 시간/길이 조건 단계별 완화 (5/19~5/21 실측 데이터 기반)</h3>
-  <p>
-    베이스 = 리드 24h 통과 후 토요일 제외 (3일 합계 26,599건)<br/>
-    시간/길이 조건만 변경 시 잔여 모수
-  </p>
-
-  <div style="margin: 24px 0;">
-    <div class="opt-row">
-      <div>현재 (출발 9-14 / 반납 15-19 / 4-24h)</div>
-      <div><div class="opt-fill current" style="width: 9.9%;">2,628</div></div>
-      <div style="text-align: right;" class="num">876/일</div>
-      <div style="text-align: right; color: var(--muted); font-weight: 600;">1.0x</div>
-    </div>
-    <div class="opt-row">
-      <div>±1h 확장 (8-15 / 14-20 / 3-25h)</div>
-      <div><div class="opt-fill option" style="width: 17.8%;">4,727</div></div>
-      <div style="text-align: right;" class="num">1,576/일</div>
-      <div style="text-align: right; color: var(--good); font-weight: 700;">1.8x</div>
-    </div>
-    <div class="opt-row">
-      <div>±2h 확장 (7-16 / 13-21 / 2-26h)</div>
-      <div><div class="opt-fill option" style="width: 25.8%;">6,857</div></div>
-      <div style="text-align: right;" class="num">2,286/일</div>
-      <div style="text-align: right; color: var(--good); font-weight: 700;">2.6x</div>
-    </div>
-    <div class="opt-row">
-      <div>시간 풀고 길이만 4-24h 유지</div>
-      <div><div class="opt-fill option strong" style="width: 50.0%;">13,295</div></div>
-      <div style="text-align: right;" class="num">4,432/일</div>
-      <div style="text-align: right; color: var(--good); font-weight: 700;">5.1x</div>
-    </div>
-    <div class="opt-row">
-      <div>시간/길이 모두 풀기 (이론 최대치)</div>
-      <div><div class="opt-fill option strongest" style="width: 100%;">26,599</div></div>
-      <div style="text-align: right;" class="num">8,866/일</div>
-      <div style="text-align: right; color: var(--good); font-weight: 700;">10.1x</div>
-    </div>
-    <div class="opt-row">
-      <div>리드 48h 추가 완화 (시간 조건 그대로)</div>
-      <div><div class="opt-fill option" style="width: 10.9%; background: #cbd5e1; color: var(--text);">2,887</div></div>
-      <div style="text-align: right;" class="num">962/일</div>
-      <div style="text-align: right; color: var(--muted); font-weight: 600;">1.1x</div>
-    </div>
-    <div class="opt-row" style="background: #f0fdf4; padding: 6px 0;">
-      <div><strong>제안 A: 출발 시간 조건 삭제 + 반납 15-19시 유지 + 대여 4시간 이상 + 토 반납 제외</strong></div>
-      <div><div class="opt-fill option" style="width: 26%; background: #059669;">3,463</div></div>
-      <div style="text-align: right;" class="num">1,154/일</div>
-      <div style="text-align: right; color: var(--good); font-weight: 700;">1.59x</div>
-    </div>
-    <div class="opt-row" style="background: #ecfdf5; padding: 6px 0;">
-      <div><strong>제안 B: 제안 A + 공휴일 반납 시 다음날 영업일인 경우만</strong></div>
-      <div><div class="opt-fill option" style="width: 21%; background: #047857;">2,820</div></div>
-      <div style="text-align: right;" class="num">940/일</div>
-      <div style="text-align: right; color: var(--good); font-weight: 700;">1.29x</div>
-    </div>
-  </div>
-
-  <div class="footnote">
-    <ul style="margin: 0;">
-      <li>데이터 기준: 5/19~5/21 (3일간) 왕복 예약 중 취소되지 않은 예약, 리드 24시간 통과, 토요일 제외 통과 = 합계 26,599건</li>
-      <li>9개 노출 조건 중 시간 / 길이 조건만 바꾸고 다른 조건은 그대로 유지하는 시뮬레이션</li>
-      <li>이후 표(4-2)의 "예상 옵션 클릭 회원 수"는 이 모수에 5/19~5/21 실측 노출률 (약 7%)을 곱한 값</li>
-    </ul>
-  </div>
-
-  <h3 style="margin-top: 36px;">4-2. 단계별 모수 증가 (같은 기간 5/19~5/24 BQ 시뮬)</h3>
-  <p>같은 기간 데이터로 조건만 바꿔서 시뮬레이션 (요일/계절 효과 동일)</p>
+  <h3>4-1. 단계별 모수 증가</h3>
+  <p>같은 기간 (5/19~5/24) 동일 데이터에 조건만 바꿔서 시뮬 (요일/계절 효과 통제)</p>
   <table>
     <thead>
       <tr>
@@ -713,7 +648,7 @@
       </tr>
       <tr style="background: #f0fdf4;">
         <td><strong>제안 A 적용 시</strong></td>
-        <td>출발 시간 풀기 + 반납 15-19 유지 + 대여 4h+ + 토 반납 제외</td>
+        <td>출발 시간 조건 삭제 + 반납 15-19 유지 + 대여 4시간 이상 + 토 반납 제외</td>
         <td class="num"><strong>1,153</strong></td>
         <td class="num"><strong>2차 대비 1.59배 증가</strong></td>
       </tr>
@@ -726,15 +661,54 @@
     </tbody>
   </table>
   <div class="footnote">
-    <ul style="margin: 0;">
-      <li>모든 수치는 5/19~5/24 동일 기간 동일 데이터에 조건만 바꿔서 산출 (요일/계절 효과 통제)</li>
-      <li>1차에서 2차로 1.46배 증가: 5/19 배포 (당일출발에서 리드 24h로 완화) 로 일어남</li>
-      <li>2차에서 제안 A로 1.59배 증가 예상: 출발 시간 조건 풀고 반납/대여 조건 단순화 시</li>
-      <li>2차에서 제안 B로 1.29배 증가 예상: 제안 A 대비 약 18% 감소 (5/24 부처님오신날 등 제외)</li>
-    </ul>
+    제안 B는 제안 A 대비 약 18% 감소. 5/24 부처님오신날 (다음날 5/25도 공휴일) 반납 1,282건이 제안 B에서는 제외되기 때문
   </div>
-
 </div>
+
+<details style="margin: 24px 0;">
+<summary style="cursor: pointer; padding: 14px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-weight: 600; font-size: 14px; color: var(--muted);">
+  참고: 이전에 검토했던 다른 옵션들 (펼치기)
+</summary>
+<div class="card" style="margin-top: 12px;">
+  <p>제안 A/B와 별개로 분석 과정에서 검토한 시뮬 옵션들. 채택 안 됨</p>
+  <table>
+    <thead>
+      <tr>
+        <th>옵션</th>
+        <th>조건</th>
+        <th>모수 (일평균)</th>
+        <th>2차 대비 배수</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>±1h 확장</td>
+        <td>출발 8-15시 / 반납 14-20시 / 대여 3-25h</td>
+        <td class="num">1,576</td>
+        <td class="num">2.17배</td>
+      </tr>
+      <tr>
+        <td>±2h 확장</td>
+        <td>출발 7-16시 / 반납 13-21시 / 대여 2-26h</td>
+        <td class="num">2,286</td>
+        <td class="num">3.15배</td>
+      </tr>
+      <tr>
+        <td>시간 풀고 대여 4-24h 유지</td>
+        <td>출발/반납 시간 제한 없음 + 대여 4-24h + 토 출발 제외</td>
+        <td class="num">4,432</td>
+        <td class="num">6.10배</td>
+      </tr>
+      <tr>
+        <td>리드 48h 추가 완화</td>
+        <td>리드타임 24h를 48h로 + 나머지 현재 동일</td>
+        <td class="num">962</td>
+        <td class="num">1.32배 (효과 미미)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</details>
 
 <!-- 5. 분석 한계 -->
 <h2 id="caveats">5. 분석 한계</h2>
