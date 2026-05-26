@@ -616,34 +616,14 @@
 <!-- 3. 검정력 분석 -->
 <h2 id="power">3. 검정력 분석</h2>
 
-<div class="card">
-  <h3>3-1. "충분/부족" 판단 기준</h3>
-  <p>업계 표준 두 가지 기준을 적용</p>
-  <ul>
-    <li><strong>A 기준 (수락률 추정): 95% 신뢰구간 ±5%p</strong>
-      <ul>
-        <li>비율 추정의 일반적 정확도 기준</li>
-        <li>현재 표본이 이 정확도 도달하면 "충분", 못 하면 "부족"</li>
-        <li>더 엄격한 ±3%p 원하면 필요 n 약 900명, 더 느슨한 ±10%p면 약 85명</li>
-      </ul>
-    </li>
-    <li><strong>B 기준 (객단가 차이 통계 검정): 검정력 80%, 유의수준 5%, 양측 검정</strong>
-      <ul>
-        <li>의약품 임상부터 ABT까지 통계학 산업 표준 (Cohen 1988)</li>
-        <li>검정력 80% 의미: 실제로 효과 있다면 80% 확률로 통계적으로 검출</li>
-        <li>80% 미만으로 가면 "효과 있어도 검출 못 함" 위험 커짐</li>
-        <li>검정력 기준 바꾸면: 70%면 필요 n 약 21,000건, 90%면 약 38,000건</li>
-      </ul>
-    </li>
-  </ul>
-
-  <h3 style="margin-top: 28px;">3-2. 검정 목표별 필요 모수가 크게 다름</h3>
-  <p>실험으로 답할 수 있는 질문은 두 가지로 나뉘고, 각각 필요한 모수가 다름</p>
+<div class="card" style="padding-top: 16px;">
+  <h3 style="margin-top: 0;">3-1. 실험으로 답할 수 있는 두 가지 질문</h3>
+  <p>현재 모수로 무엇을 답할 수 있고 없는지 정리</p>
 
   <table>
     <thead>
       <tr>
-        <th>검증 목표</th>
+        <th>질문</th>
         <th>필요 표본 (군당)</th>
         <th>현재 (6/2 종료 시 예상)</th>
         <th>판정</th>
@@ -652,56 +632,51 @@
     <tbody>
       <tr>
         <td>
-          <strong>A. 옵션 본 회원 중 수락률 추정</strong><br/>
-          <small class="note">옵션을 본 사람 중 몇 %가 결제까지 갔는지 추정</small>
+          <strong>A. "옵션을 본 사람 중 수락률이 얼마인가?"</strong><br/>
+          <small class="note">비율 추정 문제</small>
         </td>
         <td class="num">약 380명<br/><small class="note">±5%p 정확도</small></td>
         <td class="num">옵션 노출 회원 누적 약 1,200명</td>
-        <td><span class="badge good">충분</span></td>
+        <td><span class="badge good">답 가능</span></td>
       </tr>
       <tr>
         <td>
-          <strong>B. 실험군 vs 대조군 객단가 통계 검정</strong><br/>
-          <small class="note">실험군이 대조군보다 예약당 평균 매출 더 높은지 통계적으로 검증</small>
+          <strong>B. "실험으로 매출 효과를 통계적으로 증명할 수 있는가?"</strong><br/>
+          <small class="note">평균 차이 검정 문제. 실험군 회원 수 자체가 부족하면 증명 불가</small>
         </td>
         <td class="num">약 126,000명<br/><small class="note">검정력 80%</small></td>
         <td class="num">실험군 회원 누적 약 5,100명</td>
-        <td><span class="badge bad">현재 모수로 부족</span></td>
+        <td><span class="badge bad">증명 불가 (모수 부족)</span></td>
       </tr>
     </tbody>
   </table>
 
   <div class="footnote">
-    <strong>A 계산 근거</strong>
+    <strong>A 통계 기준</strong>: 비율 추정의 95% 신뢰구간 ±5%p
     <ul style="margin: 4px 0;">
-      <li>가정: 옵션 본 회원의 유효 수락률 약 33% (1차 25.8%, 2차 35.6% 실측 평균)</li>
-      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.33 × 0.67 / 0.05² ≈ 340명</li>
-      <li>안전 마진 포함 약 380명</li>
+      <li>표본 크기 공식: n = 1.96² × p(1-p) / 0.05²</li>
+      <li>옵션 본 회원의 유효 수락률 약 33% 가정 시 n ≈ 340명, 안전 마진 포함 약 380명</li>
+      <li>더 엄격한 ±3%p 원하면 필요 n 약 900명, 더 느슨한 ±10%p면 약 85명</li>
     </ul>
-    <strong style="margin-top: 8px; display: inline-block;">B 계산 근거</strong>
+
+    <strong style="margin-top: 8px; display: inline-block;">B 통계 기준</strong>: 검정력 80%, 유의수준 5%, 양측 검정 (ABT 산업 표준)
     <ul style="margin: 4px 0;">
       <li>옵션 노출 대상 예약의 평균 객단가: 58,818원 / 표준편차: 26,494원 (실데이터 n=11,191건)</li>
       <li>매출 정의: 시간연장 수락 1건당 정액 4,900원 (기획 문서 4-6 기준)</li>
       <li>실험군 평균 매출 증가 효과 (단계별 곱연산)
         <ul>
-          <li>실험군 안에서 옵션을 실제로 본 비율 약 16%</li>
-          <li>옵션을 본 사람 중 유효 수락 비율 약 36% (2차 실측)</li>
+          <li>실험군 안에서 옵션을 실제로 보는 비율 약 17%</li>
+          <li>옵션을 본 사람 중 유효 수락 비율 약 36%</li>
           <li>수락 1건당 회사 매출 4,900원</li>
-          <li>결과: 17% × 36% × 4,900 ≈ <strong>예약당 300원</strong> 평균 매출 증가</li>
+          <li>결과: 17% × 36% × 4,900 ≈ 예약당 300원 평균 매출 증가</li>
         </ul>
       </li>
-      <li>이 300원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 126,000명 필요</li>
-      <li>실험군 노출률 17% 산출
-        <ul>
-          <li>2차 평균 시간 조건 통과 모수 (토 제외) 727건/일</li>
-          <li>A/B 50:50 분배 후 실험군 약 363건/일</li>
-          <li>실제 옵션 노출 약 60명/일 ÷ 363 = 약 16.5%</li>
-        </ul>
-      </li>
+      <li>이 300원 차이를 통계적으로 증명하려면 실험군 약 126,000명 필요</li>
+      <li>검정력 기준 바꾸면: 70%면 약 21,000건, 90%면 약 38,000건</li>
     </ul>
   </div>
 
-  <h3 style="margin-top: 36px;">3-3. 쉽게 풀어쓰면</h3>
+  <h3 style="margin-top: 36px;">3-2. 쉽게 풀어쓰면</h3>
   <div class="key-finding">
     <div class="good">
       <h4>A. "노출자 중 수락률"은 신뢰할 만한 수치 산출 가능</h4>
@@ -772,13 +747,13 @@
       <div style="text-align: right; color: var(--muted); font-weight: 600;">1.1x</div>
     </div>
     <div class="opt-row" style="background: #f0fdf4; padding: 6px 0;">
-      <div><strong>제안 A: 출발 풀기 + 반납 15-19시 + 대여 4h+ + 토 반납 제외</strong></div>
+      <div><strong>제안 A: 출발 시간 조건 삭제 + 반납 15-19시 유지 + 대여 4시간 이상 + 토 반납 제외</strong></div>
       <div><div class="opt-fill option" style="width: 26%; background: #059669;">3,463</div></div>
       <div style="text-align: right;" class="num">1,154/일</div>
       <div style="text-align: right; color: var(--good); font-weight: 700;">1.59x</div>
     </div>
     <div class="opt-row" style="background: #ecfdf5; padding: 6px 0;">
-      <div><strong>제안 B: 제안 A + 공휴일 반납 시 다음날 영업일인 경우만 (CSP-2212 적용)</strong></div>
+      <div><strong>제안 B: 제안 A + 공휴일 반납 시 다음날 영업일인 경우만</strong></div>
       <div><div class="opt-fill option" style="width: 21%; background: #047857;">2,820</div></div>
       <div style="text-align: right;" class="num">940/일</div>
       <div style="text-align: right; color: var(--good); font-weight: 700;">1.29x</div>
@@ -825,7 +800,7 @@
       </tr>
       <tr style="background: #ecfdf5;">
         <td><strong>+ 제안 B 추가 적용 시</strong></td>
-        <td>제안 A + 공휴일 반납 시 다음날 영업일인 경우만 (CSP-2212)</td>
+        <td>제안 A + 공휴일 반납 시 다음날 영업일인 경우만</td>
         <td class="num"><strong>939</strong></td>
         <td class="num"><strong>2차 대비 1.29배 추가</strong></td>
       </tr>
@@ -944,7 +919,7 @@
         <td class="num"><strong>1.46배 증가</strong></td>
       </tr>
       <tr style="background: #f0fdf4;">
-        <td><strong>+ 제안 A 적용 시</strong> (출발 풀기 + 반납 15-19 + 대여 4h+ + 토 반납 제외)</td>
+        <td><strong>+ 제안 A 적용 시</strong> (출발 시간 조건 삭제 + 반납 15-19 + 대여 4시간 이상 + 토 반납 제외)</td>
         <td class="num"><strong>1,153</strong></td>
         <td class="num"><strong>1.59배 추가</strong></td>
       </tr>
@@ -967,7 +942,7 @@
 
   <h3 style="margin-top: 24px;">6-3. 정책별 효과</h3>
   <ul>
-    <li><strong>제안 A:</strong> 모수 증가 효과 가장 큼 (현재 대비 1.59배). 다만 가격 정책 (CSP-2212) 일관성 없음</li>
+    <li><strong>제안 A:</strong> 모수 증가 효과 가장 큼 (현재 대비 1.59배). 다만 가격 정책 일관성 없음</li>
     <li><strong>제안 B:</strong> 가격 정책 일관성 유지 (공휴일 반납 시 다음날 영업일 여부 반영). 제안 A 대비 18% 모수 감소</li>
     <li><strong>리드타임 / 토요일 조건 추가 완화</strong>는 효과 작음 (리드 48h: 1.1배, 토 출발만 추가 완화는 모수 증가 작음)</li>
   </ul>
