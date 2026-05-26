@@ -771,10 +771,16 @@
       <div style="text-align: right; color: var(--muted); font-weight: 600;">1.1x</div>
     </div>
     <div class="opt-row" style="background: #f0fdf4; padding: 6px 0;">
-      <div><strong>제안 옵션: 출발 풀기 + 반납 15-19시 + 대여 4h+ + 토 반납 제외</strong></div>
+      <div><strong>제안 A: 출발 풀기 + 반납 15-19시 + 대여 4h+ + 토 반납 제외</strong></div>
       <div><div class="opt-fill option" style="width: 26%; background: #059669;">3,463</div></div>
       <div style="text-align: right;" class="num">1,154/일</div>
       <div style="text-align: right; color: var(--good); font-weight: 700;">1.59x</div>
+    </div>
+    <div class="opt-row" style="background: #ecfdf5; padding: 6px 0;">
+      <div><strong>제안 B: 제안 A + 공휴일 반납 시 다음날 영업일인 경우만 (CSP-2212 적용)</strong></div>
+      <div><div class="opt-fill option" style="width: 21%; background: #047857;">2,820</div></div>
+      <div style="text-align: right;" class="num">940/일</div>
+      <div style="text-align: right; color: var(--good); font-weight: 700;">1.29x</div>
     </div>
   </div>
 
@@ -838,11 +844,18 @@
         <td><span class="badge bad">약 23배 부족</span></td>
       </tr>
       <tr style="background: #f0fdf4;">
-        <td><strong>제안: 출발 풀기 + 반납 15-19 + 대여 4h+ + 토 반납 제외</strong></td>
+        <td><strong>제안 A: 출발 풀기 + 반납 15-19 + 대여 4h+ + 토 반납 제외</strong></td>
         <td class="num">약 1,330</td>
         <td class="num">약 480</td>
         <td class="num">약 8,100</td>
         <td><span class="badge warn">약 15배 부족</span></td>
+      </tr>
+      <tr style="background: #ecfdf5;">
+        <td><strong>제안 B: 제안 A + 공휴일 반납 시 다음날 영업일인 경우만</strong></td>
+        <td class="num">약 1,080</td>
+        <td class="num">약 390</td>
+        <td class="num">약 6,580</td>
+        <td><span class="badge bad">약 19배 부족</span></td>
       </tr>
     </tbody>
   </table>
@@ -968,12 +981,25 @@
         <td><span class="badge warn">약 4.9배 부족 (가장 근접)</span></td>
       </tr>
       <tr style="background: #f0fdf4;">
-        <td><strong>제안: 출발 풀기 + 반납 15-19 + 대여 4h+ + 토 반납 제외</strong></td>
+        <td><strong>제안 A: 출발 풀기 + 반납 15-19 + 대여 4h+ + 토 반납 제외</strong></td>
         <td class="num"><strong>1.59배</strong></td>
         <td><span class="badge warn">약 15배 부족</span></td>
       </tr>
+      <tr style="background: #ecfdf5;">
+        <td><strong>제안 B: 제안 A + 공휴일 반납 시 다음날 영업일인 경우만 (CSP-2212)</strong></td>
+        <td class="num"><strong>1.29배</strong></td>
+        <td><span class="badge bad">약 19배 부족</span></td>
+      </tr>
     </tbody>
   </table>
+  <div class="footnote" style="margin-top: 12px;">
+    <ul style="margin: 0;">
+      <li>제안 B 근거: CSP-2212 쿠폰 주중 정의 로직 (공휴일 19시 이후를 주중으로 처리)</li>
+      <li>핵심: 공휴일 반납이라도 다음날이 평일이면 "일요일처럼" 노출 OK, 다음날도 비영업일이면 "토요일처럼" 제외</li>
+      <li>본 분석 기간 영향: 5/24 (일+부처님오신날, 다음날 5/25도 대체공휴일) 반납 1,282건/일이 제안 A에서는 포함되었으나 제안 B에서는 제외</li>
+      <li>5/25 (월+대체공휴일, 다음날 5/26 평일) 반납은 두 옵션 모두 노출 OK</li>
+    </ul>
+  </div>
 
   <h3 style="margin-top: 24px;">6-3. 권고</h3>
   <ul>
