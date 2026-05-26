@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>시간연장 업셀링 실험 (노출 모수 데이터 분석)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
 <style>
   :root {
     --bg: #f6f7f9;
@@ -1096,6 +1097,27 @@ new Chart(document.getElementById('dailyChart'), {
             const i = items[0].dataIndex;
             if (i === 5) return '5/19 노출 회원 73명 = 배포 전 48 (1차) + 배포 후 25 (2차) 실측 분리';
             return '';
+          }
+        }
+      },
+      annotation: {
+        annotations: {
+          deployLine: {
+            type: 'line',
+            xMin: 5, xMax: 5,
+            borderColor: '#dc2626',
+            borderWidth: 2.5,
+            borderDash: [6, 4],
+            label: {
+              display: true,
+              content: '5/19 15:50 리드타임 완화 배포',
+              position: 'start',
+              backgroundColor: '#dc2626',
+              color: 'white',
+              font: { size: 12, weight: 'bold' },
+              padding: { top: 4, bottom: 4, left: 8, right: 8 },
+              yAdjust: -10
+            }
           }
         }
       }
