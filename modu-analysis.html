@@ -319,7 +319,7 @@
 <header>
   <h1>시간연장 업셀링 실험 (노출 모수 데이터 분석)</h1>
   <div class="subtitle">
-    작성일 2026-05-22 · 데이터 기간 2026-05-13 (1차 배포) ~ 2026-05-21 · BigQuery 실측 기반
+    업데이트 2026-05-26 · 데이터 기간 2026-05-13 (1차 배포) ~ 2026-05-26 · BigQuery 실측 기반
   </div>
 </header>
 
@@ -338,12 +338,12 @@
 <div class="summary" id="summary">
   <h2>요약</h2>
   <ul>
-    <li><strong>5/19 리드타임 완화 배포 효과:</strong> 시간당 옵션 노출 회원 수 1차 1.28명, 2차 2.70명 (약 2.1배 증가)</li>
+    <li><strong>5/19 리드타임 완화 배포 효과:</strong> 시간당 옵션 노출 회원 수 1차 1.28명, 2차 2.50명 (약 2.0배 증가)</li>
     <li><strong>모수가 작은 주된 이유:</strong> 9개 노출 조건 중 "출발 9-15시 / 반납 15-20시 / 대여 4-24시간" 조합이 약 −90% 손실의 주범</li>
     <li><strong>현재 모수로 답할 수 있는 것</strong>
       <ul>
-        <li>노출자 중 수락률 추정 (실측 약 28~32% ±5%p): <span class="badge good">충분</span></li>
-        <li>실험군 vs 대조군 매출 차이 통계 검증: <span class="badge bad">약 25배 부족</span> (필요 약 155,000명/군 vs 현재 약 6,100명)</li>
+        <li>노출자 중 수락률 추정 (실측 약 30~36% ±5%p): <span class="badge good">충분</span></li>
+        <li>실험군 vs 대조군 매출 차이 통계 검증: <span class="badge bad">약 25배 부족</span> (필요 약 126,000명/군 vs 6/2 종료 시 예상 약 5,100명)</li>
       </ul>
     </li>
     <li><strong>모수 늘리는 방안 (조건 완화 시뮬레이션)</strong>
@@ -458,22 +458,22 @@
       </tr>
       <tr>
         <td><strong>2차 (리드 24h)</strong></td>
-        <td>5/19 15:50 ~ 5/21 14:20</td>
-        <td class="num">54.0 h</td>
-        <td class="num">146</td>
-        <td class="num"><strong>2.70 /h</strong></td>
-        <td class="num">74</td>
-        <td class="num">47</td>
-        <td class="num">32.2%</td>
-        <td class="num">230,300원</td>
+        <td>5/19 15:50 ~ 5/26 현재</td>
+        <td class="num">127.0 h</td>
+        <td class="num">317</td>
+        <td class="num"><strong>2.50 /h</strong></td>
+        <td class="num">-</td>
+        <td class="num">113</td>
+        <td class="num">35.6%</td>
+        <td class="num">553,700원</td>
       </tr>
       <tr style="background: #eff6ff; font-weight: 700; color: var(--accent-dark);">
         <td>2차 / 1차 배수 (시간당 기준)</td>
         <td>-</td><td>-</td>
         <td>-</td>
-        <td class="num">2.11배</td>
+        <td class="num">1.95배</td>
         <td>-</td><td>-</td>
-        <td class="num">+6.4%p</td>
+        <td class="num">+9.8%p</td>
         <td>-</td>
       </tr>
     </tbody>
@@ -496,11 +496,11 @@
   </div>
 
   <div class="callout" style="background: #f0f9ff; border-left-color: var(--accent);">
-    <strong>5/19 배포 전 사전 추정치(1.2배 증가)와 실측치(2.11배 증가) 차이</strong>
+    <strong>5/19 배포 전 사전 추정치(1.2배 증가)와 실측치(1.95배 증가) 차이</strong>
     <ul style="margin: 8px 0 0;">
       <li>5/19 배포 전 본 대시보드에 "리드타임 완화로 노출 모수 약 1.2배 증가 예상" 기재했음</li>
       <li>당시 추정치 1.2배 기준: "왕복 예약 중 리드타임 24시간 이내 조건을 통과한 회원 수" (1단계 통과 모수)</li>
-      <li>본 분석 실측치 2.11배 기준: "9개 조건을 모두 통과한 뒤 업셀링 바텀시트에 진입한 회원 수" (최종 단계, 시간당 노출 회원 기준)</li>
+      <li>본 분석 실측치 1.95배 기준: "9개 조건을 모두 통과한 뒤 업셀링 바텀시트에 진입한 회원 수" (최종 단계, 시간당 노출 회원 기준)</li>
       <li>두 수치는 측정 단계가 달라 직접 비교 불가</li>
       <li>실제 데이터 재확인 결과 1단계 통과 모수도 약 1.2배로 사전 추정과 일치</li>
     </ul>
@@ -508,7 +508,7 @@
 
   <h3 style="margin-top: 28px;">1-2. 일별 시간연장 옵션 노출 / 수락 회원 수</h3>
   <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
-  <div class="chart-caption">회색 막대: 1차 노출 회원 (당일출발 조건). 파랑 막대: 2차 노출 회원 (리드 24h 조건). 주황 선: 유효 수락 회원. 토요일 (5/16)은 토요일 출발 제외 조건으로 모수 0이라 차트에서 제외.</div>
+  <div class="chart-caption">회색 막대: 1차 노출 회원 (당일출발 조건). 파랑 막대: 2차 노출 회원 (리드 24h 조건). 주황 선: 유효 수락 회원. 토요일 (5/16, 5/23) 출발 제외 조건으로 차트에서 제외. 5/25*, 5/26*는 노출 이벤트 적재 미완료라 수락만 표기.</div>
 
   <div class="data-source">
     Source: socar-data.app_web_log.socar_app_web_log
@@ -519,7 +519,7 @@
 <h2 id="funnel">2. 모수 손실 깔때기</h2>
 
 <div class="card">
-  <h3>2-1. 5/19~5/21 평일 평균 단계별 잔여 모수</h3>
+  <h3>2-1. 5/19~5/24 일평균 단계별 잔여 모수</h3>
   <p>전체 예약 수에서 노출 조건 9개를 하나씩 적용했을 때 남는 모수</p>
   <ul style="margin-top: 4px;">
     <li>BigQuery로 추적 가능한 5개 조건 (왕복 여부, 취소 여부, 리드타임, 출발/반납 시간대, 토요일 제외)</li>
@@ -529,28 +529,28 @@
   <div style="margin: 24px 0;">
     <div class="funnel-bar">
       <div>전체 예약</div>
-      <div><div class="funnel-fill" style="width: 100%;">32,857건/일</div></div>
+      <div><div class="funnel-fill" style="width: 100%;">32,933건/일</div></div>
       <div class="funnel-loss">기준</div>
     </div>
     <div class="funnel-bar">
       <div>└ 왕복 + 취소되지 않은 예약</div>
-      <div><div class="funnel-fill" style="width: 35.8%;">11,757</div></div>
-      <div class="funnel-loss">−64%</div>
+      <div><div class="funnel-fill" style="width: 31.5%;">10,369</div></div>
+      <div class="funnel-loss">−69%</div>
     </div>
     <div class="funnel-bar">
       <div>└ 리드타임 24시간 이내</div>
-      <div><div class="funnel-fill" style="width: 27.0%;">8,867</div></div>
-      <div class="funnel-loss">−25%</div>
+      <div><div class="funnel-fill" style="width: 23.9%;">7,885</div></div>
+      <div class="funnel-loss">−24%</div>
     </div>
     <div class="funnel-bar">
       <div>└ 출발 9-14시 / 반납 15-19시 / 대여 4-24시간</div>
       <div><div class="funnel-fill dim" style="width: 2.7%;">876</div></div>
-      <div class="funnel-loss"><strong>−90%</strong></div>
+      <div class="funnel-loss"><strong>−89%</strong></div>
     </div>
     <div class="funnel-bar">
-      <div>└ 토요일 출발 제외 (5/19~21은 평일이라 영향 없음)</div>
-      <div><div class="funnel-fill dim" style="width: 2.7%;">876</div></div>
-      <div class="funnel-loss">0%</div>
+      <div>└ 토요일 출발 제외</div>
+      <div><div class="funnel-fill dim" style="width: 2.2%;">727</div></div>
+      <div class="funnel-loss">−17%</div>
     </div>
   </div>
 
@@ -578,18 +578,18 @@
   <div class="metric-grid">
     <div class="metric">
       <div class="label">왕복 예약 통과 후 리드 24시간 통과까지</div>
-      <div class="value">−25%</div>
+      <div class="value">−24%</div>
       <div class="delta">5/19 배포로 이 조건 완화됨</div>
     </div>
     <div class="metric">
       <div class="label">리드 24시간 통과 후 시간/길이 조건 통과까지</div>
-      <div class="value bad">−90%</div>
+      <div class="value bad">−89%</div>
       <div class="delta bad">데이터로 분리 가능한 조건 중 가장 큰 손실</div>
     </div>
     <div class="metric">
-      <div class="label">시간/길이 통과 후 실제 클릭까지</div>
-      <div class="value bad">876건에서 31명으로</div>
-      <div class="delta bad">2-2의 분리 불가 조건들이 합쳐진 결과</div>
+      <div class="label">토요일 출발 제외 (시간/길이 통과 876건 후)</div>
+      <div class="value bad">−17%</div>
+      <div class="delta bad">실험 기간 토요일 출발 예약 비중</div>
     </div>
   </div>
 </div>
@@ -636,8 +636,8 @@
           <strong>A. 옵션 본 회원 중 수락률 추정</strong><br/>
           <small class="note">옵션을 본 사람 중 몇 %가 결제까지 갔는지 추정</small>
         </td>
-        <td class="num">약 320명<br/><small class="note">±5%p 정확도</small></td>
-        <td class="num">옵션 노출 회원 누적 약 1,050명</td>
+        <td class="num">약 380명<br/><small class="note">±5%p 정확도</small></td>
+        <td class="num">옵션 노출 회원 누적 약 1,200명</td>
         <td><span class="badge good">충분</span></td>
       </tr>
       <tr>
@@ -645,8 +645,8 @@
           <strong>B. 실험군 vs 대조군 객단가 통계 검정</strong><br/>
           <small class="note">실험군이 대조군보다 예약당 평균 매출 더 높은지 통계적으로 검증</small>
         </td>
-        <td class="num">약 155,000명<br/><small class="note">검정력 80%</small></td>
-        <td class="num">실험군 회원 누적 약 6,100명</td>
+        <td class="num">약 126,000명<br/><small class="note">검정력 80%</small></td>
+        <td class="num">실험군 회원 누적 약 5,100명</td>
         <td><span class="badge bad">약 25배 부족</span></td>
       </tr>
     </tbody>
@@ -655,9 +655,9 @@
   <div class="footnote">
     <strong>A 계산 근거</strong>
     <ul style="margin: 4px 0;">
-      <li>가정: 옵션 본 회원의 유효 수락률 약 30% (1차 25.8%, 2차 32.2% 실측 평균)</li>
-      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.3 × 0.7 / 0.05² ≈ 323명</li>
-      <li>안전 마진 포함 약 320명</li>
+      <li>가정: 옵션 본 회원의 유효 수락률 약 33% (1차 25.8%, 2차 35.6% 실측 평균)</li>
+      <li>95% 신뢰구간 ±5%p에 필요한 표본 크기 공식: n = 1.96² × 0.33 × 0.67 / 0.05² ≈ 340명</li>
+      <li>안전 마진 포함 약 380명</li>
     </ul>
     <strong style="margin-top: 8px; display: inline-block;">B 계산 근거</strong>
     <ul style="margin: 4px 0;">
@@ -666,13 +666,13 @@
       <li>실험군 평균 매출 증가 효과 (단계별 곱연산)
         <ul>
           <li>실험군 안에서 옵션을 실제로 본 비율 약 16%</li>
-          <li>옵션을 본 사람 중 유효 수락 비율 약 32% (2차 실측)</li>
+          <li>옵션을 본 사람 중 유효 수락 비율 약 36% (2차 실측)</li>
           <li>수락 1건당 회사 매출 4,900원</li>
-          <li>결과: 17% × 32% × 4,900 ≈ <strong>예약당 267원</strong> 평균 매출 증가</li>
+          <li>결과: 17% × 36% × 4,900 ≈ <strong>예약당 300원</strong> 평균 매출 증가</li>
         </ul>
       </li>
-      <li>이 267원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 155,000명 필요</li>
-      <li>실험군 노출률 17% 산출: 2차 평균 시간 조건 통과 모수 887건/일, A/B 50:50 분배 후 실험군 444건/일. 실제 옵션 노출 75명/일 ÷ 444 = 약 16.9%</li>
+      <li>이 300원 차이를 검정력 80% / 유의수준 5%로 통계 검증하려면 군당 약 126,000명 필요</li>
+      <li>실험군 노출률 17% 산출: 2차 평균 시간 조건 통과 모수 (토 제외) 727건/일, A/B 50:50 분배 후 실험군 약 363건/일. 실제 옵션 노출 약 60명/일 ÷ 363 = 약 16.5%</li>
     </ul>
   </div>
 
@@ -681,8 +681,8 @@
     <div class="good">
       <h4>A 질문 (수락률 추정): 답 가능</h4>
       <p style="margin: 6px 0;">
-        옵션 노출 회원이 320명만 모이면 "노출자 중 수락률 약 30% (±5%p)" 라고 결론 낼 수 있음.<br/>
-        6/2 종료 시 예상 누적 1,050명이라 ±3%p 수준까지 정확도 확보 가능.
+        옵션 노출 회원이 380명만 모이면 "노출자 중 수락률 약 33% (±5%p)" 라고 결론 낼 수 있음.<br/>
+        6/2 종료 시 예상 누적 약 1,200명이라 ±3%p 수준까지 정확도 확보 가능.
       </p>
     </div>
     <div class="bad">
@@ -691,8 +691,8 @@
         결국 업셀링 바텀시트을 보는 실험군 회원 수 자체가 작다는 게 핵심.<br/>
         실험군 안에서도 옵션을 실제로 보는 사람은 약 16% 뿐 (나머지는 9개 조건 다 통과 못 함).<br/>
         본 사람 중에서도 약 32%가 유효 수락. 수락 1건당 매출은 4,900원.<br/>
-        결국 실험군 전체로 보면 예약당 평균 매출 증가는 약 267원 (평균 객단가 58,818원의 약 0.45%).<br/>
-        0.45% 차이를 통계적으로 유의하다고 검증하려면 실험군이 약 155,000명 모여야 함 (현재 추세 6/2까지 약 6,100명).
+        결국 실험군 전체로 보면 예약당 평균 매출 증가는 약 300원 (평균 객단가 58,818원의 약 0.51%).<br/>
+        0.51% 차이를 통계적으로 유의하다고 검증하려면 실험군이 약 126,000명 모여야 함 (현재 추세 6/2까지 약 5,100명).
       </p>
     </div>
   </div>
@@ -753,13 +753,13 @@
   </div>
 
   <h3 style="margin-top: 36px;">4-2. 조건 완화 시 검정력 확보 여부</h3>
-  <p>매출 효과 검정 (검정력 80%) 필요 실험군 = 약 155,000명. 각 옵션별 14일 누적 실험군 규모와 비교</p>
+  <p>매출 효과 검정 (검정력 80%) 필요 실험군 = 약 126,000명. 각 옵션별 14일 누적 실험군 규모와 비교</p>
   <table>
     <thead>
       <tr>
         <th>완화 옵션</th>
         <th>옵션 클릭 회원 누적 (14일 예상)</th>
-        <th>예상 유효 수락 회원 (수락률 32% 가정)</th>
+        <th>예상 유효 수락 회원 (수락률 36% 가정)</th>
         <th>실험군 회원 누적 (14일 예상)</th>
         <th>매출 통계 검증 가능?</th>
       </tr>
@@ -767,45 +767,45 @@
     <tbody>
       <tr>
         <td>현재 (변경 없음)</td>
-        <td class="num">약 915</td>
-        <td class="num">약 290</td>
-        <td class="num">약 6,100</td>
+        <td class="num">약 840</td>
+        <td class="num">약 300</td>
+        <td class="num">약 5,100</td>
         <td><span class="badge bad">약 25배 부족</span></td>
       </tr>
       <tr>
         <td>±1h 확장</td>
-        <td class="num">약 1,650</td>
-        <td class="num">약 530</td>
-        <td class="num">약 11,000</td>
+        <td class="num">약 1,510</td>
+        <td class="num">약 540</td>
+        <td class="num">약 9,100</td>
         <td><span class="badge bad">약 14배 부족</span></td>
       </tr>
       <tr>
         <td>±2h 확장</td>
-        <td class="num">약 2,400</td>
-        <td class="num">약 770</td>
-        <td class="num">약 16,000</td>
+        <td class="num">약 2,180</td>
+        <td class="num">약 780</td>
+        <td class="num">약 13,200</td>
         <td><span class="badge bad">약 9.7배 부족</span></td>
       </tr>
       <tr style="background: #f0fdf4;">
         <td><strong>시간 풀고 길이만 유지</strong></td>
-        <td class="num">약 4,650</td>
-        <td class="num">약 1,490</td>
-        <td class="num">약 31,000</td>
+        <td class="num">약 4,280</td>
+        <td class="num">약 1,540</td>
+        <td class="num">약 25,900</td>
         <td><span class="badge warn">약 5배 부족</span></td>
       </tr>
       <tr>
         <td>리드 48h만 추가</td>
-        <td class="num">약 1,000</td>
-        <td class="num">약 320</td>
-        <td class="num">약 6,700</td>
+        <td class="num">약 920</td>
+        <td class="num">약 330</td>
+        <td class="num">약 5,600</td>
         <td><span class="badge bad">약 23배 부족</span></td>
       </tr>
     </tbody>
   </table>
   <div class="footnote">
     <ul style="margin: 0;">
-      <li>"예상 옵션 클릭 회원 수" 산출: 현재 클릭 75명/일 ÷ 시간 조건 모수 876건/일 = 약 8.6% (전체 기준) 적용</li>
-      <li>3장의 "실험군 노출률 16%" (A/B 50:50 분배 후 실험군만 분모로) 와 다른 기준이라 직접 비교 시 주의</li>
+      <li>"예상 옵션 노출 회원 수" 산출: 2차 평균 노출 60명/일 ÷ 시간 조건 모수 (토 제외) 727건/일 = 약 8.3% (전체 기준) 적용</li>
+      <li>3장의 "실험군 노출률 약 17%" (A/B 50:50 분배 후 실험군만 분모) 와 다른 기준이라 직접 비교 시 주의</li>
       <li>조건 완화 시 다른 조건 통과율이 달라질 수 있어 ±20% 오차 가능</li>
     </ul>
   </div>
@@ -959,13 +959,14 @@ JOIN `socar-data.socar_biz_profit.profit_socar_reservation` p
 
 <script>
 // 시간연장 옵션 노출/유효 수락 회원 수 기준. 5/19는 배포 전(48)/후(25) 실측 분리.
-// 토요일 (5/16)은 토요일 출발 제외 조건으로 모수 0이라 차트에서 제외.
+// 토요일 (5/16, 5/23)은 토요일 출발 제외 조건으로 차트에서 제외.
+// 5/25(일), 5/26(월)은 노출(view) 이벤트 적재 미완료라 수락만 별도 표기 (라인 끊김)
 // 유효 수락 = 결제 완료 + 예약 취소 안 함 (정책 "1인 1수락"과 일치)
 const dailyData = {
-  labels: ['5/13','5/14','5/15','5/17','5/18','5/19','5/20','5/21'],
-  view_phase1: [5, 36, 41, 33, 29, 48, 0, 0],
-  view_phase2: [0, 0, 0, 0, 0, 25, 77, 46],
-  accept:      [0, 9, 10, 9, 6, 20, 17, 24]
+  labels: ['5/13','5/14','5/15','5/17','5/18','5/19','5/20','5/21','5/22','5/24','5/25*','5/26*'],
+  view_phase1: [5, 36, 41, 33, 29, 48, 0, 0, 0, 0, null, null],
+  view_phase2: [0, 0, 0, 0, 0, 25, 77, 78, 47, 62, null, null],
+  accept:      [0, 9, 10, 9, 6, 20, 17, 24, 16, 15, 19, 1]
 };
 
 new Chart(document.getElementById('dailyChart'), {
