@@ -577,20 +577,23 @@
   <p>데이터로 추적 가능한 단계의 손실률 비교</p>
   <div class="metric-grid">
     <div class="metric">
-      <div class="label">왕복 예약 통과 후 리드 24시간 통과까지</div>
+      <div class="label">리드 24시간 이내 조건</div>
       <div class="value">−24%</div>
-      <div class="delta">5/19 배포로 이 조건 완화됨</div>
+      <div class="delta">5/19 배포로 이미 완화 (당일출발 → 24h)</div>
     </div>
     <div class="metric">
-      <div class="label">리드 24시간 통과 후 시간/길이 조건 통과까지</div>
+      <div class="label">출발 9-14시 / 반납 15-19시 / 대여 4-24h</div>
       <div class="value bad">−89%</div>
-      <div class="delta bad">데이터로 분리 가능한 조건 중 가장 큰 손실</div>
+      <div class="delta bad">데이터로 분리 가능한 조건 중 가장 큰 손실. 이 조건이 가장 타이트</div>
     </div>
     <div class="metric">
-      <div class="label">토요일 출발 제외 (시간/길이 통과 876건 후)</div>
+      <div class="label">토요일 출발 제외</div>
       <div class="value bad">−17%</div>
       <div class="delta bad">실험 기간 토요일 출발 예약 비중</div>
     </div>
+  </div>
+  <div class="footnote" style="margin-top: 12px;">
+    각 손실률은 직전 단계 모수 대비. 즉 "출발/반납 시간대 + 대여시간 조합"이 단일 최대 필터 (876건/일 수준으로 줄임). 5/19 완화한 리드 24h 조건은 영향 작음 (24%만 감소).
   </div>
 </div>
 
