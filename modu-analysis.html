@@ -327,7 +327,7 @@
   <a href="#summary">요약</a>
   <a href="#intro">0. 실험 배경 및 용어</a>
   <a href="#current">1. 현재 노출 모수</a>
-  <a href="#funnel">2. 모수 손실 깔때기</a>
+  <a href="#funnel">2. 노출 조건별 모수 변화</a>
   <a href="#power">3. 검정력 분석</a>
   <a href="#options">4. 조건 완화 시뮬레이션</a>
   <a href="#caveats">5. 분석 한계</a>
@@ -522,8 +522,8 @@
   </div>
 </div>
 
-<!-- 2. 모수 손실 깔때기 -->
-<h2 id="funnel">2. 모수 손실 깔때기</h2>
+<!-- 2. 노출 조건별 모수 변화 -->
+<h2 id="funnel">2. 노출 조건별 모수 변화</h2>
 
 <div class="card">
   <h3>2-1. 5/19~5/24 일평균 단계별 잔여 모수</h3>
@@ -563,13 +563,13 @@
 
   <div class="footnote">
     <ul style="margin: 0;">
-      <li>위 깔때기 단위는 모두 "일평균 예약 건수"</li>
+      <li>위 단계별 단위는 모두 "일평균 예약 건수"</li>
       <li>BigQuery로 추적 가능한 5개 조건만 표시</li>
       <li>데이터로 분리 불가한 후속 조건들은 다음 섹션 2-2에서 정리</li>
     </ul>
   </div>
 
-  <h3 style="margin-top: 36px;">2-2. 깔때기 후속 단계 (데이터로 단계 분리 불가한 조건들)</h3>
+  <h3 style="margin-top: 36px;">2-2. 후속 단계 (데이터로 단계 분리 불가한 조건들)</h3>
   <p>위 시간/길이 조건 통과 876건에서, 실제 옵션 클릭까지 가려면 다음 단계들이 더 적용됨</p>
   <ul>
     <li><strong>A/B 50:50 분배:</strong> 실험군 절반만 노출 대상 (약 절반으로 감소)</li>
@@ -872,11 +872,11 @@
     </li>
   </ul>
 
-  <h3 style="margin-top: 28px;">5-2. 깔때기 / 노출률 정의 의존성</h3>
+  <h3 style="margin-top: 28px;">5-2. 조건 적용 순서 / 노출률 정의 의존성</h3>
   <ul>
     <li><strong>"단일 최대 손실 구간" 표현 주의</strong>
       <ul>
-        <li>깔때기 단계는 조건 적용 순서에 따라 달라짐</li>
+        <li>단계별 손실률은 조건 적용 순서에 따라 달라짐</li>
         <li>본 분석은 "왕복, 리드24h, 시간/길이, 토요일" 순서 기준</li>
         <li>다른 순서에서는 다른 단계가 가장 큰 손실로 잡힐 수 있음</li>
       </ul>
@@ -893,7 +893,7 @@
   </ul>
 
   <h3 style="margin-top: 28px;">5-3. 데이터로 단계 분리 불가한 조건 (8개)</h3>
-  <p>9개 노출 조건 중 다음 8개는 데이터로 깔때기 단계를 분리하기 어려움</p>
+  <p>9개 노출 조건 중 다음 8개는 데이터로 단계별 모수를 분리하기 어려움</p>
   <ul>
     <li>차종 제외 (외제차 / 전기차 / 중형 밴 / 중형 RV): 예약 시점 차종 정보를 별도로 조회해야 함</li>
     <li>추가 요금 4,900원 초과 조건: 가격 계산 결과 필요</li>
@@ -997,7 +997,7 @@ FROM `socar-data.tianjin_replica.paid_info`
 WHERE paid_type = 'upselling_discount'
 GROUP BY 1 ORDER BY 1</code></pre>
 
-  <h3>모수 깔때기 단계별 집계</h3>
+  <h3>노출 조건 단계별 모수</h3>
   <pre><code>WITH base AS (
   SELECT DATE(created_at, 'Asia/Seoul') AS create_dt,
     DATETIME(start_at, 'Asia/Seoul') AS start_kst,
