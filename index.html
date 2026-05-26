@@ -277,7 +277,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div style="font-size:12px;color:#92400e;margin-bottom:18px;opacity:0.85;line-height:1.8">
       당일 출발 → 출발 24시간 이내 생성으로 노출 조건 완화<br>
       배포 후 5/19 15:50~5/24 약 5.34일치를 일평균으로 환산해 1차 평일 4일 평균과 비교<br>
-      노출 모수 약 1.6배 증가, 수락률도 25.8%에서 32.0%로 개선
+      노출 모수 약 1.6배 증가, 수락률도 25.9%에서 32.4%로 개선
     </div>
 
     <!-- 5개 지표 한눈 비교 -->
@@ -288,13 +288,13 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">35</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
-          <span style="font-size:28px;font-weight:900;color:#059669;line-height:1">55.1</span>
+          <span style="font-size:28px;font-weight:900;color:#059669;line-height:1">54.3</span>
           <span style="font-size:12px;color:#6b7280;font-weight:600">명/일</span>
         </div>
-        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+59%</div>
+        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+58%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
-          1차는 평일 4일 합계(139) ÷ 4 = 34.75<br>
-          2차는 5/19 15:50~5/24 합계(294) ÷ 약 5.34일 = 55.1
+          1차는 평일 4일 unique(137) ÷ 4 = 34.25<br>
+          2차는 5/19 15:50~5/24 unique(290) ÷ 약 5.34일 = 54.3
         </div>
       </div>
       <!-- 수락 -->
@@ -316,14 +316,14 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:16px 18px">
         <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">수락률 (노출 모수 대비)</div>
         <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
-          <span style="font-size:13px;color:#9ca3af;font-weight:600">25.8%</span>
+          <span style="font-size:13px;color:#9ca3af;font-weight:600">25.9%</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
-          <span style="font-size:28px;font-weight:900;color:#059669;line-height:1">32.0%</span>
+          <span style="font-size:28px;font-weight:900;color:#059669;line-height:1">32.4%</span>
         </div>
-        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+6.2%p</div>
+        <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+6.5%p</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
           노출 모수가 늘었음에도 수락률은 오히려 상승<br>
-          수락 94건 ÷ 노출 유저 294명 = 32.0%
+          수락 94건 ÷ 노출 유저 290명 = 32.4%
         </div>
       </div>
       <!-- 매출 -->
@@ -454,8 +454,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <div class="kpi-row">
     <div class="kpi">
       <div class="lbl">옵션 노출 유저 수</div>
-      <div class="num blue">294 <span class="unit">명</span></div>
-      <div class="sub">5/19 15:50~5/24 일별 합계<br>(5/25~26 노출 수치는 D+1 적재)</div>
+      <div class="num blue">290 <span class="unit">명</span></div>
+      <div class="sub">5/19 15:50~5/24 unique member 기준<br>(5/25~26 노출 수치는 D+1 적재)</div>
     </div>
     <div class="kpi">
       <div class="lbl">옵션 클릭 유저 수</div>
@@ -469,8 +469,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <div class="kpi">
       <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 모수 대비)</span></div>
-      <div class="num amber">32.0 <span class="unit">%</span></div>
-      <div class="sub">5/19 2차~5/24 수락 94건 ÷ 노출 294명<br>(이벤트와 결제 기간 동일 맞춤)</div>
+      <div class="num amber">32.4 <span class="unit">%</span></div>
+      <div class="sub">5/19 2차~5/24 수락 94건 ÷ 노출 290명<br>(이벤트와 결제 기간 동일 맞춤)</div>
     </div>
     <div class="kpi">
       <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
@@ -490,29 +490,29 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
   <div class="kpi-row">
     <div class="kpi">
-      <div class="lbl">옵션 화면을 본 사람</div>
-      <div class="num blue">186 <span class="unit">명</span></div>
-      <div class="sub">중복 제외 회원 수</div>
+      <div class="lbl">옵션 노출 유저 수</div>
+      <div class="num blue">185 <span class="unit">명</span></div>
+      <div class="sub">unique member 기준 (중복 제거)</div>
     </div>
     <div class="kpi">
-      <div class="lbl">시간연장 카드를 눌러본 사람</div>
-      <div class="num purple">77 <span class="unit">명</span></div>
-      <div class="sub">옵션 카드를 직접 누른 회원</div>
+      <div class="lbl">옵션 클릭 유저 수</div>
+      <div class="num purple">76 <span class="unit">명</span></div>
+      <div class="sub">component_name='interval_option' click</div>
     </div>
     <div class="kpi">
-      <div class="lbl">실제 수락 예약<br><span style="color:#9ca3af;font-weight:400">(환불 안 되고 끝까지 유지)</span></div>
+      <div class="lbl">총 수락 횟수<br><span style="color:#9ca3af;font-weight:400">(환불 차감 후 net 양수)</span></div>
       <div class="num green">48 <span class="unit">건</span></div>
-      <div class="sub">결제 데이터에서 환불 차감 후 남은 예약 수</div>
+      <div class="sub">유저당 7일 내 1회 수락 가능 정책</div>
     </div>
     <div class="kpi">
-      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 본 회원 중 수락한 비율)</span></div>
-      <div class="num amber">25.8 <span class="unit">%</span></div>
-      <div class="sub">48 ÷ 186<br>(카드 누른 77명 기준으로는 62.3%)</div>
+      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 모수 대비)</span></div>
+      <div class="num amber">25.9 <span class="unit">%</span></div>
+      <div class="sub">48 ÷ 185<br>(클릭 유저 76명 기준으로는 63.2%)</div>
     </div>
     <div class="kpi">
-      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락당 4,900원 적용)</span></div>
+      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
       <div class="num green">235,200 <span class="unit">원</span></div>
-      <div class="sub">6일치 누계</div>
+      <div class="sub">6일치 누계 (48건 × 4,900원)</div>
     </div>
   </div>
 
@@ -616,10 +616,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </tr>
         <tr>
           <td class="dt">5/18</td>
-          <td class="num">29</td>
-          <td class="num">10</td>
+          <td class="num">28</td>
+          <td class="num">9</td>
           <td class="num" style="color:#059669;font-weight:700">6</td>
-          <td class="num">20.7%</td>
+          <td class="num">21.4%</td>
           <td class="num" style="color:#059669">29,400원</td>
         </tr>
         <tr>
@@ -640,10 +640,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </tr>
         <tr>
           <td class="dt">5/15</td>
-          <td class="num">41</td>
+          <td class="num">40</td>
           <td class="num">16</td>
           <td class="num" style="color:#059669;font-weight:700">10</td>
-          <td class="num">24.4%</td>
+          <td class="num">25.0%</td>
           <td class="num" style="color:#059669">49,000원</td>
         </tr>
         <tr>
@@ -664,10 +664,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </tr>
         <tr class="total">
           <td class="dt">1차 누계 (5/13~5/19 15:50, 종료)</td>
-          <td class="num">186</td>
-          <td class="num">77</td>
+          <td class="num">185</td>
+          <td class="num">76</td>
           <td class="num">48</td>
-          <td class="num">25.8%</td>
+          <td class="num">25.9%</td>
           <td class="num">235,200원</td>
         </tr>
       </tbody>
@@ -711,119 +711,137 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div style="margin-top:14px;display:flex;flex-direction:column;gap:18px">
 
       <div>
-        <div class="card-title" style="font-size:13px">1. 화면별 동작별 일일 집계 (옵션 화면 본 / 시간연장 카드 누름 / 결제 버튼 누름)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">시간연장 옵션만 분리해서 집계 (raw 로그의 form_data 필드에 upselling_type 적재됨, 5/21부터 사용 가능)</div>
+        <div class="card-title" style="font-size:13px">1. 일별 노출 유저 / 클릭 유저 / cta 클릭 유저 (시간연장만)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">socar_app_log의 form_data='intervalUpselling'로 시간연장만 분리. 5/21부터 form_data 적재, 5/14~5/20은 PF0 미노출 기간이라 page view = 시간연장 view로 처리</div>
         <div class="query-block">SELECT
   event_date_kst AS dt,
-  COUNT(DISTINCT IF(event_name='view'  AND component_name IS NULL              AND REGEXP_CONTAINS(form_data, r'intervalUpselling'), member_id, NULL)) AS time_ext_view_uu,
-  COUNT(DISTINCT IF(event_name='click' AND component_name='interval_option',     member_id, NULL)) AS interval_click_uu,
-  COUNT(DISTINCT IF(event_name='click' AND component_name='cta_button'         AND REGEXP_CONTAINS(form_data, r'intervalUpselling'), member_id, NULL)) AS time_ext_cta_uu
+  COUNT(DISTINCT IF(event_name='view' AND component_name IS NULL
+    AND (event_date_kst &lt;= '2026-05-20' OR REGEXP_CONTAINS(form_data, r'intervalUpselling')),
+    member_id, NULL)) AS view_uu,
+  COUNT(DISTINCT IF(event_name='click' AND component_name='interval_option', member_id, NULL)) AS interval_click_uu,
+  COUNT(DISTINCT IF(event_name='click' AND component_name='cta_button'
+    AND (event_date_kst &lt;= '2026-05-20' OR REGEXP_CONTAINS(form_data, r'intervalUpselling')),
+    member_id, NULL)) AS cta_uu
 FROM `socar-data.app_web_log.socar_app_log`
-WHERE event_date_kst BETWEEN "2026-05-13" AND "2026-05-22"
+WHERE event_date_kst BETWEEN "2026-05-13" AND "2026-05-26"
   AND page_name = 'upsell_bottomsheet'
-GROUP BY dt
-ORDER BY dt</div>
+  AND event_at_kst &gt;= DATETIME("2026-05-13 14:09:30")
+GROUP BY dt ORDER BY dt</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">2. 5/19 1차와 2차 구간 분리 (15:50:05 KST 배포 기준)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">5/19를 배포 전(1차 구간)과 배포 후(2차 구간)로 나누어 집계</div>
+        <div class="card-title" style="font-size:13px">2. 5/19 1차/2차 구간 분리 (15:50:05 KST 배포 기준)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">5/19 단일일을 배포 전(1차)과 배포 후(2차)로 나눠 집계. 5/19 PF0 노출 없어서 form_data 조건 불필요</div>
         <div class="query-block">SELECT
   CASE WHEN event_at_kst &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
-  COUNT(DISTINCT CASE WHEN event_name='view'  AND component_name IS NULL              THEN member_id END) AS view_uu,
-  COUNT(DISTINCT CASE WHEN event_name='click' AND component_name='interval_option'    THEN member_id END) AS interval_click_uu
-FROM `socar-data.app_web_log.socar_app_web_log`
+  COUNT(DISTINCT IF(event_name='view' AND component_name IS NULL, member_id, NULL)) AS view_uu,
+  COUNT(DISTINCT IF(event_name='click' AND component_name='interval_option', member_id, NULL)) AS click_uu
+FROM `socar-data.app_web_log.socar_app_log`
 WHERE event_date_kst = "2026-05-19"
-  AND event_at_kst &gt;= DATETIME("2026-05-13 14:09:30")
   AND page_name = 'upsell_bottomsheet'
-GROUP BY phase
-ORDER BY phase</div>
+GROUP BY phase ORDER BY phase</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">3. 실제 수락 건수와 매출 (일별, 환불 제외, 시간연장만 분리)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">paid_meta_info의 meta JSON에서 upselling_type='TIME_EXTENSION'만 추출해서 시간연장 결제만 카운트</div>
-        <div class="query-block">WITH net_data AS (
-  SELECT
-    DATE(pi.created_at, "Asia/Seoul") AS dt,
-    pi.reservation_id,
-    SUM(pi.amount) AS net_amount
+        <div class="card-title" style="font-size:13px">3. 일별 수락 / 매출 증분 / 회사 부담 (시간연장만, 환불 차감)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">먼저 paid_meta_info.upselling_type='TIME_EXTENSION'인 reservation_id를 식별한 뒤, 그 예약의 모든 paid_info 행(결제+환불)을 net 합산</div>
+        <div class="query-block">WITH te_rsv AS (
+  SELECT DISTINCT pi.reservation_id
   FROM `socar-data.tianjin_replica.paid_info` pi
   JOIN `socar-data.tianjin_replica.paid_meta_info` pm ON pm.id = pi.id
-  WHERE DATE(pi.created_at, "Asia/Seoul") BETWEEN "2026-05-13" AND "2026-05-22"
+  WHERE DATE(pi.created_at, "Asia/Seoul") BETWEEN "2026-05-13" AND "2026-05-26"
     AND pi.paid_type = 'upselling_discount'
     AND JSON_EXTRACT_SCALAR(pm.meta, "$.upselling_type") = 'TIME_EXTENSION'
+),
+net AS (
+  SELECT DATE(pi.created_at, "Asia/Seoul") AS dt, pi.reservation_id,
+         SUM(pi.amount) AS net_amount
+  FROM `socar-data.tianjin_replica.paid_info` pi
+  JOIN te_rsv t ON t.reservation_id = pi.reservation_id
+  WHERE DATE(pi.created_at, "Asia/Seoul") BETWEEN "2026-05-13" AND "2026-05-26"
+    AND pi.paid_type = 'upselling_discount'
   GROUP BY dt, pi.reservation_id
 )
-SELECT
-  dt,
-  SUM(CASE WHEN net_amount &gt; 0 THEN 1 ELSE 0 END) AS net_accepted_rsv,
-  SUM(CASE WHEN net_amount &gt; 0 THEN net_amount ELSE 0 END) AS company_burden_net,
-  SUM(CASE WHEN net_amount &gt; 0 THEN 4900 ELSE 0 END) AS revenue_increment
-FROM net_data GROUP BY dt ORDER BY dt</div>
+SELECT dt,
+  SUM(CASE WHEN net_amount &gt; 0 THEN 1 ELSE 0 END) AS accepted,
+  SUM(CASE WHEN net_amount &gt; 0 THEN net_amount ELSE 0 END) AS burden,
+  SUM(CASE WHEN net_amount &gt; 0 THEN 4900 ELSE 0 END) AS revenue
+FROM net GROUP BY dt ORDER BY dt</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">4. 1차와 2차 구간 누계 중복 제외 회원 수 (수락률 분모용)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">전체 기간에서 같은 회원은 1명으로만 세는 방식 (일별 합과 다른 이유는 회원 중복 제거)</div>
-        <div class="query-block">SELECT
-  CASE WHEN event_at_kst &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
-  COUNT(DISTINCT CASE WHEN event_name='view'  AND component_name IS NULL              THEN member_id END) AS view_uu,
-  COUNT(DISTINCT CASE WHEN event_name='click' AND component_name='interval_option'    THEN member_id END) AS click_uu
-FROM `socar-data.app_web_log.socar_app_web_log`
-WHERE event_date_kst BETWEEN "2026-05-13" AND "2026-05-22"
-  AND event_at_kst &gt;= DATETIME("2026-05-13 14:09:30")
-  AND page_name = 'upsell_bottomsheet'
-GROUP BY phase
-ORDER BY phase</div>
-      </div>
-
-      <div>
-        <div class="card-title" style="font-size:13px">5. 차량 이용 시간 증가량 (본 목적 카드용)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">수락 예약의 최종 반납 시각에서 원래 반납 시각을 빼서 시간 차이를 합산</div>
-        <div class="query-block">WITH net AS (
-  SELECT
-    CASE WHEN DATETIME(created_at, "Asia/Seoul") &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
-    DATE(created_at, "Asia/Seoul") AS dt,
-    reservation_id,
-    SUM(amount) AS net_amount
-  FROM `socar-data.dbt.stg_tianjin_replica__paid_info`
-  WHERE DATE(created_at, "Asia/Seoul") BETWEEN "2026-05-13" AND "2026-05-22"
-    AND paid_type = 'upselling_discount'
-    AND DATETIME(created_at, "Asia/Seoul") &gt;= DATETIME("2026-05-13 14:09:30")
-  GROUP BY phase, dt, reservation_id
-  HAVING net_amount &gt; 0
+        <div class="card-title" style="font-size:13px">4. 1차/2차 unique 노출·클릭 유저 수 (수락률 분모용)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">전체 기간 unique member_id 기준. 일별 합과 다른 이유는 회원 중복 제거</div>
+        <div class="query-block">WITH base AS (
+  SELECT member_id,
+    CASE WHEN event_at_kst &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
+    event_name, component_name, form_data, event_date_kst
+  FROM `socar-data.app_web_log.socar_app_log`
+  WHERE event_date_kst BETWEEN "2026-05-13" AND "2026-05-24"
+    AND page_name = 'upsell_bottomsheet'
+    AND event_at_kst &gt;= DATETIME("2026-05-13 14:09:30")
+    AND member_id IS NOT NULL
 )
-SELECT
-  n.phase,
-  COUNT(*) AS n_accepted,
+SELECT phase,
+  COUNT(DISTINCT IF(event_name='view' AND component_name IS NULL
+    AND (event_date_kst &lt;= '2026-05-20' OR REGEXP_CONTAINS(form_data, r'intervalUpselling')),
+    member_id, NULL)) AS view_uu,
+  COUNT(DISTINCT IF(event_name='click' AND component_name='interval_option', member_id, NULL)) AS click_uu
+FROM base GROUP BY phase ORDER BY phase</div>
+      </div>
+
+      <div>
+        <div class="card-title" style="font-size:13px">5. 1차/2차 가동 시간 증분 (본 목적 카드용, 시간연장만)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">시간연장 reservation_id 식별 후, reservation_info의 reserved_end_at(연장 후 반납)에서 end_at(실제 반납)을 뺀 시간을 합산</div>
+        <div class="query-block">WITH te_rsv AS (
+  SELECT DISTINCT pi.reservation_id
+  FROM `socar-data.tianjin_replica.paid_info` pi
+  JOIN `socar-data.tianjin_replica.paid_meta_info` pm ON pm.id = pi.id
+  WHERE DATE(pi.created_at, "Asia/Seoul") BETWEEN "2026-05-13" AND "2026-05-24"
+    AND pi.paid_type = 'upselling_discount'
+    AND JSON_EXTRACT_SCALAR(pm.meta, "$.upselling_type") = 'TIME_EXTENSION'
+),
+net AS (
+  SELECT pi.reservation_id,
+    CASE WHEN DATETIME(MIN(pi.created_at), "Asia/Seoul") &lt; DATETIME("2026-05-19 15:50:05") THEN "1st" ELSE "2nd" END AS phase,
+    SUM(pi.amount) AS net_amount
+  FROM `socar-data.tianjin_replica.paid_info` pi
+  JOIN te_rsv t ON t.reservation_id = pi.reservation_id
+  WHERE DATE(pi.created_at, "Asia/Seoul") BETWEEN "2026-05-13" AND "2026-05-24"
+    AND pi.paid_type = 'upselling_discount'
+  GROUP BY pi.reservation_id HAVING net_amount &gt; 0
+)
+SELECT n.phase, COUNT(*) AS accepted, SUM(n.net_amount) AS burden,
   ROUND(AVG(TIMESTAMP_DIFF(r.reserved_end_at, r.end_at, MINUTE)/60.0), 2) AS avg_extend_h,
   ROUND(SUM(TIMESTAMP_DIFF(r.reserved_end_at, r.end_at, MINUTE)/60.0), 1) AS total_extend_h
 FROM net n
 JOIN `socar-data.dbt.stg_tianjin_replica__reservation_info` r ON r.id = n.reservation_id
-GROUP BY n.phase
-ORDER BY n.phase</div>
+GROUP BY n.phase ORDER BY n.phase</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">6. 1차 비교 기준값 (평일 4일만 사용)</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">조건 완화 비교 카드의 1차 하루 평균 산출용 (5/14, 5/15, 5/17, 5/18 평일 4일만 사용)</div>
-        <div class="query-block">WITH net AS (
-  SELECT
-    DATE(p.created_at, "Asia/Seoul") AS dt,
-    p.reservation_id,
-    SUM(p.amount) AS net_amount
-  FROM `socar-data.dbt.stg_tianjin_replica__paid_info` p
-  WHERE DATE(p.created_at, "Asia/Seoul") IN ("2026-05-14","2026-05-15","2026-05-17","2026-05-18")
-    AND p.paid_type = 'upselling_discount'
-  GROUP BY dt, reservation_id
-  HAVING net_amount &gt; 0
+        <div class="card-title" style="font-size:13px">6. 1차 평일 4일 비교 기준값 (시간연장만)</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">조건 완화 비교 카드의 1차 일평균 산출용. 5/14, 5/15, 5/17, 5/18 평일 4일만 사용 (토요일·부분일 제외)</div>
+        <div class="query-block">WITH te_rsv AS (
+  SELECT DISTINCT pi.reservation_id
+  FROM `socar-data.tianjin_replica.paid_info` pi
+  JOIN `socar-data.tianjin_replica.paid_meta_info` pm ON pm.id = pi.id
+  WHERE DATE(pi.created_at, "Asia/Seoul") IN ('2026-05-14','2026-05-15','2026-05-17','2026-05-18')
+    AND pi.paid_type = 'upselling_discount'
+    AND JSON_EXTRACT_SCALAR(pm.meta, "$.upselling_type") = 'TIME_EXTENSION'
+),
+net AS (
+  SELECT pi.reservation_id, SUM(pi.amount) AS net_amount
+  FROM `socar-data.tianjin_replica.paid_info` pi
+  JOIN te_rsv t ON t.reservation_id = pi.reservation_id
+  WHERE DATE(pi.created_at, "Asia/Seoul") IN ('2026-05-14','2026-05-15','2026-05-17','2026-05-18')
+    AND pi.paid_type = 'upselling_discount'
+  GROUP BY pi.reservation_id HAVING net_amount &gt; 0
 )
-SELECT
-  COUNT(*) AS n_accepted,
-  ROUND(SUM(TIMESTAMP_DIFF(r.reserved_end_at, r.end_at, MINUTE)/60.0), 1) AS total_extend_h_weekday4
-FROM net n
-JOIN `socar-data.dbt.stg_tianjin_replica__reservation_info` r ON r.id = n.reservation_id</div>
+SELECT COUNT(*) AS accepted, SUM(n.net_amount) AS burden,
+  ROUND(AVG(TIMESTAMP_DIFF(r.reserved_end_at, r.end_at, MINUTE)/60.0), 2) AS avg_extend_h,
+  ROUND(SUM(TIMESTAMP_DIFF(r.reserved_end_at, r.end_at, MINUTE)/60.0), 1) AS total_extend_h
+FROM net n JOIN `socar-data.dbt.stg_tianjin_replica__reservation_info` r ON r.id = n.reservation_id</div>
       </div>
 
       <div>
@@ -864,7 +882,7 @@ new Chart(document.getElementById('dailyChart'), {
   data: {
     labels: ['5/13', '5/14', '5/15', '5/17', '5/18', '5/19 (1차)', '5/19 (2차)', '5/20', '5/21', '5/22', '5/23 (토)', '5/24 (일)', '5/25 (공휴)', '5/26 (진행 중)'],
     datasets: [
-      { label: '옵션 노출 유저',         data: [5, 36, 41, 33, 29, 48, 25, 77, 47, 47, 36, 62, null, null], backgroundColor: '#93c5fd' },
+      { label: '옵션 노출 유저',         data: [5, 36, 40, 33, 28, 48, 25, 77, 47, 47, 36, 62, null, null], backgroundColor: '#93c5fd' },
       { label: '수락 횟수 (환불 차감)', data: [0, 9, 10, 9, 6, 14, 6, 18, 24, 16, 15, 15, 19, 1],         backgroundColor: '#fbbf24' },
     ]
   },
