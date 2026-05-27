@@ -204,9 +204,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
   <div class="updated">
-    최종 갱신: <b>2026-05-27 11:00 KST</b><br>
+    최종 갱신: <b>2026-05-27 KST (당일 진행 중)</b><br>
     <span style="color:#9ca3af">옵션 화면 노출은 5/25까지 적재, 5/26~5/27분은 다음날 적재 예정</span><br>
-    <span style="color:#9ca3af">결제·환불은 실시간 반영 (5/27은 오전 1건까지)</span>
+    <span style="color:#9ca3af">결제·환불은 실시간 반영. 5/27은 진행 중이라 수락·매출은 계속 증가</span>
   </div>
 </div>
 
@@ -338,7 +338,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+110%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.7">
           수락 건당 4,900원 적용 (5/19 15:50~5/25 누적 553,700원 ÷ 6.34일)<br>
-          현재(5/27)까지 2차 누적 <b style="color:#374151">622,300원</b><br>
+          현재(5/27)까지 2차 누적 <b style="color:#374151">686,000원</b><br>
           종료(6/3)까지 동일 페이스 유지 시 누적 약 125만 원 예상
         </div>
       </div>
@@ -464,8 +464,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <div class="kpi">
       <div class="lbl">총 수락 횟수<br><span style="color:#9ca3af;font-weight:400">(환불 차감 후 net 양수)</span></div>
-      <div class="num green">127 <span class="unit">건</span></div>
-      <div class="sub">5/19 2차~5/27 누적<br>유저당 7일 내 1회 수락 가능 정책</div>
+      <div class="num green">140 <span class="unit">건</span></div>
+      <div class="sub">5/19 2차~5/27 누적 (진행 중)<br>유저당 7일 내 1회 수락 가능 정책</div>
     </div>
     <div class="kpi">
       <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 모수 대비)</span></div>
@@ -474,8 +474,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <div class="kpi">
       <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
-      <div class="num green">622,300 <span class="unit">원</span></div>
-      <div class="sub">5/19 2차~5/27 누적<br>(127건 × 4,900원)</div>
+      <div class="num green">686,000 <span class="unit">원</span></div>
+      <div class="sub">5/19 2차~5/27 누적 (진행 중)<br>(140건 × 4,900원)</div>
     </div>
   </div>
 
@@ -542,12 +542,12 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       </thead>
       <tbody>
         <tr style="background:#fffbeb">
-          <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/27<br><span style="font-size:11px;color:#9ca3af;font-weight:400">진행 중 (오전까지)</span></td>
+          <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/27<br><span style="font-size:11px;color:#9ca3af;font-weight:400">진행 중</span></td>
           <td class="num" style="color:#9ca3af">— <span style="font-size:10px;color:#9ca3af;font-weight:400">5/28 적재</span></td>
           <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#059669;font-weight:700">1</td>
+          <td class="num" style="color:#059669;font-weight:700">14</td>
           <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#059669">4,900원</td>
+          <td class="num" style="color:#059669">68,600원</td>
         </tr>
         <tr style="background:#fffbeb">
           <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/26<br><span style="font-size:11px;color:#9ca3af;font-weight:400">노출 수치 5/27 적재 예정</span></td>
@@ -891,7 +891,7 @@ new Chart(document.getElementById('dailyChart'), {
     labels: ['5/13', '5/14', '5/15', '5/17', '5/18', '5/19 (1차)', '5/19 (2차)', '5/20', '5/21', '5/22', '5/23 (토)', '5/24 (일)', '5/25 (공휴)', '5/26', '5/27 (진행 중)'],
     datasets: [
       { label: '옵션 노출 유저',         data: [5, 36, 40, 33, 28, 48, 25, 77, 47, 47, 36, 64, 63, null, null], backgroundColor: '#93c5fd' },
-      { label: '수락 횟수 (환불 차감)', data: [0, 9, 10, 9, 6, 14, 6, 18, 24, 16, 15, 15, 19, 14, 1],         backgroundColor: '#fbbf24' },
+      { label: '수락 횟수 (환불 차감)', data: [0, 9, 10, 9, 6, 14, 6, 18, 24, 16, 15, 15, 19, 14, 14],         backgroundColor: '#fbbf24' },
     ]
   },
   options: {
