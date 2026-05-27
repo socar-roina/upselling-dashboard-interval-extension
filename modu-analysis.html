@@ -324,7 +324,7 @@
 <header>
   <h1>시간연장 업셀링 실험 (노출 모수 데이터 분석)</h1>
   <div class="subtitle">
-    업데이트: 2026-05-26, 데이터 기간 2026-05-13 (1차 배포) ~ 2026-05-26, BigQuery 실측 기반
+    업데이트: 2026-05-27, 데이터 기간 2026-05-13 (1차 배포) ~ 2026-05-26, BigQuery 실측 기반
   </div>
 </header>
 
@@ -345,18 +345,18 @@
   <div style="background: #ecfdf5; border-left: 4px solid var(--good); padding: 12px 16px; margin-bottom: 12px; border-radius: 4px;">
     <strong style="color: var(--good); font-size: 15px;">결론: 제안 C 적용 권고</strong>
     <div style="margin-top: 6px; font-size: 14px;">
-      리드 24h 유지 + 출발 시간 조건 삭제 + 반납 시간 14-20시 + 대여 4시간 이상 + 토/공휴일 반납 제외<br/>
-      현재 2차 대비 모수 1.47배 증가 (노출 +28명/일, 월 추가 차량 사용 시간 +1,890시간)
+      리드 24h 유지 + 출발 시간 조건 삭제 + 반납 시간 14-21시 + 대여 4시간 이상 + 토/공휴일 반납 제외<br/>
+      현재 2차 대비 모수 1.35배 증가 (노출 +21명/일, 월 추가 차량 사용 시간 +1,410시간)
     </div>
   </div>
   <ul>
     <li><strong>5/19 리드타임 완화 배포 효과:</strong> 시간당 옵션 노출 회원 수 1차 1.28명, 2차 2.50명 (약 2.0배 증가)</li>
-    <li><strong>모수가 작은 주된 이유:</strong> 9개 노출 조건 중 "출발 9-15시 / 반납 15-20시 / 대여 4-24시간" 조합이 약 −90% 손실의 주범</li>
+    <li><strong>모수가 작은 주된 이유:</strong> 9개 노출 조건 중 "출발 9-15시 / 반납 15-20시 / 대여 4-24시간" 조합이 약 −86% 손실의 주범</li>
     <li><strong>2차 운영 (5/19~5/26) 실적:</strong> 옵션 노출 회원 317명, 유효 수락 113명 (수락률 35.6%), 시간연장으로 추가 사용된 차량 시간 약 723시간</li>
     <li><strong>조건 완화 시 모수 증가 시뮬레이션 (4장 참고)</strong>
       <ul>
-        <li>제안 B (리드 24h 유지 + 출발 시간 조건 삭제 + 반납 15-19 + 대여 4h+ + 토/공휴일 반납 제외): 2차 대비 1.14배</li>
-        <li>제안 C (제안 B + 반납 시간 14-20시 확장): 2차 대비 1.47배</li>
+        <li>제안 B (리드 24h 유지 + 출발 시간 조건 삭제 + 반납 15-20 + 대여 4h+ + 토/공휴일 반납 제외): 2차 대비 1.08배</li>
+        <li>제안 C (제안 B + 반납 시간 14-21시 확장): 2차 대비 1.35배</li>
       </ul>
     </li>
   </ul>
@@ -526,14 +526,14 @@
       <div class="funnel-loss">−24%</div>
     </div>
     <div class="funnel-bar">
-      <div>└ 출발 9-14시 / 반납 15-19시 / 대여 4-24시간</div>
-      <div><div class="funnel-fill dim" style="width: 2.7%;">876</div></div>
-      <div class="funnel-loss"><strong>−89%</strong></div>
+      <div>└ 출발 9-15시 / 반납 15-20시 / 대여 4-24시간 <small class="note">(토 제외 전 중간값)</small></div>
+      <div><div class="funnel-fill dim" style="width: 3.3%;">1,086</div></div>
+      <div class="funnel-loss"><strong>−86%</strong></div>
     </div>
     <div class="funnel-bar">
-      <div>└ 토요일 출발 제외</div>
-      <div><div class="funnel-fill dim" style="width: 2.2%;">727</div></div>
-      <div class="funnel-loss">−17%</div>
+      <div>└ 토요일 출발 제외 <strong>(최종 노출 모수)</strong></div>
+      <div><div class="funnel-fill" style="width: 2.7%;">895</div></div>
+      <div class="funnel-loss">−18%</div>
     </div>
   </div>
 
@@ -542,11 +542,13 @@
       <li>위 단계별 단위는 모두 "일평균 예약 건수"</li>
       <li>BigQuery로 추적 가능한 5개 조건만 표시</li>
       <li>데이터로 분리 불가한 후속 조건들은 다음 섹션 2-2에서 정리</li>
+      <li><strong>1,086은 토요일 출발 제외 전 중간값. 토요일까지 빼면 895가 최종 노출 모수</strong></li>
+      <li><strong>이 최종 895가 4장 조건 완화 시뮬레이션의 "2차 (현재 운영)" 출발점과 동일한 값</strong></li>
     </ul>
   </div>
 
   <h3 style="margin-top: 36px;">2-2. 후속 단계 (데이터로 단계 분리 불가한 조건들)</h3>
-  <p>위 시간/길이 조건 통과 876건에서, 실제 옵션 클릭까지 가려면 다음 단계들이 더 적용됨</p>
+  <p>위 최종 노출 모수 895건 (출발/반납/대여 조건 통과 1,086건에서 토요일 출발 제외) 에서, 실제 옵션 클릭까지 가려면 다음 단계들이 더 적용됨</p>
   <ul>
     <li><strong>A/B 50:50 분배:</strong> 실험군 절반만 노출 대상 (약 절반으로 감소)</li>
     <li><strong>차종 제외:</strong> 외제차 / 전기차 / 중형 밴 / 중형 RV (약 30% 감소)</li>
@@ -569,20 +571,20 @@
       <div class="delta">5/19 배포로 이미 완화 (당일출발에서 24h로)</div>
     </div>
     <div class="metric">
-      <div class="label">출발 9-14시 / 반납 15-19시 / 대여 4-24h</div>
-      <div class="value bad">−89%</div>
+      <div class="label">출발 9-15시 / 반납 15-20시 / 대여 4-24h</div>
+      <div class="value bad">−86%</div>
       <div class="delta bad">데이터로 분리 가능한 조건 중 가장 큰 손실. 이 조건이 가장 타이트</div>
     </div>
     <div class="metric">
       <div class="label">토요일 출발 제외</div>
-      <div class="value bad">−17%</div>
+      <div class="value bad">−18%</div>
       <div class="delta bad">실험 기간 토요일 출발 예약 비중</div>
     </div>
   </div>
   <div class="footnote" style="margin-top: 12px;">
     <ul style="margin: 0;">
       <li>각 손실률은 직전 단계 모수 대비</li>
-      <li>"출발/반납 시간대 + 대여시간 조합"이 단일 최대 필터 (876건/일 수준으로 줄임)</li>
+      <li>"출발/반납 시간대 + 대여시간 조합"이 단일 최대 필터 (1,086건/일 수준으로 줄임)</li>
       <li>5/19 완화한 리드 24h 조건은 영향 작음 (24%만 감소)</li>
     </ul>
   </div>
@@ -597,8 +599,8 @@
     <li><strong>"옵션을 본 사람 중 몇 %가 수락하는가"</strong> 통계적 신뢰 가능한 수치 산출 가능
       <ul>
         <li>실측 약 33% 수락 (1차 25.8%, 2차 35.6%)</li>
-        <li>6/2 종료까지 옵션 노출 회원 약 1,200명 누적 예상</li>
-        <li>이 정도면 "수락률 약 33% (±3%p)" 같은 결론을 신뢰 가능하게 낼 수 있음 (필요 표본 약 380명)</li>
+        <li>6/2 종료까지 옵션 노출 회원 약 500~600명 누적 예상 (2차 일평균 약 60명 기준, 5-1과 동일)</li>
+        <li>이 정도면 "수락률 약 33% (±5%p)" 같은 결론을 신뢰 가능하게 낼 수 있음 (필요 표본 약 380명)</li>
       </ul>
     </li>
     <li><strong>유휴 슬롯 활용 실적</strong> (단순 합산)
@@ -622,7 +624,8 @@
   <h3>4-1. 단계별 모수 증가 (가정 시뮬레이션)</h3>
   <p>
     제안 B, C는 아직 적용되지 않은 가정 정책<br/>
-    같은 기간 (5/19~5/24) 동일 실제 예약 데이터에 만약 각 조건을 적용했다면 모수가 어떻게 달라지는지 시뮬한 결과
+    같은 기간 (5/19~5/24) 동일 실제 예약 데이터에 만약 각 조건을 적용했다면 모수가 어떻게 달라지는지 시뮬한 결과<br/>
+    <strong>아래 표의 "2차 (현재 운영)" 895는 2장 퍼널의 최종 노출 모수와 동일한 값. 여기서부터 조건을 완화함</strong>
   </p>
   <table>
     <thead>
@@ -636,33 +639,33 @@
     <tbody>
       <tr>
         <td>1차 (5/13~5/19 운영)</td>
-        <td>당일출발 + 출발 9-14 + 반납 15-19 + 대여 4-24h + 토 출발 제외</td>
-        <td class="num">498</td>
+        <td>당일출발 + 출발 9-15 + 반납 15-20 + 대여 4-24h + 토 출발 제외</td>
+        <td class="num">635</td>
         <td>-</td>
       </tr>
       <tr style="background: #eff6ff;">
         <td><strong>2차 (5/19~ 현재 운영)</strong></td>
-        <td>리드 24h 이내 (당일출발에서 완화) + 나머지 동일</td>
-        <td class="num"><strong>727</strong></td>
-        <td class="num"><strong>1.46배</strong> (5/19 배포로 이미 발생)</td>
+        <td>리드 24h 이내 (당일출발에서 완화) + 나머지 동일 <small class="note">(= 2장 퍼널 최종값)</small></td>
+        <td class="num"><strong>895</strong></td>
+        <td class="num"><strong>1.41배</strong> (5/19 배포로 이미 발생)</td>
       </tr>
       <tr style="background: #f0fdf4;">
         <td><strong>제안 B 적용 시</strong></td>
-        <td>리드 24h 유지 + 출발 시간 조건 삭제 + 반납 15-19 + 대여 4시간 이상 + 토/공휴일 반납 제외</td>
-        <td class="num"><strong>826</strong></td>
-        <td class="num"><strong>2차 대비 1.14배 증가</strong></td>
+        <td>리드 24h 유지 + 출발 시간 조건 삭제 + 반납 15-20 + 대여 4시간 이상 + 토/공휴일 반납 제외</td>
+        <td class="num"><strong>970</strong></td>
+        <td class="num"><strong>2차 대비 1.08배 증가</strong></td>
       </tr>
       <tr style="background: #ecfdf5;">
         <td><strong>제안 C 적용 시</strong></td>
-        <td>제안 B + 반납 시간 15-19시에서 14-20시로 확장</td>
-        <td class="num"><strong>1,070</strong></td>
-        <td class="num"><strong>2차 대비 1.47배 증가</strong></td>
+        <td>제안 B + 반납 시간 15-20시에서 14-21시로 확장</td>
+        <td class="num"><strong>1,209</strong></td>
+        <td class="num"><strong>2차 대비 1.35배 증가</strong></td>
       </tr>
     </tbody>
   </table>
   <div class="footnote">
     <ul style="margin: 0;">
-      <li>1차에서 2차로 1.46배 증가는 5/19 배포로 실제 일어난 증가 (운영 데이터)</li>
+      <li>1차에서 2차로 1.41배 증가는 5/19 배포로 실제 일어난 증가 (운영 데이터)</li>
       <li>제안 B / 제안 C는 가정 시뮬 결과 (현재 미적용 정책)</li>
       <li>제안 B: 본 분석 기간 (5/19~5/24) 데이터에서 5/24 (일+부처님오신날) + 5/25 (월+대체공휴일) 반납이 추가로 제외</li>
       <li>제안 C: 반납 시간 ±1시간씩 확장하여 모수 증가</li>
@@ -694,23 +697,23 @@
       </tr>
       <tr style="background: #f0fdf4;">
         <td><strong>제안 B 적용 시 (가정)</strong></td>
-        <td class="num">약 68명</td>
-        <td class="num">약 24명</td>
-        <td class="num">약 154시간</td>
-        <td class="num">약 4,610시간 (+15%)</td>
+        <td class="num">약 65명</td>
+        <td class="num">약 23명</td>
+        <td class="num">약 145시간</td>
+        <td class="num">약 4,370시간 (+8%)</td>
       </tr>
       <tr style="background: #ecfdf5;">
         <td><strong>제안 C 적용 시 (가정)</strong></td>
-        <td class="num">약 88명</td>
-        <td class="num">약 31명</td>
-        <td class="num">약 197시간</td>
-        <td class="num">약 5,920시간 (+47%)</td>
+        <td class="num">약 81명</td>
+        <td class="num">약 28명</td>
+        <td class="num">약 181시간</td>
+        <td class="num">약 5,440시간 (+35%)</td>
       </tr>
     </tbody>
   </table>
   <div class="footnote">
     <ul style="margin: 0;">
-      <li>노출 회원 환산: 2차 실측 노출률 약 8.3% (모수 727 대비 노출 60명) 적용</li>
+      <li>노출 회원 환산: 2차 실측 노출률 약 6.7% (모수 895 대비 노출 60명) 적용</li>
       <li>수락 회원 환산: 노출자 중 수락률 약 35% (2차 실측) 적용</li>
       <li>유휴 시간 환산: 수락 1건당 6.4시간 (기획 문서 기준 평균 연장 시간)</li>
       <li>참고로 회사 매출은 수락 1건당 정액 4,900원 (정상 예약 가격 대비 큰 할인이지만 어차피 비어있던 차량 시간이라 추가 비용 없이 마진)</li>
@@ -736,27 +739,27 @@
     <tbody>
       <tr>
         <td>±1h 확장</td>
-        <td>출발 8-15시 / 반납 14-20시 / 대여 3-25h</td>
-        <td class="num">1,576</td>
-        <td class="num">2.17배</td>
+        <td>출발 8-16시 / 반납 14-21시 / 대여 3-25h</td>
+        <td class="num">1,812</td>
+        <td class="num">2.02배</td>
       </tr>
       <tr>
         <td>±2h 확장</td>
-        <td>출발 7-16시 / 반납 13-21시 / 대여 2-26h</td>
-        <td class="num">2,286</td>
-        <td class="num">3.15배</td>
+        <td>출발 7-17시 / 반납 13-22시 / 대여 2-26h</td>
+        <td class="num">2,552</td>
+        <td class="num">2.85배</td>
       </tr>
       <tr>
         <td>시간 풀고 대여 4-24h 유지</td>
         <td>출발/반납 시간 제한 없음 + 대여 4-24h + 토 출발 제외</td>
         <td class="num">4,432</td>
-        <td class="num">6.10배</td>
+        <td class="num">4.95배</td>
       </tr>
       <tr>
         <td>리드 48h 추가 완화</td>
         <td>리드타임 24h를 48h로 + 나머지 현재 동일</td>
-        <td class="num">962</td>
-        <td class="num">1.32배 (효과 미미)</td>
+        <td class="num">1,000</td>
+        <td class="num">1.12배 (효과 미미)</td>
       </tr>
     </tbody>
   </table>
@@ -794,13 +797,13 @@
   <ul>
     <li><strong>1순위: 제안 C 적용</strong>
       <ul>
-        <li>본 실험 목적 (유휴 차량 시간 줄이기) 에 부합하는 모수 증가 (노출 +28명/일, 월 추가 차량 사용 시간 +1,890시간)</li>
+        <li>본 실험 목적 (유휴 차량 시간 줄이기) 에 부합하는 모수 증가 (노출 +21명/일, 월 추가 차량 사용 시간 +1,410시간)</li>
         <li>공휴일 반납 제외 조건은 그대로 유지 (회사 쿠폰 정책과 같은 기준)</li>
       </ul>
     </li>
     <li><strong>제안 B만 적용 시</strong>
       <ul>
-        <li>모수 증가 작음 (노출 +8명/일, 월 추가 차량 사용 시간 +580시간)</li>
+        <li>모수 증가 작음 (노출 +5명/일, 월 추가 차량 사용 시간 +340시간)</li>
         <li>회사 쿠폰 정책과 같은 기준이라 정책 일관성 유지</li>
       </ul>
     </li>
@@ -848,8 +851,8 @@ SELECT COUNT(*) AS step0_all,
          AND DATETIME_DIFF(start_kst, create_kst, HOUR) <= 24 THEN 1 END) AS step2_lead24h,
   COUNT(CASE WHEN way='round' AND cancel_at IS NULL
          AND DATETIME_DIFF(start_kst, create_kst, HOUR) <= 24
-         AND EXTRACT(HOUR FROM start_kst) BETWEEN 9 AND 14
-         AND EXTRACT(HOUR FROM end_kst) BETWEEN 15 AND 19
+         AND EXTRACT(HOUR FROM start_kst) BETWEEN 9 AND 15
+         AND EXTRACT(HOUR FROM end_kst) BETWEEN 15 AND 20
          AND DATETIME_DIFF(end_kst, start_kst, HOUR) BETWEEN 4 AND 24 THEN 1 END) AS step3_time
 FROM base</code></pre>
 
@@ -861,8 +864,8 @@ FROM base</code></pre>
     AND ri.way = 'round' AND ri.cancel_at IS NULL
     AND DATETIME_DIFF(DATETIME(ri.start_at,'Asia/Seoul'),
                       DATETIME(ri.created_at,'Asia/Seoul'), HOUR) <= 24
-    AND EXTRACT(HOUR FROM DATETIME(ri.start_at,'Asia/Seoul')) BETWEEN 9 AND 14
-    AND EXTRACT(HOUR FROM DATETIME(ri.end_at,'Asia/Seoul')) BETWEEN 15 AND 19
+    AND EXTRACT(HOUR FROM DATETIME(ri.start_at,'Asia/Seoul')) BETWEEN 9 AND 15
+    AND EXTRACT(HOUR FROM DATETIME(ri.end_at,'Asia/Seoul')) BETWEEN 15 AND 20
 )
 SELECT COUNT(*) AS n,
        AVG(p.revenue) AS mean_rev,
