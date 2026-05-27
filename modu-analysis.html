@@ -635,45 +635,50 @@
 <h2 id="options">4. 조건 완화 시뮬레이션</h2>
 
 <div class="card">
-  <h3>4-1. 단계별 모수 증가 (가정 시뮬레이션)</h3>
+  <h3>4-1. 조건 완화 시 예상 노출 (가정 시뮬레이션)</h3>
   <p>
     제안 B, C는 아직 적용되지 않은 가정 정책<br/>
-    같은 기간 (5/19~5/24) 동일 실제 예약 데이터에 각 조건을 적용했을 때 노출 후보 예약 수가 어떻게 달라지는지 시뮬한 결과<br/>
-    <strong>아래 "모수"는 "노출 후보 예약 건수" (2장 퍼널 895와 동일 기준). 실제 옵션 노출 회원 수로 환산한 값은 4-2 표 참고 (후보 예약의 약 6.7%가 실제 노출, 2차 약 60명/일)</strong>
+    같은 기간 (5/19~5/24) 데이터에 각 조건을 적용했을 때 노출이 얼마나 느는지 시뮬한 결과<br/>
+    <strong>핵심은 "예상 실제 노출 회원/일"(십단위, 1-2 차트와 같은 기준). 노출 후보 예약(백단위)은 참고용이고 실제 노출은 그 약 6.7%. 제안 B는 노출 하루 약 +5명, 제안 C는 약 +21명 수준</strong>
   </p>
   <table>
     <thead>
       <tr>
         <th>단계</th>
         <th>조건</th>
-        <th>노출 후보 예약 (일평균)</th>
-        <th>직전 단계 대비 배수</th>
+        <th>예상 실제 노출 회원/일</th>
+        <th>(참고) 노출 후보 예약/일</th>
+        <th>2차 대비</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>1차 (5/13~5/19 운영)</td>
         <td>당일출발 + 출발 9-15 + 반납 15-20 + 대여 4-24h + 토 출발 제외</td>
+        <td class="num">약 31명 (실측)</td>
         <td class="num">635</td>
         <td>-</td>
       </tr>
       <tr style="background: #eff6ff;">
         <td><strong>2차 (5/19~ 현재 운영)</strong></td>
         <td>리드 24h 이내 (당일출발에서 완화) + 나머지 동일 <small class="note">(= 2장 퍼널 895)</small></td>
-        <td class="num"><strong>895</strong></td>
-        <td class="num"><strong>1.41배</strong> (5/19 배포로 이미 발생)</td>
+        <td class="num"><strong>약 60명 (실측)</strong></td>
+        <td class="num">895</td>
+        <td class="num"><strong>1.41배</strong> (5/19 배포)</td>
       </tr>
       <tr style="background: #f0fdf4;">
         <td><strong>제안 B 적용 시</strong></td>
         <td>리드 24h 유지 + 출발 시간 조건 삭제 + 반납 15-20 + 대여 4시간 이상 + 토/공휴일 반납 제외</td>
-        <td class="num"><strong>970</strong></td>
-        <td class="num"><strong>2차 대비 1.08배 증가</strong></td>
+        <td class="num"><strong>약 65명</strong></td>
+        <td class="num">970</td>
+        <td class="num"><strong>1.08배</strong> (노출 +5명/일)</td>
       </tr>
       <tr style="background: #ecfdf5;">
         <td><strong>제안 C 적용 시</strong></td>
         <td>제안 B + 반납 시간 15-20시에서 14-21시로 확장</td>
-        <td class="num"><strong>1,209</strong></td>
-        <td class="num"><strong>2차 대비 1.35배 증가</strong></td>
+        <td class="num"><strong>약 81명</strong></td>
+        <td class="num">1,209</td>
+        <td class="num"><strong>1.35배</strong> (노출 +21명/일)</td>
       </tr>
     </tbody>
   </table>
@@ -690,7 +695,7 @@
   <p>
     본 실험 목적은 반납 후 자정까지 비어있던 차량 시간 (유휴 시간) 채우기<br/>
     시간연장 수락 1건당 평균 6.4시간 추가 차량 점유 (기획 문서 기준)<br/>
-    <strong>아래 "옵션 노출 회원"은 4-1 후보 예약에서 실제 노출까지 환산한 값 (1-2 차트의 일별 노출과 같은 기준, 약 60명/일)</strong>
+    <strong>아래는 4-1의 예상 노출 회원(2차 60 → 제안 B 65 → 제안 C 81)을 수락·차량시간·매출로 환산한 값</strong>
   </p>
   <table>
     <thead>
