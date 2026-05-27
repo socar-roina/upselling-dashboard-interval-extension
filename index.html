@@ -205,8 +205,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
   <div class="updated">
     최종 갱신: <b>2026-05-27 KST (당일 진행 중)</b><br>
+    <span style="color:#b45309;font-weight:600">5/27 15:27 조건 완화 3차(B안) 배포 → 3차 구간 시작</span><br>
     <span style="color:#9ca3af">옵션 화면 노출은 5/25까지 적재, 5/26~5/27분은 다음날 적재 예정</span><br>
-    <span style="color:#9ca3af">결제·환불은 실시간 반영. 5/27은 진행 중이라 수락·매출은 계속 증가</span>
+    <span style="color:#9ca3af">결제와 환불은 실시간 반영. 5/27은 진행 중이라 수락·매출은 계속 증가</span>
   </div>
 </div>
 
@@ -238,26 +239,35 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 <div class="phase-banner">
   <div class="phase-inner-wrap" style="max-width:1440px;margin:0 auto">
     <div style="font-size:12px;color:rgba(255,255,255,0.85);padding:0 4px 14px;line-height:1.8">
-      <b style="color:white">두 구간으로 나눠 분석하는 이유</b><br>
-      5/19 15:50에 노출 조건 1개 완화 (당일 출발 → 출발 24시간 이내 생성)<br>
-      노출 모수가 달라져서 변경 전후를 분리해서 비교
+      <b style="color:white">세 구간으로 나눠 분석하는 이유</b><br>
+      5/19 15:50 리드타임 완화(당일 출발 → 출발 24시간 이내), 5/27 15:27 조건 완화 B안 배포<br>
+      노출 조건이 바뀔 때마다 모수가 달라져서 구간을 나눠 비교
     </div>
-    <div class="phase-inner">
+    <div class="phase-inner" style="grid-template-columns:1fr 1fr 1fr">
       <div class="phase-block phase-after">
-        <div class="tag-top">2차 구간 (진행 중)</div>
-        <div class="name">출발 24시간 이내 생성된 예약</div>
-        <div class="range">2026-05-19 15:50 KST ~ 현재 (약 7.8일)</div>
+        <div class="tag-top">3차 구간 (진행 중)</div>
+        <div class="name">조건 완화 B안 적용</div>
+        <div class="range">2026-05-27 15:27 KST ~ 현재</div>
         <div class="meta">
-          출발까지 24시간 이내에 생성된 예약 대상 노출 (나머지 8개 조건 동일)<br>
-          종료 예정: <b>2026-06-03 00:00 KST</b> (실험 시작일에서 14일 후)
+          출발 시간 조건 삭제 + 대여 상한(24h) 제거 + 연휴 반납 제외 (리드 24h·반납 15~20시 유지)<br>
+          배포: socar-server PR #8047 (NEWCS-3639), prod 배포 완료 15:27<br>
+          종료 예정: <b>2026-06-03 00:00 KST</b>
+        </div>
+      </div>
+      <div class="phase-block phase-before">
+        <div class="tag-top">2차 구간 (종료)</div>
+        <div class="name">출발 24시간 이내 생성된 예약</div>
+        <div class="range">2026-05-19 15:50 ~ 2026-05-27 15:27 KST</div>
+        <div class="meta">
+          리드타임만 24시간 이내로 완화 (나머지 조건 1차와 동일)
         </div>
       </div>
       <div class="phase-block phase-before">
         <div class="tag-top">1차 구간 (종료)</div>
         <div class="name">당일 생성 + 당일 출발 예약</div>
-        <div class="range">2026-05-13 14:09:30 ~ 2026-05-19 15:50 KST (약 6일)</div>
+        <div class="range">2026-05-13 14:09 ~ 2026-05-19 15:50 KST</div>
         <div class="meta">
-          예약 생성일 당일 내 출발 예약만 노출 (나머지 8개 조건 동일)
+          당일 출발 예약만 노출
         </div>
       </div>
     </div>
@@ -266,10 +276,48 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
 <div class="main">
 
+  <!-- 3차 구간 (조건 완화 B안) -->
+  <div class="section-label" style="font-size:14px">
+    <span style="background:#fbbf24;color:#78350f;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">3차 구간</span>
+    조건 완화 B안 적용 후 (5/27 15:27 ~, 진행 중)
+    <span class="tag tag-info">방금 시작</span>
+  </div>
+  <div class="section-explain">
+    5/27 15:27 조건 완화 B안 배포 (출발 시간 조건 삭제 + 대여 상한 제거 + 연휴 반납 제외). socar-server PR #8047 (NEWCS-3639), prod 배포 완료 15:27 KST<br>
+    배포 직후라 누적 중. 노출·클릭은 이벤트 로그 적재 후(5/28~) 집계, 현재는 수락만 실시간 집계
+  </div>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="lbl">옵션 노출 유저 수</div>
+      <div class="num" style="color:#9ca3af">—</div>
+      <div class="sub">5/28부터 적재 (D+1)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">옵션 클릭 유저 수</div>
+      <div class="num" style="color:#9ca3af">—</div>
+      <div class="sub">5/28부터 적재 (D+1)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">총 수락 횟수<br><span style="color:#9ca3af;font-weight:400">(환불 차감 후 net 양수)</span></div>
+      <div class="num green">3 <span class="unit">건</span></div>
+      <div class="sub">5/27 15:27~ (배포 후), 진행 중</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 모수 대비)</span></div>
+      <div class="num" style="color:#9ca3af">—</div>
+      <div class="sub">노출 적재 후 산출 가능</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
+      <div class="num green">14,700 <span class="unit">원</span></div>
+      <div class="sub">3건 × 4,900원, 진행 중</div>
+    </div>
+  </div>
+
   <!-- 2차 구간 (작은 카드 1장) -->
   <div class="section-label" style="font-size:14px">
     <span style="background:#fbbf24;color:#78350f;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">2차 구간</span>
-    조건 완화 후 진행 상황 (5/19 15:50 ~)
+    조건 완화 후 진행 상황 (5/19 15:50 ~ 5/27 15:27, 종료)
   </div>
   <!-- 1차 vs 2차 직접 비교 (paid 일평균 기준) -->
   <div class="card" style="background:#fffbeb;border-color:#fde68a;padding:24px 28px">
@@ -338,8 +386,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+110%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.7">
           수락 건당 4,900원 적용 (5/19 15:50~5/25 누적 553,700원 ÷ 6.34일)<br>
-          현재(5/27)까지 2차 누적 <b style="color:#374151">686,000원</b><br>
-          종료(6/3)까지 동일 페이스 유지 시 누적 약 125만 원 예상
+          2차 마감(5/27 15:27)까지 누적 <b style="color:#374151">671,300원</b> (137건)<br>
+          5/27 15:27부터는 3차(조건 완화 B안) 구간으로 전환
         </div>
       </div>
       <!-- 가동 전환 시간 (본 목적) -->
@@ -443,7 +491,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
   <!-- 2차 구간 누계 KPI -->
   <div class="section-label" style="margin-top:24px">
-    2차 구간 누계 (5/19 15:50 ~ 현재)
+    2차 구간 누계 (5/19 15:50 ~ 5/27 15:27, 마감)
     <span class="tag tag-fact">검증된 수치</span>
   </div>
   <div class="section-explain">
@@ -464,8 +512,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <div class="kpi">
       <div class="lbl">총 수락 횟수<br><span style="color:#9ca3af;font-weight:400">(환불 차감 후 net 양수)</span></div>
-      <div class="num green">140 <span class="unit">건</span></div>
-      <div class="sub">5/19 2차~5/27 누적 (진행 중)<br>유저당 7일 내 1회 수락 가능 정책</div>
+      <div class="num green">137 <span class="unit">건</span></div>
+      <div class="sub">5/19 15:50~5/27 15:27 (2차 마감)<br>유저당 7일 내 1회 수락 가능 정책</div>
     </div>
     <div class="kpi">
       <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 모수 대비)</span></div>
@@ -474,8 +522,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <div class="kpi">
       <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
-      <div class="num green">686,000 <span class="unit">원</span></div>
-      <div class="sub">5/19 2차~5/27 누적 (진행 중)<br>(140건 × 4,900원)</div>
+      <div class="num green">671,300 <span class="unit">원</span></div>
+      <div class="sub">5/19 15:50~5/27 15:27 (2차 마감)<br>(137건 × 4,900원)</div>
     </div>
   </div>
 
@@ -542,12 +590,20 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       </thead>
       <tbody>
         <tr style="background:#fffbeb">
-          <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/27<br><span style="font-size:11px;color:#9ca3af;font-weight:400">진행 중</span></td>
+          <td class="dt"><span style="background:#059669;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">3차</span> 5/27 15:27~<br><span style="font-size:11px;color:#9ca3af;font-weight:400">조건 완화 B안, 진행 중</span></td>
           <td class="num" style="color:#9ca3af">— <span style="font-size:10px;color:#9ca3af;font-weight:400">5/28 적재</span></td>
           <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#059669;font-weight:700">14</td>
+          <td class="num" style="color:#059669;font-weight:700">3</td>
           <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#059669">68,600원</td>
+          <td class="num" style="color:#059669">14,700원</td>
+        </tr>
+        <tr style="background:#fffbeb">
+          <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/27 ~15:27<br><span style="font-size:11px;color:#9ca3af;font-weight:400">배포 전</span></td>
+          <td class="num" style="color:#9ca3af">— <span style="font-size:10px;color:#9ca3af;font-weight:400">5/28 적재</span></td>
+          <td class="num" style="color:#9ca3af">—</td>
+          <td class="num" style="color:#059669;font-weight:700">11</td>
+          <td class="num" style="color:#9ca3af">—</td>
+          <td class="num" style="color:#059669">53,900원</td>
         </tr>
         <tr style="background:#fffbeb">
           <td class="dt"><span style="background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">2차</span> 5/26<br><span style="font-size:11px;color:#9ca3af;font-weight:400">노출 수치 5/27 적재 예정</span></td>
@@ -686,22 +742,23 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- 노출 조건 (접힘) -->
   <details style="margin-top:24px;background:white;border:1px solid #e5e7eb;border-radius:12px;padding:16px 22px">
     <summary style="font-size:13px;font-weight:700;color:#374151;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between">
-      <span>옵션 노출 9가지 조건 (1차/2차 차이 표시)</span>
+      <span>옵션 노출 9가지 조건 (구간별 차이 표시)</span>
       <span style="font-size:11px;color:#9ca3af;font-weight:500">▼ 펼치기</span>
     </summary>
     <div style="margin-top:14px">
       <div class="section-explain" style="margin-bottom:12px">
         결제 직전 시점에 옵션을 노출할지 판단하는 9가지 조건<br>
         9가지를 모두 통과해야 옵션이 노출됨<br>
-        5/19 15:50 배포에서 3번(리드타임)만 완화, 나머지 8개는 유지
+        5/19 15:50(2차): 3번 리드타임 완화<br>
+        5/27 15:27(3차, B안): 4번 출발 시간 조건 삭제, 6번 대여 상한 제거, 5번을 연휴 반납 제외로 변경
       </div>
       <div class="cond-list">
         <div class="cond-item"><span class="cond-num">1</span><span class="cond-text"><b>실험군 유저만 (전체 50%)</b><span class="why">A/B 비교를 위해 50%에게만 노출<br>나머지 50%는 대조군으로 옵션 미노출</span></span></div>
         <div class="cond-item"><span class="cond-num">2</span><span class="cond-text"><b>왕복 예약만 (편도/도어투도어 제외)</b><span class="why">출발지에서 빌리고 같은 출발지로 반납하는 예약만 대상</span></span></div>
-        <div class="cond-item" style="background:#fffbeb;border:1px solid #fde68a"><span class="cond-num" style="background:#b45309">3</span><span class="cond-text"><b>리드타임 (1차/2차 차이)</b><span class="why" style="line-height:1.8"><b style="color:#374151">1차:</b> 당일 생성 + 당일 출발<br><b style="color:#b45309">2차:</b> 출발 24시간 이내 생성된 예약</span></span></div>
-        <div class="cond-item"><span class="cond-num">4</span><span class="cond-text"><b>출발 9~15시 / 반납 15~20시</b><span class="why">반납 후 자정까지 가용 시간이 충분히 확보되는 시간대만</span></span></div>
-        <div class="cond-item"><span class="cond-num">5</span><span class="cond-text"><b>토요일 출발 제외</b><span class="why">토요일 출발 예약은 옵션 미노출</span></span></div>
-        <div class="cond-item"><span class="cond-num">6</span><span class="cond-text"><b>예약 길이 4~24시간</b><span class="why">너무 짧거나 너무 긴 예약은 대상 아님</span></span></div>
+        <div class="cond-item" style="background:#fffbeb;border:1px solid #fde68a"><span class="cond-num" style="background:#b45309">3</span><span class="cond-text"><b>리드타임 (2차 변경)</b><span class="why" style="line-height:1.8"><b style="color:#374151">1차:</b> 당일 생성 + 당일 출발<br><b style="color:#b45309">2차·3차:</b> 출발 24시간 이내 생성 (3차도 유지)</span></span></div>
+        <div class="cond-item" style="background:#ecfdf5;border:1px solid #a7f3d0"><span class="cond-num" style="background:#059669">4</span><span class="cond-text"><b>출발 시간 조건 (3차 변경)</b><span class="why" style="line-height:1.8"><b style="color:#374151">2차:</b> 출발 9~15시, 반납 15~20시<br><b style="color:#059669">3차:</b> 출발 시간 조건 삭제 (반납 15~20시만 유지)</span></span></div>
+        <div class="cond-item" style="background:#ecfdf5;border:1px solid #a7f3d0"><span class="cond-num" style="background:#059669">5</span><span class="cond-text"><b>주말 처리 (3차 변경)</b><span class="why" style="line-height:1.8"><b style="color:#374151">2차:</b> 토요일 출발 제외<br><b style="color:#059669">3차:</b> 연휴 반납 제외 (반납일과 다음날이 모두 공휴일이나 주말이면 제외)</span></span></div>
+        <div class="cond-item" style="background:#ecfdf5;border:1px solid #a7f3d0"><span class="cond-num" style="background:#059669">6</span><span class="cond-text"><b>예약 길이 (3차 변경)</b><span class="why" style="line-height:1.8"><b style="color:#374151">2차:</b> 4~24시간<br><b style="color:#059669">3차:</b> 4시간 이상 (상한 24h 제거)</span></span></div>
         <div class="cond-item"><span class="cond-num">7</span><span class="cond-text"><b>수입차/전기차/대형밴/대형RV 제외</b><span class="why">해당 차종은 정책상 시간연장 대상 아님</span></span></div>
         <div class="cond-item"><span class="cond-num">8</span><span class="cond-text"><b>연장 차액 4,900원 초과 시에만</b><span class="why">차액이 4,900원 이하면 회사 손해라 미노출</span></span></div>
         <div class="cond-item"><span class="cond-num">9</span><span class="cond-text"><b>유저당 7일 내 1회 수락 가능</b><span class="why">한 번 수락 후 7일간 재노출 안 됨<br>예약 취소 시 빈도 제한 초기화</span></span></div>
