@@ -251,7 +251,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div class="range">2026-05-27 15:27 KST ~ 현재</div>
         <div class="meta">
           출발 시간 조건 삭제 + 대여 상한(24h) 제거 + 토요일 출발 제외를 연휴 반납 제외로 변경 (리드 24h, 반납 15~20시 유지)<br>
-          그 외 조건(차종, 차량 가용성, 쿠폰 호환 등)은 1·2차와 동일하게 적용<br>
+          그 외 조건(차종, 차량 가용성, 쿠폰 호환 등)은 1차와 2차에서 그대로 유지<br>
           배포: socar-server PR #8047 (NEWCS-3639), prod 배포 완료 15:27<br>
           종료 예정: <b>2026-06-03 00:00 KST</b>
         </div>
@@ -261,7 +261,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div class="name">리드타임: 출발 24시간 이내 생성</div>
         <div class="range">2026-05-19 15:50 ~ 2026-05-27 15:27 KST</div>
         <div class="meta">
-          리드타임 조건만 1차에서 완화. 그 외 8개 조건(차종, 시간대, 차량 가용성 등)은 모두 통과해야 옵션 노출
+          1차에서 리드타임만 완화. 그 외 8개 조건(차종, 시간대, 차량 가용성 등)은 1차와 동일
         </div>
       </div>
       <div class="phase-block phase-before">
@@ -269,7 +269,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div class="name">리드타임: 당일 생성 + 당일 출발만</div>
         <div class="range">2026-05-13 14:09 ~ 2026-05-19 15:50 KST</div>
         <div class="meta">
-          리드타임 조건만 표시. 그 외 8개 조건(차종, 시간대, 차량 가용성 등)은 모두 통과해야 옵션 노출
+          실험 시작 시점 기본 조건. 그 외 8개 조건(차종, 시간대, 차량 가용성 등)도 모두 통과해야 옵션 노출
         </div>
       </div>
     </div>
