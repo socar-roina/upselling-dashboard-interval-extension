@@ -204,10 +204,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
   </div>
   <div class="updated">
-    최종 갱신: <b>2026-06-02 KST (당일 진행 중)</b><br>
-    <span style="color:#b45309;font-weight:600">5/27 15:27 조건 완화 3차 배포 → 3차 구간 진행 중 (종료 예정 6/3 00:00)</span><br>
-    <span style="color:#9ca3af">옵션 화면 노출은 5/31까지 적재, 6/01~6/02분은 다음날 적재 예정</span><br>
-    <span style="color:#9ca3af">결제와 환불은 실시간 반영. 6/02은 진행 중이라 수락과 매출은 계속 증가</span>
+    최종 갱신: <b>2026-06-05 KST</b><br>
+    <span style="color:#b45309;font-weight:600">실험 종료: 2026-06-03 00:00 KST (3차 구간 마감, 6/03 엣지 케이스 1건 제외)</span><br>
+    <span style="color:#9ca3af">옵션 화면 노출은 6/02까지 적재 완료</span><br>
+    <span style="color:#dc2626">[데이터 주의] 6/01 로그 적재 결함: 전체 upsell_bottomsheet view 132명만 잡힘(정상 일평균 ~8천). 3차 노출 모수가 일부 과소집계되어 수락률이 실제보다 약 3~5%p 높게 보일 수 있음</span>
   </div>
 </div>
 
@@ -244,12 +244,12 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <span style="color:rgba(255,255,255,0.65)">아래는 구간별 변경 조건만 표시. 옵션 노출은 9개 조건 모두 통과 (하단 조건 표 참고)</span>
     </div>
     <div class="phase-inner" style="grid-template-columns:1fr 1fr 1fr">
-      <div class="phase-block phase-after">
-        <div class="tag-top">3차 구간 (진행 중)</div>
+      <div class="phase-block phase-before">
+        <div class="tag-top">3차 구간 (종료)</div>
         <div class="name">출발 시간 + 대여 상한 완화, 주말 처리 변경</div>
-        <div class="range">2026-05-27 15:27 KST ~ 현재</div>
+        <div class="range">2026-05-27 15:27 ~ 2026-06-03 00:00 KST (6.36일)</div>
         <div class="meta">
-          리드 24h, 반납 15~20시 유지. 종료 예정 <b>2026-06-03 00:00 KST</b><br>
+          리드 24h, 반납 15~20시 유지<br>
           배포 PR #8047 (NEWCS-3639)
         </div>
       </div>
@@ -277,39 +277,39 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
   <!-- 3차 구간 (조건 완화) -->
   <div class="section-label" style="font-size:14px">
-    <span style="background:#fbbf24;color:#78350f;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">3차 구간</span>
-    조건 완화 적용 후 (5/27 15:27 ~, 진행 중)
-    <span class="tag tag-info">방금 시작</span>
+    <span style="background:#059669;color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">3차 구간</span>
+    조건 완화 적용 후 (5/27 15:27 ~ 6/03 00:00 KST, 종료)
+    <span class="tag tag-fact">검증된 수치</span>
   </div>
   <div class="section-explain">
     5/27 15:27 조건 완화 배포 (출발 시간 조건 삭제 + 대여 상한 제거 + 연휴 반납 제외). socar-server PR #8047 (NEWCS-3639), prod 배포 완료 15:27 KST<br>
-    이벤트 로그 5/31까지 적재 완료, 6/01~6/02 결제는 실시간 진행 중. 종료 예정 6/3 00:00
+    실험 종료 6/03 00:00 KST. 종료 후 엣지 케이스 1건은 누계에서 제외
   </div>
   <div class="kpi-row">
     <div class="kpi">
       <div class="lbl">옵션 노출 유저 수</div>
-      <div class="num blue">343 <span class="unit">명</span></div>
-      <div class="sub">5/27 15:27~5/31 unique<br>(6/01~6/02분 D+1 적재)</div>
+      <div class="num blue">439 <span class="unit">명</span></div>
+      <div class="sub">5/27 15:27~6/03 00:00 unique<br>(6/01분 일부 적재 누락, 실제는 +50~100명 추정)</div>
     </div>
     <div class="kpi">
       <div class="lbl">옵션 클릭 유저 수</div>
-      <div class="num purple">148 <span class="unit">명</span></div>
-      <div class="sub">5/27 15:27~5/31 동일 기간</div>
+      <div class="num purple">198 <span class="unit">명</span></div>
+      <div class="sub">5/27 15:27~6/03 00:00 동일 기간</div>
     </div>
     <div class="kpi">
       <div class="lbl">총 수락 횟수<br><span style="color:#9ca3af;font-weight:400">(취소·환불 제외)</span></div>
-      <div class="num green">110 <span class="unit">건</span></div>
-      <div class="sub">5/27 15:27~6/02 누적 (진행 중)</div>
+      <div class="num green">135 <span class="unit">건</span></div>
+      <div class="sub">5/27 15:27~6/03 00:00 (3차 종료)<br>유저당 7일 내 1회 수락 가능 정책</div>
     </div>
     <div class="kpi">
       <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 모수 대비)</span></div>
-      <div class="num amber">23.9 <span class="unit">%</span></div>
-      <div class="sub">5/27 15:27~5/31 수락 82건 ÷ 노출 343명<br>(이벤트와 결제 기간 동일 맞춤)</div>
+      <div class="num amber">30.8 <span class="unit">%</span></div>
+      <div class="sub">5/27 15:27~6/03 수락 135건 ÷ 노출 439명<br>6/01 로그 누락 보정 시 실제 ~26~27% 추정</div>
     </div>
     <div class="kpi">
       <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
-      <div class="num green">539,000 <span class="unit">원</span></div>
-      <div class="sub">5/27 15:27~6/02 누적 (진행 중)<br>(110건 × 4,900원)</div>
+      <div class="num green">661,500 <span class="unit">원</span></div>
+      <div class="sub">3차 최종 누적<br>(135건 × 4,900원)</div>
     </div>
   </div>
 
@@ -588,18 +588,26 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </tr>
       </thead>
       <tbody>
-        <tr style="background:#ecfdf5">
-          <td class="dt"><span style="background:#059669;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">3차</span> 6/02<br><span style="font-size:11px;color:#9ca3af;font-weight:400">진행 중</span></td>
-          <td class="num" style="color:#9ca3af">— <span style="font-size:10px;color:#9ca3af;font-weight:400">6/03 적재</span></td>
+        <tr style="background:#f3f4f6">
+          <td class="dt"><span style="background:#6b7280;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">종료 후</span> 6/03 00:00 KST<br><span style="font-size:11px;color:#9ca3af;font-weight:400">실험 종료 (엣지 1건)</span></td>
+          <td class="num" style="color:#9ca3af">0</td>
+          <td class="num" style="color:#9ca3af">0</td>
+          <td class="num" style="color:#6b7280;font-weight:700">1</td>
           <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#059669;font-weight:700">2</td>
-          <td class="num" style="color:#9ca3af">—</td>
-          <td class="num" style="color:#059669">9,800원</td>
+          <td class="num" style="color:#6b7280">4,900원</td>
         </tr>
         <tr style="background:#ecfdf5">
-          <td class="dt"><span style="background:#059669;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">3차</span> 6/01<br><span style="font-size:11px;color:#9ca3af;font-weight:400">월요일</span></td>
-          <td class="num" style="color:#9ca3af">— <span style="font-size:10px;color:#9ca3af;font-weight:400">6/02 적재</span></td>
-          <td class="num" style="color:#9ca3af">—</td>
+          <td class="dt"><span style="background:#059669;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">3차</span> 6/02<br><span style="font-size:11px;color:#9ca3af;font-weight:400">화요일 (3차 마지막 풀데이)</span></td>
+          <td class="num">96</td>
+          <td class="num">50</td>
+          <td class="num" style="color:#059669;font-weight:700">27</td>
+          <td class="num">28.1%</td>
+          <td class="num" style="color:#059669">132,300원</td>
+        </tr>
+        <tr style="background:#fef2f2">
+          <td class="dt"><span style="background:#059669;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">3차</span> 6/01<br><span style="font-size:11px;color:#dc2626;font-weight:600">월요일 (로그 적재 결함)</span></td>
+          <td class="num" style="color:#dc2626">4 <span style="font-size:10px;color:#9ca3af;font-weight:400">(누락)</span></td>
+          <td class="num" style="color:#dc2626">1</td>
           <td class="num" style="color:#059669;font-weight:700">26</td>
           <td class="num" style="color:#9ca3af">—</td>
           <td class="num" style="color:#059669">127,400원</td>
@@ -992,10 +1000,10 @@ GROUP BY car_name</div>
 new Chart(document.getElementById('dailyChart'), {
   type: 'bar',
   data: {
-    labels: ['5/13', '5/14', '5/15', '5/17', '5/18', '5/19 (1차)', '5/19 (2차)', '5/20', '5/21', '5/22', '5/23 (토)', '5/24 (일)', '5/25 (공휴)', '5/26', '5/27 (3차배포)', '5/28', '5/29', '5/30 (토)', '5/31 (일)', '6/01', '6/02 (진행 중)'],
+    labels: ['5/13', '5/14', '5/15', '5/17', '5/18', '5/19 (1차)', '5/19 (2차)', '5/20', '5/21', '5/22', '5/23 (토)', '5/24 (일)', '5/25 (공휴)', '5/26', '5/27 (3차배포)', '5/28', '5/29', '5/30 (토)', '5/31 (일)', '6/01 (로그 누락)', '6/02', '6/03 (종료)'],
     datasets: [
-      { label: '옵션 노출 유저',         data: [5, 36, 40, 33, 28, 48, 25, 77, 47, 47, 36, 64, 65, 81, 84, 129, 49, 28, 104, null, null], backgroundColor: '#93c5fd' },
-      { label: '수락 횟수 (취소·환불 제외)', data: [0, 9, 10, 9, 6, 14, 6, 18, 24, 16, 15, 15, 19, 14, 18, 27, 11, 12, 25, 26, 2],         backgroundColor: '#fbbf24' },
+      { label: '옵션 노출 유저',         data: [5, 36, 40, 33, 28, 48, 25, 77, 47, 47, 36, 64, 65, 81, 84, 129, 49, 28, 104, 4, 96, 0], backgroundColor: '#93c5fd' },
+      { label: '수락 횟수 (취소·환불 제외)', data: [0, 9, 10, 9, 6, 14, 6, 18, 24, 16, 15, 15, 19, 14, 18, 27, 11, 12, 25, 26, 27, 1],         backgroundColor: '#fbbf24' },
     ]
   },
   options: {
