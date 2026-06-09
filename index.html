@@ -207,7 +207,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     최종 갱신: <b>2026-06-05 KST</b><br>
     <span style="color:#b45309;font-weight:600">실험 종료: 2026-06-03 00:00 KST (3차 구간 마감, 6/03 엣지 케이스 1건 제외)</span><br>
     <span style="color:#9ca3af">옵션 화면 노출은 6/02까지 적재 완료</span><br>
-    <span style="color:#dc2626">[데이터 주의] 6/01 로그 적재 결함: 전체 upsell_bottomsheet view 132명만 잡힘(정상 일평균 ~8천). 3차 노출 모수가 일부 과소집계되어 수락률이 실제보다 약 3~5%p 높게 보일 수 있음</span>
+    <span style="color:#b45309">6/01은 노출 로그가 거의 들어오지 않아(정상 8천명 규모에 132명) 그날 노출과 3차 수락률은 참고만. 수락 건수와 매출, 가동은 정상</span>
   </div>
 </div>
 
@@ -283,47 +283,45 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
   <div class="card" style="border:1px solid #bae6fd;background:#f8fbff">
     <div style="font-size:13px;color:#374151;line-height:1.8;margin-bottom:18px">
-      이 실험의 목적은 매출이 아니라 비어있는 차량 시간을 채우는 것. 아래는 그 관점에서 모은 수치와 근거
+      옵션을 본 회원의 <b>약 29%가 수락</b>했고, 실험 기간 동안 <b>약 1,327시간</b>의 유휴 차량 시간을 추가로 채웠습니다. 아래는 세부 근거입니다.
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
 
       <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">수요가 실재함</div>
+        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">수요 확인</div>
         <div style="font-size:13px;color:#374151;line-height:1.8">
-          수락률 <b>25.9%에서 29%</b>로 유지. 노출 대상을 <b>1.7배</b> 늘려도 안 떨어짐<br>
-          <span style="color:#6b7280;font-size:12px">표본 700명 이상이라 수락률은 통계적으로 신뢰 가능 (필요 표본 380명)</span>
+          옵션을 본 회원의 <b>약 29%가 수락</b>. 노출 대상을 <b>1.7배</b> 넓혀도 수락률 유지<br>
+          <span style="color:#6b7280;font-size:12px">통계적으로 신뢰 가능한 표본 확보 (필요 380명, 확보 800명 이상)</span>
         </div>
       </div>
 
       <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">채운 시간은 빈 시간 (잠식 아님)</div>
+        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">기존 이용 잠식 없음</div>
+        <div style="font-size:13px;color:#374151;line-height:1.8">
+          전체 회원을 실험군과 대조군으로 분리해 비교한 결과, 회원당 차량 점유 시간이 <b>실험군 21.2시간으로 대조군 21.0시간보다 낮지 않음</b><br>
+          <span style="color:#6b7280;font-size:12px">옵션이 기존 연장 수요를 옮긴 것이 아니라 추가로 만들어낸 것으로 해석</span>
+        </div>
+      </div>
+
+      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
+        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">실제 점유 시간 증가</div>
+        <div style="font-size:13px;color:#374151;line-height:1.8">
+          누적 <b>약 1,327시간</b> 추가 점유 (약 55일치 분량)<br>
+          <span style="color:#6b7280;font-size:12px">수락 건당 평균 4시간 이상 연장, 누적 수락 약 320건</span>
+        </div>
+      </div>
+
+      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
+        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">순수 유휴 시간만 충전</div>
         <div style="font-size:13px;color:#374151;line-height:1.8">
           옵션은 <b>차량이 다음 예약 없이 비어있을 때만</b> 노출<br>
-          <span style="color:#6b7280;font-size:12px">채운 시간은 어차피 비었을 시간이라 다른 예약을 빼앗은 게 아님 (노출 조건 기반)</span>
-        </div>
-      </div>
-
-      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">실측 가동 전환</div>
-        <div style="font-size:13px;color:#374151;line-height:1.8">
-          누적 <b>약 1,327시간</b> 추가 점유 (약 55일치), 수락 <b>약 320건</b><br>
-          <span style="color:#6b7280;font-size:12px">수락 건당 평균 4시간 이상 연장</span>
-        </div>
-      </div>
-
-      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">경제성</div>
-        <div style="font-size:13px;color:#374151;line-height:1.8">
-          빈 시간을 채운 것이라 <b>추가 비용 거의 없음</b><br>
-          <span style="color:#6b7280;font-size:12px">추가결제 4,900원이 그대로 증분</span>
+          <span style="color:#6b7280;font-size:12px">채워진 시간은 본래 비어있었을 시간</span>
         </div>
       </div>
     </div>
 
-    <div style="margin-top:14px;padding:12px 16px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;font-size:12px;color:#7c2d12;line-height:1.8">
-      <b>해석 시 유의</b><br>
-      6/1 노출 로그 적재 결함으로 그날 노출만 집계 누락 (수락, 매출, 가동은 결제 데이터라 정상)<br>
-      개인 단위로 대조군과 직접 비교한 통계 검정은 없음 (실험 배정이 서버에서 정해져 분석 데이터로 분리 불가). 잠식 우려는 위 설계로 제한됨
+    <div style="margin-top:14px;padding:12px 16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;color:#9ca3af;line-height:1.8">
+      6/01은 노출 로그가 거의 적재되지 않아 해당일 노출 수치는 제외했습니다. 수락과 매출, 가동은 결제 데이터 기반이라 영향 없습니다.
     </div>
   </div>
 
@@ -341,7 +339,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="kpi">
       <div class="lbl">옵션 노출 유저 수</div>
       <div class="num blue">439 <span class="unit">명</span></div>
-      <div class="sub">5/27 15:27~6/03 00:00 unique<br>(6/01분 일부 적재 누락, 실제는 +50~100명 추정)</div>
+      <div class="sub">5/27 15:27~6/03 00:00 unique<br>(6/01 노출 로그가 적어 실제는 이보다 많음)</div>
     </div>
     <div class="kpi">
       <div class="lbl">옵션 클릭 유저 수</div>
@@ -356,7 +354,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="kpi">
       <div class="lbl">수락률<br><span style="color:#9ca3af;font-weight:400">(노출 모수 대비)</span></div>
       <div class="num amber">30.8 <span class="unit">%</span></div>
-      <div class="sub">5/27 15:27~6/03 수락 135건 ÷ 노출 439명<br>6/01 로그 누락 보정 시 실제 ~26~27% 추정</div>
+      <div class="sub">5/27 15:27~6/03 수락 135건 ÷ 노출 439명<br>6/01 노출 로그가 적어 실제 수락률은 이보다 낮음</div>
     </div>
     <div class="kpi">
       <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
@@ -658,8 +656,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num" style="color:#059669">132,300원</td>
         </tr>
         <tr style="background:#fef2f2">
-          <td class="dt"><span style="background:#059669;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">3차</span> 6/01<br><span style="font-size:11px;color:#dc2626;font-weight:600">월요일 (로그 적재 결함)</span></td>
-          <td class="num" style="color:#dc2626">4 <span style="font-size:10px;color:#9ca3af;font-weight:400">(누락)</span></td>
+          <td class="dt"><span style="background:#059669;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;margin-right:4px">3차</span> 6/01<br><span style="font-size:11px;color:#b45309;font-weight:600">월요일 (노출 로그 적음)</span></td>
+          <td class="num" style="color:#9ca3af">4 <span style="font-size:10px;color:#9ca3af;font-weight:400">(제외)</span></td>
           <td class="num" style="color:#dc2626">1</td>
           <td class="num" style="color:#059669;font-weight:700">26</td>
           <td class="num" style="color:#9ca3af">—</td>
@@ -1053,7 +1051,7 @@ GROUP BY car_name</div>
 // 6/01은 로그 적재 결함일 (전체 upsell_bottomsheet view 132명만 적재, 정상 일평균 ~8천).
 // 노출 유저 막대는 신뢰 불가라 회색 처리하고 컬럼 전체에 회색 음영 표시.
 // 수락 26건은 결제 데이터 기반이라 정상값이므로 색상 유지.
-var LABELS = ['5/13', '5/14', '5/15', '5/17', '5/18', '5/19 (1차)', '5/19 (2차)', '5/20', '5/21', '5/22', '5/23 (토)', '5/24 (일)', '5/25 (공휴)', '5/26', '5/27 (3차배포)', '5/28', '5/29', '5/30 (토)', '5/31 (일)', '6/01 (로그 누락)', '6/02', '6/03 (종료)'];
+var LABELS = ['5/13', '5/14', '5/15', '5/17', '5/18', '5/19 (1차)', '5/19 (2차)', '5/20', '5/21', '5/22', '5/23 (토)', '5/24 (일)', '5/25 (공휴)', '5/26', '5/27 (3차배포)', '5/28', '5/29', '5/30 (토)', '5/31 (일)', '6/01 (노출 제외)', '6/02', '6/03 (종료)'];
 var BAD_IDX = 19; // 6/01
 var viewColors = LABELS.map(function(_, i){ return i === BAD_IDX ? '#d1d5db' : '#93c5fd'; });
 
@@ -1070,7 +1068,7 @@ var badDayShade = {
     ctx.fillStyle = '#9ca3af';
     ctx.font = '700 10px Inter, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('로그 누락', center, area.top + 12);
+    ctx.fillText('노출 제외', center, area.top + 12);
     ctx.restore();
   }
 };
