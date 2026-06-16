@@ -15,7 +15,7 @@
   .sub { color: #6b7280; font-size: 13px; font-weight: 500; }
   .section-label { font-size: 16px; font-weight: 800; color: #111827; margin: 30px 0 12px; display: flex; align-items: center; gap: 8px; }
   .section-label .tag { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 4px; background: #dbeafe; color: #1d4ed8; letter-spacing: 0.03em; }
-  .section-explain { font-size: 12.5px; color: #4b5563; line-height: 1.8; padding: 11px 15px; background: #f9fafb; border-radius: 8px; margin-bottom: 14px; border-left: 3px solid #9ca3af; }
+  .section-explain { font-size: 12.5px; color: #4b5563; line-height: 1.7; padding: 11px 15px; background: #f9fafb; border-radius: 8px; margin-bottom: 14px; border-left: 3px solid #9ca3af; }
   .section-explain b { color: #111827; }
   .card { background: white; border-radius: 12px; border: 1px solid #e5e7eb; padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 16px; }
 
@@ -51,19 +51,29 @@
   .relax .mult.n { background: #e5e7eb; color: #4b5563; }
 
   .chart-wrap { position: relative; height: 320px; margin: 6px 0 8px; }
-  .foot { font-size: 11.5px; color: #6b7280; margin-top: 10px; padding: 12px 15px; background: #f9fafb; border-left: 3px solid #d1d5db; border-radius: 0 6px 6px 0; line-height: 1.75; }
+  .foot { font-size: 11.5px; color: #6b7280; margin-top: 10px; padding: 12px 15px; background: #f9fafb; border-left: 3px solid #d1d5db; border-radius: 0 6px 6px 0; line-height: 1.7; }
   .foot ul { margin: 0; padding-left: 16px; }
+  .foot li { margin-bottom: 3px; }
   .src { font-size: 11px; color: #9ca3af; margin-top: 8px; font-family: 'SF Mono', Monaco, Consolas, monospace; }
   details.cond { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 20px; margin-top: 14px; }
   details.cond summary { font-size: 13px; font-weight: 700; color: #374151; cursor: pointer; }
   .cond-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; font-size: 12px; color: #4b5563; }
   .cond-grid div { padding: 8px 12px; background: #f9fafb; border-radius: 6px; }
   .cond-grid b { color: #111827; }
-  .talk { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 18px 22px; }
-  .talk ol { margin: 6px 0 0; padding-left: 20px; }
-  .talk li { margin-bottom: 7px; font-size: 14px; line-height: 1.55; }
-  .warnbox { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; font-size: 13px; color: #374151; line-height: 1.7; }
-  .warnbox b { color: #92400e; }
+
+  .talk { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 20px 24px; }
+  .talk .q { margin-bottom: 16px; }
+  .talk .q:last-child { margin-bottom: 0; }
+  .talk .qt { font-size: 15px; font-weight: 800; color: #065f46; margin-bottom: 6px; }
+  .talk .q ul { margin: 0; padding-left: 18px; }
+  .talk .q li { font-size: 13.5px; color: #374151; margin-bottom: 4px; line-height: 1.55; }
+  .talk .q li b { color: #111827; }
+
+  .premise { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+  .premise .pt { font-size: 13px; font-weight: 800; color: #92400e; margin-bottom: 8px; }
+  .premise ul { margin: 0; padding-left: 18px; }
+  .premise li { font-size: 13px; color: #374151; margin-bottom: 4px; line-height: 1.55; }
+  .premise li b { color: #111827; }
 </style>
 </head>
 <body>
@@ -84,25 +94,24 @@
   <div class="kpi">
     <div class="lbl">현재 노출 후보 예약</div>
     <div class="num blue">1,317<span class="unit">건/일</span></div>
-    <div class="sub">전체의 4.0%. 9개 조건 중 BQ 추적 가능분 적용 후</div>
+    <div class="sub">전체의 4.0%. 조건 통과한 예약 수 (실제 노출 회원은 더 적음)</div>
   </div>
   <div class="kpi">
-    <div class="lbl">최대 병목 (단일 조건)</div>
+    <div class="lbl">최대 병목 (단일 단계)</div>
     <div class="num red">−82.9<span class="unit">%</span></div>
-    <div class="sub">반납 15-20시 + 대여 4시간 이상 단계</div>
+    <div class="sub">반납 15-20시 + 대여 4시간 이상 조건</div>
   </div>
   <div class="kpi">
     <div class="lbl">조건 완화 모수 천장</div>
     <div class="num green">1.28<span class="unit">배</span></div>
-    <div class="sub">본 목적 유지 시(반납 12-20시) 최대 1,680건/일</div>
+    <div class="sub">본 목적 유지 시 최대치 (반납 12-20시, 1,680건/일)</div>
   </div>
 </div>
 
 <!-- 퍼널 -->
 <div class="section-label">조건별 모수 퍼널 <span class="tag">BQ 실측</span></div>
 <div class="section-explain">
-  전체 예약에서 노출 조건을 하나씩 적용했을 때 남는 일평균 모수<br>
-  BQ로 단계 분리 가능한 조건만 표시 (왕복, 취소, 리드타임, 반납 시간, 대여 길이, 연휴 반납 제외)
+  전체 예약에 노출 조건을 하나씩 적용하면서 남는 일평균 모수 (BQ로 분리 가능한 조건만)
 </div>
 <div class="card">
   <div class="bar-row">
@@ -132,9 +141,9 @@
   </div>
   <div class="foot">
     <ul>
-      <li><b>병목은 반납 시간대와 대여 길이 한 단계.</b> 리드타임 조건은 −23.6%로 영향이 작지만, 반납 15-20시와 대여 4시간 이상 조합이 직전 단계의 약 83%를 한 번에 제거</li>
-      <li>반납 시간은 서버 코드 기준(15:00~20:00 정각)으로 측정. 연휴 반납 제외는 토요일 반납 제외로 근사하되, 6월 공휴일 6/6 현충일을 반영한 정확 계산과 결과 동일</li>
-      <li>실험군 50%, 유휴 슬롯, 차종 제외, 결제차액 4,900원 초과, 쿠폰, 빈도 제한 등은 리플리카 단계 분리가 어려워 퍼널에서 제외</li>
+      <li><b>병목은 반납 시간대와 대여 길이 한 단계.</b> 이 단계 하나가 직전 모수의 83%를 제거. 리드타임 조건은 −23.6%로 영향 작음</li>
+      <li>반납 시간은 서버 코드 기준 15:00~20:00 정각으로 측정. 연휴 반납 제외는 토요일 반납으로 근사 (6월 공휴일 6/6이 토요일과 겹쳐 정확 계산과 동일)</li>
+      <li>실험군 50%, 유휴 슬롯, 차종, 결제차액, 쿠폰, 빈도 제한은 리플리카 분리가 어려워 퍼널에서 제외. 실제 노출 회원은 1,317건보다 더 적음</li>
     </ul>
   </div>
   <div class="src">socar-data.tianjin_replica.reservation_info / job 48e8dd75. 조건 검증: socar-server PR #8047 UpsellingService.kt</div>
@@ -142,12 +151,16 @@
 
 <!-- 완화 시뮬 -->
 <div class="section-label">조건 완화 시뮬레이션 <span class="tag">BQ 실측 재계산</span></div>
-<div class="warnbox">
-  <b>완화 범위 전제:</b> 시간연장은 반납 후 당일 자정까지 비어있는 유휴 시간을 채우는 옵션. 반납 시각 상한 20시는 자정까지 최소 4시간 유휴를 확보하기 위한 핵심 조건<br>
-  반납 21시 이후(여유 3시간 이하)나 새벽 반납(자정 지남)은 연장 가치가 없어 완화 대상에서 제외. 따라서 완화는 <b>상한 20시를 유지하고 하한만 낮추는 방향</b>으로만 시뮬
+<div class="premise">
+  <div class="pt">완화 범위를 반납 하한으로 한정한 이유</div>
+  <ul>
+    <li>시간연장은 반납 후 당일 자정까지 비어있는 유휴 시간을 채우는 옵션</li>
+    <li>반납 상한 20시는 자정까지 최소 4시간 유휴를 확보하는 조건. 반납 21시 이후나 새벽은 연장 가치 없음</li>
+    <li><b>따라서 완화는 상한 20시를 유지하고 반납 하한만 낮추는 방향으로만 시뮬</b></li>
+  </ul>
 </div>
 <div class="section-explain">
-  같은 14일 데이터에 반납 하한만 낮춰 적용했을 때 노출 후보 예약 변화 (일평균). 현재 1,317건 기준 배수
+  같은 14일 데이터에 반납 하한만 낮춰 재계산한 일평균 모수. 현재 1,317건 기준 배수
 </div>
 <div class="relax">
   <div class="item now">
@@ -158,28 +171,27 @@
   </div>
   <div class="item">
     <div class="name">완화 1</div>
-    <div class="cond">반납 하한 14시로 (14-20시, 자정까지 4-10h 여유)</div>
+    <div class="cond">반납 하한 14시로 (자정까지 4-10시간 여유)</div>
     <div class="big">1,476<span class="u"> 건/일</span></div>
     <div class="mult g">1.12배 (+159)</div>
   </div>
   <div class="item">
     <div class="name">완화 2</div>
-    <div class="cond">반납 하한 13시로 (13-20시, 자정까지 4-11h 여유)</div>
+    <div class="cond">반납 하한 13시로 (자정까지 4-11시간 여유)</div>
     <div class="big">1,596<span class="u"> 건/일</span></div>
     <div class="mult g">1.21배 (+279)</div>
   </div>
   <div class="item">
     <div class="name">완화 3</div>
-    <div class="cond">반납 하한 12시로 (12-20시, 자정까지 4-12h 여유)</div>
+    <div class="cond">반납 하한 12시로 (자정까지 4-12시간 여유)</div>
     <div class="big">1,680<span class="u"> 건/일</span></div>
     <div class="mult g">1.28배 (+363)</div>
   </div>
 </div>
 <div class="foot">
   <ul>
-    <li>완화 1~3은 아직 미적용 가정. 6/1~6/14 동일 데이터에 반납 하한만 바꿔 재계산한 실측 모수</li>
-    <li><b>조건 완화로 키울 수 있는 모수 천장은 약 1.3배.</b> 반납 상한을 풀면 모수는 더 크지만(예: 시간 제한 제거 시 3배 이상) 연장 가치 없는 늦은 밤·새벽 반납이라 본 목적상 무효</li>
-    <li>하한 12시는 자정까지 12시간 여유라 연장 폭이 큼. 이른 오후 반납자의 실제 연장 수요는 재실험으로 확인 필요</li>
+    <li>완화 1~3은 미적용 가정. 6월 데이터에 반납 하한만 바꿔 재계산</li>
+    <li><b>조건 완화 모수 천장은 약 1.3배.</b> 반납 상한까지 풀면 모수는 3배 이상이지만 연장 가치 없는 늦은 밤, 새벽 반납이라 무효</li>
   </ul>
 </div>
 
@@ -187,18 +199,42 @@
 <div class="section-label">일별 모수 추이</div>
 <div class="card">
   <div class="chart-wrap"><canvas id="c"></canvas></div>
-  <div class="foot">완화 선은 같은 6월 예약 데이터에 반납 하한을 낮춰 대입한 가정값 (실제 운영 추이 아님). 회색 막대만 현재 적용 중인 조건<br>토요일(6/6 현충일, 6/13)은 연휴 반납 제외와 당일 출발 비중으로 모수가 평일의 약 절반</div>
+  <div class="foot">
+    <ul>
+      <li>회색 막대만 현재 적용 중인 조건. 완화 선(점선)은 반납 하한을 낮춰 대입한 가정값으로 실제 운영 추이 아님</li>
+      <li>토요일(6/6 현충일, 6/13)은 연휴 반납 제외와 당일 출발 비중으로 모수가 평일의 약 절반</li>
+    </ul>
+  </div>
   <div class="src">socar-data.tianjin_replica.reservation_info / job 395f61a2</div>
 </div>
 
 <!-- 논의 포인트 -->
 <div class="section-label">미팅 논의 포인트</div>
 <div class="talk">
-  <ol>
-    <li><b>조건 완화 모수에는 천장이 있음 (약 1.3배).</b> 본 목적(자정까지 유휴 채우기)을 지키는 한 반납 하한을 12시까지 풀어도 1.28배가 한계. 반납 상한을 더 푸는 건 연장 가치 없는 예약이라 선택지 아님</li>
-    <li><b>반납 하한을 어디까지 낮출지.</b> 12시까지 풀면 자정까지 12시간 여유라 연장 폭이 큰데, 이른 오후 반납자가 실제로 자정까지 연장할 수요가 있는지는 미지수. 재실험으로 수락률 확인 필요</li>
-    <li><b>1.3배 완화가 추가 실험을 정당화하는지 판단.</b> 조건 완화로 늘릴 수 있는 모수가 제한적이므로, 하한 완화로 재실험해 가치(수락·가동시간 증분)를 측정할지, 아니면 시간연장은 현 조건으로 유지하고 다음 실험 대상으로 넘어갈지 결정</li>
-  </ol>
+  <div class="q">
+    <div class="qt">1. 조건을 풀어 모수를 얼마나 키울 수 있나</div>
+    <ul>
+      <li>본 목적(자정까지 유휴 채우기)을 지키면 천장은 <b>약 1.3배</b></li>
+      <li>반납 하한을 12시까지 낮춰도 1.28배가 한계</li>
+      <li>반납 상한 완화는 연장 가치 없는 예약이라 선택지 아님</li>
+    </ul>
+  </div>
+  <div class="q">
+    <div class="qt">2. 반납 하한을 어디까지 낮출지</div>
+    <ul>
+      <li>12시까지 낮추면 1.28배, 자정까지 최대 12시간 여유</li>
+      <li>이른 오후 반납자의 실제 연장 수요는 미지수</li>
+      <li>수요와 수락률은 재실험으로 확인 필요</li>
+    </ul>
+  </div>
+  <div class="q">
+    <div class="qt">3. 재실험을 더 할지, 현 조건으로 마칠지</div>
+    <ul>
+      <li>완화 효과가 1.3배로 제한적이라는 점이 전제</li>
+      <li>하한 완화로 재실험해 수락, 가동시간 증분을 측정하는 안</li>
+      <li>또는 시간연장은 현 조건으로 두고 다음 실험 대상으로 전환하는 안</li>
+    </ul>
+  </div>
 </div>
 
 <!-- 조건 부록 -->
