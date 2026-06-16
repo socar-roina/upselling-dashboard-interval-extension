@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>시간연장 조건 모수 모니터링</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: #f3f4f6; color: #111827; line-height: 1.6; font-size: 15px; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 36px 40px 90px; }
+  header { margin-bottom: 12px; }
+  h1 { font-size: 27px; margin: 0 0 6px; font-weight: 900; letter-spacing: -0.02em; }
+  .sub { color: #6b7280; font-size: 13px; font-weight: 500; }
+  .section-label { font-size: 16px; font-weight: 800; color: #111827; margin: 30px 0 12px; display: flex; align-items: center; gap: 8px; }
+  .section-label .tag { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 4px; background: #dbeafe; color: #1d4ed8; letter-spacing: 0.03em; }
+  .section-explain { font-size: 12.5px; color: #4b5563; line-height: 1.8; padding: 11px 15px; background: #f9fafb; border-radius: 8px; margin-bottom: 14px; border-left: 3px solid #9ca3af; }
+  .section-explain b { color: #111827; }
+  .card { background: white; border-radius: 12px; border: 1px solid #e5e7eb; padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 16px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kpi { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+  .kpi .lbl { font-size: 12px; font-weight: 700; color: #6b7280; margin-bottom: 10px; line-height: 1.5; min-height: 32px; }
+  .kpi .num { font-size: 30px; font-weight: 900; line-height: 1; color: #111827; }
+  .kpi .num.blue { color: #2563eb; }
+  .kpi .num.green { color: #059669; }
+  .kpi .num.red { color: #dc2626; }
+  .kpi .unit { font-size: 13px; font-weight: 700; color: #6b7280; margin-left: 2px; }
+  .kpi .sub { font-size: 11px; color: #6b7280; margin-top: 9px; line-height: 1.6; }
+
+  .bar-row { display: grid; grid-template-columns: 320px 1fr 84px; align-items: center; gap: 14px; margin-bottom: 9px; font-size: 14px; }
+  .bar-row .lab { color: #374151; }
+  .bar-row .lab b { color: #111827; }
+  .bar-track { background: #f3f4f6; border-radius: 5px; height: 34px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); border-radius: 5px; display: flex; align-items: center; padding-left: 12px; color: white; font-weight: 800; font-size: 13px; min-width: 56px; }
+  .bar-fill.dim { background: linear-gradient(90deg, #94a3b8, #cbd5e1); color: #1f2937; }
+  .bar-fill.cur { background: linear-gradient(90deg, #059669, #34d399); }
+  .bar-loss { font-size: 13px; font-weight: 800; color: #dc2626; text-align: right; }
+  .bar-loss.base { color: #9ca3af; }
+
+  .relax { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .relax .item { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px 18px; background: white; }
+  .relax .item.now { border: 2px solid #94a3b8; background: #f9fafb; }
+  .relax .item.pick { border: 2px solid #059669; background: #ecfdf5; }
+  .relax .name { font-size: 12px; font-weight: 800; color: #374151; margin-bottom: 4px; }
+  .relax .cond { font-size: 11px; color: #6b7280; line-height: 1.5; min-height: 46px; }
+  .relax .big { font-size: 27px; font-weight: 900; color: #111827; line-height: 1; margin-top: 6px; }
+  .relax .big .u { font-size: 12px; font-weight: 700; color: #6b7280; }
+  .relax .mult { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
+  .relax .mult.g { background: #d1fae5; color: #065f46; }
+  .relax .mult.n { background: #e5e7eb; color: #4b5563; }
+
+  .chart-wrap { position: relative; height: 320px; margin: 6px 0 8px; }
+  .foot { font-size: 11.5px; color: #6b7280; margin-top: 10px; padding: 12px 15px; background: #f9fafb; border-left: 3px solid #d1d5db; border-radius: 0 6px 6px 0; line-height: 1.75; }
+  .foot ul { margin: 0; padding-left: 16px; }
+  .src { font-size: 11px; color: #9ca3af; margin-top: 8px; font-family: 'SF Mono', Monaco, Consolas, monospace; }
+  details.cond { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 20px; margin-top: 14px; }
+  details.cond summary { font-size: 13px; font-weight: 700; color: #374151; cursor: pointer; }
+  .cond-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; font-size: 12px; color: #4b5563; }
+  .cond-grid div { padding: 8px 12px; background: #f9fafb; border-radius: 6px; }
+  .cond-grid b { color: #111827; }
+  .talk { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 18px 22px; }
+  .talk ol { margin: 6px 0 0; padding-left: 20px; }
+  .talk li { margin-bottom: 7px; font-size: 14px; line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>시간연장 조건 모수 모니터링</h1>
+  <div class="sub">현재 3차 배포 조건 기준 (5/27 15:27 배포, NEWCS-3639). 데이터 2026-06-01 ~ 06-14 일평균, BigQuery reservation_info 실측. 갱신 06-16</div>
+</header>
+
+<!-- 상단 KPI -->
+<div class="kpi-row" style="margin-top:18px">
+  <div class="kpi">
+    <div class="lbl">전체 예약</div>
+    <div class="num">33,131<span class="unit">건/일</span></div>
+    <div class="sub">14일 평균</div>
+  </div>
+  <div class="kpi">
+    <div class="lbl">현재 노출 후보 예약</div>
+    <div class="num blue">1,316<span class="unit">건/일</span></div>
+    <div class="sub">전체의 4.0%. 9개 조건 중 BQ 추적 가능분 적용 후</div>
+  </div>
+  <div class="kpi">
+    <div class="lbl">최대 병목 (단일 조건)</div>
+    <div class="num red">−82.9<span class="unit">%</span></div>
+    <div class="sub">반납 15-20시 + 대여 4시간 이상 단계</div>
+  </div>
+  <div class="kpi">
+    <div class="lbl">완화 여지 (반납시간 제거 시)</div>
+    <div class="num green">3.12<span class="unit">배</span></div>
+    <div class="sub">반납 시간 조건 제거 시 4,109건/일</div>
+  </div>
+</div>
+
+<!-- 퍼널 -->
+<div class="section-label">조건별 모수 퍼널 <span class="tag">BQ 실측</span></div>
+<div class="section-explain">
+  전체 예약에서 노출 조건을 하나씩 적용했을 때 남는 일평균 모수<br>
+  BQ로 단계 분리 가능한 조건만 표시 (왕복, 취소, 리드타임, 반납 시간, 대여 길이, 연휴 반납 제외)
+</div>
+<div class="card">
+  <div class="bar-row">
+    <div class="lab">전체 예약</div>
+    <div class="bar-track"><div class="bar-fill" style="width:100%">33,131</div></div>
+    <div class="bar-loss base">기준</div>
+  </div>
+  <div class="bar-row">
+    <div class="lab">왕복 + 취소되지 않은 예약</div>
+    <div class="bar-track"><div class="bar-fill" style="width:35.5%">11,748</div></div>
+    <div class="bar-loss">−64.5%</div>
+  </div>
+  <div class="bar-row">
+    <div class="lab">리드타임 24시간 이내 생성</div>
+    <div class="bar-track"><div class="bar-fill" style="width:27.1%">8,981</div></div>
+    <div class="bar-loss">−23.6%</div>
+  </div>
+  <div class="bar-row">
+    <div class="lab">반납 15-20시 + 대여 4시간 이상 <small style="color:#9ca3af">(출발 시간 조건 없음)</small></div>
+    <div class="bar-track"><div class="bar-fill dim" style="width:4.6%">1,536</div></div>
+    <div class="bar-loss">−82.9%</div>
+  </div>
+  <div class="bar-row">
+    <div class="lab"><b>연휴 반납 제외 (현재 노출 후보)</b></div>
+    <div class="bar-track"><div class="bar-fill cur" style="width:4.0%">1,316</div></div>
+    <div class="bar-loss">−14.3%</div>
+  </div>
+  <div class="foot">
+    <ul>
+      <li><b>병목은 반납 시간대와 대여 길이 한 단계.</b> 리드타임 조건은 −23.6%로 영향이 작지만, 반납 15-20시와 대여 4시간 이상 조합이 직전 단계의 약 83%를 한 번에 제거</li>
+      <li>반납 시간은 서버 코드 기준(15:00~20:00 정각)으로 측정. 연휴 반납 제외는 토요일 반납 제외로 근사하되, 6월 공휴일 6/6 현충일을 반영한 정확 계산과 결과 동일</li>
+      <li>실험군 50%, 유휴 슬롯, 차종 제외, 결제차액 4,900원 초과, 쿠폰, 빈도 제한 등은 리플리카 단계 분리가 어려워 퍼널에서 제외</li>
+    </ul>
+  </div>
+  <div class="src">socar-data.tianjin_replica.reservation_info / job 48e8dd75. 조건 검증: socar-server PR #8047 UpsellingService.kt</div>
+</div>
+
+<!-- 완화 시뮬 -->
+<div class="section-label">조건 완화 시뮬레이션 <span class="tag">BQ 실측 재계산</span></div>
+<div class="section-explain">
+  같은 14일 데이터에 완화 조건만 적용했을 때 노출 후보 예약 변화 (일평균). 현재 1,316건 기준 배수
+</div>
+<div class="relax">
+  <div class="item now">
+    <div class="name">현재 (3차)</div>
+    <div class="cond">리드 24h, 반납 15-20시, 대여 4시간 이상, 연휴 반납 제외</div>
+    <div class="big">1,316<span class="u"> 건/일</span></div>
+    <div class="mult n">1.00배</div>
+  </div>
+  <div class="item">
+    <div class="name">완화 A</div>
+    <div class="cond">반납 시간 14-21시로 확장 (나머지 동일)</div>
+    <div class="big">1,729<span class="u"> 건/일</span></div>
+    <div class="mult g">1.31배 (+413)</div>
+  </div>
+  <div class="item pick">
+    <div class="name">완화 B</div>
+    <div class="cond">반납 시간 조건 전부 제거 (대여 4시간 이상만 유지)</div>
+    <div class="big">4,109<span class="u"> 건/일</span></div>
+    <div class="mult g">3.12배 (+2,793)</div>
+  </div>
+  <div class="item">
+    <div class="name">완화 C</div>
+    <div class="cond">연휴 반납 제외 해제 (토요일 반납 포함)</div>
+    <div class="big">1,536<span class="u"> 건/일</span></div>
+    <div class="mult g">1.17배 (+220)</div>
+  </div>
+</div>
+<div class="foot">
+  <ul>
+    <li>완화 A, B, C는 아직 미적용 가정. 6/1~6/14 동일 데이터에 조건만 바꿔 재계산한 실측 모수</li>
+    <li>완화 B (반납 시간 제거)는 모수가 가장 크지만, 심야 반납 등 유휴 슬롯과 무관한 예약이 섞일 수 있어 별도 검토 필요</li>
+  </ul>
+</div>
+
+<!-- 일별 추이 -->
+<div class="section-label">일별 모수 추이</div>
+<div class="card">
+  <div class="chart-wrap"><canvas id="c"></canvas></div>
+  <div class="foot">완화 A, B 선은 같은 6월 예약 데이터에 미적용 조건을 대입한 가정값 (실제 운영 추이 아님). 회색 막대만 현재 적용 중인 조건<br>토요일(6/6 현충일, 6/13)은 연휴 반납 제외와 당일 출발 비중으로 모수가 평일의 약 절반. 평일 현재 조건 약 1,300-1,800건/일</div>
+  <div class="src">socar-data.tianjin_replica.reservation_info / job 45ccc7ef</div>
+</div>
+
+<!-- 논의 포인트 -->
+<div class="section-label">미팅 논의 포인트</div>
+<div class="talk">
+  <ol>
+    <li><b>반납 시간 조건을 어디까지 풀지.</b> 모수의 83%를 깎는 단일 병목이 반납 시간대이므로, 완화 A(14-21시, 1.31배)와 완화 B(시간 제거, 3.12배) 중 선택</li>
+    <li><b>완화 B 채택 시 유휴 슬롯 정합성.</b> 반납 시간 제한을 없애면 심야 반납 등 자정까지 유휴 시간 채우기 목적과 어긋나는 예약이 섞일 수 있어 확인 필요</li>
+    <li><b>재실험과 A/B 설계.</b> 모수가 커지면 대조군 대비 가동률 유의성까지 측정 가능. 완화 조건으로 수락률 재측정 위해 A/B 재실험 여부 결정</li>
+  </ol>
+</div>
+
+<!-- 조건 부록 -->
+<details class="cond">
+  <summary>현재 3차 노출 조건 9개 (펼치기, 서버 코드 PR #8047 검증)</summary>
+  <div class="cond-grid">
+    <div><b>1.</b> 실험군 50%만 노출</div>
+    <div><b>2.</b> 왕복 예약만</div>
+    <div><b>3.</b> 리드타임 출발 24시간 이내 생성 <small style="color:#9ca3af">(2차 완화)</small></div>
+    <div><b>4.</b> 출발 시간 조건 삭제, 반납 15-20시만 <small style="color:#059669">(3차 변경)</small></div>
+    <div><b>5.</b> 연휴 반납 제외 <small style="color:#059669">(3차 변경, 반납일과 다음날이 모두 주말/공휴일이면 제외)</small></div>
+    <div><b>6.</b> 대여 4시간 이상, 상한 제거 <small style="color:#059669">(3차 변경)</small></div>
+    <div><b>7.</b> 수입차/전기차/대형밴/대형RV 제외</div>
+    <div><b>8.</b> 연장 차액 4,900원 초과 시에만</div>
+    <div><b>9.</b> 유저당 7일 내 1회 수락</div>
+    <div><b>+</b> 차량 자정까지 가용, 제외 지역 아님, 제휴 카드 할인 미적용, 쿠폰 호환</div>
+  </div>
+</details>
+
+<div style="font-size:11.5px;color:#9ca3af;text-align:center;margin-top:28px;line-height:1.7">
+  시간연장 KPI 대시보드: <a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" style="color:#2563eb;font-weight:600">socar-roina.github.io/upselling-dashboard-interval-extension</a><br>
+  조건 모수 모니터링 (BigQuery 실측 + 서버 코드 조건 검증, 갱신 2026-06-16)
+</div>
+
+</div>
+<script>
+const L=['6/1 월','6/2 화','6/3 수','6/4 목','6/5 금','6/6 토','6/7 일','6/8 월','6/9 화','6/10 수','6/11 목','6/12 금','6/13 토','6/14 일'];
+const cur=[1589,1536,1822,1575,1066,684,1284,1622,1466,1488,1338,954,646,1362];
+const rA=[2150,2026,2409,2008,1373,902,1716,2104,1883,1907,1733,1236,869,1888];
+const rB=[5389,4000,5254,5112,2403,2171,4244,5321,4796,4998,4734,2356,2174,4569];
+new Chart(document.getElementById('c'),{
+  data:{labels:L,datasets:[
+    {type:'line',label:'완화 B 반납시간 제거 (가정)',data:rB,borderColor:'#059669',backgroundColor:'#059669',borderWidth:2,borderDash:[5,3],tension:0.3,pointRadius:2},
+    {type:'line',label:'완화 A 반납 14-21 (가정)',data:rA,borderColor:'#2563eb',backgroundColor:'#2563eb',borderWidth:2,borderDash:[5,3],tension:0.3,pointRadius:2},
+    {type:'bar',label:'현재 3차 노출 후보 (실제 조건)',data:cur,backgroundColor:'rgba(148,163,184,0.75)',borderColor:'rgb(148,163,184)',borderWidth:1,borderRadius:4}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',labels:{font:{size:12,weight:600},padding:12}},
+      annotation:{annotations:{
+        s1:{type:'box',xMin:5.5,xMax:6.5,backgroundColor:'rgba(220,38,38,0.05)',borderWidth:0},
+        s2:{type:'box',xMin:12.5,xMax:13.5,backgroundColor:'rgba(220,38,38,0.05)',borderWidth:0}
+      }}},
+    scales:{x:{ticks:{font:{size:11}}},y:{beginAtZero:true,title:{display:true,text:'노출 후보 예약 (건/일)',font:{size:12}},grid:{color:'#f3f4f6'},ticks:{font:{size:11}}}}
+  }
+});
+</script>
+</body>
+</html>
