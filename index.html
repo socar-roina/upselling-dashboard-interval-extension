@@ -279,44 +279,32 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   <!-- 성과 요약 (수치 팩트 + 판단 근거) -->
   <div class="section-label" style="font-size:15px;margin-top:8px">
     <span style="background:#0f172a;color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">성과 요약</span>
-    핵심 지표와 판단 근거
-    <span class="tag tag-fact">검증된 수치</span>
+    핵심 지표 (검증·추정·미검증 구분)
   </div>
   <div class="card" style="border:1px solid #bae6fd;background:#f8fbff">
-    <div style="font-size:13px;color:#374151;line-height:1.8;margin-bottom:18px">
-      옵션을 본 회원의 <b>약 29%가 수락</b>, 실험 기간 누적 <b>약 1,327시간</b>의 유휴 차량 시간을 추가로 채움. 아래는 세부 근거.
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
 
-      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">수요 확인</div>
-        <div style="font-size:13px;color:#374151;line-height:1.8">
-          옵션을 본 회원의 <b>약 29%가 수락</b>. 노출 대상을 <b>1.7배</b> 넓혀도 수락률 유지<br>
-          <span style="color:#6b7280;font-size:12px">통계적으로 신뢰 가능한 표본 확보 (필요 380명, 확보 800명 이상)</span>
+      <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:16px 18px">
+        <div style="font-size:13px;font-weight:800;color:#059669;margin-bottom:10px">검증됨</div>
+        <div style="font-size:13px;color:#374151;line-height:1.7">
+          수락률 <b>약 29%</b>, 옵션 본 회원의 수요 확인<br>
+          <span style="color:#6b7280;font-size:12px;display:block;margin-top:8px">예약 전환 영향 없음 (실험군 2.03 vs 대조군 2.02건)</span>
         </div>
       </div>
 
-      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">예약 전환에 영향 없음</div>
-        <div style="font-size:13px;color:#374151;line-height:1.8">
-          옵션을 노출한 실험군과 미노출 대조군의 <b>회원당 예약 건수가 동일</b> (실험군 2.03건, 대조군 2.02건)<br>
-          <span style="color:#6b7280;font-size:12px">결제 직전 옵션 노출이 기존 예약을 방해하지 않음</span>
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:16px 18px">
+        <div style="font-size:13px;font-weight:800;color:#b45309;margin-bottom:10px">추정</div>
+        <div style="font-size:13px;color:#374151;line-height:1.7">
+          연장 시간 <b>1,327시간</b> (수락 320건)<br>
+          <span style="color:#6b7280;font-size:12px;display:block;margin-top:8px">노출 시점 비어있는 차량만 대상이라 대부분 유휴로 추정 (통계 입증 아님)</span>
         </div>
       </div>
 
-      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">실제 점유 시간 증가</div>
-        <div style="font-size:13px;color:#374151;line-height:1.8">
-          누적 <b>약 1,327시간</b> 추가 점유 (약 55일치 분량)<br>
-          <span style="color:#6b7280;font-size:12px">수락 건당 평균 4시간 이상 연장, 누적 수락 약 320건</span>
-        </div>
-      </div>
-
-      <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:16px 18px">
-        <div style="font-size:12px;font-weight:800;color:#0c4a6e;margin-bottom:8px">순수 유휴 시간만 충전</div>
-        <div style="font-size:13px;color:#374151;line-height:1.8">
-          옵션은 <b>차량이 다음 예약 없이 비어있을 때만</b> 노출<br>
-          <span style="color:#6b7280;font-size:12px">채워진 시간은 본래 비어있었을 시간</span>
+      <div style="background:#f9fafb;border:1px solid #d1d5db;border-radius:10px;padding:16px 18px">
+        <div style="font-size:13px;font-weight:800;color:#6b7280;margin-bottom:10px">미검증</div>
+        <div style="font-size:13px;color:#374151;line-height:1.7">
+          대조군 대비 <b>가동률 순증</b> 미확인<br>
+          <span style="color:#6b7280;font-size:12px;display:block;margin-top:8px">노출 모수 부족으로 통계 검증 불가</span>
         </div>
       </div>
     </div>
