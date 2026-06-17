@@ -322,7 +322,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
   </div>
   <div class="section-explain">
     5/27 15:27 조건 완화 배포 (출발 시간 조건 삭제 + 대여 상한 제거 + 연휴 반납 제외). socar-server PR #8047 (NEWCS-3639), prod 배포 완료 15:27 KST<br>
-    실험 종료 6/03 00:00 KST. 종료 후 엣지 케이스 1건은 누계에서 제외
+    실험 종료 6/03 00:00 KST. 종료 후 엣지 케이스 1건은 집계에서 제외
   </div>
   <div class="kpi-row">
     <div class="kpi">
@@ -348,7 +348,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="kpi">
       <div class="lbl">매출<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
       <div class="num green">661,500 <span class="unit">원</span></div>
-      <div class="sub">3차 최종 누적<br>(135건 × 4,900원)</div>
+      <div class="sub">3차 합계<br>(135건 × 4,900원)</div>
     </div>
   </div>
 
@@ -395,7 +395,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+102%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
           1차는 평일 4일 합계(34) ÷ 4 = 8.5<br>
-          2차는 5/19 15:50~5/27 15:27 누적(137) ÷ 약 7.98일 = 17.2
+          2차는 5/19 15:50~5/27 15:27 합계(137) ÷ 7.98일 = 17.2
         </div>
       </div>
       <!-- 수락률 -->
@@ -423,9 +423,9 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </div>
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+102%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.7">
-          수락 건당 4,900원 적용 (5/19 15:50~5/27 15:27 누적 671,300원 ÷ 7.98일)<br>
+          수락 건당 4,900원 적용 (5/19 15:50~5/27 15:27 671,300원 ÷ 7.98일)<br>
           2차 마감 누적 <b style="color:#374151">671,300원</b> (137건)<br>
-          5/27 15:27부터는 3차 구간 시작 (별도 누계)
+          5/27 15:27부터는 3차 구간 시작 (별도 집계)
         </div>
       </div>
       <!-- 가동 전환 시간 (본 목적) -->
@@ -456,7 +456,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div>
         <b style="color:#b45309">2차 (배포 후)</b><br>
         5/19 15:50 ~ 5/27 15:27 약 7.98일치 사용 (2차 전체, 이벤트 로그 적재 완료)<br>
-        3차 구간은 별도 누계로 관리, 일별 표 참고
+        3차 구간은 별도로 관리, 일별 표 참고
       </div>
     </div>
   </div>
@@ -526,7 +526,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
   <!-- 2차 구간 누계 KPI -->
   <div class="section-label" style="margin-top:24px">
-    2차 구간 누계 (5/19 15:50 ~ 5/27 15:27, 마감)
+    2차 구간 (5/19 15:50 ~ 5/27 15:27, 마감)
     <span class="tag tag-fact">검증된 수치</span>
   </div>
   <div class="section-explain">
@@ -569,7 +569,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     조건 완화 전 핵심 지표 (5/13 14:09 ~ 5/19 15:50, 종료)
   </div>
   <div class="section-explain">
-    1차 구간 전체 누계 (약 6일치 데이터 완전 적재 상태)
+    1차 구간 전체 (6일치 데이터 완전 적재 상태)
   </div>
   <div class="kpi-row">
     <div class="kpi">
@@ -595,7 +595,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <div class="kpi">
       <div class="lbl">매출<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
       <div class="num green">235,200 <span class="unit">원</span></div>
-      <div class="sub">6일치 누계 (48건 × 4,900원)</div>
+      <div class="sub">6일치 합계 (48건 × 4,900원)</div>
     </div>
   </div>
 
@@ -818,7 +818,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <td class="num" style="color:#6b7280">0원</td>
         </tr>
         <tr class="total">
-          <td class="dt">1차 누계 (5/13~5/19 15:50, 종료)</td>
+          <td class="dt">1차 (5/13~5/19 15:50, 종료)</td>
           <td class="num">185</td>
           <td class="num">76</td>
           <td class="num">48</td>
