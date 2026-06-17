@@ -201,7 +201,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     <h1>업셀링 시간연장 실험 모니터링 대시보드</h1>
     <div class="meta">
       차를 빌릴 때 결제 직전에 "조금 더 길게 빌리기" 옵션을 노출하는 시간연장 업셀링 실험<br>
-      옵션 노출 / 수락 / 매출 증분 / 가동 시간 증분을 추적
+      옵션 노출 / 수락 / 매출 / 가동 시간 증분을 추적
     </div>
   </div>
   <div class="updated">
@@ -346,7 +346,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div class="sub">5/27 15:27~6/03 수락 135건 ÷ 노출 439명<br>6/01 노출 로그가 적어 실제 수락률은 이보다 낮음</div>
     </div>
     <div class="kpi">
-      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
+      <div class="lbl">매출<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
       <div class="num green">661,500 <span class="unit">원</span></div>
       <div class="sub">3차 최종 누적<br>(135건 × 4,900원)</div>
     </div>
@@ -414,7 +414,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       </div>
       <!-- 매출 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:16px 18px">
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 매출 증분</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 매출</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">41,650</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
@@ -431,7 +431,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <!-- 가동 전환 시간 (본 목적) -->
       <div style="background:white;border:2px solid #fbbf24;border-radius:10px;padding:16px 18px;position:relative">
         <div style="position:absolute;top:-8px;right:10px;background:#fbbf24;color:#78350f;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:0.04em">본 목적</div>
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 가동 시간 증분</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.02em;margin-bottom:10px">일평균 연장 시간</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">31.4</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
@@ -440,8 +440,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
         </div>
         <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:800;padding:3px 8px;border-radius:4px">+137%</div>
         <div style="font-size:10px;color:#9ca3af;margin-top:10px;line-height:1.6">
-          유휴 차량이 시간연장으로 실제 점유된 시간<br>
-          5/19 15:50~5/27 15:27 누적 594.3시간 ÷ 7.98일
+          시간연장으로 연장된 시간 (순수 유휴 충전 여부는 미검증)<br>
+          5/19 15:50~5/27 15:27 합계 594.3시간 ÷ 7.98일
         </div>
       </div>
     </div>
@@ -463,20 +463,17 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
 
   <!-- 본 목적 효과 - 유휴차량 활용 (상세) -->
   <div class="section-label" style="margin-top:30px">
-    <span style="background:#fbbf24;color:#78350f;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;margin-right:6px;letter-spacing:0.04em">본 목적</span>
-    유휴 차량 활용도 개선 효과 (상세)
-    <span class="tag tag-fact">검증된 수치</span>
+    시간연장으로 연장된 차량 시간 (상세)
   </div>
   <div class="section-explain">
-    본 실험의 핵심 목적은 유휴 차량의 점유 시간을 늘리는 것<br>
-    수락 건수는 결과 지표 중 하나일 뿐이고, 본질은 차량이 실제로 추가 점유된 시간량<br>
-    산출: 각 수락 예약의 <b>최종 반납 시각 - 원래 반납 시각</b>의 차이를 모두 합산
+    시간연장 수락 예약에서 늘어난 차량 시간 합계 (산출: 각 예약의 <b>최종 반납 시각 - 원래 반납 시각</b> 합산)<br>
+    이 시간이 순수 유휴를 채운 것(대조군 대비 가동률 순증)인지는 비교가 안 돼 미검증. 아래는 연장 시간 자체의 수치
   </div>
   <div class="card" style="background:#fffbeb;border-color:#fde68a;padding:22px 26px">
     <div style="display:grid;grid-template-columns:1.1fr 1.1fr 1fr;gap:14px">
       <!-- 누적 가동 전환 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">누적 가동 시간 증분 (실험 전체)</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">연장 시간 합계 (실험 전체)</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
           <span style="font-size:36px;font-weight:900;color:#059669;line-height:1">1,327.3</span>
           <span style="font-size:14px;color:#6b7280;font-weight:600">시간</span>
@@ -489,7 +486,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       </div>
       <!-- 일평균 -->
       <div style="background:white;border:1px solid #fde68a;border-radius:10px;padding:18px 20px">
-        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">일평균 가동 시간 증분</div>
+        <div style="font-size:11px;font-weight:800;color:#6b7280;letter-spacing:0.04em;margin-bottom:10px">일평균 연장 시간</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <span style="font-size:13px;color:#9ca3af;font-weight:600">31.4</span>
           <span style="color:#9ca3af;font-size:14px">→</span>
@@ -520,11 +517,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
     </div>
     <!-- 의미 해석 -->
     <div style="margin-top:14px;padding:14px 18px;background:white;border-radius:8px;font-size:12px;color:#374151;line-height:1.9">
-      <div style="font-weight:800;color:#92400e;margin-bottom:6px">의미</div>
-      매출 외에 본 목적인 유휴 차량 활용도 측면에서도 효과 확인<br>
-      유휴 시간이 실제 점유 시간으로 전환된 양이 일평균 137% 증가<br>
-      수락 건수와 수락 건당 연장 시간이 동시에 개선 (수락 +102%, 건당 시간 +15%)<br>
-      차량 활용도가 건수와 시간 양쪽에서 동시 개선됨
+      <div style="font-weight:800;color:#92400e;margin-bottom:6px">해석</div>
+      2차에서 연장 시간 총량이 1차 대비 일평균 137% 증가 (노출 모수 약 1.7배 증가 영향)<br>
+      수락 건수와 건당 연장 시간이 함께 증가 (수락 +102%, 건당 +15%)<br>
+      단 이 연장 시간이 순수 유휴를 채운 것(대조군 대비 가동률 순증)인지는 모수 부족으로 미검증
     </div>
   </div>
 
@@ -560,7 +556,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div class="sub">5/19 2차~5/27 15:27 수락 137건 ÷ 노출 469명<br>(이벤트와 결제 기간 동일 맞춤)</div>
     </div>
     <div class="kpi">
-      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
+      <div class="lbl">매출<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
       <div class="num green">671,300 <span class="unit">원</span></div>
       <div class="sub">5/19 15:50~5/27 15:27 (2차 마감)<br>(137건 × 4,900원)</div>
     </div>
@@ -597,7 +593,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
       <div class="sub">48 ÷ 185<br>(클릭 유저 76명 기준으로는 63.2%)</div>
     </div>
     <div class="kpi">
-      <div class="lbl">매출 증분<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
+      <div class="lbl">매출<br><span style="color:#9ca3af;font-weight:400">(수락 건당 4,900원)</span></div>
       <div class="num green">235,200 <span class="unit">원</span></div>
       <div class="sub">6일치 누계 (48건 × 4,900원)</div>
     </div>
@@ -624,7 +620,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Pretendard', sa
           <th class="num">클릭 유저</th>
           <th class="num">수락 횟수</th>
           <th class="num">수락률</th>
-          <th class="num">매출 증분</th>
+          <th class="num">매출</th>
         </tr>
       </thead>
       <tbody>
@@ -903,7 +899,7 @@ GROUP BY phase ORDER BY phase</div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px">3. 일별 수락 / 매출 증분 / 회사 부담 (시간연장만, 취소·환불 제외)</div>
+        <div class="card-title" style="font-size:13px">3. 일별 수락 / 매출 / 회사 부담 (시간연장만, 취소·환불 제외)</div>
         <div style="font-size:11px;color:#6b7280;margin:4px 0 8px;line-height:1.6">먼저 paid_meta_info.upselling_type='TIME_EXTENSION'인 reservation_id를 식별한 뒤, 그 예약의 모든 paid_info 행(결제+환불)을 net 합산</div>
         <div class="query-block">WITH te_rsv AS (
   SELECT DISTINCT pi.reservation_id
@@ -1028,7 +1024,7 @@ GROUP BY car_name</div>
     <div class="term"><b>옵션 클릭</b><span>옵션 화면에서 "연장 시간으로 변경" 카드를 직접 클릭한 행위<br>수락 의도 표시 단계</span></div>
     <div class="term"><b>결제 버튼 클릭</b><span>옵션 화면 하단 결제 버튼 클릭<br>옵션 수락 여부와 무관하게 결제 진행이므로 "수락"과는 별개 지표</span></div>
     <div class="term"><b>수락 횟수</b><span>결제 후 취소나 환불된 건은 제외한 순 수락 (=실제 유지)<br>유저당 7일 내 1회 수락 가능 정책 적용 (예약 취소 시 초기화)</span></div>
-    <div class="term"><b>매출 증분</b><span>시간연장 수락 시 유저가 추가 결제한 금액<br>수락 건당 4,900원 고정 (수락 건수 × 4,900)</span></div>
+    <div class="term"><b>매출</b><span>시간연장 수락 시 유저가 추가 결제한 금액<br>수락 건당 4,900원 고정 (수락 건수 × 4,900)</span></div>
     <div class="term"><b>회사 부담 비용</b><span>실제 연장 요금에서 유저가 결제한 4,900원을 뺀 차액<br>(이 차액을 회사가 할인 형태로 부담)</span></div>
     <div class="term"><b>수락률</b><span>옵션 노출 유저 중 실제 수락한 비율<br>수락 횟수 ÷ 옵션 노출 유저 수</span></div>
     <div class="term"><b>실험군 / 대조군</b><span>실험군(50%): 옵션 노출 대상<br>대조군(50%): 옵션 미노출 (member_id 기준 무작위 분배)</span></div>
