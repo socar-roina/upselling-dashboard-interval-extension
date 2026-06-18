@@ -86,6 +86,8 @@
   .fn-track { background:#eef0f2; border-radius:5px; height:30px; overflow:hidden; }
   .fn-bar { height:100%; background:#94a3b8; border-radius:5px; display:flex; align-items:center; padding-left:12px; color:#fff; font-weight:700; font-size:12px; min-width:48px; }
   .fn-bar.hot { background:#dc2626; }
+  .fn-bar.ok { background:#059669; }
+  .fn-bar.dead { background:#cbd5e1; color:#475569; }
   .fn-loss { font-size:12px; font-weight:800; color:#dc2626; text-align:right; }
   .fn-loss.base { color:#9ca3af; font-weight:600; }
   .ev .concl { margin-top:12px; font-size:13px; color:#374151; line-height:1.6; }
@@ -203,6 +205,15 @@
       <li>조건을 풀어도 모수가 <b>1.3배가 천장</b>이라, 이 "횟수 부족"이 풀리지 않음</li>
     </ul>
     <div class="punch">시간연장 실험만으로는 가동률 효과를 통계로 입증할 수 없음</div>
+    <details class="ev" style="margin-top:16px">
+      <summary>왜 모수를 풀어도 1.3배가 천장인가 (펼치기)</summary>
+      <div class="fn">
+        <div class="fn-row"><div>현재 (반납 15-20시)</div><div class="fn-track"><div class="fn-bar" style="width:32%">1,316</div></div><div class="fn-loss base">기준</div></div>
+        <div class="fn-row"><div><b>반납 하한 12시까지</b></div><div class="fn-track"><div class="fn-bar ok" style="width:41%">1,682</div></div><div style="font-size:12px;font-weight:800;color:#059669;text-align:right">1.28배</div></div>
+        <div class="fn-row"><div>반납 시간 제한 전부 제거</div><div class="fn-track"><div class="fn-bar dead" style="width:100%">4,108</div></div><div style="font-size:12px;font-weight:800;color:#9ca3af;text-align:right">3.12배<br>무효</div></div>
+      </div>
+      <div class="concl" style="color:#374151"><b style="color:#111827">반납 하한을 낮추는 것</b>이 쓸 수 있는 최대로 1.28배. 상한(밤)까지 풀면 3배가 넘지만, 늦은 밤이나 새벽 반납은 자정까지 연장할 시간이 없어 <b style="color:#111827">가치가 없어 무효</b>. 빈도(수락 후 7일) 완화도 하루 2~3건뿐이라, 어느 레버로도 1.3배를 못 넘음</div>
+    </details>
   </div>
 </div>
 
