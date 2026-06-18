@@ -2,271 +2,228 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
+<meta name="robots" content="noindex" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>시간연장 조건 모수 모니터링</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+<title>시간연장 업셀링 — 실험 결과와 다음 단계</title>
 <style>
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: #f3f4f6; color: #111827; line-height: 1.6; font-size: 15px; -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 100%; margin: 0; padding: 36px 48px 90px; }
-  header { margin-bottom: 12px; }
-  h1 { font-size: 27px; margin: 0 0 6px; font-weight: 900; letter-spacing: -0.02em; }
-  .sub { color: #6b7280; font-size: 13px; font-weight: 500; }
-  .section-label { font-size: 16px; font-weight: 800; color: #111827; margin: 30px 0 12px; display: flex; align-items: center; gap: 8px; }
-  .section-label .tag { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 4px; background: #dbeafe; color: #1d4ed8; letter-spacing: 0.03em; }
-  .section-explain { font-size: 12.5px; color: #4b5563; line-height: 1.7; padding: 11px 15px; background: #f9fafb; border-radius: 8px; margin-bottom: 14px; border-left: 3px solid #9ca3af; }
-  .section-explain b { color: #111827; }
-  .card { background: white; border-radius: 12px; border: 1px solid #e5e7eb; padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 16px; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif; background:#f3f4f6; color:#111827; line-height:1.6; font-size:15px; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:100%; margin:0; padding:36px 48px 90px; }
+  header { margin-bottom:8px; }
+  h1 { font-size:28px; margin:0 0 6px; font-weight:900; letter-spacing:-0.02em; }
+  .sub { color:#6b7280; font-size:13px; font-weight:500; }
 
-  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .kpi { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-  .kpi .lbl { font-size: 12px; font-weight: 700; color: #6b7280; margin-bottom: 10px; line-height: 1.5; min-height: 32px; }
-  .kpi .num { font-size: 30px; font-weight: 900; line-height: 1; color: #111827; }
-  .kpi .num.blue { color: #2563eb; }
-  .kpi .num.green { color: #059669; }
-  .kpi .num.red { color: #dc2626; }
-  .kpi .unit { font-size: 13px; font-weight: 700; color: #6b7280; margin-left: 2px; }
-  .kpi .sub { font-size: 11px; color: #6b7280; margin-top: 9px; line-height: 1.6; }
+  .block { margin-top:34px; }
+  .block-h { font-size:18px; font-weight:900; color:#111827; margin:0 0 14px; display:flex; align-items:center; gap:10px; }
+  .block-h .no { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#111827; color:#fff; font-size:14px; font-weight:800; }
+  .card { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px 26px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
 
-  .bar-row { display: grid; grid-template-columns: 320px 1fr 84px; align-items: center; gap: 14px; margin-bottom: 9px; font-size: 14px; }
-  .bar-row .lab { color: #374151; }
-  .bar-row .lab b { color: #111827; }
-  .bar-track { background: #f3f4f6; border-radius: 5px; height: 34px; position: relative; overflow: hidden; }
-  .bar-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); border-radius: 5px; display: flex; align-items: center; padding-left: 12px; color: white; font-weight: 800; font-size: 13px; min-width: 56px; }
-  .bar-fill.dim { background: linear-gradient(90deg, #94a3b8, #cbd5e1); color: #1f2937; }
-  .bar-fill.cur { background: linear-gradient(90deg, #059669, #34d399); }
-  .bar-loss { font-size: 13px; font-weight: 800; color: #dc2626; text-align: right; }
-  .bar-loss.base { color: #9ca3af; }
+  /* ① 3색 결과 */
+  .res { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .res .it { border-radius:12px; padding:18px 20px; }
+  .res .it.ok { background:#f0fdf4; border:1px solid #86efac; }
+  .res .it.maybe { background:#fffbeb; border:1px solid #fde68a; }
+  .res .it.no { background:#f9fafb; border:1px solid #d1d5db; }
+  .res .tag { font-size:13px; font-weight:900; margin-bottom:8px; }
+  .res .it.ok .tag { color:#059669; }
+  .res .it.maybe .tag { color:#b45309; }
+  .res .it.no .tag { color:#6b7280; }
+  .res .txt { font-size:14px; color:#374151; line-height:1.6; }
+  .res .txt b { color:#111827; }
 
-  .relax { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .relax .item { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px 18px; background: white; }
-  .relax .item.now { border: 2px solid #94a3b8; background: #f9fafb; }
-  .relax .name { font-size: 12px; font-weight: 800; color: #374151; margin-bottom: 4px; }
-  .relax .cond { font-size: 11px; color: #6b7280; line-height: 1.5; min-height: 44px; }
-  .relax .big { font-size: 27px; font-weight: 900; color: #111827; line-height: 1; margin-top: 6px; }
-  .relax .big .u { font-size: 12px; font-weight: 700; color: #6b7280; }
-  .relax .mult { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
-  .relax .mult.g { background: #d1fae5; color: #065f46; }
-  .relax .mult.n { background: #e5e7eb; color: #4b5563; }
+  /* ② 흐름 */
+  .flow { display:flex; flex-direction:column; gap:11px; }
+  .flow-row { display:grid; grid-template-columns:230px 1fr 110px; align-items:center; gap:16px; }
+  .flow-lab { font-size:14px; color:#374151; }
+  .flow-lab b { color:#111827; display:block; font-size:14px; }
+  .flow-lab span { font-size:12px; color:#6b7280; }
+  .flow-track { background:#f3f4f6; border-radius:6px; height:40px; overflow:hidden; }
+  .flow-bar { height:100%; border-radius:6px; display:flex; align-items:center; padding-left:14px; color:#fff; font-weight:800; font-size:14px; }
+  .flow-bar.s1 { background:#cbd5e1; color:#1f2937; }
+  .flow-bar.s2 { background:#93c5fd; color:#1e3a8a; }
+  .flow-bar.s3 { background:#3b82f6; }
+  .flow-bar.next { background:linear-gradient(90deg,#059669,#34d399); }
+  .flow-x { font-size:14px; font-weight:800; color:#059669; text-align:right; }
+  .flow-x.base { color:#9ca3af; font-weight:600; }
+  .bottleneck { margin-top:16px; padding:13px 17px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; font-size:14px; color:#374151; }
+  .bottleneck b { color:#dc2626; }
 
-  .chart-wrap { position: relative; height: 320px; margin: 6px 0 8px; }
-  .foot { font-size: 11.5px; color: #6b7280; margin-top: 10px; padding: 12px 15px; background: #f9fafb; border-left: 3px solid #d1d5db; border-radius: 0 6px 6px 0; line-height: 1.7; }
-  .foot ul { margin: 0; padding-left: 16px; }
-  .foot li { margin-bottom: 3px; }
-  .src { font-size: 11px; color: #9ca3af; margin-top: 8px; font-family: 'SF Mono', Monaco, Consolas, monospace; }
-  details.cond { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 20px; margin-top: 14px; }
-  details.cond summary { font-size: 13px; font-weight: 700; color: #374151; cursor: pointer; }
-  .cond-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; font-size: 12px; color: #4b5563; }
-  .cond-grid div { padding: 8px 12px; background: #f9fafb; border-radius: 6px; }
-  .cond-grid b { color: #111827; }
+  /* ③ 다음 실험 */
+  .next-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+  .next-box { border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; }
+  .next-box.hl { border:2px solid #059669; background:#ecfdf5; }
+  .next-box .l { font-size:12px; font-weight:800; color:#6b7280; margin-bottom:8px; }
+  .next-box .big { font-size:28px; font-weight:900; color:#111827; line-height:1; }
+  .next-box .big .u { font-size:13px; font-weight:700; color:#6b7280; }
+  .next-box .s { font-size:12px; color:#6b7280; margin-top:8px; line-height:1.55; }
+  .price { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .price .p { background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; padding:14px 16px; }
+  .price .p .pl { font-size:12px; color:#6b7280; margin-bottom:6px; }
+  .price .p .pv { font-size:20px; font-weight:900; color:#111827; }
+  .price .p .pn { font-size:11px; color:#9ca3af; margin-top:4px; }
 
-  .talk { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 20px 24px; }
-  .talk .q { margin-bottom: 16px; }
-  .talk .q:last-child { margin-bottom: 0; }
-  .talk .qt { font-size: 15px; font-weight: 800; color: #065f46; margin-bottom: 6px; }
-  .talk .q ul { margin: 0; padding-left: 18px; }
-  .talk .q li { font-size: 13.5px; color: #374151; margin-bottom: 4px; line-height: 1.55; }
-  .talk .q li b { color: #111827; }
+  /* ④ 비유 */
+  .why { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px 26px; }
+  .why ul { margin:0; padding-left:20px; }
+  .why li { font-size:15px; color:#374151; line-height:1.8; margin-bottom:6px; }
+  .why li b { color:#111827; }
+  .why .punch { margin-top:14px; padding:14px 18px; background:#eff6ff; border-radius:10px; font-size:15px; font-weight:800; color:#1d4ed8; }
 
-  .premise { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
-  .premise .pt { font-size: 13px; font-weight: 800; color: #92400e; margin-bottom: 8px; }
-  .premise ul { margin: 0; padding-left: 18px; }
-  .premise li { font-size: 13px; color: #374151; margin-bottom: 4px; line-height: 1.55; }
-  .premise li b { color: #111827; }
+  /* ⑤ 정규화 */
+  .decide { background:#ecfdf5; border:1px solid #a7f3d0; border-radius:14px; padding:22px 26px; }
+  .decide .row { margin-bottom:14px; }
+  .decide .row:last-child { margin-bottom:0; }
+  .decide .rt { font-size:14px; font-weight:900; color:#065f46; margin-bottom:5px; }
+  .decide .rb { font-size:14px; color:#374151; line-height:1.6; }
+  .decide .rb b { color:#111827; }
+
+  .foot-note { font-size:12px; color:#9ca3af; margin-top:8px; }
+  .src { font-size:11px; color:#9ca3af; margin-top:14px; font-family:'SF Mono',Monaco,Consolas,monospace; }
+  details.cond { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px 20px; margin-top:30px; }
+  details.cond summary { font-size:13px; font-weight:700; color:#374151; cursor:pointer; }
+  .cond-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; font-size:12px; color:#4b5563; }
+  .cond-grid div { padding:8px 12px; background:#f9fafb; border-radius:6px; }
+  .cond-grid b { color:#111827; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
-  <h1>시간연장 조건 모수 모니터링</h1>
-  <div class="sub">시간연장 ABT 실험은 6/3 종료. 마지막 3차 조건 기준 노출 모수, 재실험 검토용. 데이터 2026-06-01 ~ 06-14 일평균 (추출 06-18), BigQuery reservation_info 실측</div>
+  <h1>시간연장 업셀링 — 실험 결과와 다음 단계</h1>
+  <div class="sub">ABT 실험 6/3 종료. 재실험·정규화 검토용. 데이터 2026-06-01 ~ 06-14 일평균 (추출 06-18), BigQuery reservation_info 실측</div>
 </header>
 
-<!-- 상단 KPI -->
-<div class="kpi-row" style="margin-top:18px">
-  <div class="kpi">
-    <div class="lbl">전체 예약</div>
-    <div class="num">33,132<span class="unit">건/일</span></div>
-    <div class="sub">14일 평균</div>
-  </div>
-  <div class="kpi">
-    <div class="lbl">노출 조건 통과 예약</div>
-    <div class="num blue">1,316<span class="unit">건/일</span></div>
-    <div class="sub">전체의 4.0%. 조건 통과한 예약 수 (실제 노출 회원은 더 적음)</div>
-  </div>
-  <div class="kpi">
-    <div class="lbl">최대 병목 (단일 단계)</div>
-    <div class="num red">−82.9<span class="unit">%</span></div>
-    <div class="sub">반납 15-20시 + 대여 4시간 이상 조건</div>
-  </div>
-  <div class="kpi">
-    <div class="lbl">조건 완화 모수 천장</div>
-    <div class="num green">1.28<span class="unit">배</span></div>
-    <div class="sub">본 목적 유지 시 최대치 (반납 12-20시, 1,681건/일)</div>
+<!-- ① 실험 결과 -->
+<div class="block">
+  <div class="block-h"><span class="no">1</span>실험 결과</div>
+  <div class="res">
+    <div class="it ok">
+      <div class="tag">검증됨</div>
+      <div class="txt">옵션 노출 회원 <b>약 29% 수락</b> (조건 완화 후에도 유지)<br>예약 전환 영향 없음 (실험군 2.03 vs 대조군 2.02건)</div>
+    </div>
+    <div class="it maybe">
+      <div class="tag">추정</div>
+      <div class="txt">시간연장으로 차량 점유 시간은 늘었으나, <b>순수 유휴를 채운 것인지</b>는 정황만 있고 미확인</div>
+    </div>
+    <div class="it no">
+      <div class="tag">미검증</div>
+      <div class="txt"><b>가동률 순증</b> (시간연장이 가동률을 실제로 올렸는지). 표본 부족으로 통계 입증 불가 — ④ 참조</div>
+    </div>
   </div>
 </div>
 
-<!-- 퍼널 -->
-<div class="section-label">조건별 모수 퍼널 <span class="tag">BQ 실측</span></div>
-<div class="section-explain">
-  전체 예약에 노출 조건을 하나씩 적용하면서 남는 일평균 모수 (BQ로 분리 가능한 조건만)
+<!-- ② 조건 완화 흐름 + 현재 모수 -->
+<div class="block">
+  <div class="block-h"><span class="no">2</span>조건을 풀어온 흐름과 현재 모수</div>
+  <div class="card">
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-lab"><b>1차</b><span>당일 출발만</span></div>
+        <div class="flow-track"><div class="flow-bar s1" style="width:38.5%">648</div></div>
+        <div class="flow-x base">기준</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-lab"><b>2차</b><span>출발 24시간 이내로 완화</span></div>
+        <div class="flow-track"><div class="flow-bar s2" style="width:51.6%">868</div></div>
+        <div class="flow-x">+34%</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-lab"><b>3차 (현재)</b><span>출발 시간 조건 삭제, 대여 상한 제거, 연휴 반납 제외</span></div>
+        <div class="flow-track"><div class="flow-bar s3" style="width:78.2%">1,316</div></div>
+        <div class="flow-x">+52%</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-lab"><b>다음 (제안)</b><span>반납 12-15시 추가</span></div>
+        <div class="flow-track"><div class="flow-bar next" style="width:100%">1,682</div></div>
+        <div class="flow-x">+28%</div>
+      </div>
+    </div>
+    <div class="bottleneck">
+      현재 조건의 가장 큰 제약은 <b>반납 15-20시 + 대여 4시간 이상</b>. 이 한 단계에서 직전 모수의 83%가 걸러져, 전체 예약 33,132건 중 <b>1,316건(4%)</b>만 노출 자격이 됨
+    </div>
+    <div class="foot-note">막대는 6/1~6/14 예약에 각 단계 조건을 대입한 일평균 모수 (실제 노출 회원은 실험군 50%·차종·결제차액 등으로 이보다 적음). 다음 단계는 미적용 가정</div>
+    <div class="src">socar-data.tianjin_replica.reservation_info / job 4fd5cff3</div>
+  </div>
 </div>
-<div class="card">
-  <div class="bar-row">
-    <div class="lab">전체 예약</div>
-    <div class="bar-track"><div class="bar-fill" style="width:100%">33,132</div></div>
-    <div class="bar-loss base">기준</div>
+
+<!-- ③ 다음 실험 조건 -->
+<div class="block">
+  <div class="block-h"><span class="no">3</span>다음 실험 조건: 반납 12-15시 추가</div>
+  <div class="card">
+    <div class="next-grid">
+      <div class="next-box hl">
+        <div class="l">노출 자격 예약</div>
+        <div class="big">1,316 → 1,682<span class="u"> 건/일</span></div>
+        <div class="s">반납 12-15시 구간 추가로 신규 366건/일 (1.28배). 이 구간은 자정까지 평균 10.8시간이라 더 길게 연장</div>
+      </div>
+      <div class="next-box">
+        <div class="l">반납 시간대별 가격</div>
+        <div class="price">
+          <div class="p"><div class="pl">15-20시 (기존)</div><div class="pv">4,900원</div><div class="pn">자정까지 평균 6.8시간</div></div>
+          <div class="p"><div class="pl">12-15시 (신규)</div><div class="pv">14,900원</div><div class="pn">자정까지 평균 10.8시간</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottleneck" style="background:#f9fafb;border-color:#e5e7eb;color:#374151">
+      매출 레버 두 가지: <b style="color:#111827">노출 모수 1.28배</b> + <b style="color:#111827">객단가 차등(이른 반납을 비싸게)</b>. 단 14,900원에 실제 수락할지는 미지수라, <b style="color:#111827">실제 매출은 수락률 측정 후 확정</b>
+    </div>
   </div>
-  <div class="bar-row">
-    <div class="lab">왕복 + 취소되지 않은 예약</div>
-    <div class="bar-track"><div class="bar-fill" style="width:35.1%">11,640</div></div>
-    <div class="bar-loss">−64.9%</div>
-  </div>
-  <div class="bar-row">
-    <div class="lab">리드타임 24시간 이내 생성</div>
-    <div class="bar-track"><div class="bar-fill" style="width:27.1%">8,980</div></div>
-    <div class="bar-loss">−22.9%</div>
-  </div>
-  <div class="bar-row">
-    <div class="lab">반납 15-20시 + 대여 4시간 이상 <small style="color:#9ca3af">(출발 시간 조건 없음)</small></div>
-    <div class="bar-track"><div class="bar-fill dim" style="width:4.6%">1,536</div></div>
-    <div class="bar-loss">−82.9%</div>
-  </div>
-  <div class="bar-row">
-    <div class="lab"><b>연휴 반납 제외 (조건 통과 예약)</b></div>
-    <div class="bar-track"><div class="bar-fill cur" style="width:4.0%">1,316</div></div>
-    <div class="bar-loss">−14.3%</div>
-  </div>
-  <div class="foot">
+</div>
+
+<!-- ④ 가동률 한계 -->
+<div class="block">
+  <div class="block-h"><span class="no">4</span>가동률 효과를 통계로 못 보는 이유</div>
+  <div class="why">
     <ul>
-      <li><b>병목은 반납 시간대와 대여 길이 한 단계</b> (직전 모수의 83% 제거)</li>
-      <li>실험군 50%, 차종, 결제차액, 쿠폰, 빈도 등이 추가로 걸러져 <b>실제 노출 회원은 1,316건보다 적음</b></li>
+      <li>효과를 보려면 <b>옵션 띄운 차와 안 띄운 차의 가동률을 비교</b>해야 함</li>
+      <li>그런데 실제 수락이 <b>320건뿐</b>. 동전을 10번 던져 6번 앞면이 나와도 "이 동전은 앞면이 잘 나온다"고 못 하듯, 횟수가 적으면 진짜 효과인지 우연인지 가릴 수 없음</li>
+      <li>조건을 풀어도 모수가 <b>1.3배가 천장</b>이라, 이 "횟수 부족"이 풀리지 않음</li>
     </ul>
-  </div>
-  <div class="src">socar-data.tianjin_replica.reservation_info / job 48e8dd75. 조건 검증: socar-server PR #8047 UpsellingService.kt</div>
-</div>
-
-<!-- 완화 시뮬 -->
-<div class="section-label">조건 완화 시뮬레이션 <span class="tag">BQ 실측 재계산</span></div>
-<div class="premise">
-  <div class="pt">완화는 반납 하한만 낮춤</div>
-  <ul>
-    <li>반납 상한(20시)을 풀면 늦은 밤이나 새벽 반납이 늘어 자정까지 시간이 안 남음 (연장 가치 없음)</li>
-    <li><b>그래서 상한은 두고 하한만 낮춰 시뮬</b></li>
-  </ul>
-</div>
-<div class="section-explain">
-  같은 14일 데이터에 반납 하한만 낮춰 재계산한 일평균 모수. 3차 조건 1,316건 기준 배수
-</div>
-<div class="relax">
-  <div class="item now">
-    <div class="name">3차 조건 (종료 시점)</div>
-    <div class="cond">반납 15-20시, 대여 4시간 이상, 리드 24h, 연휴 반납 제외</div>
-    <div class="big">1,316<span class="u"> 건/일</span></div>
-    <div class="mult n">1.00배</div>
-  </div>
-  <div class="item">
-    <div class="name">완화 1</div>
-    <div class="cond">반납 하한 14시로 (자정까지 4-10시간 여유)</div>
-    <div class="big">1,476<span class="u"> 건/일</span></div>
-    <div class="mult g">1.12배 (+160)</div>
-  </div>
-  <div class="item">
-    <div class="name">완화 2</div>
-    <div class="cond">반납 하한 13시로 (자정까지 4-11시간 여유)</div>
-    <div class="big">1,597<span class="u"> 건/일</span></div>
-    <div class="mult g">1.21배 (+281)</div>
-  </div>
-  <div class="item">
-    <div class="name">완화 3</div>
-    <div class="cond">반납 하한 12시로 (자정까지 4-12시간 여유)</div>
-    <div class="big">1,681<span class="u"> 건/일</span></div>
-    <div class="mult g">1.28배 (+365)</div>
-  </div>
-</div>
-<div class="foot">
-  <ul>
-    <li>완화 1~3은 미적용 가정. 6월 데이터에 반납 하한만 바꿔 재계산</li>
-    <li><b>조건 완화 모수 천장은 약 1.3배.</b> 반납 상한까지 풀면 모수는 3배 이상이지만 연장 가치 없는 늦은 밤, 새벽 반납이라 무효</li>
-    <li><b>조건 외 레버(재노출 빈도)도 효과 미미.</b> 수락 후 7일 제한을 풀어도 추가 노출 일 2~3건(3주 48건, 노출 후보의 0.2%). 수락자가 7일 내 같은 조건 예약을 또 하는 경우가 드물어서. 시간대도 빈도도 모수를 크게 못 키움</li>
-  </ul>
-</div>
-
-<!-- 요일별 평균 -->
-<div class="section-label">요일별 평균 모수 (3차 조건 대입)</div>
-<div class="card">
-  <div class="chart-wrap"><canvas id="c"></canvas></div>
-  <div class="foot"><b>실험은 6/3 종료, 현재 미노출.</b> 6/1~6/14 예약에 3차 조건을 대입한 노출 자격 예약 수의 요일별 평균(재실험 시 예상치). 토요일은 연휴 반납 제외로 평일의 절반</div>
-  <div class="src">socar-data.tianjin_replica.reservation_info / job fb39399a</div>
-</div>
-
-<!-- 논의 포인트 -->
-<div class="section-label">미팅 논의 포인트</div>
-<div class="talk">
-  <div class="q">
-    <div class="qt">1. 조건을 풀어 모수를 얼마나 키울 수 있나</div>
-    <ul>
-      <li>본 목적(자정까지 유휴 채우기)을 지키면 천장은 <b>약 1.3배</b></li>
-      <li>반납 하한을 12시까지 낮춰도 1.28배가 한계</li>
-      <li>반납 상한 완화는 연장 가치 없는 예약이라 선택지 아님</li>
-      <li>재노출 빈도(수락 후 7일) 완화도 추가 노출 일 2~3건 수준이라 모수 확대 효과 없음</li>
-    </ul>
-  </div>
-  <div class="q">
-    <div class="qt">2. 반납 하한을 어디까지 낮출지</div>
-    <ul>
-      <li>12시까지 낮추면 1.28배, 자정까지 최대 12시간 여유</li>
-      <li>이른 오후 반납자의 실제 연장 수요는 미지수</li>
-      <li>수요와 수락률은 재실험으로 확인 필요</li>
-    </ul>
-  </div>
-  <div class="q">
-    <div class="qt">3. 재실험을 더 할지, 현 조건으로 마칠지</div>
-    <ul>
-      <li>완화 효과가 1.3배로 제한적이라는 점이 전제</li>
-      <li>하한 완화로 재실험해 수락, 가동시간 증분을 측정하는 안</li>
-      <li>또는 시간연장은 현 조건으로 두고 다음 실험 대상으로 전환하는 안</li>
-    </ul>
+    <div class="punch">시간연장 실험만으로는 가동률 효과를 통계로 입증할 수 없음</div>
   </div>
 </div>
 
-<!-- 조건 부록 -->
+<!-- ⑤ 정규화 판단 -->
+<div class="block">
+  <div class="block-h"><span class="no">5</span>정규화 판단</div>
+  <div class="decide">
+    <div class="row">
+      <div class="rt">통계 입증은 전제에서 제외</div>
+      <div class="rb">가동률 효과 입증은 구조적으로 불가능(④). 입증을 기다리는 것은 의미 없으므로 정규화의 조건에서 뺌</div>
+    </div>
+    <div class="row">
+      <div class="rt">대신 확인된 근거로 판단</div>
+      <div class="rb"><b>수요 약 29%</b> + <b>예약 전환 무해</b> + <b>확정 매출</b>(고정가라 수락 시 그대로 매출). 정규화 결정에 충분</div>
+    </div>
+    <div class="row">
+      <div class="rt">기대</div>
+      <div class="rb">조건 완화(반납 12-15시)와 차등가로 모수·매출 동시 확대. 14,900원 수락률만 실측해 확정</div>
+    </div>
+  </div>
+</div>
+
+<!-- 부록 -->
 <details class="cond">
-  <summary>3차(마지막) 노출 조건 9개 (펼치기, 서버 코드 PR #8047 검증)</summary>
+  <summary>3차(현재) 노출 조건 9개 — 서버 코드 PR #8047 검증</summary>
   <div class="cond-grid">
     <div><b>1.</b> 실험군 50%만 노출</div>
     <div><b>2.</b> 왕복 예약만</div>
-    <div><b>3.</b> 리드타임 출발 24시간 이내 생성 <small style="color:#9ca3af">(2차 완화)</small></div>
-    <div><b>4.</b> 출발 시간 조건 삭제, 반납 15-20시만 <small style="color:#059669">(3차 변경)</small></div>
-    <div><b>5.</b> 연휴 반납 제외 <small style="color:#059669">(3차 변경, 반납일과 다음날이 모두 주말/공휴일이면 제외)</small></div>
-    <div><b>6.</b> 대여 4시간 이상, 상한 제거 <small style="color:#059669">(3차 변경)</small></div>
-    <div><b>7.</b> 수입차/전기차/대형밴/대형RV 제외</div>
+    <div><b>3.</b> 리드타임 출발 24시간 이내 생성</div>
+    <div><b>4.</b> 출발 시간 조건 없음, 반납 15-20시만</div>
+    <div><b>5.</b> 연휴 반납 제외 (반납일과 다음날 모두 주말·공휴일)</div>
+    <div><b>6.</b> 대여 4시간 이상 (상한 없음)</div>
+    <div><b>7.</b> 수입차·전기차·대형밴·대형RV 제외</div>
     <div><b>8.</b> 연장 차액 4,900원 초과 시에만</div>
     <div><b>9.</b> 유저당 7일 내 1회 수락</div>
-    <div><b>+</b> 차량 자정까지 가용, 제외 지역 아님, 제휴 카드 할인 미적용, 쿠폰 호환</div>
   </div>
 </details>
 
-<div style="font-size:11.5px;color:#9ca3af;text-align:center;margin-top:28px;line-height:1.7">
+<div style="font-size:11.5px;color:#9ca3af;text-align:center;margin-top:26px;line-height:1.7">
   시간연장 KPI 대시보드: <a href="https://socar-roina.github.io/upselling-dashboard-interval-extension/" style="color:#2563eb;font-weight:600">socar-roina.github.io/upselling-dashboard-interval-extension</a><br>
-  조건 모수 모니터링 (BigQuery 실측 + 서버 코드 조건 검증, 갱신 2026-06-16)
+  BigQuery 실측 + 서버 코드 조건 검증 (갱신 2026-06-18)
 </div>
 
 </div>
-<script>
-const L=['월','화','수','목','금','토','일'];
-const cur=[1606,1501,1654,1456,1009,667,1324];
-const bg=['rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(220,38,38,0.45)','rgba(37,99,235,0.78)'];
-new Chart(document.getElementById('c'),{
-  type:'bar',
-  data:{labels:L,datasets:[{label:'노출 자격 예약 (3차 조건)',data:cur,backgroundColor:bg,borderWidth:0,borderRadius:6}]},
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:(c)=>c.parsed.y+'건/일'}}},
-    scales:{x:{ticks:{font:{size:15,weight:700}}},y:{beginAtZero:true,title:{display:true,text:'예약 수 (건/일)',font:{size:12}},grid:{color:'#f3f4f6'},ticks:{font:{size:11}}}}
-  }
-});
-</script>
 </body>
 </html>
