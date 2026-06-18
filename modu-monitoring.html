@@ -81,19 +81,19 @@
 
 <header>
   <h1>시간연장 조건 모수 모니터링</h1>
-  <div class="sub">시간연장 ABT 실험은 6/3 종료. 마지막 3차 조건 기준 노출 모수, 재실험 검토용. 데이터 2026-06-01 ~ 06-14 일평균, BigQuery reservation_info 실측</div>
+  <div class="sub">시간연장 ABT 실험은 6/3 종료. 마지막 3차 조건 기준 노출 모수, 재실험 검토용. 데이터 2026-06-01 ~ 06-14 일평균 (추출 06-18), BigQuery reservation_info 실측</div>
 </header>
 
 <!-- 상단 KPI -->
 <div class="kpi-row" style="margin-top:18px">
   <div class="kpi">
     <div class="lbl">전체 예약</div>
-    <div class="num">33,131<span class="unit">건/일</span></div>
+    <div class="num">33,132<span class="unit">건/일</span></div>
     <div class="sub">14일 평균</div>
   </div>
   <div class="kpi">
     <div class="lbl">노출 조건 통과 예약</div>
-    <div class="num blue">1,317<span class="unit">건/일</span></div>
+    <div class="num blue">1,316<span class="unit">건/일</span></div>
     <div class="sub">전체의 4.0%. 조건 통과한 예약 수 (실제 노출 회원은 더 적음)</div>
   </div>
   <div class="kpi">
@@ -104,7 +104,7 @@
   <div class="kpi">
     <div class="lbl">조건 완화 모수 천장</div>
     <div class="num green">1.28<span class="unit">배</span></div>
-    <div class="sub">본 목적 유지 시 최대치 (반납 12-20시, 1,680건/일)</div>
+    <div class="sub">본 목적 유지 시 최대치 (반납 12-20시, 1,681건/일)</div>
   </div>
 </div>
 
@@ -116,18 +116,18 @@
 <div class="card">
   <div class="bar-row">
     <div class="lab">전체 예약</div>
-    <div class="bar-track"><div class="bar-fill" style="width:100%">33,131</div></div>
+    <div class="bar-track"><div class="bar-fill" style="width:100%">33,132</div></div>
     <div class="bar-loss base">기준</div>
   </div>
   <div class="bar-row">
     <div class="lab">왕복 + 취소되지 않은 예약</div>
-    <div class="bar-track"><div class="bar-fill" style="width:35.5%">11,748</div></div>
-    <div class="bar-loss">−64.5%</div>
+    <div class="bar-track"><div class="bar-fill" style="width:35.1%">11,640</div></div>
+    <div class="bar-loss">−64.9%</div>
   </div>
   <div class="bar-row">
     <div class="lab">리드타임 24시간 이내 생성</div>
-    <div class="bar-track"><div class="bar-fill" style="width:27.1%">8,981</div></div>
-    <div class="bar-loss">−23.6%</div>
+    <div class="bar-track"><div class="bar-fill" style="width:27.1%">8,980</div></div>
+    <div class="bar-loss">−22.9%</div>
   </div>
   <div class="bar-row">
     <div class="lab">반납 15-20시 + 대여 4시간 이상 <small style="color:#9ca3af">(출발 시간 조건 없음)</small></div>
@@ -136,14 +136,14 @@
   </div>
   <div class="bar-row">
     <div class="lab"><b>연휴 반납 제외 (조건 통과 예약)</b></div>
-    <div class="bar-track"><div class="bar-fill cur" style="width:4.0%">1,317</div></div>
+    <div class="bar-track"><div class="bar-fill cur" style="width:4.0%">1,316</div></div>
     <div class="bar-loss">−14.3%</div>
   </div>
   <div class="foot">
     <ul>
       <li><b>병목은 반납 시간대와 대여 길이 한 단계</b> (직전 모수의 83% 제거). 리드타임은 −23.6%로 영향 작음</li>
       <li>반납 시간은 서버 코드 기준 15:00~20:00 정각. 연휴 반납 제외는 토요일 반납 근사 (6월 공휴일 6/6이 토요일과 겹쳐 정확 계산과 동일)</li>
-      <li>실험군 50%, 유휴 슬롯, 차종, 결제차액, 쿠폰, 빈도는 리플리카 분리 불가로 제외. 실제 노출 회원은 1,317건보다 적음</li>
+      <li>실험군 50%, 유휴 슬롯, 차종, 결제차액, 쿠폰, 빈도는 리플리카 분리 불가로 제외. 실제 노출 회원은 1,316건보다 적음</li>
     </ul>
   </div>
   <div class="src">socar-data.tianjin_replica.reservation_info / job 48e8dd75. 조건 검증: socar-server PR #8047 UpsellingService.kt</div>
@@ -160,32 +160,32 @@
   </ul>
 </div>
 <div class="section-explain">
-  같은 14일 데이터에 반납 하한만 낮춰 재계산한 일평균 모수. 3차 조건 1,317건 기준 배수
+  같은 14일 데이터에 반납 하한만 낮춰 재계산한 일평균 모수. 3차 조건 1,316건 기준 배수
 </div>
 <div class="relax">
   <div class="item now">
     <div class="name">3차 조건 (종료 시점)</div>
     <div class="cond">반납 15-20시, 대여 4시간 이상, 리드 24h, 연휴 반납 제외</div>
-    <div class="big">1,317<span class="u"> 건/일</span></div>
+    <div class="big">1,316<span class="u"> 건/일</span></div>
     <div class="mult n">1.00배</div>
   </div>
   <div class="item">
     <div class="name">완화 1</div>
     <div class="cond">반납 하한 14시로 (자정까지 4-10시간 여유)</div>
     <div class="big">1,476<span class="u"> 건/일</span></div>
-    <div class="mult g">1.12배 (+159)</div>
+    <div class="mult g">1.12배 (+160)</div>
   </div>
   <div class="item">
     <div class="name">완화 2</div>
     <div class="cond">반납 하한 13시로 (자정까지 4-11시간 여유)</div>
-    <div class="big">1,596<span class="u"> 건/일</span></div>
-    <div class="mult g">1.21배 (+279)</div>
+    <div class="big">1,597<span class="u"> 건/일</span></div>
+    <div class="mult g">1.21배 (+281)</div>
   </div>
   <div class="item">
     <div class="name">완화 3</div>
     <div class="cond">반납 하한 12시로 (자정까지 4-12시간 여유)</div>
-    <div class="big">1,680<span class="u"> 건/일</span></div>
-    <div class="mult g">1.28배 (+363)</div>
+    <div class="big">1,681<span class="u"> 건/일</span></div>
+    <div class="mult g">1.28배 (+365)</div>
   </div>
 </div>
 <div class="foot">
@@ -265,9 +265,9 @@
 </div>
 <script>
 const L=['6/1 월','6/2 화','6/3 수','6/4 목','6/5 금','6/6 토','6/7 일','6/8 월','6/9 화','6/10 수','6/11 목','6/12 금','6/13 토','6/14 일'];
-const cur=[1589,1536,1822,1575,1066,684,1284,1622,1466,1488,1338,954,646,1365];
-const r13=[2048,1831,2072,1914,1249,873,1496,2012,1798,1818,1646,1123,860,1605];
-const r12=[2163,1905,2157,2043,1305,938,1577,2137,1892,1903,1726,1171,933,1677];
+const cur=[1590,1536,1822,1575,1066,684,1284,1621,1465,1486,1336,951,649,1364];
+const r13=[2049,1831,2072,1914,1249,873,1496,2011,1797,1817,1645,1122,864,1613];
+const r12=[2164,1905,2157,2043,1305,938,1577,2136,1891,1902,1725,1174,937,1683];
 new Chart(document.getElementById('c'),{
   data:{labels:L,datasets:[
     {type:'line',label:'완화 3 반납 12-20시 (가정)',data:r12,borderColor:'#059669',backgroundColor:'#059669',borderWidth:2,borderDash:[5,3],tension:0.3,pointRadius:2},
