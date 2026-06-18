@@ -79,6 +79,17 @@
 
   .foot-note { font-size:12px; color:#9ca3af; margin-top:8px; }
   .src { font-size:11px; color:#9ca3af; margin-top:14px; font-family:'SF Mono',Monaco,Consolas,monospace; }
+  details.ev { margin-top:14px; border:1px solid #e5e7eb; border-radius:10px; padding:12px 16px; background:#fafafa; }
+  details.ev summary { font-size:13px; font-weight:700; color:#374151; cursor:pointer; }
+  .fn { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+  .fn-row { display:grid; grid-template-columns:240px 1fr 80px; align-items:center; gap:14px; font-size:13px; color:#374151; }
+  .fn-track { background:#eef0f2; border-radius:5px; height:30px; overflow:hidden; }
+  .fn-bar { height:100%; background:#94a3b8; border-radius:5px; display:flex; align-items:center; padding-left:12px; color:#fff; font-weight:700; font-size:12px; min-width:48px; }
+  .fn-bar.hot { background:#dc2626; }
+  .fn-loss { font-size:12px; font-weight:800; color:#dc2626; text-align:right; }
+  .fn-loss.base { color:#9ca3af; font-weight:600; }
+  .ev .concl { margin-top:12px; font-size:13px; color:#374151; line-height:1.6; }
+  .ev .concl b { color:#dc2626; }
   details.cond { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px 20px; margin-top:30px; }
   details.cond summary { font-size:13px; font-weight:700; color:#374151; cursor:pointer; }
   .cond-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; font-size:12px; color:#4b5563; }
@@ -142,6 +153,17 @@
     <div class="bottleneck">
       현재 조건의 가장 큰 제약은 <b>반납 15-20시 + 대여 4시간 이상</b>. 이 한 단계에서 직전 모수의 83%가 걸러져, 전체 예약 33,132건 중 <b>1,316건(4%)</b>만 노출 자격이 됨
     </div>
+    <details class="ev">
+      <summary>왜 반납 시간을 완화 대상으로 골랐나 — 단계별 모수 분석 (펼치기)</summary>
+      <div class="fn">
+        <div class="fn-row"><div>전체 예약</div><div class="fn-track"><div class="fn-bar" style="width:100%">33,132</div></div><div class="fn-loss base">기준</div></div>
+        <div class="fn-row"><div>왕복 + 미취소</div><div class="fn-track"><div class="fn-bar" style="width:35.1%">11,640</div></div><div class="fn-loss">−64.9%</div></div>
+        <div class="fn-row"><div>리드타임 24시간 이내</div><div class="fn-track"><div class="fn-bar" style="width:27.1%">8,980</div></div><div class="fn-loss">−22.9%</div></div>
+        <div class="fn-row"><div><b>반납 15-20시 + 대여 4시간 이상</b></div><div class="fn-track"><div class="fn-bar hot" style="width:4.6%">1,536</div></div><div class="fn-loss">−82.9%</div></div>
+        <div class="fn-row"><div>연휴 반납 제외</div><div class="fn-track"><div class="fn-bar" style="width:4.0%">1,316</div></div><div class="fn-loss">−14.3%</div></div>
+      </div>
+      <div class="concl">리드타임 단계는 −22.9%로 영향이 작은 반면, <b>반납 시간대 + 대여 길이 단계가 −82.9%로 가장 크게 깎음</b>. 모수를 가장 많이 줄이는 이 단계를 풀어야 효과가 커서, 완화 대상으로 반납 시간을 선택</div>
+    </details>
     <div class="foot-note">막대는 6/1~6/14 예약에 각 단계 조건을 대입한 일평균 모수 (실제 노출 회원은 실험군 50%·차종·결제차액 등으로 이보다 적음). 다음 단계는 미적용 가정</div>
     <div class="src">socar-data.tianjin_replica.reservation_info / job 4fd5cff3</div>
   </div>
