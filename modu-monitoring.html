@@ -141,9 +141,8 @@
   </div>
   <div class="foot">
     <ul>
-      <li><b>병목은 반납 시간대와 대여 길이 한 단계</b> (직전 모수의 83% 제거). 리드타임은 −23.6%로 영향 작음</li>
-      <li>반납 시간은 서버 코드 기준 15:00~20:00 정각. 연휴 반납 제외는 토요일 반납 근사 (6월 공휴일 6/6이 토요일과 겹쳐 정확 계산과 동일)</li>
-      <li>실험군 50%, 유휴 슬롯, 차종, 결제차액, 쿠폰, 빈도는 리플리카 분리 불가로 제외. 실제 노출 회원은 1,316건보다 적음</li>
+      <li><b>병목은 반납 시간대와 대여 길이 한 단계</b> (직전 모수의 83% 제거)</li>
+      <li>실험군 50%, 차종, 결제차액, 쿠폰, 빈도 등이 추가로 걸러져 <b>실제 노출 회원은 1,316건보다 적음</b></li>
     </ul>
   </div>
   <div class="src">socar-data.tianjin_replica.reservation_info / job 48e8dd75. 조건 검증: socar-server PR #8047 UpsellingService.kt</div>
@@ -152,11 +151,10 @@
 <!-- 완화 시뮬 -->
 <div class="section-label">조건 완화 시뮬레이션 <span class="tag">BQ 실측 재계산</span></div>
 <div class="premise">
-  <div class="pt">완화 범위를 반납 하한으로 한정한 이유</div>
+  <div class="pt">완화는 반납 하한만 낮춤</div>
   <ul>
-    <li>시간연장은 반납 후 자정까지 비어있는 유휴 시간을 채우는 옵션</li>
-    <li>반납 상한 20시는 자정까지 최소 4시간 유휴 확보용. 21시 이후나 새벽 반납은 연장 가치 없음</li>
-    <li><b>따라서 상한 20시 유지, 반납 하한만 낮춰 시뮬</b></li>
+    <li>반납 상한(20시)을 풀면 늦은 밤이나 새벽 반납이 늘어 자정까지 시간이 안 남음 (연장 가치 없음)</li>
+    <li><b>그래서 상한은 두고 하한만 낮춰 시뮬</b></li>
   </ul>
 </div>
 <div class="section-explain">
@@ -196,18 +194,12 @@
   </ul>
 </div>
 
-<!-- 일별 추이 -->
-<div class="section-label">예약일자별 조건 충족 예약 수</div>
+<!-- 요일별 평균 -->
+<div class="section-label">요일별 평균 모수 (3차 조건 대입)</div>
 <div class="card">
   <div class="chart-wrap"><canvas id="c"></canvas></div>
-  <div class="foot">
-    <ul>
-      <li><b>시간연장 실험은 6/3 종료, 현재 미노출.</b> 이 차트는 실제 노출이 아니라 6/1~6/14 예약에 3차 조건을 대입한 노출 자격 예약 수 (재실험 시 예상 모수)</li>
-      <li>회색 막대는 3차 조건 대입, 점선은 반납 하한 완화 가정값</li>
-      <li>토요일(6/6 현충일, 6/13)은 연휴 반납 제외와 당일 출발 비중으로 모수가 평일의 약 절반</li>
-    </ul>
-  </div>
-  <div class="src">socar-data.tianjin_replica.reservation_info / job 395f61a2</div>
+  <div class="foot"><b>실험은 6/3 종료, 현재 미노출.</b> 6/1~6/14 예약에 3차 조건을 대입한 노출 자격 예약 수의 요일별 평균(재실험 시 예상치). 토요일은 연휴 반납 제외로 평일의 절반</div>
+  <div class="src">socar-data.tianjin_replica.reservation_info / job fb39399a</div>
 </div>
 
 <!-- 논의 포인트 -->
@@ -264,23 +256,15 @@
 
 </div>
 <script>
-const L=['6/1 월','6/2 화','6/3 수','6/4 목','6/5 금','6/6 토','6/7 일','6/8 월','6/9 화','6/10 수','6/11 목','6/12 금','6/13 토','6/14 일'];
-const cur=[1590,1536,1822,1575,1066,684,1284,1621,1465,1486,1336,951,649,1364];
-const r13=[2049,1831,2072,1914,1249,873,1496,2011,1797,1817,1645,1122,864,1613];
-const r12=[2164,1905,2157,2043,1305,938,1577,2136,1891,1902,1725,1174,937,1683];
+const L=['월','화','수','목','금','토','일'];
+const cur=[1606,1501,1654,1456,1009,667,1324];
+const bg=['rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(37,99,235,0.78)','rgba(220,38,38,0.45)','rgba(37,99,235,0.78)'];
 new Chart(document.getElementById('c'),{
-  data:{labels:L,datasets:[
-    {type:'line',label:'완화 3 반납 12-20시 (가정)',data:r12,borderColor:'#059669',backgroundColor:'#059669',borderWidth:2,borderDash:[5,3],tension:0.3,pointRadius:2},
-    {type:'line',label:'완화 2 반납 13-20시 (가정)',data:r13,borderColor:'#2563eb',backgroundColor:'#2563eb',borderWidth:2,borderDash:[5,3],tension:0.3,pointRadius:2},
-    {type:'bar',label:'3차 조건 (반납 15-20시)',data:cur,backgroundColor:'rgba(148,163,184,0.75)',borderColor:'rgb(148,163,184)',borderWidth:1,borderRadius:4}
-  ]},
+  type:'bar',
+  data:{labels:L,datasets:[{label:'노출 자격 예약 (3차 조건)',data:cur,backgroundColor:bg,borderWidth:0,borderRadius:6}]},
   options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{font:{size:12,weight:600},padding:12}},
-      annotation:{annotations:{
-        s1:{type:'box',xMin:5.5,xMax:6.5,backgroundColor:'rgba(220,38,38,0.05)',borderWidth:0},
-        s2:{type:'box',xMin:12.5,xMax:13.5,backgroundColor:'rgba(220,38,38,0.05)',borderWidth:0}
-      }}},
-    scales:{x:{ticks:{font:{size:11}}},y:{beginAtZero:true,title:{display:true,text:'노출 후보 예약 (건/일)',font:{size:12}},grid:{color:'#f3f4f6'},ticks:{font:{size:11}}}}
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:(c)=>c.parsed.y+'건/일'}}},
+    scales:{x:{ticks:{font:{size:15,weight:700}}},y:{beginAtZero:true,title:{display:true,text:'예약 수 (건/일)',font:{size:12}},grid:{color:'#f3f4f6'},ticks:{font:{size:11}}}}
   }
 });
 </script>
