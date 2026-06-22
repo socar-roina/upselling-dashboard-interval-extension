@@ -18,7 +18,7 @@
   .block-h .no { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#111827; color:#fff; font-size:14px; font-weight:800; }
   .card { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px 26px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
 
-  /* ① 3색 결과 */
+  /* 결과 3색 */
   .res { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
   .res .it { border-radius:12px; padding:18px 20px; }
   .res .it.ok { background:#f0fdf4; border:1px solid #86efac; }
@@ -31,7 +31,7 @@
   .res .txt { font-size:14px; color:#374151; line-height:1.6; }
   .res .txt b { color:#111827; }
 
-  /* ② 흐름 */
+  /* 흐름 */
   .flow { display:flex; flex-direction:column; gap:11px; }
   .flow-row { display:grid; grid-template-columns:230px 1fr 110px; align-items:center; gap:16px; }
   .flow-lab { font-size:14px; color:#374151; }
@@ -48,7 +48,7 @@
   .bottleneck { margin-top:16px; padding:13px 17px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; font-size:14px; color:#374151; }
   .bottleneck b { color:#dc2626; }
 
-  /* ③ 다음 실험 */
+  /* 다음 운영 */
   .next-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
   .next-box { border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; }
   .next-box.hl { border:2px solid #059669; background:#ecfdf5; }
@@ -62,14 +62,14 @@
   .price .p .pv { font-size:20px; font-weight:900; color:#111827; }
   .price .p .pn { font-size:11px; color:#9ca3af; margin-top:4px; }
 
-  /* ④ 비유 */
+  /* 비유 */
   .why { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px 26px; }
   .why ul { margin:0; padding-left:20px; }
   .why li { font-size:15px; color:#374151; line-height:1.8; margin-bottom:6px; }
   .why li b { color:#111827; }
   .why .punch { margin-top:14px; padding:14px 18px; background:#eff6ff; border-radius:10px; font-size:15px; font-weight:800; color:#1d4ed8; }
 
-  /* ⑤ 정규화 */
+  /* 정규화 */
   .decide { background:#ecfdf5; border:1px solid #a7f3d0; border-radius:14px; padding:22px 26px; }
   .decide .row { margin-bottom:14px; }
   .decide .row:last-child { margin-bottom:0; }
@@ -107,9 +107,13 @@
   <div class="sub">ABT 실험 6/3 종료. 추가 운영(PoC)과 정규화 검토용. 데이터 2026-06-01 ~ 06-14 일평균 (추출 06-18), BigQuery reservation_info 실측</div>
 </header>
 
-<!-- ① 실험 결과 -->
+<div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:14px 18px;margin-top:16px;font-size:13px;color:#374151;line-height:1.75">
+  <b style="color:#111827">한눈에</b> &nbsp;ABT 실험(1~3차)으로 수요와 무해성은 확인. 핵심 가치인 가동률은 통계 입증이 구조적으로 불가능하여, 다음은 실험이 아니라 조건을 풀어 모수와 매출을 키우는 운영 확대(PoC)로 진행
+</div>
+
+<!-- 1. ABT 실험 결과 -->
 <div class="block">
-  <div class="block-h"><span class="no">1</span>실험 결과</div>
+  <div class="block-h"><span class="no">1</span>ABT 실험 결과 (1~3차)</div>
   <div class="res" style="grid-template-columns:repeat(2,1fr)">
     <div class="it ok">
       <div class="tag">수요 확인</div>
@@ -122,9 +126,50 @@
   </div>
 </div>
 
-<!-- ② 조건 완화 흐름 + 현재 모수 -->
+<!-- 2. 가동률 한계 -->
 <div class="block">
-  <div class="block-h"><span class="no">2</span>조건을 풀어온 흐름과 현재 모수</div>
+  <div class="block-h"><span class="no">2</span>가동률 효과를 통계로 못 보는 이유</div>
+  <div class="why">
+    <ul>
+      <li>효과를 보려면 <b>옵션 띄운 차와 안 띄운 차의 가동률을 비교</b>해야 함</li>
+      <li>그런데 실제 수락이 <b>320건뿐</b>. 동전을 10번 던져 6번 앞면이 나와도 "이 동전은 앞면이 잘 나온다"고 못 하듯, 횟수가 적으면 진짜 효과인지 우연인지 가릴 수 없음</li>
+      <li>조건을 풀어도 모수가 <b>1.3배가 천장</b>이라, 이 "횟수 부족"이 풀리지 않음</li>
+    </ul>
+    <div class="punch">시간연장 실험만으로는 가동률 효과를 통계로 입증할 수 없음</div>
+    <details class="ev" style="margin-top:16px">
+      <summary>왜 모수를 풀어도 1.3배가 천장인가 (펼치기)</summary>
+      <div class="fn">
+        <div class="fn-row"><div>현재 (반납 15-20시)</div><div class="fn-track"><div class="fn-bar" style="width:32%">1,316</div></div><div class="fn-loss base">기준</div></div>
+        <div class="fn-row"><div><b>반납 하한 12시까지</b></div><div class="fn-track"><div class="fn-bar ok" style="width:41%">1,682</div></div><div style="font-size:12px;font-weight:800;color:#059669;text-align:right">1.28배</div></div>
+        <div class="fn-row"><div>반납 시간 제한 전부 제거</div><div class="fn-track"><div class="fn-bar dead" style="width:100%">4,108</div></div><div style="font-size:12px;font-weight:800;color:#9ca3af;text-align:right">3.12배<br>무효</div></div>
+      </div>
+      <div class="concl" style="color:#374151"><b style="color:#111827">반납 하한을 낮추는 것</b>이 쓸 수 있는 최대로 1.28배. 상한(밤)까지 풀면 3배가 넘지만, 늦은 밤이나 새벽 반납은 자정까지 연장할 시간이 없어 <b style="color:#111827">가치가 없어 무효</b>. 빈도(수락 후 7일) 완화도 하루 2~3건뿐이라, 어느 레버로도 1.3배를 못 넘음</div>
+    </details>
+  </div>
+</div>
+
+<!-- 3. 정규화 판단 -->
+<div class="block">
+  <div class="block-h"><span class="no">3</span>정규화 판단</div>
+  <div class="decide">
+    <div class="row">
+      <div class="rt">통계 입증은 전제에서 제외</div>
+      <div class="rb">가동률 효과 입증은 구조적으로 불가능(②). 입증을 기다리는 것은 의미 없으므로 정규화의 조건에서 뺌</div>
+    </div>
+    <div class="row">
+      <div class="rt">대신 확인된 근거로 판단</div>
+      <div class="rb"><b>수요 약 29%</b> + <b>예약 전환 무해</b> + <b>수락 건당 확정 매출</b>(고정가). 정규화 결정에 충분</div>
+    </div>
+    <div class="row">
+      <div class="rt">다음 단계</div>
+      <div class="rb">통계 검증이 아니라 운영 확대로 전환(PoC). 조건 완화(반납 12-15시)와 차등가로 모수와 매출 동시 확대, 12,900원 수락률만 실측해 확정</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. 조건 완화 흐름 + 현재 모수 -->
+<div class="block">
+  <div class="block-h"><span class="no">4</span>조건을 풀어온 흐름과 현재 모수</div>
   <div class="card">
     <div class="flow">
       <div class="flow-row">
@@ -167,9 +212,9 @@
   </div>
 </div>
 
-<!-- ③ 다음 실험 조건 -->
+<!-- 5. 다음 운영 조건 (PoC) -->
 <div class="block">
-  <div class="block-h"><span class="no">3</span>다음 운영 조건 (PoC): 반납 12-15시 추가</div>
+  <div class="block-h"><span class="no">5</span>다음 운영 조건 (PoC): 반납 12-15시 추가</div>
   <div class="card">
     <div class="next-grid">
       <div class="next-box hl">
@@ -227,49 +272,8 @@
           </ul>
         </details>
 
-        <div style="font-size:11.5px;color:#9ca3af;margin-top:16px;line-height:1.6">운영은 대조군 없이 전체 노출(PoC). 가동률 순증은 통계 입증이 불가능하여 측정에서 제외(④ 참조)</div>
+        <div style="font-size:11.5px;color:#9ca3af;margin-top:16px;line-height:1.6">운영은 대조군 없이 전체 노출(PoC). 가동률 순증은 통계 입증이 불가능하여 측정에서 제외(② 참조)</div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ④ 가동률 한계 -->
-<div class="block">
-  <div class="block-h"><span class="no">4</span>가동률 효과를 통계로 못 보는 이유</div>
-  <div class="why">
-    <ul>
-      <li>효과를 보려면 <b>옵션 띄운 차와 안 띄운 차의 가동률을 비교</b>해야 함</li>
-      <li>그런데 실제 수락이 <b>320건뿐</b>. 동전을 10번 던져 6번 앞면이 나와도 "이 동전은 앞면이 잘 나온다"고 못 하듯, 횟수가 적으면 진짜 효과인지 우연인지 가릴 수 없음</li>
-      <li>조건을 풀어도 모수가 <b>1.3배가 천장</b>이라, 이 "횟수 부족"이 풀리지 않음</li>
-    </ul>
-    <div class="punch">시간연장 실험만으로는 가동률 효과를 통계로 입증할 수 없음</div>
-    <details class="ev" style="margin-top:16px">
-      <summary>왜 모수를 풀어도 1.3배가 천장인가 (펼치기)</summary>
-      <div class="fn">
-        <div class="fn-row"><div>현재 (반납 15-20시)</div><div class="fn-track"><div class="fn-bar" style="width:32%">1,316</div></div><div class="fn-loss base">기준</div></div>
-        <div class="fn-row"><div><b>반납 하한 12시까지</b></div><div class="fn-track"><div class="fn-bar ok" style="width:41%">1,682</div></div><div style="font-size:12px;font-weight:800;color:#059669;text-align:right">1.28배</div></div>
-        <div class="fn-row"><div>반납 시간 제한 전부 제거</div><div class="fn-track"><div class="fn-bar dead" style="width:100%">4,108</div></div><div style="font-size:12px;font-weight:800;color:#9ca3af;text-align:right">3.12배<br>무효</div></div>
-      </div>
-      <div class="concl" style="color:#374151"><b style="color:#111827">반납 하한을 낮추는 것</b>이 쓸 수 있는 최대로 1.28배. 상한(밤)까지 풀면 3배가 넘지만, 늦은 밤이나 새벽 반납은 자정까지 연장할 시간이 없어 <b style="color:#111827">가치가 없어 무효</b>. 빈도(수락 후 7일) 완화도 하루 2~3건뿐이라, 어느 레버로도 1.3배를 못 넘음</div>
-    </details>
-  </div>
-</div>
-
-<!-- ⑤ 정규화 판단 -->
-<div class="block">
-  <div class="block-h"><span class="no">5</span>정규화 판단</div>
-  <div class="decide">
-    <div class="row">
-      <div class="rt">통계 입증은 전제에서 제외</div>
-      <div class="rb">가동률 효과 입증은 구조적으로 불가능(④). 입증을 기다리는 것은 의미 없으므로 정규화의 조건에서 뺌</div>
-    </div>
-    <div class="row">
-      <div class="rt">대신 확인된 근거로 판단</div>
-      <div class="rb"><b>수요 약 29%</b> + <b>예약 전환 무해</b> + <b>수락 건당 확정 매출</b>(고정가). 정규화 결정에 충분</div>
-    </div>
-    <div class="row">
-      <div class="rt">기대</div>
-      <div class="rb">조건 완화(반납 12-15시)와 차등가로 모수와 매출 동시 확대. 12,900원 수락률만 실측해 확정</div>
     </div>
   </div>
 </div>
