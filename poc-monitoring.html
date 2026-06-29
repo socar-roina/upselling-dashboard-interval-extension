@@ -80,7 +80,7 @@ summary:hover { color: #2563eb; }
   <div class="updated">
     최종 갱신 <b>2026-06-29 KST</b><br>
     <span>배포 2026-06-25 (CR-11220, CSP-2396)</span><br>
-    <span style="color:#9ca3af">노출은 6/28까지 집계 (웹 이벤트 D+1 적재), 수락은 6/29까지<br>예약 기반 지표는 이후 소폭 변동 가능</span>
+    <span style="color:#9ca3af">노출은 6/28까지 집계 (웹 이벤트 D+1 적재), 수락은 6/29까지<br>종료 기준: 신규 12-15시 구간 노출 약 380명 도달 또는 배포일+2주 중 빠른 시점<br>예약 기반 지표는 이후 소폭 변동 가능</span>
   </div>
 </div>
 
@@ -113,15 +113,18 @@ summary:hover { color: #2563eb; }
     <div class="card-title">기존 15-20시(4,900원)와 신규 12-15시(12,900원) 구간 비교</div>
     <div class="card-sub">수락 건의 결제 meta(content_token)에서 customerSurcharge로 구간을 구분. 신규 12,900원 구간이 비싼 추가금에도 수락되는지가 이 PoC의 핵심 확인 지표</div>
     <table class="data-table">
-      <thead><tr><th>구간</th><th>추가금</th><th class="num">수락 (결제)</th><th class="num">취소 제외 순</th></tr></thead>
+      <thead><tr><th>구간 (반납 시간대)</th><th>추가금</th><th class="num">수락 (결제)</th><th class="num">취소</th><th class="num">취소 제외 순</th><th class="num">순매출</th></tr></thead>
       <tbody>
-        <tr><td class="dt">기존 15-20시 반납</td><td>4,900원</td><td class="num">161건</td><td class="num">125건</td></tr>
-        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">신규 12-15시 반납</td><td>12,900원</td><td class="num" style="color:#b45309">9건</td><td class="num" style="color:#b45309">7건</td></tr>
-        <tr class="total"><td class="dt">합계</td><td></td><td class="num">170건</td><td class="num">132건</td></tr>
+        <tr><td class="dt">기존 15-20시 반납</td><td>4,900원</td><td class="num">161건</td><td class="num">36건</td><td class="num">125건</td><td class="num">612,500원</td></tr>
+        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">신규 12-15시 반납</td><td>12,900원</td><td class="num" style="color:#b45309">9건</td><td class="num">2건</td><td class="num" style="color:#b45309">7건</td><td class="num">90,300원</td></tr>
+        <tr class="total"><td class="dt">합계</td><td></td><td class="num">170건</td><td class="num">38건</td><td class="num">132건</td><td class="num">702,800원</td></tr>
       </tbody>
     </table>
-    <div style="margin-top:14px" class="wait-box">
-      <b>신규 12,900원 구간은 아직 9건으로 표본 부족.</b> PoC 목표는 이 구간 노출 약 380명까지 모아 수락률을 오차 ±5%p로 확인하는 것으로, 현재는 수락률 판단 전 단계임. 노출 로그에 구간 정보가 없어 12-15시 구간만의 노출 분모는 직접 집계 불가하며, 누적 수락 건수로 진척을 추적함
+    <div style="margin-top:14px;background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #059669;border-radius:8px;padding:13px 16px;font-size:13px;line-height:1.7;color:#065f46">
+      <b>가격 로직이 의도대로 작동 확인.</b> 수락 건의 결제 토큰을 원래 예약 반납시간으로 분해하면, 4,900원은 전부 반납 15-20시, 12,900원은 전부 반납 12-15시로 구간과 가격이 정확히 일치함
+    </div>
+    <div style="margin-top:12px" class="wait-box">
+      <b>신규 12,900원 구간은 아직 9건으로 표본 부족.</b> PoC 목표는 이 구간 노출 약 380명까지 모아 수락률을 오차 ±5%p로 확인하는 것으로, 현재는 수락률 판단 전 단계임. 노출 로그에 구간 정보가 없어 12-15시 구간만의 노출 분모는 직접 집계 불가하여, 수락률 대신 누적 수락 건수로 진척을 추적함 (목표 노출 380명 도달 또는 배포일+2주 중 빠른 시점에 종료)
     </div>
   </div>
 
@@ -194,6 +197,18 @@ SELECT SAFE_CAST(JSON_VALUE(SAFE.PARSE_JSON(d),'$.customerSurcharge') AS INT64) 
   COUNT(DISTINCT IF(cancel_at IS NULL, reservation_id, NULL)) AS active_resv
 FROM te GROUP BY surcharge ORDER BY surcharge
 -- 결과: 4900 -> 수락 161 / 순 125, 12900 -> 수락 9 / 순 7</div>
+      </details>
+      <details>
+        <summary>3. 구간(가격)과 반납시간 일치 검증</summary>
+        <div class="query-block">-- JWT payload의 originalInterval.end(원래 예약 반납시각)를 KST 시로 변환해 구간과 대조
+-- te는 위 2번과 동일
+SELECT
+  SAFE_CAST(JSON_VALUE(SAFE.PARSE_JSON(d),'$.customerSurcharge') AS INT64) AS surcharge,
+  EXTRACT(HOUR FROM DATETIME(TIMESTAMP(
+    JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.originalInterval.end')),'Asia/Seoul')) AS return_hour,
+  COUNT(DISTINCT reservation_id) AS resv
+FROM te GROUP BY surcharge, return_hour ORDER BY surcharge, return_hour
+-- 결과: 4900 -> 반납 15~20시만, 12900 -> 반납 12~14시만 (가격 로직 정상)</div>
       </details>
     </div>
   </details>
