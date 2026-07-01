@@ -246,20 +246,24 @@ GROUP BY period ORDER BY period
 -- 주의: CONTAINS_SUBSTR('ut:i')는 이스케이프 인코딩(ut\:\i) 누락. 정규식으로 잡아야 함</div>
       </details>
       <details>
-        <summary>5. 완화 전후 제안 뷰의 버킷 분포 (무노출 대조군 점검)</summary>
-        <div class="query-block">WITH v AS (
-  SELECT DISTINCT member_id,
+        <summary>5. 버킷별 시간연장 노출 비율 (무노출 대조군 점검)</summary>
+        <div class="query-block">-- 회원을 반반 나눈 두 그룹에서, 전체뷰 대비 시간연장 노출 비율이 비슷한지 확인
+-- 한쪽이 0에 가까우면 무노출 대조군, 비슷하면 대조군 없음
+WITH base AS (
+  SELECT member_id, form_data,
     CASE WHEN event_date_kst BETWEEN '2026-05-21' AND '2026-06-02' THEN 'pre'
-         WHEN event_date_kst BETWEEN '2026-06-25' AND '2026-06-29' THEN 'post' END AS period
+         WHEN event_date_kst BETWEEN '2026-06-25' AND '2026-06-29' THEN 'post' END AS period,
+    CASE WHEN MOD(ABS(FARM_FINGERPRINT(CONCAT(member_id,'TIME_EXTENSION'))),100)<50
+         THEN 'A' ELSE 'B' END AS bucket
   FROM `socar-data.app_web_log.socar_app_web_log`
   WHERE page_name='upsell_bottomsheet' AND event_name='view'
-    AND ( REGEXP_CONTAINS(form_data,'intervalUpselling')
-       OR REGEXP_EXTRACT(form_data, r'ut\\??:\\??([a-z]+)')='i' ))
-SELECT period,
-  CASE WHEN MOD(ABS(FARM_FINGERPRINT(CONCAT(member_id,'TIME_EXTENSION'))),100)<50
-       THEN '실험군' ELSE '대조군' END AS bucket, COUNT(*) AS members
-FROM v WHERE period IS NOT NULL GROUP BY period, bucket ORDER BY period, bucket
--- 결과: pre 실험493/대조437, post 실험328/대조327 (양쪽 노출, 버킷 홀드아웃 아님)</div>
+    AND event_date_kst BETWEEN '2026-05-21' AND '2026-06-29')
+SELECT period, bucket,
+  COUNT(DISTINCT member_id) AS total_view_m,
+  COUNT(DISTINCT IF(CONTAINS_SUBSTR(form_data,'intervalUpselling')
+    OR REGEXP_EXTRACT(form_data, r'ut\\??:\\??([a-z]+)')='i', member_id, NULL)) AS interval_view_m
+FROM base WHERE period IS NOT NULL GROUP BY period, bucket ORDER BY period, bucket
+-- 결과 노출비율: pre A 1.4%(493/34521) B 1.3%(437/34538), post A 1.8%(328/17687) B 1.8%(327/17792)</div>
       </details>
       <details>
         <summary>6. 반납 요일별 수락 (주말 수요 확인)</summary>
@@ -293,7 +297,7 @@ FROM te GROUP BY return_dow ORDER BY active DESC
       <li><b>제안 뷰 규모.</b> 일평균 약 74명에서 약 133명으로 약 1.8배. 전체뷰(약 8천) 분모를 걷어낸 침투율로도 1.0%에서 1.6%로 상승</li>
       <li class="warn"><b>예외존 축소 미반영(핵심).</b> 예외존이 약 1,600개에서 600개로 줄 예정이나 아직 미반영(인프라 티켓 대기). 반영되면 노출 모수가 약 2배 늘 것으로 예상되며, 현재 노출이 낮은 가장 큰 원인</li>
       <li><b>신규 12,900원 구간.</b> 반납 12~14시에만 잡혀 조건은 정상 반영. 다만 순수락 9건으로 전체의 약 5% 수준이라 물량은 작음</li>
-      <li><b>버킷 분포.</b> 완화 전에도 제안 뷰가 실험군 493명, 대조군 437명으로 양쪽에서 발생. 버킷을 노출에서 빼둔 형태는 아님(무노출 대조군 유무는 실험 설계 확인)</li>
+      <li><b>대조군 효과는 아님.</b> 완화 전에도 회원을 반반 나눈 두 그룹 모두에 시간연장이 비슷하게 노출됨(493명 대 437명). 한쪽을 아예 안 보여준 무노출 대조군은 없었음. "대조군 없앤 만큼 늘었다"는 설명은 맞지 않음</li>
     </ul>
   </div>
 
@@ -310,21 +314,23 @@ FROM te GROUP BY return_dow ORDER BY active DESC
     <div style="font-size:11px;color:#9ca3af;margin-top:10px;line-height:1.6">지표는 제안 뷰 회원(결제 직전 시간연장 제안 화면을 본 회원). 제안 뷰 로그는 5/21부터 적재되어 그 이전은 표시하지 않음</div>
   </div>
 
-  <div class="group-label">2. 대조군 착시 검증 <span>완화 전 제안 뷰의 버킷 분포</span></div>
-  <div class="section-label">완화 전에도 실험군 대조군 양쪽에서 노출됨 <span class="tag tag-fact">실측</span></div>
+  <div class="group-label">2. 대조군 없앤 효과인지 확인 <span>두 그룹의 시간연장 노출 비율</span></div>
+  <div class="section-label">한쪽만 빼둔 무노출 대조군은 없었음 <span class="tag tag-fact">실측</span></div>
   <div class="card">
-    <div class="card-title">특정 버킷을 노출에서 빼둔 형태로는 보이지 않음</div>
-    <div class="card-sub">완화 전 제안 뷰 회원을 TIME_EXTENSION 실험 버킷으로 나눠 보면 실험군과 대조군에 고르게 분포. 완화로 그동안 노출되지 않던 대조군이 새로 들어온 것으로 보기는 어려움</div>
+    <div class="card-title">완화 전에도 두 그룹 모두 비슷하게 노출됨</div>
+    <div class="card-sub">
+      회원을 거의 반반(각 약 3.4만명)으로 나눈 두 그룹에서, 시간연장 제안이 뜬 회원 수를 비교<br>
+      한쪽을 대조군으로 안 보여줬다면 그 그룹은 0에 가까워야 하는데, 실제로는 양쪽 다 비슷하게 노출됨
+    </div>
     <table class="data-table" style="margin-top:4px">
-      <thead><tr><th>기간</th><th class="num">실험군 (버킷 0~49)</th><th class="num">대조군 (버킷 50~99)</th><th class="num">제안 뷰 회원 합계</th></tr></thead>
+      <thead><tr><th>기간</th><th class="num">그룹 A 시간연장 노출</th><th class="num">그룹 B 시간연장 노출</th></tr></thead>
       <tbody>
-        <tr><td class="dt">완화 전 (5/21~6/2)</td><td class="num">493</td><td class="num">437</td><td class="num">930</td></tr>
-        <tr><td class="dt">완화 후 (6/25~6/29)</td><td class="num">328</td><td class="num">327</td><td class="num">655</td></tr>
+        <tr><td class="dt">완화 전 (5/21~6/2)</td><td class="num">493명</td><td class="num">437명</td></tr>
+        <tr><td class="dt">완화 후 (6/25~6/29)</td><td class="num">328명</td><td class="num">327명</td></tr>
       </tbody>
     </table>
-    <div class="wait-box" style="margin-top:14px">
-      <b>참고</b><br>이 검증은 TIME_EXTENSION 실험 버킷 기준. 다른 방식의 무노출 대조군이 설계에 있었는지는 로그만으로는 확인이 어려워, 실험 설계를 올라프와 함께 보면 좋음<br>버킷은 임의 해시 분할이라 어떤 실험이든 대체로 반반으로 나뉨. 반반이라는 사실 자체보다, 완화 전에도 양쪽에서 노출이 있었다는 점을 근거로 봄
-    </div>
+    <div class="wait-box" style="margin-top:14px">양쪽 다 수백 명씩 노출됐으므로, "한쪽 대조군을 안 보여주다 완화 때 풀어서 늘었다"는 설명은 맞지 않음. 완화 전에도 시간연장은 전체 대상에 노출되고 있었음</div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.6">그룹은 TIME_EXTENSION 실험용으로 회원을 반반 나눈 것</div>
   </div>
 
   <div class="group-label">3. 완화 전후 규모 <span>제안 뷰 회원 일평균</span></div>
@@ -338,10 +344,9 @@ FROM te GROUP BY return_dow ORDER BY active DESC
       <div class="e"><div class="n green">약 1.8배</div><div class="l">일평균 증가</div></div>
     </div>
     <div style="margin-top:14px" class="wait-box">
-      <b>완전히 같은 조건의 비교는 아님</b><br>
-      6/25 배포에는 12-15시 신규 구간과 반납 조건만 반영. 예외존 축소는 아직 미반영이라 지금 증가폭은 그 효과가 빠진 상태<br>
-      완화 후 일별로도 54명에서 212명까지 편차가 있어, 며칠만 보면 변동이 작아 보일 수 있음<br>
-      절대 규모가 아직 작은 편이라, 자격 대상 병목은 함께 볼 필요
+      <b>완화 폭에 비해 덜 늘어난 이유</b><br>
+      가장 큰 지렛대인 예외존 축소(1,600개에서 600개)가 아직 미반영이라, 대상을 크게 넓히는 효과가 빠져 있음<br>
+      신규 12-15시 구간은 반납 12~14시 예약만 대상이라 물량 자체가 작음(순수락 9건). 지금 늘어난 건 대부분 기존 15-20시 구간
     </div>
   </div>
 
