@@ -272,13 +272,13 @@ FROM te GROUP BY return_dow ORDER BY active DESC
     <div class="ct">한 줄 결론</div>
     <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">신규 구간과 반납 조건은 반영됨. 완화의 핵심인 예외존 축소는 아직 미반영이라, 이게 반영되면 노출 대상이 크게 넓어질 여지가 큼</div>
     <ul>
-      <li class="warn"><b>예외존 축소 미반영(핵심).</b> 예외존이 약 1,600개에서 600개로 줄 예정이나 아직 미반영. 반영되면 노출 모수가 약 2배 늘 것으로 보이며, 지금 노출이 낮은 가장 큰 원인</li>
-      <li><b>제안 뷰 규모.</b> 일평균 74명에서 133명으로 약 1.8배. 전체뷰 분모를 걷어낸 침투율로도 1.0%에서 1.6%로 상승</li>
-      <li><b>신규 12,900원 구간.</b> 조건은 정상 반영. 다만 취소 제외 수락은 9건으로 아직 적음</li>
+      <li class="warn"><b>예외존 축소가 아직 안 들어감(핵심).</b> 노출 안 하는 예외존을 약 1,600개에서 600개로 줄일 예정인데 아직 반영 전. 반영되면 노출 대상이 약 2배로 늘 것으로 보이고, 지금 노출이 적은 가장 큰 원인</li>
+      <li><b>노출은 늘었음.</b> 하루 평균 74명에서 133명으로 약 1.8배. 전체 이용자 대비 비율로 봐도 1.0%에서 1.6%로 늘어남</li>
+      <li><b>신규 12,900원 구간은 정상 작동.</b> 조건대로 잘 붙었고, 다만 아직 수락이 9건(취소 제외)으로 적음</li>
     </ul>
   </div>
 
-  <div class="group-label">1. 노출 타임라인 <span>시간연장 제안 뷰 회원 일별</span></div>
+  <div class="group-label">1. 노출 타임라인 <span>시간연장 노출 회원 일별</span></div>
   <div class="section-label">이전 운영기와 완화 후를 비교 (중간 노출 중단기는 제외) <span class="tag tag-fact">실측</span></div>
   <div class="card">
     <div class="card-sub">
@@ -288,15 +288,15 @@ FROM te GROUP BY return_dow ORDER BY active DESC
     <div class="chart-wrap" style="height:320px"><canvas id="anaTimeline"></canvas></div>
   </div>
 
-  <div class="group-label">2. 완화 전후 규모 <span>제안 뷰 회원 일평균</span></div>
-  <div class="section-label">완화 후 일평균 약 1.8배, 다만 일별 편차는 있음 <span class="tag tag-fact">실측</span></div>
+  <div class="group-label">2. 완화 전후 노출 규모 <span>하루 평균 노출 회원</span></div>
+  <div class="section-label">완화 후 하루 평균 약 1.8배, 날마다 차이는 있음 <span class="tag tag-fact">실측</span></div>
   <div class="card">
-    <div class="card-title">제안 뷰 규모는 늘었으나 큰 폭의 점프는 아님</div>
-    <div class="card-sub">이전 운영기(5/21~6/2)와 완화 재개 후(6/25~6/29)의 제안 뷰 회원 일평균 비교</div>
+    <div class="card-title">노출은 늘었지만 큰 폭은 아님</div>
+    <div class="card-sub">완화 전과 후의 하루 평균 노출 회원 수 비교</div>
     <div class="evidence">
       <div class="e"><div class="n">약 74명/일</div><div class="l">완화 전<br>5/21~6/2 (13일)</div></div>
       <div class="e"><div class="n green">약 133명/일</div><div class="l">완화 후<br>6/25~6/29 (5일)</div></div>
-      <div class="e"><div class="n green">약 1.8배</div><div class="l">일평균 증가</div></div>
+      <div class="e"><div class="n green">약 1.8배</div><div class="l">증가</div></div>
     </div>
     <div style="margin-top:14px" class="wait-box">
       <b>완화 폭에 비해 덜 늘어난 이유</b><br>
@@ -308,10 +308,10 @@ FROM te GROUP BY return_dow ORDER BY active DESC
   <div class="group-label">3. 전체뷰와 시간연장뷰 구분 <span>"뷰가 동일하다"의 정리</span></div>
   <div class="section-label">매일 8천은 바텀시트 전체(PF 포함), 시간연장은 그 안의 일부 <span class="tag tag-fact">실측</span></div>
   <div class="card">
-    <div class="card-title">전체뷰만 보면 PF 분모에 묻혀 시간연장 변화가 안 보임</div>
-    <div class="card-sub">전체 바텀시트 뷰는 PF 넛지 포함이라 매일 8천 수준으로 거의 일정. 시간연장은 그 일부여서, 전체뷰가 아니라 침투율(시간연장뷰 / 전체뷰)로 봐야 변화가 보임</div>
+    <div class="card-title">전체뷰만 보면 PF에 묻혀 시간연장 변화가 안 보임</div>
+    <div class="card-sub">전체 바텀시트 뷰는 PF까지 다 포함이라 매일 8천 수준으로 거의 그대로. 시간연장은 그 안의 일부라, 전체뷰 말고 시간연장만 따로 보거나 전체 중 비율로 봐야 변화가 보임</div>
     <table class="data-table" style="margin-top:4px">
-      <thead><tr><th>기간</th><th class="num">전체 바텀시트 뷰(일평균)</th><th class="num">시간연장 뷰(일평균)</th><th class="num">침투율</th></tr></thead>
+      <thead><tr><th>기간</th><th class="num">전체 바텀시트 뷰(하루 평균)</th><th class="num">시간연장 뷰(하루 평균)</th><th class="num">전체 중 시간연장 비율</th></tr></thead>
       <tbody>
         <tr><td class="dt">완화 전(5/21~6/2)</td><td class="num">7,468</td><td class="num">74</td><td class="num">1.0%</td></tr>
         <tr><td class="dt">완화 후(6/25~6/29)</td><td class="num">8,319</td><td class="num green">133</td><td class="num green">1.6%</td></tr>
@@ -322,30 +322,30 @@ FROM te GROUP BY return_dow ORDER BY active DESC
   <div class="group-label">4. 왜 아직 노출이 적은가 <span>7/1 회의 확인 사항</span></div>
   <div class="section-label">예외존 축소가 아직 미반영 <span class="tag tag-info">회의 확인</span></div>
   <div class="card">
-    <div class="card-title">완화 폭 대비 노출이 낮은 가장 큰 원인은 예외존 축소 미반영</div>
-    <div class="card-sub">6/25 배포에는 12-15시 신규 구간과 반납 조건만 반영됨. 예외존 축소는 아직 미반영(인프라 티켓 대기)</div>
+    <div class="card-title">노출이 적은 가장 큰 원인은 예외존 축소가 아직 안 들어간 것</div>
+    <div class="card-sub">6/25 배포에는 12-15시 신규 구간과 반납 조건만 반영됨. 예외존 축소는 아직 반영 전(인프라 티켓 대기)</div>
     <div class="evidence">
-      <div class="e"><div class="n">약 1,600개</div><div class="l">현재 예외존</div></div>
-      <div class="e"><div class="n">약 600개</div><div class="l">축소 예정</div></div>
-      <div class="e"><div class="n amber">약 2배</div><div class="l">반영 시 노출 모수<br>증가 예상</div></div>
+      <div class="e"><div class="n">약 1,600개</div><div class="l">지금 노출 안 하는 예외존</div></div>
+      <div class="e"><div class="n">약 600개</div><div class="l">줄일 예정</div></div>
+      <div class="e"><div class="n amber">약 2배</div><div class="l">반영 시 노출 대상<br>증가 예상</div></div>
     </div>
   </div>
 
-  <div class="section-label">노출까지 통과해야 하는 자격 조건 <span class="tag tag-info">서버 코드 기준</span></div>
+  <div class="section-label">시간연장이 뜨려면 통과해야 하는 조건 <span class="tag tag-info">서버 코드 기준</span></div>
   <div class="card">
-    <div class="card-title">아래 조건을 전부 통과한 예약에만 시간연장이 노출됨</div>
+    <div class="card-title">이 조건을 다 통과한 예약에만 시간연장이 뜸</div>
     <div class="card-sub">노출이 적은 건 이 조건들에서 대부분 걸러지기 때문. 그중 예외존이 가장 크게 걸러냄</div>
     <table class="data-table" style="margin-top:4px">
       <thead><tr><th>조건</th><th>내용</th></tr></thead>
       <tbody>
         <tr><td class="dt">대여 방식</td><td>쏘카존 대여만</td></tr>
-        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">예외존</td><td>제외존이면 컷 (지금 가장 크게 걸러냄, 축소 미반영)</td></tr>
-        <tr><td class="dt">리드타임</td><td>출발까지 24시간 이내만</td></tr>
-        <tr><td class="dt">반납 시각</td><td>12-15시 또는 15-20시 밴드만</td></tr>
-        <tr><td class="dt">연휴 블록</td><td>반납일과 다음날이 둘 다 공휴일/주말이면 컷</td></tr>
+        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">예외존</td><td>노출 안 하는 존이면 제외 (지금 가장 크게 걸러냄, 축소 아직 반영 전)</td></tr>
+        <tr><td class="dt">출발까지 시간</td><td>출발까지 24시간 이내만</td></tr>
+        <tr><td class="dt">반납 시각</td><td>12-15시 또는 15-20시에 반납</td></tr>
+        <tr><td class="dt">연휴</td><td>반납일과 다음날이 둘 다 공휴일/주말이면 제외</td></tr>
         <tr><td class="dt">최소 대여</td><td>4시간 이상</td></tr>
-        <tr><td class="dt">빈도 제한</td><td>이미 한 번 수락한 회원은 컷</td></tr>
-        <tr><td class="dt">그 외</td><td>차량 가용성, 연장 차액이 추가금보다 클 것, 제외 차종 아님, 제휴할인 없음</td></tr>
+        <tr><td class="dt">빈도 제한</td><td>이미 한 번 수락한 회원은 제외</td></tr>
+        <tr><td class="dt">그 외</td><td>차량이 비어 있을 것, 연장 차액이 추가금보다 클 것, 제외 차종 아님, 제휴할인 없음</td></tr>
       </tbody>
     </table>
     <div style="font-size:11px;color:#9ca3af;margin-top:8px">출처: 서버 노출 코드</div>
@@ -353,27 +353,27 @@ FROM te GROUP BY return_dow ORDER BY active DESC
 
   <div class="group-label">5. 다음 단계 <span>조건 완화 방향과 데이터 근거</span></div>
 
-  <div class="section-label">1순위. 예외존 축소 반영 <span class="tag tag-info">노출 모수</span></div>
+  <div class="section-label">1순위. 예외존 축소 반영 <span class="tag tag-info">노출 대상</span></div>
   <div class="card">
-    <div class="card-title">추가 개발 없이 노출 모수 약 2배 기대</div>
-    <div class="card-sub">예외존 리스트(약 1,600개에서 600개로)만 반영하면 바로 대상 확대. 현재 노출이 낮은 주원인이라 가장 먼저 처리할 지렛대</div>
+    <div class="card-title">추가 개발 없이 노출 대상 약 2배 기대</div>
+    <div class="card-sub">예외존 목록(약 1,600개에서 600개로)만 반영하면 바로 대상이 넓어짐. 지금 노출이 적은 주원인이라 가장 먼저 처리할 부분</div>
   </div>
 
-  <div class="section-label">2순위. 리드타임 24시간에서 36~48시간으로 확장 <span class="tag tag-info">가동률 근거</span></div>
+  <div class="section-label">2순위. 출발까지 시간을 24시간에서 36~48시간으로 늘리기 <span class="tag tag-info">가동률 근거</span></div>
   <div class="card">
-    <div class="card-title">전일 저녁과 4일 전 사이의 미판매분을 추가 타겟으로</div>
-    <div class="card-sub">현재는 반납 24시간(1일 전) 이내만 대상. 가동률을 보면 앞 시점일수록 비어 있어 추가 타겟 여지가 있음</div>
+    <div class="card-title">전날 저녁과 4일 전 사이의 안 팔린 차를 대상에 넣기</div>
+    <div class="card-sub">지금은 출발까지 24시간(1일 전) 이내만 대상. 가동률을 보면 이른 시점일수록 차가 비어 있어 더 팔 여지가 있음</div>
     <table class="data-table" style="margin-top:4px">
       <thead><tr><th>기준 시점</th><th class="num">가동률</th><th>해석</th></tr></thead>
       <tbody>
-        <tr><td class="dt">전일 18시</td><td class="num">약 29~30%</td><td>당일 마감(약 40%)의 대부분이 이미 채워짐</td></tr>
-        <tr><td class="dt">4일 전</td><td class="num">약 13.6%</td><td>아직 비어 있는 구간이 많음</td></tr>
-        <tr><td class="dt">당일 00~09시 생성</td><td class="num">약 8.8% (주말 9.5%)</td><td>당일 임박 신규 수요</td></tr>
+        <tr><td class="dt">전날 18시</td><td class="num">약 29~30%</td><td>당일 마감(약 40%)의 대부분이 이미 채워짐</td></tr>
+        <tr><td class="dt">4일 전</td><td class="num">약 13.6%</td><td>아직 비어 있는 차가 많음</td></tr>
+        <tr><td class="dt">당일 새벽 생성</td><td class="num">약 8.8% (주말 9.5%)</td><td>당일 임박해서 생기는 수요</td></tr>
       </tbody>
     </table>
     <div class="wait-box" style="margin-top:14px">
-      전일 18시(약 30%)와 4일 전(13.6%) 사이 약 16~17%p가 리드타임을 늘리면 더 닿을 수 있는 모수<br>
-      다만 너무 앞당기면 정상가로 팔릴 예약까지 할인하게 되므로, 36~48시간이 현실적. 상수값 수정이라 반영은 간단
+      전날 18시(약 30%)와 4일 전(13.6%)의 차이 약 16~17%p가, 시간을 늘리면 더 잡을 수 있는 대상<br>
+      다만 너무 앞당기면 정상가로 팔릴 예약까지 할인하게 되므로 36~48시간이 현실적. 코드는 숫자만 바꾸면 돼서 반영은 간단
     </div>
     <div style="font-size:11px;color:#9ca3af;margin-top:8px">가동률 수치는 7/1 회의에서 공유된 값</div>
   </div>
