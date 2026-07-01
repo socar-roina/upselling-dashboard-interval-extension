@@ -273,25 +273,21 @@ FROM te GROUP BY return_dow ORDER BY active DESC
     <div class="ct">한 줄 결론</div>
     <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">완화 조건 중 신규 구간과 반납 조건만 반영된 상태. 가장 큰 지렛대인 예외존 축소는 아직 미반영이라, 반영되면 노출이 더 늘어날 여지가 큼</div>
     <ul>
-      <li><b>비교 기준.</b> 시간연장을 노출하던 이전 운영기(5/21~6/2)와 완화 후(6/25~6/29)를 비교. 그 사이 노출을 켜지 않았던 시기(6/3~6/24)는 비교에서 제외</li>
-      <li><b>제안 뷰 규모.</b> 일평균 약 74명에서 약 133명으로 약 1.8배. 전체뷰(약 8천) 분모를 걷어낸 침투율로도 1.0%에서 1.6%로 상승</li>
-      <li class="warn"><b>예외존 축소 미반영(핵심).</b> 예외존이 약 1,600개에서 600개로 줄 예정이나 아직 미반영(인프라 티켓 대기). 반영되면 노출 모수가 약 2배 늘 것으로 예상되며, 현재 노출이 낮은 가장 큰 원인</li>
-      <li><b>신규 12,900원 구간.</b> 반납 12~14시에만 잡혀 조건은 정상 반영. 다만 순수락 9건으로 전체의 약 5% 수준이라 물량은 작음</li>
-      <li><b>대조군 문제는 아님.</b> 시간연장은 조건을 충족하면 전체 노출하는 방식(서버 코드 확인, 회원 대조군 없음). 노출이 적은 건 아래 자격 조건에서 대부분 걸러지기 때문</li>
+      <li class="warn"><b>예외존 축소 미반영(핵심).</b> 예외존이 약 1,600개에서 600개로 줄 예정이나 아직 미반영. 반영되면 노출 모수가 약 2배 늘 것으로 보이며, 지금 노출이 낮은 가장 큰 원인</li>
+      <li><b>제안 뷰 규모.</b> 일평균 74명에서 133명으로 약 1.8배. 전체뷰 분모를 걷어낸 침투율로도 1.0%에서 1.6%로 상승</li>
+      <li><b>신규 12,900원 구간.</b> 조건은 정상 반영. 다만 순수락 9건으로 물량은 작음</li>
+      <li><b>대조군 문제는 아님.</b> 시간연장은 조건 충족 시 전체 노출(코드 확인). 노출이 적은 건 아래 자격 조건 때문</li>
     </ul>
   </div>
 
   <div class="group-label">1. 노출 타임라인 <span>시간연장 제안 뷰 회원 일별</span></div>
   <div class="section-label">이전 운영기와 완화 후를 비교 (중간 노출 중단기는 제외) <span class="tag tag-fact">실측</span></div>
   <div class="card">
-    <div class="card-title">비교 대상은 이전 운영기와 완화 후 두 구간</div>
     <div class="card-sub">
-      파란 막대는 이전 운영기(5/21~6/2)<br>
-      가운데 "6/3~6/24 노출 중단"은 시간연장을 노출하지 않던 시기로, 비교에서 제외(구간 압축 표기)<br>
-      주황 막대는 완화 재개 구간(6/25~6/29)
+      파란 막대는 이전 운영기(5/21~6/2), 주황 막대는 완화 재개(6/25~6/29)<br>
+      가운데 "6/3~6/24 노출 중단"은 시간연장을 켜지 않던 시기라 비교에서 제외
     </div>
     <div class="chart-wrap" style="height:320px"><canvas id="anaTimeline"></canvas></div>
-    <div style="font-size:11px;color:#9ca3af;margin-top:10px;line-height:1.6">지표는 제안 뷰 회원(결제 직전 시간연장 제안 화면을 본 회원). 제안 뷰 로그는 5/21부터 적재되어 그 이전은 표시하지 않음</div>
   </div>
 
   <div class="group-label">2. 완화 전후 규모 <span>제안 뷰 회원 일평균</span></div>
@@ -306,8 +302,8 @@ FROM te GROUP BY return_dow ORDER BY active DESC
     </div>
     <div style="margin-top:14px" class="wait-box">
       <b>완화 폭에 비해 덜 늘어난 이유</b><br>
-      가장 큰 지렛대인 예외존 축소(1,600개에서 600개)가 아직 미반영이라, 대상을 크게 넓히는 효과가 빠져 있음<br>
-      신규 12-15시 구간은 반납 12~14시 예약만 대상이라 물량 자체가 작음(순수락 9건). 지금 늘어난 건 대부분 기존 15-20시 구간
+      예외존 축소가 아직 미반영이라 대상 확대 효과가 빠짐<br>
+      신규 12-15시 구간은 대상 예약이 적어 물량이 작음. 증가분은 대부분 기존 15-20시 구간
     </div>
   </div>
 
@@ -315,7 +311,7 @@ FROM te GROUP BY return_dow ORDER BY active DESC
   <div class="section-label">매일 8천은 바텀시트 전체(PF 포함), 시간연장은 그 안의 일부 <span class="tag tag-fact">실측</span></div>
   <div class="card">
     <div class="card-title">전체뷰만 보면 PF 분모에 묻혀 시간연장 변화가 안 보임</div>
-    <div class="card-sub">바텀시트 전체 뷰는 PF 넛지 포함 결제하는 거의 모든 회원이라 매일 8천 수준으로 거의 일정. 시간연장은 그 안의 일부라, 전체뷰가 아니라 시간연장뷰나 침투율(시간연장뷰 / 전체뷰)로 봐야 변화가 드러남</div>
+    <div class="card-sub">전체 바텀시트 뷰는 PF 넛지 포함이라 매일 8천 수준으로 거의 일정. 시간연장은 그 일부여서, 전체뷰가 아니라 침투율(시간연장뷰 / 전체뷰)로 봐야 변화가 보임</div>
     <table class="data-table" style="margin-top:4px">
       <thead><tr><th>기간</th><th class="num">전체 바텀시트 뷰(일평균)</th><th class="num">시간연장 뷰(일평균)</th><th class="num">침투율</th></tr></thead>
       <tbody>
@@ -323,26 +319,24 @@ FROM te GROUP BY return_dow ORDER BY active DESC
         <tr><td class="dt">완화 후(6/25~6/29)</td><td class="num">8,319</td><td class="num green">133</td><td class="num green">1.6%</td></tr>
       </tbody>
     </table>
-    <div style="font-size:11px;color:#9ca3af;margin-top:10px;line-height:1.6">전체뷰(8천)는 거의 그대로라 여기만 보면 "동일"이 맞음. 분모를 걷어낸 침투율로 보면 1.0%에서 1.6%로 늘어난 게 드러남</div>
   </div>
 
   <div class="group-label">4. 왜 아직 노출이 적은가 <span>7/1 회의 확인 사항</span></div>
   <div class="section-label">예외존 축소가 아직 미반영 <span class="tag tag-info">회의 확인</span></div>
   <div class="card">
     <div class="card-title">완화 폭 대비 노출이 낮은 가장 큰 원인은 예외존 축소 미반영</div>
-    <div class="card-sub">6/25 배포에는 12-15시 신규 구간과 반납 조건만 반영됨. 예외존(디타겟팅 존) 축소는 인프라 티켓 대기 중(부서장 승인 후 인프라 백로그)이라 아직 적용 전</div>
+    <div class="card-sub">6/25 배포에는 12-15시 신규 구간과 반납 조건만 반영됨. 예외존 축소는 아직 미반영(인프라 티켓 대기)</div>
     <div class="evidence">
       <div class="e"><div class="n">약 1,600개</div><div class="l">현재 예외존</div></div>
       <div class="e"><div class="n">약 600개</div><div class="l">축소 예정</div></div>
       <div class="e"><div class="n amber">약 2배</div><div class="l">반영 시 노출 모수<br>증가 예상</div></div>
     </div>
-    <div class="wait-box" style="margin-top:14px">지금 침투율 1.6%는 예외존 축소가 빠진 값. 예외존이 반영되면 노출 대상이 넓어져 추가 상승 여지가 큼</div>
   </div>
 
   <div class="section-label">노출까지 통과해야 하는 자격 조건 <span class="tag tag-info">서버 코드 기준</span></div>
   <div class="card">
     <div class="card-title">아래 조건을 전부 통과한 예약에만 시간연장이 노출됨</div>
-    <div class="card-sub">시간연장은 조건 충족 시 전체 노출(대조군 없음). 노출이 적은 건 이 조건들에서 대부분 걸러지기 때문이고, 그중 예외존이 가장 크게 걸러냄</div>
+    <div class="card-sub">노출이 적은 건 이 조건들에서 대부분 걸러지기 때문. 그중 예외존이 가장 크게 걸러냄</div>
     <table class="data-table" style="margin-top:4px">
       <thead><tr><th>조건</th><th>내용</th></tr></thead>
       <tbody>
@@ -356,7 +350,7 @@ FROM te GROUP BY return_dow ORDER BY active DESC
         <tr><td class="dt">그 외</td><td>차량 가용성, 연장 차액이 추가금보다 클 것, 제외 차종 아님, 제휴할인 없음</td></tr>
       </tbody>
     </table>
-    <div style="font-size:11px;color:#9ca3af;margin-top:8px">출처: 서버 UpsellingService.kt (checkTargetingConditions)</div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px">출처: 서버 노출 코드</div>
   </div>
 
   <div class="group-label">5. 다음 단계 <span>조건 완화 방향과 데이터 근거</span></div>
@@ -380,11 +374,10 @@ FROM te GROUP BY return_dow ORDER BY active DESC
       </tbody>
     </table>
     <div class="wait-box" style="margin-top:14px">
-      전일 18시(약 30%)와 4일 전(13.6%) 사이 약 16~17%p가 리드타임을 늘리면 추가로 닿을 수 있는 모수<br>
-      다만 4일 전은 과도할 수 있음(정상가로 팔릴 시간대를 할인 업셀로 소진하는 기회비용, 얼리버드 사전예약 증가). 36~48시간이 현실적<br>
-      리드타임은 상수값 수정이라 반영은 간단. 히스토리 관리를 위해 신규 티켓 생성
+      전일 18시(약 30%)와 4일 전(13.6%) 사이 약 16~17%p가 리드타임을 늘리면 더 닿을 수 있는 모수<br>
+      다만 너무 앞당기면 정상가로 팔릴 예약까지 할인하게 되므로, 36~48시간이 현실적. 상수값 수정이라 반영은 간단
     </div>
-    <div style="font-size:11px;color:#9ca3af;margin-top:8px">가동률 수치는 7/1 회의에서 공유된 값 기준</div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px">가동률 수치는 7/1 회의에서 공유된 값</div>
   </div>
 
   <div class="section-label">3순위. 주말 반납 가격 상향 <span class="tag tag-fact">실측</span></div>
@@ -401,16 +394,16 @@ FROM te GROUP BY return_dow ORDER BY active DESC
         <tr><td class="dt">수</td><td class="num">14</td></tr>
       </tbody>
     </table>
-    <div class="wait-box" style="margin-top:14px">주말 반납은 정상가로도 팔릴 수요라, 주중과 같은 추가금 대신 상향(예: 29,900원)을 검토할 만함. 요일별 가격 분기는 추가 개발이 필요하나 난이도는 낮음</div>
-    <div style="font-size:11px;color:#9ca3af;margin-top:8px">6/25~6/30 표본. 목과 토는 이 기간 순수락 집계 없음</div>
+    <div class="wait-box" style="margin-top:14px">주말 반납은 정상가로도 팔릴 수요라, 상향(예: 29,900원)을 검토할 만함. 요일별 가격 분기는 개발 필요하나 난이도는 낮음</div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px">6/25~6/30 표본</div>
   </div>
 
   <div class="section-label">중장기 <span class="tag tag-info">방향</span></div>
   <div class="card" style="margin-bottom:48px">
     <div class="card-sub" style="margin-bottom:0">
-      운영 시스템화: 가격(정액 또는 할인율), 운영 기간, 요일, 지역과 존, 차종, 노출 주기를 백오피스에서 설정하는 폴리시 관리 체계. 지금은 조건 변경마다 인프라 티켓 수동 반영이라 장기적으로 운영화 필요(쿠폰 구조 참고하되 새로 설계)<br><br>
-      제안 확장: 같은 존에 뒤 시간이 비면 시간연장 대신 차종 업그레이드를 교차 제안, 출발 앞 2~3시간이 비면 예약 앞당기기 제안<br><br>
-      가격별 노출 로그: 현재 구간별 노출이 안 찍혀 노출 단에서 12-15시와 15-20시를 못 나눔. 이번 주 내 프론트엔드 작업 예정
+      운영 시스템화: 가격, 기간, 요일, 존, 차종 등을 백오피스에서 설정하는 관리 체계. 지금은 조건 변경마다 인프라 티켓 수동 반영이라 장기적으로 필요<br><br>
+      제안 확장: 뒤 시간이 비면 차종 업그레이드를 교차 제안, 출발 앞이 비면 예약 앞당기기 제안<br><br>
+      가격별 노출 로그: 지금은 구간별 노출이 안 찍혀 12-15시와 15-20시를 못 나눔. 이번 주 내 프론트엔드 작업 예정
     </div>
   </div>
 
