@@ -224,6 +224,54 @@ SELECT
 FROM te GROUP BY surcharge, return_hour ORDER BY surcharge, return_hour
 -- 결과: 4900 -> 반납 15~20시만, 12900 -> 반납 12~14시만 (가격 로직 정상)</div>
       </details>
+      <details>
+        <summary>4. 전체뷰 대비 시간연장뷰 침투율 (완화 전후)</summary>
+        <div class="query-block">WITH daily AS (
+  SELECT DATE(event_at_kst) AS dt,
+    COUNT(DISTINCT IF(event_name='view', member_id, NULL)) AS total_view,
+    COUNT(DISTINCT IF(event_name='view'
+      AND (CONTAINS_SUBSTR(form_data,'intervalUpselling')
+           OR REGEXP_EXTRACT(form_data, r'ut\\??:\\??([a-z]+)')='i'), member_id, NULL)) AS interval_view
+  FROM `socar-data.app_web_log.socar_app_web_log`
+  WHERE page_name='upsell_bottomsheet' AND DATE(event_at_kst) BETWEEN '2026-05-21' AND '2026-06-29'
+  GROUP BY dt )
+SELECT
+  CASE WHEN dt<='2026-06-02' THEN '완화 전' WHEN dt>='2026-06-25' THEN '완화 후' END AS period,
+  ROUND(AVG(total_view)) AS total_view_avg,
+  ROUND(AVG(interval_view),1) AS interval_view_avg,
+  ROUND(SUM(interval_view)/SUM(total_view)*100,2) AS penetration_pct
+FROM daily WHERE dt<='2026-06-02' OR dt>='2026-06-25'
+GROUP BY period ORDER BY period
+-- 결과: 완화 전 7468 / 74 / 1.0%, 완화 후 8319 / 133 / 1.6%
+-- 주의: CONTAINS_SUBSTR('ut:i')는 이스케이프 인코딩(ut\:\i) 누락. 정규식으로 잡아야 함</div>
+      </details>
+      <details>
+        <summary>5. 완화 전후 제안 뷰의 버킷 분포 (무노출 대조군 점검)</summary>
+        <div class="query-block">WITH v AS (
+  SELECT DISTINCT member_id,
+    CASE WHEN event_date_kst BETWEEN '2026-05-21' AND '2026-06-02' THEN 'pre'
+         WHEN event_date_kst BETWEEN '2026-06-25' AND '2026-06-29' THEN 'post' END AS period
+  FROM `socar-data.app_web_log.socar_app_web_log`
+  WHERE page_name='upsell_bottomsheet' AND event_name='view'
+    AND ( REGEXP_CONTAINS(form_data,'intervalUpselling')
+       OR REGEXP_EXTRACT(form_data, r'ut\\??:\\??([a-z]+)')='i' ))
+SELECT period,
+  CASE WHEN MOD(ABS(FARM_FINGERPRINT(CONCAT(member_id,'TIME_EXTENSION'))),100)<50
+       THEN '실험군' ELSE '대조군' END AS bucket, COUNT(*) AS members
+FROM v WHERE period IS NOT NULL GROUP BY period, bucket ORDER BY period, bucket
+-- 결과: pre 실험493/대조437, post 실험328/대조327 (양쪽 노출, 버킷 홀드아웃 아님)</div>
+      </details>
+      <details>
+        <summary>6. 반납 요일별 수락 (주말 수요 확인)</summary>
+        <div class="query-block">-- te는 위 2번과 동일 (결제 meta TIME_EXTENSION, 6/25~6/30)
+SELECT
+  FORMAT_DATETIME('%a', DATETIME(TIMESTAMP(
+    JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.originalInterval.end')),'Asia/Seoul')) AS return_dow,
+  COUNT(DISTINCT reservation_id) AS accept,
+  COUNT(DISTINCT IF(cancel_at IS NULL, reservation_id, NULL)) AS active
+FROM te GROUP BY return_dow ORDER BY active DESC
+-- 결과(순수락): 일 58, 화 43, 금 41, 월 28, 수 14</div>
+      </details>
     </div>
   </details>
 
@@ -239,13 +287,13 @@ FROM te GROUP BY surcharge, return_hour ORDER BY surcharge, return_hour
 
   <div class="concl">
     <div class="ct">한 줄 결론</div>
-    <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">이전 ABT 운영기와 비교하면 제안 뷰는 약 1.8배 늘어난 것으로 보임. 다만 절대 규모는 아직 작은 편</div>
+    <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">완화 조건 중 신규 구간과 반납 조건만 반영된 상태. 가장 큰 지렛대인 예외존 축소는 아직 미반영이라, 반영되면 노출이 더 늘어날 여지가 큼</div>
     <ul>
       <li><b>비교 기준.</b> 시간연장을 노출하던 이전 ABT 운영기(5/21~6/2)와 완화 후(6/25~6/29)를 비교. 그 사이 노출을 켜지 않았던 시기(6/3~6/24)는 비교에서 제외</li>
-      <li><b>제안 뷰 규모.</b> 이전 ABT 대비 일평균 약 74명에서 약 133명으로, 약 1.8배 늘어난 것으로 나타남</li>
-      <li><b>버킷 분포.</b> 완화 전에도 제안 뷰가 실험군 493명, 대조군 437명으로 양쪽에서 발생. 특정 버킷을 노출에서 빼두었다가 완화 때 포함한 형태로는 보이지 않음</li>
-      <li class="warn"><b>함께 확인하면 좋을 점.</b> 무노출 대조군이 절반가량 있었다면 그 부분만 정리해도 두 배 가까이 늘 수 있어, 1.8배가 대상 확대인지 대조군 정리인지는 실험 설계를 같이 보면 명확해질 것으로 보임</li>
-      <li class="warn"><b>규모 관점.</b> 완화 후에도 제안 뷰는 일평균 약 133명으로, 전체 결제 뷰(약 8천명)의 2% 남짓. 노출까지 도달하는 자격 대상이 제한적인 점을 함께 볼 필요</li>
+      <li><b>제안 뷰 규모.</b> 일평균 약 74명에서 약 133명으로 약 1.8배. 전체뷰(약 8천) 분모를 걷어낸 침투율로도 1.0%에서 1.6%로 상승</li>
+      <li class="warn"><b>예외존 축소 미반영(핵심).</b> 예외존이 약 1,600개에서 600개로 줄 예정이나 아직 미반영(인프라 티켓 대기). 반영되면 노출 모수가 약 2배 늘 것으로 예상되며, 현재 노출이 낮은 가장 큰 원인</li>
+      <li><b>신규 12,900원 구간.</b> 반납 12~14시에만 잡혀 조건은 정상 반영. 다만 순수락 9건으로 전체의 약 5% 수준이라 물량은 작음</li>
+      <li><b>버킷 분포.</b> 완화 전에도 제안 뷰가 실험군 493명, 대조군 437명으로 양쪽에서 발생. 버킷을 노출에서 빼둔 형태는 아님(무노출 대조군 유무는 실험 설계 확인)</li>
     </ul>
   </div>
 
@@ -281,7 +329,7 @@ FROM te GROUP BY surcharge, return_hour ORDER BY surcharge, return_hour
 
   <div class="group-label">3. 완화 전후 규모 <span>제안 뷰 회원 일평균</span></div>
   <div class="section-label">완화 후 일평균 약 1.8배, 다만 일별 편차는 있음 <span class="tag tag-fact">실측</span></div>
-  <div class="card" style="margin-bottom:48px">
+  <div class="card">
     <div class="card-title">제안 뷰 규모는 늘었으나 큰 폭의 점프는 아님</div>
     <div class="card-sub">이전 ABT 운영기(5/21~6/2)와 완화 재개 후(6/25~6/29)의 제안 뷰 회원 일평균 비교</div>
     <div class="evidence">
@@ -291,9 +339,92 @@ FROM te GROUP BY surcharge, return_hour ORDER BY surcharge, return_hour
     </div>
     <div style="margin-top:14px" class="wait-box">
       <b>완전히 같은 조건의 비교는 아님</b><br>
-      완화로 자격 규칙이 일부 바뀜(제외 지역 축소, 12-15시 구간 신규 추가)<br>
+      6/25 배포에는 12-15시 신규 구간과 반납 조건만 반영. 예외존 축소는 아직 미반영이라 지금 증가폭은 그 효과가 빠진 상태<br>
       완화 후 일별로도 54명에서 212명까지 편차가 있어, 며칠만 보면 변동이 작아 보일 수 있음<br>
       절대 규모가 아직 작은 편이라, 자격 대상 병목은 함께 볼 필요
+    </div>
+  </div>
+
+  <div class="group-label">4. 전체뷰와 시간연장뷰 구분 <span>"뷰가 동일하다"의 정리</span></div>
+  <div class="section-label">매일 8천은 바텀시트 전체(PF 포함), 시간연장은 그 안의 일부 <span class="tag tag-fact">실측</span></div>
+  <div class="card">
+    <div class="card-title">전체뷰만 보면 PF 분모에 묻혀 시간연장 변화가 안 보임</div>
+    <div class="card-sub">바텀시트 전체 뷰는 PF 넛지 포함 결제하는 거의 모든 회원이라 매일 8천 수준으로 거의 일정. 시간연장은 그 안의 일부라, 전체뷰가 아니라 시간연장뷰나 침투율(시간연장뷰 / 전체뷰)로 봐야 변화가 드러남</div>
+    <table class="data-table" style="margin-top:4px">
+      <thead><tr><th>기간</th><th class="num">전체 바텀시트 뷰(일평균)</th><th class="num">시간연장 뷰(일평균)</th><th class="num">침투율</th></tr></thead>
+      <tbody>
+        <tr><td class="dt">완화 전(5/21~6/2)</td><td class="num">7,468</td><td class="num">74</td><td class="num">1.0%</td></tr>
+        <tr><td class="dt">완화 후(6/25~6/29)</td><td class="num">8,319</td><td class="num green">133</td><td class="num green">1.6%</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:#9ca3af;margin-top:10px;line-height:1.6">전체뷰(8천)는 거의 그대로라 여기만 보면 "동일"이 맞음. 분모를 걷어낸 침투율로 보면 1.0%에서 1.6%로 늘어난 게 드러남</div>
+  </div>
+
+  <div class="group-label">5. 왜 아직 노출이 적은가 <span>7/1 회의 확인 사항</span></div>
+  <div class="section-label">예외존 축소가 아직 미반영 <span class="tag tag-info">회의 확인</span></div>
+  <div class="card">
+    <div class="card-title">완화 폭 대비 노출이 낮은 가장 큰 원인은 예외존 축소 미반영</div>
+    <div class="card-sub">6/25 배포에는 12-15시 신규 구간과 반납 조건만 반영됨. 예외존(디타겟팅 존) 축소는 인프라 티켓 대기 중(부서장 승인 후 인프라 백로그)이라 아직 적용 전</div>
+    <div class="evidence">
+      <div class="e"><div class="n">약 1,600개</div><div class="l">현재 예외존</div></div>
+      <div class="e"><div class="n">약 600개</div><div class="l">축소 예정</div></div>
+      <div class="e"><div class="n amber">약 2배</div><div class="l">반영 시 노출 모수<br>증가 예상</div></div>
+    </div>
+    <div class="wait-box" style="margin-top:14px">지금 침투율 1.6%는 예외존 축소가 빠진 값. 예외존이 반영되면 노출 대상이 넓어져 추가 상승 여지가 큼</div>
+  </div>
+
+  <div class="group-label">6. 다음 단계 <span>조건 완화 방향과 데이터 근거</span></div>
+
+  <div class="section-label">1순위. 예외존 축소 반영 <span class="tag tag-info">노출 모수</span></div>
+  <div class="card">
+    <div class="card-title">추가 개발 없이 노출 모수 약 2배 기대</div>
+    <div class="card-sub">예외존 리스트(약 1,600개에서 600개로)만 반영하면 바로 대상 확대. 현재 노출이 낮은 주원인이라 가장 먼저 처리할 지렛대</div>
+  </div>
+
+  <div class="section-label">2순위. 리드타임 24시간에서 36~48시간으로 확장 <span class="tag tag-info">가동률 근거</span></div>
+  <div class="card">
+    <div class="card-title">전일 저녁과 4일 전 사이의 미판매분을 추가 타겟으로</div>
+    <div class="card-sub">현재는 반납 24시간(1일 전) 이내만 대상. 가동률을 보면 앞 시점일수록 비어 있어 추가 타겟 여지가 있음</div>
+    <table class="data-table" style="margin-top:4px">
+      <thead><tr><th>기준 시점</th><th class="num">가동률</th><th>해석</th></tr></thead>
+      <tbody>
+        <tr><td class="dt">전일 18시</td><td class="num">약 29~30%</td><td>당일 마감(약 40%)의 대부분이 이미 채워짐</td></tr>
+        <tr><td class="dt">4일 전</td><td class="num">약 13.6%</td><td>아직 비어 있는 구간이 많음</td></tr>
+        <tr><td class="dt">당일 00~09시 생성</td><td class="num">약 8.8% (주말 9.5%)</td><td>당일 임박 신규 수요</td></tr>
+      </tbody>
+    </table>
+    <div class="wait-box" style="margin-top:14px">
+      전일 18시(약 30%)와 4일 전(13.6%) 사이 약 16~17%p가 리드타임을 늘리면 추가로 닿을 수 있는 모수<br>
+      다만 4일 전은 과도할 수 있음(정상가로 팔릴 시간대를 할인 업셀로 소진하는 기회비용, 얼리버드 사전예약 증가). 36~48시간이 현실적<br>
+      리드타임은 상수값 수정이라 반영은 간단. 히스토리 관리를 위해 신규 티켓 생성
+    </div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px">가동률 수치는 7/1 회의에서 공유된 값 기준</div>
+  </div>
+
+  <div class="section-label">3순위. 주말 반납 가격 상향 <span class="tag tag-fact">실측</span></div>
+  <div class="card">
+    <div class="card-title">일요일 반납 수요가 뚜렷해 주말 가격 상향 여지</div>
+    <div class="card-sub">완화 후(6/25~6/30) 시간연장 순수락을 반납 요일별로 보면 일요일이 가장 많음. 회의에서도 일요일 반납 수락률이 높게 관찰됨</div>
+    <table class="data-table" style="margin-top:4px">
+      <thead><tr><th>반납 요일</th><th class="num">순수락</th></tr></thead>
+      <tbody>
+        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">일</td><td class="num" style="color:#b45309">58</td></tr>
+        <tr><td class="dt">화</td><td class="num">43</td></tr>
+        <tr><td class="dt">금</td><td class="num">41</td></tr>
+        <tr><td class="dt">월</td><td class="num">28</td></tr>
+        <tr><td class="dt">수</td><td class="num">14</td></tr>
+      </tbody>
+    </table>
+    <div class="wait-box" style="margin-top:14px">주말 반납은 정상가로도 팔릴 수요라, 주중과 같은 추가금 대신 상향(예: 29,900원)을 검토할 만함. 요일별 가격 분기는 추가 개발이 필요하나 난이도는 낮음</div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px">6/25~6/30 표본. 목과 토는 이 기간 순수락 집계 없음</div>
+  </div>
+
+  <div class="section-label">중장기 <span class="tag tag-info">방향</span></div>
+  <div class="card" style="margin-bottom:48px">
+    <div class="card-sub" style="margin-bottom:0">
+      운영 시스템화: 가격(정액 또는 할인율), 운영 기간, 요일, 지역과 존, 차종, 노출 주기를 백오피스에서 설정하는 폴리시 관리 체계. 지금은 조건 변경마다 인프라 티켓 수동 반영이라 장기적으로 운영화 필요(쿠폰 구조 참고하되 새로 설계)<br><br>
+      제안 확장: 같은 존에 뒤 시간이 비면 시간연장 대신 차종 업그레이드를 교차 제안, 출발 앞 2~3시간이 비면 예약 앞당기기 제안<br><br>
+      가격별 노출 로그: 현재 구간별 노출이 안 찍혀 노출 단에서 12-15시와 15-20시를 못 나눔. 이번 주 내 프론트엔드 작업 예정
     </div>
   </div>
 
