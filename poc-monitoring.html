@@ -68,6 +68,17 @@ details { margin-bottom: 0; }
 summary { cursor: pointer; font-size: 13px; font-weight: 700; color: #475569; padding: 10px 2px; }
 summary:hover { color: #2563eb; }
 .query-block { background: #0f172a; color: #e2e8f0; border-radius: 10px; padding: 14px 16px; font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.6; overflow-x: auto; white-space: pre; }
+.viewtabs { position: sticky; top: 0; z-index: 20; background: #fff; border-bottom: 1px solid #e5e7eb; padding: 10px 32px; display: flex; gap: 8px; }
+.vtab { border: 1px solid #d1d5db; background: #fff; color: #64748b; font-size: 13px; font-weight: 700; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-family: inherit; }
+.vtab:hover { border-color: #94a3b8; color: #334155; }
+.vtab.active { background: #0f172a; border-color: #0f172a; color: #fff; }
+.concl { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 20px 26px; margin: 22px 0 14px; }
+.concl .ct { font-size: 14px; font-weight: 800; color: #14532d; margin-bottom: 12px; }
+.concl ul { margin: 0; padding-left: 4px; list-style: none; }
+.concl li { font-size: 14px; color: #166534; line-height: 1.7; padding: 5px 0 5px 24px; position: relative; }
+.concl li::before { content: ""; position: absolute; left: 4px; top: 12px; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+.concl li b { color: #14532d; }
+.concl li.warn::before { background: #f59e0b; }
 </style>
 </head>
 <body>
@@ -83,7 +94,12 @@ summary:hover { color: #2563eb; }
   </div>
 </div>
 
-<div class="wrap">
+<div class="viewtabs">
+  <button class="vtab active" data-view="mon" onclick="switchView('mon')">모니터링</button>
+  <button class="vtab" data-view="ana" onclick="switchView('ana')">분석 (미팅용)</button>
+</div>
+
+<div class="wrap" id="viewMon">
 
   <div class="q-card">
     <div class="lbl">이 PoC로 확인하려는 것</div>
@@ -113,9 +129,9 @@ summary:hover { color: #2563eb; }
     <div class="card-title">완화 후 전체 운영 현황 (기존 4,900 + 신규 12,900 합산)</div>
     <div class="card-sub">조건 완화로 더 넓어진 대상에 제안이 잘 노출되고 수락으로 이어지는지 확인. 대부분은 기존 4,900원 구간</div>
     <div class="evidence">
-      <div class="e"><div class="n">744명</div><div class="l">제안 노출 (회원)</div></div>
+      <div class="e"><div class="n">655명</div><div class="l">제안 노출 (회원)</div></div>
       <div class="e"><div class="n">185건</div><div class="l">연장 수락 (결제, 6/29까지)<br>취소 제외 순 143건</div></div>
-      <div class="e"><div class="n green">약 24.9%</div><div class="l">수락률 (6/29 기준)<br>수락 185건 / 노출 744명</div></div>
+      <div class="e"><div class="n green">약 28.2%</div><div class="l">수락률 (6/29 기준)<br>수락 185건 / 노출 655명</div></div>
       <div class="e"><div class="n">756,700원</div><div class="l">순매출 합계</div></div>
     </div>
     <table class="data-table" style="margin-top:16px">
@@ -138,12 +154,12 @@ summary:hover { color: #2563eb; }
       <table class="data-table" style="margin-top:10px">
         <thead><tr><th>날짜</th><th class="num">노출(회원)</th><th class="num">옵션 클릭</th><th class="num">수락 4,900</th><th class="num">수락 12,900</th></tr></thead>
         <tbody>
-          <tr><td class="dt">6/25</td><td class="num">72</td><td class="num">27</td><td class="num">11</td><td class="num">0</td></tr>
-          <tr><td class="dt">6/26</td><td class="num">154</td><td class="num">60</td><td class="num">43</td><td class="num">1</td></tr>
-          <tr><td class="dt">6/27</td><td class="num">74</td><td class="num">35</td><td class="num">21</td><td class="num">1</td></tr>
-          <tr><td class="dt">6/28</td><td class="num">231</td><td class="num">110</td><td class="num">58</td><td class="num">4</td></tr>
-          <tr><td class="dt">6/29</td><td class="num">227</td><td class="num">74</td><td class="num">42</td><td class="num">4</td></tr>
-          <tr class="total"><td class="dt">누계</td><td class="num">744</td><td class="num">305</td><td class="num">175</td><td class="num">10</td></tr>
+          <tr><td class="dt">6/25</td><td class="num">54</td><td class="num">27</td><td class="num">11</td><td class="num">0</td></tr>
+          <tr><td class="dt">6/26</td><td class="num">125</td><td class="num">60</td><td class="num">43</td><td class="num">1</td></tr>
+          <tr><td class="dt">6/27</td><td class="num">66</td><td class="num">35</td><td class="num">21</td><td class="num">1</td></tr>
+          <tr><td class="dt">6/28</td><td class="num">212</td><td class="num">110</td><td class="num">58</td><td class="num">4</td></tr>
+          <tr><td class="dt">6/29</td><td class="num">209</td><td class="num">75</td><td class="num">42</td><td class="num">4</td></tr>
+          <tr class="total"><td class="dt">누계</td><td class="num">655</td><td class="num">305</td><td class="num">175</td><td class="num">10</td></tr>
         </tbody>
       </table>
       <div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.6">노출과 옵션 클릭은 일별 distinct 회원이라 누계(전체 기간 distinct)와 단순 합이 다를 수 있음</div>
@@ -158,7 +174,7 @@ summary:hover { color: #2563eb; }
     <div class="term"><b>노출</b><div>결제 직전 시간연장 제안 화면을 본 회원 수</div></div>
     <div class="term"><b>수락</b><div>제안받아 실제 연장을 결제한 예약 수. 취소되면 추가금도 환불되어, 취소 제외 순 건수를 함께 표기</div></div>
     <div class="term"><b>구간</b><div>반납 시간대에 따라 추가금이 다름. 기존 15-20시는 4,900원, 신규 12-15시는 12,900원</div></div>
-    <div class="term"><b>수락률</b><div>노출과 수락 모두 6/29 기준 수락 185건 / 노출 744명 = 24.9%<br>비교할 대조군 없이 전체에 노출하는 시범 운영이라 추이로 봄</div></div>
+    <div class="term"><b>수락률</b><div>6/29 기준 수락 185건 / 노출 655명 = 28.2%<br>비교할 대조군 없이 전체에 노출하는 시범 운영이라 추이로 봄</div></div>
     <div class="term"><b>신규 구간 표본</b><div>12,900원 구간은 노출이 적어 수락률을 신뢰성 있게 보려면 노출이 약 380명은 쌓여야 함<br>다만 구간별 노출은 로그에 분리 집계되지 않아 직접 셀 수 없고, 수락 건수로 진척을 봄</div></div>
   </details>
 
@@ -173,9 +189,9 @@ summary:hover { color: #2563eb; }
 FROM `socar-data.app_web_log.socar_app_web_log`
 WHERE page_name='upsell_bottomsheet'
   AND event_date_kst BETWEEN '2026-06-25' AND '2026-06-29'
-  AND REGEXP_EXTRACT(form_data, r'ut\\?:\\?([a-zA-Z_]+)') = 'i'
+  AND REGEXP_EXTRACT(form_data, r'ut\\??:\\??([a-z]+)') = 'i'
 GROUP BY dt ORDER BY dt
--- 결과: 6/25 72, 6/26 154, 6/27 74, 6/28 231, 6/29 227 (누계 distinct 744)</div>
+-- 결과: 6/25 54, 6/26 125, 6/27 66, 6/28 212, 6/29 209 (누계 distinct 655)</div>
       </details>
       <details>
         <summary>2. 수락 구간별 (결제 meta content_token 디코딩)</summary>
@@ -213,6 +229,126 @@ FROM te GROUP BY surcharge, return_hour ORDER BY surcharge, return_hour
 
 </div>
 
+<div class="wrap" id="viewAna" style="display:none">
+
+  <div class="q-card" style="border-color:#fca5a5">
+    <div class="lbl" style="color:#b91c1c">미팅 논점 (7/1 로직 점검)</div>
+    <div class="q">완화 배포로 시간연장 제안이 늘어난 것이 <b style="color:#b91c1c">대조군을 없앤 착시</b>인가, 실제 대상 확대인가?</div>
+    <div style="font-size:13px;color:#6b7280;margin-top:9px;line-height:1.7">패트님 지적</div>
+    <div style="font-size:13px;color:#334155;margin-top:4px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:4px;line-height:1.7">시간연장 제안 뷰 숫자가 변동 없어 보임<br>대조군 없앤 정도만 늘어난 느낌</div>
+  </div>
+
+  <div class="concl">
+    <div class="ct">한 줄 결론</div>
+    <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">제안 뷰는 실제로 늘었으나(약 1.8배) 극적이지 않음. 완화해도 자격 대상이 좁은 것이 본질</div>
+    <ul>
+      <li><b>직전 비교는 불가.</b> 시간연장 노출이 6/3~6/24 완전히 꺼져 있다가(3주 공백) 6/25 재개. 직전(6/24)이 0이라 "변동 없다"는 착시가 생김</li>
+      <li><b>버킷 무노출 대조군은 아님.</b> 완화 전에도 제안 뷰가 실험군 493명 대조군 437명으로 양쪽에 발생. 특정 버킷을 안 보여주다 푼 구조가 아님</li>
+      <li><b>제안 뷰는 실제 증가.</b> 완화 전 일평균 약 74명에서 완화 후 약 133명으로 약 1.8배</li>
+      <li class="warn"><b>다만 판정 유보 필요.</b> 무노출 홀드아웃이 절반 있었다면 그것만 없애도 약 2배가 나옴. 1.8배가 순수 대상 확대인지 홀드아웃 제거인지는 실험 설계 확인 필요</li>
+      <li class="warn"><b>본질은 좁은 자격 대상.</b> 완화 후에도 제안 뷰 약 133명/일은 전체 결제 뷰 약 8천명/일의 2% 미만. PF 업셀 조건에서 대부분 걸러짐</li>
+    </ul>
+  </div>
+
+  <div class="group-label">1. 노출 타임라인 <span>시간연장 제안 뷰 회원 일별</span></div>
+  <div class="section-label">6/3부터 6/24까지 노출이 완전히 꺼져 있었음 <span class="tag tag-fact">실측</span></div>
+  <div class="card">
+    <div class="card-title">직전이 0이라 "직전 대비 변동 없음"이라는 비교 자체가 성립하지 않음</div>
+    <div class="card-sub">
+      파란 막대는 이전 ABT 운영 구간(5/21~6/2)<br>
+      가운데 빈 구간은 3주간 노출 중단(6/3~6/24)<br>
+      주황 막대는 6/25 완화 재개 구간
+    </div>
+    <div class="chart-wrap" style="height:320px"><canvas id="anaTimeline"></canvas></div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:10px;line-height:1.6">지표는 제안 뷰 회원(결제 직전 시간연장 제안 화면을 본 회원). 제안 뷰 로그는 5/21부터 적재되어 그 이전은 표시하지 않음</div>
+  </div>
+
+  <div class="group-label">2. 대조군 착시 검증 <span>완화 전 제안 뷰의 버킷 분포</span></div>
+  <div class="section-label">완화 전에도 실험군 대조군 양쪽에 노출됨 <span class="tag tag-fact">실측</span></div>
+  <div class="card">
+    <div class="card-title">특정 버킷을 안 보여주다가 완화 때 푼 구조가 아님</div>
+    <div class="card-sub">완화 전 제안 뷰 회원을 TIME_EXTENSION 실험 버킷으로 나눠 보면 실험군과 대조군에 고르게 분포. 완화가 안 보이던 대조군을 새로 편입시킨 것이 아님</div>
+    <table class="data-table" style="margin-top:4px">
+      <thead><tr><th>기간</th><th class="num">실험군 (버킷 0~49)</th><th class="num">대조군 (버킷 50~99)</th><th class="num">제안 뷰 회원 합계</th></tr></thead>
+      <tbody>
+        <tr><td class="dt">완화 전 (5/21~6/2)</td><td class="num">493</td><td class="num">437</td><td class="num">930</td></tr>
+        <tr><td class="dt">완화 후 (6/25~6/29)</td><td class="num">328</td><td class="num">327</td><td class="num">655</td></tr>
+      </tbody>
+    </table>
+    <div class="wait-box" style="margin-top:14px">
+      <b>한계</b><br>이 검증은 TIME_EXTENSION 실험 버킷 기준. 다른 방식의 무노출 대조군이 설계에 있었는지는 로그만으로 알 수 없어 올라프 확인 권장<br>버킷은 임의 해시 분할이라 어떤 실험이든 대략 반반이 나옴. 따라서 "반반이니 대조군 없음"이 아니라, "완화 전에도 양쪽이 이미 노출됐다"는 점이 근거
+    </div>
+  </div>
+
+  <div class="group-label">3. 완화 전후 규모 <span>제안 뷰 회원 일평균</span></div>
+  <div class="section-label">완화 후 일평균 약 1.8배, 다만 편차 큼 <span class="tag tag-fact">실측</span></div>
+  <div class="card">
+    <div class="card-title">제안 뷰 규모 자체는 늘었으나 극적인 점프는 아님</div>
+    <div class="card-sub">3주 공백 직전 구간(5/21~6/2)과 완화 재개 후(6/25~6/29)의 제안 뷰 회원 일평균 비교</div>
+    <div class="evidence">
+      <div class="e"><div class="n">약 74명/일</div><div class="l">완화 전<br>5/21~6/2 (13일)</div></div>
+      <div class="e"><div class="n green">약 133명/일</div><div class="l">완화 후<br>6/25~6/29 (5일)</div></div>
+      <div class="e"><div class="n green">약 1.8배</div><div class="l">일평균 증가</div></div>
+    </div>
+    <div style="margin-top:14px" class="wait-box">
+      <b>동일 조건 비교는 아님</b><br>
+      중간에 3주 노출 중단이 있었고, 완화로 자격 규칙 자체가 바뀜(제외 지역 축소, 12-15시 구간 신규 추가)<br>
+      완화 후 일별도 54명에서 212명까지 편차가 커서, 며칠만 보면 "변동 없다"는 인상을 받을 수 있음<br>
+      절대 규모가 여전히 작다는 점이 핵심이며, 자격 대상 병목은 별도로 봐야 함
+    </div>
+  </div>
+
+  <div class="group-label">부록 <span>검증 쿼리와 정정 사항</span></div>
+  <div class="card" style="border-color:#fcd34d;background:#fffbeb">
+    <div class="card-title" style="color:#92400e">모니터링뷰 노출 수치 정정함</div>
+    <div class="card-sub" style="color:#92400e">기존 모니터링뷰의 노출 744는 재검증에서 재현되지 않아 655로 정정(뷰 이벤트 distinct 기준, 뷰와 옵션 클릭 합집합은 690). 수락 185건과 순 143건은 정확해 유지. 이에 따라 수락률은 185/655로 약 28.2%로 갱신</div>
+  </div>
+  <details class="card" style="margin-bottom:48px">
+    <summary>검증용 BigQuery 쿼리</summary>
+    <div style="margin-top:12px">
+      <details>
+        <summary>A. 제안 뷰 회원 일별 타임라인 (두 인코딩 모두 포함)</summary>
+        <div class="query-block">SELECT event_date_kst AS dt, COUNT(DISTINCT member_id) AS offer_view_m
+FROM `socar-data.app_web_log.socar_app_web_log`
+WHERE page_name='upsell_bottomsheet' AND event_name='view'
+  AND ( REGEXP_CONTAINS(form_data, r'intervalUpselling')
+     OR REGEXP_EXTRACT(form_data, r'ut\??:\??([a-z]+)') = 'i' )
+  AND event_date_kst BETWEEN '2026-05-13' AND '2026-06-29'
+GROUP BY dt ORDER BY dt
+-- 5/21부터 적재, 6/3~6/24 = 0, 6/25 재개(54/125/66/212/209)</div>
+      </details>
+      <details>
+        <summary>B. 완화 전후 제안 뷰의 버킷 분포</summary>
+        <div class="query-block">WITH v AS (
+  SELECT DISTINCT member_id,
+    CASE WHEN event_date_kst BETWEEN '2026-05-21' AND '2026-06-02' THEN 'pre'
+         WHEN event_date_kst BETWEEN '2026-06-25' AND '2026-06-29' THEN 'post' END AS period
+  FROM `socar-data.app_web_log.socar_app_web_log`
+  WHERE page_name='upsell_bottomsheet' AND event_name='view'
+    AND ( REGEXP_CONTAINS(form_data,'intervalUpselling')
+       OR REGEXP_EXTRACT(form_data, r'ut\??:\??([a-z]+)')='i' ))
+SELECT period,
+  CASE WHEN MOD(ABS(FARM_FINGERPRINT(CONCAT(member_id,'TIME_EXTENSION'))),100)<50
+       THEN '실험군' ELSE '대조군' END AS bucket, COUNT(*) AS members
+FROM v WHERE period IS NOT NULL GROUP BY period, bucket ORDER BY period, bucket
+-- pre: 실험493/대조437, post: 실험328/대조327</div>
+      </details>
+      <details>
+        <summary>C. 수락 검증 (결제 meta TIME_EXTENSION)</summary>
+        <div class="query-block">SELECT COUNT(DISTINCT pi.reservation_id) AS accept_resv,
+  COUNT(DISTINCT IF(ri.cancel_at IS NULL, pi.reservation_id, NULL)) AS active_resv
+FROM `socar-data.tianjin_replica.paid_meta_info` pmi
+JOIN `socar-data.tianjin_replica.paid_info` pi ON pi.id = pmi.id
+JOIN `socar-data.tianjin_replica.reservation_info` ri ON ri.id = pi.reservation_id
+WHERE REGEXP_CONTAINS(pmi.meta, r'TIME_EXTENSION')
+  AND DATE(pmi.created_at,'Asia/Seoul') BETWEEN '2026-06-25' AND '2026-06-29'
+-- 결과: 수락 185 / 순 143</div>
+      </details>
+    </div>
+  </details>
+
+</div>
+
 <script>
 const ctx = document.getElementById('dailyChart');
 new Chart(ctx, {
@@ -220,8 +356,8 @@ new Chart(ctx, {
   data: {
     labels: ['6/25','6/26','6/27','6/28','6/29'],
     datasets: [
-      { label: '노출(회원)', data: [72,154,74,231,227], backgroundColor: '#bfdbfe' },
-      { label: '옵션 클릭(회원)', data: [27,60,35,110,74], backgroundColor: '#94a3b8' },
+      { label: '노출(회원)', data: [54,125,66,212,209], backgroundColor: '#bfdbfe' },
+      { label: '옵션 클릭(회원)', data: [27,60,35,110,75], backgroundColor: '#94a3b8' },
       { label: '수락 4,900', data: [11,43,21,58,42], backgroundColor: '#3b82f6' },
       { label: '수락 12,900', data: [0,1,1,4,4], backgroundColor: '#f59e0b' }
     ]
@@ -232,6 +368,37 @@ new Chart(ctx, {
     scales: { y: { beginAtZero: true } }
   }
 });
+
+let anaChartDone = false;
+function initAnaChart() {
+  if (anaChartDone) return;
+  anaChartDone = true;
+  const days = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14','6/15','6/16','6/17','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29'];
+  const views = [47,47,36,64,65,81,84,129,50,28,104,136,96,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,54,125,66,212,209];
+  const colors = days.map((d,i) => i >= 35 ? '#f59e0b' : '#93c5fd');
+  new Chart(document.getElementById('anaTimeline'), {
+    type: 'bar',
+    data: { labels: days, datasets: [{ label: '제안 뷰(회원)', data: views, backgroundColor: colors, borderRadius: 2 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { afterLabel: (c) => (c.dataIndex >= 13 && c.dataIndex <= 34) ? '노출 중단 구간' : '' } }
+      },
+      scales: {
+        x: { ticks: { maxRotation: 90, minRotation: 90, autoSkip: false, font: { size: 9 } }, grid: { display: false } },
+        y: { beginAtZero: true }
+      }
+    }
+  });
+}
+
+function switchView(v) {
+  document.getElementById('viewMon').style.display = (v === 'mon') ? '' : 'none';
+  document.getElementById('viewAna').style.display = (v === 'ana') ? '' : 'none';
+  document.querySelectorAll('.vtab').forEach(b => b.classList.toggle('active', b.dataset.view === v));
+  if (v === 'ana') initAnaChart();
+}
 </script>
 </body>
 </html>
