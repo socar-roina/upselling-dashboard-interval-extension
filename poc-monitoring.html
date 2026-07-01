@@ -265,28 +265,28 @@ FROM te GROUP BY return_dow ORDER BY active DESC
 
   <div class="q-card" style="border-color:#fca5a5">
     <div class="lbl" style="color:#b91c1c">미팅 논점 (7/1 로직 점검)</div>
-    <div class="q">완화 배포로 시간연장 제안이 늘어난 것이 <b style="color:#b91c1c">대조군을 없앤 착시</b>인가, 실제 대상 확대인가?</div>
-    <div style="font-size:13px;color:#334155;margin-top:9px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:4px;line-height:1.7">제안 뷰 수가 크게 변하지 않아 보이고, 대조군을 제외한 만큼만 늘어난 것으로 보인다는 의견에서 출발</div>
+    <div class="q">조건을 완화했는데 시간연장 노출이 <b style="color:#b91c1c">왜 크게 늘지 않았나</b>. 완화 조건은 제대로 반영됐나?</div>
+    <div style="font-size:13px;color:#334155;margin-top:9px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:4px;line-height:1.7">완화 배포 후에도 시간연장 제안 뷰가 크게 늘어 보이지 않는다는 데서 출발</div>
   </div>
 
   <div class="concl">
     <div class="ct">한 줄 결론</div>
     <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">완화 조건 중 신규 구간과 반납 조건만 반영된 상태. 가장 큰 지렛대인 예외존 축소는 아직 미반영이라, 반영되면 노출이 더 늘어날 여지가 큼</div>
     <ul>
-      <li><b>비교 기준.</b> 시간연장을 노출하던 이전 ABT 운영기(5/21~6/2)와 완화 후(6/25~6/29)를 비교. 그 사이 노출을 켜지 않았던 시기(6/3~6/24)는 비교에서 제외</li>
+      <li><b>비교 기준.</b> 시간연장을 노출하던 이전 운영기(5/21~6/2)와 완화 후(6/25~6/29)를 비교. 그 사이 노출을 켜지 않았던 시기(6/3~6/24)는 비교에서 제외</li>
       <li><b>제안 뷰 규모.</b> 일평균 약 74명에서 약 133명으로 약 1.8배. 전체뷰(약 8천) 분모를 걷어낸 침투율로도 1.0%에서 1.6%로 상승</li>
       <li class="warn"><b>예외존 축소 미반영(핵심).</b> 예외존이 약 1,600개에서 600개로 줄 예정이나 아직 미반영(인프라 티켓 대기). 반영되면 노출 모수가 약 2배 늘 것으로 예상되며, 현재 노출이 낮은 가장 큰 원인</li>
       <li><b>신규 12,900원 구간.</b> 반납 12~14시에만 잡혀 조건은 정상 반영. 다만 순수락 9건으로 전체의 약 5% 수준이라 물량은 작음</li>
-      <li><b>대조군 여부는 로그로 확인 불가.</b> 노출 로그에는 제안이 뜬 사람만 남아, 완화 전 ABT에 무노출 대조군이 있었는지는 로그로 알 수 없음. "대조군 없앤 만큼 늘었다"인지 가리려면 실험 설정과 노출 코드 확인이 필요</li>
+      <li><b>대조군 문제는 아님.</b> 시간연장은 조건을 충족하면 전체 노출하는 방식(서버 코드 확인, 회원 대조군 없음). 노출이 적은 건 아래 자격 조건에서 대부분 걸러지기 때문</li>
     </ul>
   </div>
 
   <div class="group-label">1. 노출 타임라인 <span>시간연장 제안 뷰 회원 일별</span></div>
-  <div class="section-label">이전 ABT 운영기와 완화 후를 비교 (중간 노출 중단기는 제외) <span class="tag tag-fact">실측</span></div>
+  <div class="section-label">이전 운영기와 완화 후를 비교 (중간 노출 중단기는 제외) <span class="tag tag-fact">실측</span></div>
   <div class="card">
-    <div class="card-title">비교 대상은 이전 ABT 운영기와 완화 후 두 구간</div>
+    <div class="card-title">비교 대상은 이전 운영기와 완화 후 두 구간</div>
     <div class="card-sub">
-      파란 막대는 이전 ABT 운영기(5/21~6/2)<br>
+      파란 막대는 이전 운영기(5/21~6/2)<br>
       가운데 "6/3~6/24 노출 중단"은 시간연장을 노출하지 않던 시기로, 비교에서 제외(구간 압축 표기)<br>
       주황 막대는 완화 재개 구간(6/25~6/29)
     </div>
@@ -298,7 +298,7 @@ FROM te GROUP BY return_dow ORDER BY active DESC
   <div class="section-label">완화 후 일평균 약 1.8배, 다만 일별 편차는 있음 <span class="tag tag-fact">실측</span></div>
   <div class="card">
     <div class="card-title">제안 뷰 규모는 늘었으나 큰 폭의 점프는 아님</div>
-    <div class="card-sub">이전 ABT 운영기(5/21~6/2)와 완화 재개 후(6/25~6/29)의 제안 뷰 회원 일평균 비교</div>
+    <div class="card-sub">이전 운영기(5/21~6/2)와 완화 재개 후(6/25~6/29)의 제안 뷰 회원 일평균 비교</div>
     <div class="evidence">
       <div class="e"><div class="n">약 74명/일</div><div class="l">완화 전<br>5/21~6/2 (13일)</div></div>
       <div class="e"><div class="n green">약 133명/일</div><div class="l">완화 후<br>6/25~6/29 (5일)</div></div>
@@ -337,6 +337,26 @@ FROM te GROUP BY return_dow ORDER BY active DESC
       <div class="e"><div class="n amber">약 2배</div><div class="l">반영 시 노출 모수<br>증가 예상</div></div>
     </div>
     <div class="wait-box" style="margin-top:14px">지금 침투율 1.6%는 예외존 축소가 빠진 값. 예외존이 반영되면 노출 대상이 넓어져 추가 상승 여지가 큼</div>
+  </div>
+
+  <div class="section-label">노출까지 통과해야 하는 자격 조건 <span class="tag tag-info">서버 코드 기준</span></div>
+  <div class="card">
+    <div class="card-title">아래 조건을 전부 통과한 예약에만 시간연장이 노출됨</div>
+    <div class="card-sub">시간연장은 조건 충족 시 전체 노출(대조군 없음). 노출이 적은 건 이 조건들에서 대부분 걸러지기 때문이고, 그중 예외존이 가장 크게 걸러냄</div>
+    <table class="data-table" style="margin-top:4px">
+      <thead><tr><th>조건</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="dt">대여 방식</td><td>쏘카존 대여만</td></tr>
+        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">예외존</td><td>제외존이면 컷 (지금 가장 크게 걸러냄, 축소 미반영)</td></tr>
+        <tr><td class="dt">리드타임</td><td>출발까지 24시간 이내만</td></tr>
+        <tr><td class="dt">반납 시각</td><td>12-15시 또는 15-20시 밴드만</td></tr>
+        <tr><td class="dt">연휴 블록</td><td>반납일과 다음날이 둘 다 공휴일/주말이면 컷</td></tr>
+        <tr><td class="dt">최소 대여</td><td>4시간 이상</td></tr>
+        <tr><td class="dt">빈도 제한</td><td>이미 한 번 수락한 회원은 컷</td></tr>
+        <tr><td class="dt">그 외</td><td>차량 가용성, 연장 차액이 추가금보다 클 것, 제외 차종 아님, 제휴할인 없음</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px">출처: 서버 UpsellingService.kt (checkTargetingConditions)</div>
   </div>
 
   <div class="group-label">5. 다음 단계 <span>조건 완화 방향과 데이터 근거</span></div>
