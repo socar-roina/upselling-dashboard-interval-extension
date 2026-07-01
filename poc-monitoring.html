@@ -255,7 +255,7 @@ FROM te GROUP BY surcharge, return_hour ORDER BY surcharge, return_hour
     <div class="card-title">비교 대상은 이전 ABT 운영기와 완화 후 두 구간</div>
     <div class="card-sub">
       파란 막대는 이전 ABT 운영기(5/21~6/2)<br>
-      가운데 빈 구간은 시간연장을 노출하지 않던 시기(6/3~6/24)로, 비교에서 제외<br>
+      가운데 "6/3~6/24 노출 중단"은 시간연장을 노출하지 않던 시기로, 비교에서 제외(구간 압축 표기)<br>
       주황 막대는 완화 재개 구간(6/25~6/29)
     </div>
     <div class="chart-wrap" style="height:320px"><canvas id="anaTimeline"></canvas></div>
@@ -323,20 +323,19 @@ let anaChartDone = false;
 function initAnaChart() {
   if (anaChartDone) return;
   anaChartDone = true;
-  const days = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14','6/15','6/16','6/17','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29'];
-  const views = [47,47,36,64,65,81,84,129,50,28,104,136,96,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,54,125,66,212,209];
-  const colors = days.map((d,i) => i >= 35 ? '#f59e0b' : '#93c5fd');
+  const days = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2',['6/3~6/24','노출 중단'],'6/25','6/26','6/27','6/28','6/29'];
+  const views = [47,47,36,64,65,81,84,129,50,28,104,136,96,null,54,125,66,212,209];
+  const colors = days.map((d,i) => i === 13 ? 'rgba(0,0,0,0)' : (i >= 14 ? '#f59e0b' : '#93c5fd'));
   new Chart(document.getElementById('anaTimeline'), {
     type: 'bar',
     data: { labels: days, datasets: [{ label: '제안 뷰(회원)', data: views, backgroundColor: colors, borderRadius: 2 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { afterLabel: (c) => (c.dataIndex >= 13 && c.dataIndex <= 34) ? '노출 중단기 (비교 제외)' : '' } }
+        legend: { display: false }
       },
       scales: {
-        x: { ticks: { maxRotation: 90, minRotation: 90, autoSkip: false, font: { size: 9 } }, grid: { display: false } },
+        x: { ticks: { maxRotation: 0, minRotation: 0, autoSkip: false, font: { size: 10 } }, grid: { display: false } },
         y: { beginAtZero: true }
       }
     }
