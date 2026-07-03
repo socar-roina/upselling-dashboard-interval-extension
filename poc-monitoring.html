@@ -302,6 +302,22 @@ FROM te GROUP BY surcharge, orig_return_hour ORDER BY surcharge, orig_return_hou
 --                 4900 -> 15시 26, 16시 27, 17시 36, 18시 65, 19시 69, 20시 42
 -- 합계 280건. 원래 반납이 15-20시면 4,900원, 12-14시면 12,900원 구간</div>
       </details>
+      <details>
+        <summary>7. 유저 최초 설정 이용시간 vs 수락 후 (건별)</summary>
+        <div class="query-block">-- 수락한 예약별로 "유저가 최초 설정한 이용 구간"과 "연장 후 반납"을 나란히 조회
+-- te는 위 2번과 동일 (결제 meta TIME_EXTENSION, 6/25~7/2)
+-- originalInterval = 업셀 제안 전 원래 예약 구간, extendedInterval = 연장 후 구간
+SELECT reservation_id,
+  DATETIME(TIMESTAMP(JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.originalInterval.start')),'Asia/Seoul') AS orig_start,   -- 최초 대여 시작
+  DATETIME(TIMESTAMP(JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.originalInterval.end')),'Asia/Seoul')   AS orig_end,     -- 최초 반납
+  DATETIME(TIMESTAMP(JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.extendedInterval.end')),'Asia/Seoul')   AS extended_end, -- 연장 후 반납
+  SAFE_CAST(JSON_VALUE(SAFE.PARSE_JSON(d),'$.customerSurcharge') AS INT64) AS surcharge
+FROM te WHERE cancel_at IS NULL ORDER BY reservation_id DESC
+-- 예: 최초 11:20~20:00 반납 -> 연장 후 익일 00:00, +4,900 / 최초 08:30~13:30 -> 익일 00:00, +12,900
+-- (참고) 다른 업셀도 같은 방식으로 최초값·업셀값 조회 가능 — 로깅 정의서 4714070038
+--   차종: 노출 로그 form_data의 co(기존 차종)·cu(업그레이드 차종), 또는 결제 JWT CAR_UPGRADE의 originalCarClassId·upgradedCarClassId
+--   PF:   노출 로그 form_data의 pf(기존 면책), 수락 시 PF0 적용 / upsell_type은 ut(i=시간, c=차종, p=PF)</div>
+      </details>
     </div>
   </details>
 
