@@ -348,9 +348,7 @@ SELECT
 FROM `socar-data.app_web_log.socar_app_web_log`
 WHERE page_name='upsell_bottomsheet' AND event_name='view'
   AND event_date_kst BETWEEN '2026-06-25' AND '2026-07-01'
--- 로깅 정의서 4714070038 참조
--- ⚠️ PF '수락 건'은 여기서 안 잡힘: pf0 클릭이 노출 대비 약 97%라 수락 신호가 아니고, PF는 결제 JWT에도 없음.
---    PF0 실제 수락은 예약 최종 면책상품(완전면책)으로 세야 하며 PF0 아이템의 수락 정의를 따름</div>
+-- 로깅 정의서 4714070038 참조 (ut=업셀종류, pf=기존 면책, co/cu=차종 원본/업그레이드)</div>
       </details>
     </div>
   </details>
