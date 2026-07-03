@@ -313,10 +313,44 @@ SELECT reservation_id,
   DATETIME(TIMESTAMP(JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.extendedInterval.end')),'Asia/Seoul')   AS extended_end, -- 연장 후 반납
   SAFE_CAST(JSON_VALUE(SAFE.PARSE_JSON(d),'$.customerSurcharge') AS INT64) AS surcharge
 FROM te WHERE cancel_at IS NULL ORDER BY reservation_id DESC
--- 예: 최초 11:20~20:00 반납 -> 연장 후 익일 00:00, +4,900 / 최초 08:30~13:30 -> 익일 00:00, +12,900
--- (참고) 다른 업셀도 같은 방식으로 최초값·업셀값 조회 가능 — 로깅 정의서 4714070038
---   차종: 노출 로그 form_data의 co(기존 차종)·cu(업그레이드 차종), 또는 결제 JWT CAR_UPGRADE의 originalCarClassId·upgradedCarClassId
---   PF:   노출 로그 form_data의 pf(기존 면책), 수락 시 PF0 적용 / upsell_type은 ut(i=시간, c=차종, p=PF)</div>
+-- 예: 최초 11:20~20:00 반납 -> 연장 후 익일 00:00, +4,900 / 최초 08:30~13:30 -> 익일 00:00, +12,900</div>
+      </details>
+      <details>
+        <summary>8. (업셀 공통) 차종 수락 건별 최초/업그레이드 차종 — 지아나 문의</summary>
+        <div class="query-block">-- 차종 업그레이드 수락 건. 결제 JWT CAR_UPGRADE payload에 원본·제안 차종이 함께 있음
+-- (시간연장과 동일 구조. 차종 ABT 운영기에만 데이터 있음)
+WITH cu AS (
+  SELECT pi.reservation_id, ri.cancel_at,
+    SAFE_CAST(JSON_VALUE(SAFE.PARSE_JSON(SAFE_CONVERT_BYTES_TO_STRING(FROM_BASE64(
+      REPLACE(REPLACE(SPLIT(JSON_VALUE(pmi.meta,'$.content_token'),'.')[OFFSET(1)],'-','+'),'_','/')
+    ))),'$.data') AS STRING) AS d
+  FROM `socar-data.tianjin_replica.paid_meta_info` pmi
+  JOIN `socar-data.tianjin_replica.paid_info` pi ON pi.id = pmi.id
+  JOIN `socar-data.tianjin_replica.reservation_info` ri ON ri.id = pi.reservation_id
+  WHERE REGEXP_CONTAINS(pmi.meta, r'CAR_UPGRADE')
+    AND DATE(pmi.created_at,'Asia/Seoul') BETWEEN '2026-06-01' AND '2026-07-02')
+SELECT reservation_id,
+  JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.originalCarClassId') AS orig_car_class,   -- 최초 차종
+  JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.upgradedCarClassId') AS upgraded_car_class, -- 업그레이드 차종
+  SAFE_CAST(JSON_VALUE(SAFE.PARSE_JSON(d),'$.customerSurcharge') AS INT64) AS surcharge
+FROM cu WHERE cancel_at IS NULL ORDER BY reservation_id DESC
+-- 예: 410 -> 170 (+9,900). 노출 로그로도 확인 가능: form_data의 co(원본)/cu(업그레이드)</div>
+      </details>
+      <details>
+        <summary>9. (업셀 공통) upsell_type · 기존 면책(PF) — 노출 로그 REGEXP — 지아나 문의</summary>
+        <div class="query-block">-- form_data는 {pf:70,ut:p}처럼 따옴표 없는 비표준 문자열이라 JSON_VALUE 불가, REGEXP로 파싱
+SELECT
+  CASE REGEXP_EXTRACT(form_data, r'ut\??:\??([a-z]+)')
+    WHEN 'i' THEN '시간연장' WHEN 'c' THEN '차종업그레이드' WHEN 'p' THEN 'PF넛지' END AS upsell_type,
+  REGEXP_EXTRACT(form_data, r'pf:([0-9A-Za-z_]+)') AS orig_pf,   -- 기존(원래) 면책: 30/70 = 30·70만원면책
+  REGEXP_EXTRACT(form_data, r'co:([0-9]+)') AS orig_car_class,   -- 차종만
+  REGEXP_EXTRACT(form_data, r'cu:([0-9]+)') AS upgraded_car_class -- 차종만
+FROM `socar-data.app_web_log.socar_app_web_log`
+WHERE page_name='upsell_bottomsheet' AND event_name='view'
+  AND event_date_kst BETWEEN '2026-06-25' AND '2026-07-01'
+-- 로깅 정의서 4714070038 참조
+-- ⚠️ PF '수락 건'은 여기서 안 잡힘: pf0 클릭이 노출 대비 약 97%라 수락 신호가 아니고, PF는 결제 JWT에도 없음.
+--    PF0 실제 수락은 예약 최종 면책상품(완전면책)으로 세야 하며 PF0 아이템의 수락 정의를 따름</div>
       </details>
     </div>
   </details>
