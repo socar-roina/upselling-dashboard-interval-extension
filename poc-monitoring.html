@@ -316,7 +316,7 @@ FROM te WHERE cancel_at IS NULL ORDER BY reservation_id DESC
 -- 예: 최초 11:20~20:00 반납 -> 연장 후 익일 00:00, +4,900 / 최초 08:30~13:30 -> 익일 00:00, +12,900</div>
       </details>
       <details>
-        <summary>8. (업셀 공통) 차종 수락 건별 최초/업그레이드 차종 — 지아나 문의</summary>
+        <summary>8. (업셀 공통) 차종 수락 건별 최초/업그레이드 차종</summary>
         <div class="query-block">-- 차종 업그레이드 수락 건. 결제 JWT CAR_UPGRADE payload에 원본·제안 차종이 함께 있음
 -- (시간연장과 동일 구조. 차종 ABT 운영기에만 데이터 있음)
 WITH cu AS (
@@ -337,7 +337,7 @@ FROM cu WHERE cancel_at IS NULL ORDER BY reservation_id DESC
 -- 예: 410 -> 170 (+9,900). 노출 로그로도 확인 가능: form_data의 co(원본)/cu(업그레이드)</div>
       </details>
       <details>
-        <summary>9. (업셀 공통) upsell_type · 기존 면책(PF) — 노출 로그 REGEXP — 지아나 문의</summary>
+        <summary>9. (업셀 공통) upsell_type · 기존 면책(PF) — 노출 로그 REGEXP</summary>
         <div class="query-block">-- form_data는 {pf:70,ut:p}처럼 따옴표 없는 비표준 문자열이라 JSON_VALUE 불가, REGEXP로 파싱
 SELECT
   CASE REGEXP_EXTRACT(form_data, r'ut\??:\??([a-z]+)')
