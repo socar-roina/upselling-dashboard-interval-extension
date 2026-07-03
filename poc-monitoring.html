@@ -90,7 +90,7 @@ summary:hover { color: #2563eb; }
   </div>
   <div class="updated">
     실험 기간 <b>2026-06-25 ~ 진행 중</b><br>
-    <span>최종 갱신 7/3 (노출 7/1까지, 수락 7/2까지)</span>
+    <span>최종 갱신 7/3 (노출·수락 모두 7/2까지)</span>
   </div>
 </div>
 
@@ -124,15 +124,15 @@ summary:hover { color: #2563eb; }
 
   <div class="group-label">참고 <span>기능 전체가 정상 작동하는지</span></div>
 
-  <div class="section-label">전체 노출과 수락 <span class="tag tag-fact">실측 노출 6/25~7/1, 수락 6/25~7/2</span></div>
+  <div class="section-label">전체 노출과 수락 <span class="tag tag-fact">실측 6/25~7/2</span></div>
   <div class="card">
     <div class="card-title">완화 후 전체 운영 현황 (기존 4,900 + 신규 12,900 합산)</div>
-    <div class="card-sub">조건 완화로 더 넓어진 대상에 제안이 잘 노출되고 수락으로 이어지는지 확인. 대부분은 기존 4,900원 구간<br>노출 로그는 7/1까지만 적재돼 수락률은 노출과 같은 창(7/1)으로 계산</div>
+    <div class="card-sub">조건 완화로 더 넓어진 대상에 제안이 잘 노출되고 수락으로 이어지는지 확인. 대부분은 기존 4,900원 구간</div>
     <div class="evidence">
-      <div class="e"><div class="n">1,067명</div><div class="l">제안 노출 (회원, 7/1까지)</div></div>
-      <div class="e"><div class="n">360건</div><div class="l">연장 수락 (결제, 7/2까지)<br>취소 제외 순 280건</div></div>
-      <div class="e"><div class="n green">약 27.3%</div><div class="l">수락률 (7/1 동일창)<br>수락 291건 / 노출 1,067명</div></div>
-      <div class="e"><div class="n">1,492,000원</div><div class="l">순매출 합계 (7/2까지)</div></div>
+      <div class="e"><div class="n">1,316명</div><div class="l">제안 노출 (회원)</div></div>
+      <div class="e"><div class="n">360건</div><div class="l">연장 수락 (결제)<br>취소 제외 순 280건</div></div>
+      <div class="e"><div class="n green">약 27.4%</div><div class="l">수락률<br>수락 360건 / 노출 1,316명</div></div>
+      <div class="e"><div class="n">1,492,000원</div><div class="l">순매출 합계</div></div>
     </div>
     <table class="data-table" style="margin-top:16px">
       <thead><tr><th>구간 (반납 시간대)</th><th>추가금</th><th class="num">수락</th><th class="num">취소 제외 순</th><th class="num">순매출</th></tr></thead>
@@ -147,7 +147,7 @@ summary:hover { color: #2563eb; }
   <div class="section-label">일별 추이 <span class="tag tag-fact">실측</span></div>
   <div class="card">
     <div class="card-title">일별 노출과 수락</div>
-    <div class="card-sub">노출은 7/1까지(로그 적재 지연), 수락은 7/2까지. 신규 12,900원 구간은 별도 색으로 표시</div>
+    <div class="card-sub">노출과 수락 모두 7/2까지. 신규 12,900원 구간은 별도 색으로 표시</div>
     <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
     <details style="margin-top:8px">
       <summary>일자별 상세 수치</summary>
@@ -161,8 +161,8 @@ summary:hover { color: #2563eb; }
           <tr><td class="dt">6/29</td><td class="num">209</td><td class="num">68</td><td class="num">42</td><td class="num">4</td></tr>
           <tr><td class="dt">6/30</td><td class="num">216</td><td class="num">73</td><td class="num">50</td><td class="num">2</td></tr>
           <tr><td class="dt">7/1</td><td class="num">214</td><td class="num">70</td><td class="num">49</td><td class="num">5</td></tr>
-          <tr><td class="dt">7/2</td><td class="num" style="color:#9ca3af">-</td><td class="num" style="color:#9ca3af">-</td><td class="num">66</td><td class="num">3</td></tr>
-          <tr class="total"><td class="dt">누계</td><td class="num">1,067</td><td class="num">411</td><td class="num">340</td><td class="num">20</td></tr>
+          <tr><td class="dt">7/2</td><td class="num green">267</td><td class="num">86</td><td class="num">66</td><td class="num">3</td></tr>
+          <tr class="total"><td class="dt">누계</td><td class="num">1,316</td><td class="num">496</td><td class="num">340</td><td class="num">20</td></tr>
         </tbody>
       </table>
       <div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.6">노출과 옵션 클릭은 일별 distinct 회원이라 누계(전체 기간 distinct)와 단순 합이 다를 수 있음</div>
@@ -204,7 +204,7 @@ summary:hover { color: #2563eb; }
     <div class="term"><b>노출</b><div>결제 직전 시간연장 제안 화면을 본 회원 수</div></div>
     <div class="term"><b>수락</b><div>제안받아 실제 연장을 결제한 예약 수. 취소되면 추가금도 환불되어, 취소 제외 순 건수를 함께 표기</div></div>
     <div class="term"><b>구간</b><div>반납 시간대에 따라 추가금이 다름. 기존 15-20시는 4,900원, 신규 12-15시는 12,900원</div></div>
-    <div class="term"><b>수락률</b><div>노출 로그가 7/1까지라 노출과 같은 창으로 계산. 7/1 기준 수락 291건 / 노출 1,067명 = 27.3%<br>비교할 대조군 없이 전체에 노출하는 시범 운영이라 추이로 봄</div></div>
+    <div class="term"><b>수락률</b><div>6/25~7/2 기준 수락 360건 / 노출 1,316명 = 27.4%<br>비교할 대조군 없이 전체에 노출하는 시범 운영이라 추이로 봄</div></div>
     <div class="term"><b>신규 구간 표본</b><div>12,900원 구간은 노출이 적어 수락률을 신뢰성 있게 보려면 노출이 약 380명은 쌓여야 함<br>다만 구간별 노출은 로그에 분리 집계되지 않아 직접 셀 수 없고, 수락 건수로 진척을 봄</div></div>
   </details>
 
@@ -218,11 +218,11 @@ summary:hover { color: #2563eb; }
   COUNT(DISTINCT IF(component_name='interval_option', member_id, NULL)) AS optclick_m
 FROM `socar-data.app_web_log.socar_app_web_log`
 WHERE page_name='upsell_bottomsheet'
-  AND event_date_kst BETWEEN '2026-06-25' AND '2026-07-01'
+  AND event_date_kst BETWEEN '2026-06-25' AND '2026-07-02'
   AND REGEXP_EXTRACT(form_data, r'ut\\??:\\??([a-z]+)') = 'i'
 GROUP BY dt ORDER BY dt
--- 노출(view_m): 54,125,66,212,209,216,214 (누계 distinct 1067)
--- 옵션클릭(optclick_m): 19,52,32,100,68,73,70 (누계 distinct 411)</div>
+-- 노출(view_m): 54,125,66,212,209,216,214,267 (누계 distinct 1316)
+-- 옵션클릭(optclick_m): 19,52,32,100,68,73,70,86 (누계 distinct 496)</div>
       </details>
       <details>
         <summary>2. 수락 구간별 (결제 meta content_token 디코딩)</summary>
@@ -273,7 +273,7 @@ SELECT
   ROUND(SUM(interval_view)/SUM(total_view)*100,2) AS penetration_pct
 FROM daily WHERE dt<='2026-06-02' OR dt>='2026-06-25'
 GROUP BY period ORDER BY period
--- 결과: 완화 전 7468 / 74 / 1.0%, 완화 후 8499 / 157 / 1.8%
+-- 결과: 완화 전 7468 / 74 / 1.0%, 완화 후 8468 / 170 / 2.0% (6/25~7/2)
 -- 주의: CONTAINS_SUBSTR('ut:i')는 이스케이프 인코딩(ut\:\i) 누락. 정규식으로 잡아야 함</div>
       </details>
       <details>
@@ -366,10 +366,10 @@ WHERE page_name='upsell_bottomsheet' AND event_name='view'
 
   <div class="concl">
     <div class="ct">한 줄 결론</div>
-    <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">완화 조건이 모두 반영됨. 마지막으로 남았던 예외존 축소도 7/1 반영 완료(약 1,600개에서 659개로). 노출 확대 효과는 7/2부터 나타날 것이며, 로그 적재가 7/1까지라 아직 확인 전</div>
+    <div style="font-size:16px;font-weight:800;color:#14532d;line-height:1.6;margin-bottom:14px">완화 조건이 모두 반영됨. 마지막으로 남았던 예외존 축소도 7/1 반영 완료(약 1,600개에서 659개로). 반영 다음날인 7/2 노출이 267명으로 뛰며 효과가 나타나기 시작함(하루 데이터라 추이는 더 봐야 함)</div>
     <ul>
-      <li><b>예외존 축소 7/1 반영 완료(핵심).</b> 노출 안 하는 예외존을 약 1,600개에서 659개로 줄임(INFRAREQ-5200, 7/1 16:41 배포). 노출 대상이 약 2배로 넓어질 것으로 보이며, 효과는 7/2 이후 노출 로그로 확인 예정</li>
-      <li><b>반영 전 기준 노출은 이미 늘었음.</b> 하루 평균 74명에서 157명으로 약 2배(예외존 축소 전인 6/25~7/1 기준). 전체 이용자 대비 비율로도 1.0%에서 1.8%로 늘어남</li>
+      <li><b>예외존 축소 7/1 반영, 7/2부터 효과 확인(핵심).</b> 노출 안 하는 예외존을 약 1,600개에서 659개로 줄임(INFRAREQ-5200, 7/1 16:41 배포). 반영 전 6/28~7/1은 하루 약 210명이었는데 7/2에 267명으로 올라섬</li>
+      <li><b>구간 완화 효과도 이미 있었음.</b> 하루 평균 74명에서 존 완화 전 약 157명으로 늘었고(6/25~7/1), 7/2 존 완화까지 얹혀 267명까지 올라감. 전체 이용자 대비 비율도 1.0%에서 2.0%로 늘어남</li>
       <li><b>신규 12,900원 구간은 정상 작동.</b> 조건대로 잘 붙었고, 다만 아직 수락이 15건(취소 제외)으로 적음</li>
     </ul>
   </div>
@@ -378,26 +378,26 @@ WHERE page_name='upsell_bottomsheet' AND event_name='view'
   <div class="section-label">이전 운영기와 완화 후를 비교 (중간 노출 중단기는 제외) <span class="tag tag-fact">실측</span></div>
   <div class="card">
     <div class="card-sub">
-      파란 막대는 이전 운영기(5/21~6/2), 주황 막대는 완화 재개(6/25~7/1)<br>
+      파란 막대는 이전 운영기(5/21~6/2), 주황 막대는 완화 재개(6/25~7/1), 초록 막대는 존 완화 후(7/2)<br>
       가운데 "6/3~6/24 노출 중단"은 시간연장을 켜지 않던 시기라 비교에서 제외
     </div>
     <div class="chart-wrap" style="height:320px"><canvas id="anaTimeline"></canvas></div>
   </div>
 
   <div class="group-label">2. 완화 전후 노출 규모 <span>하루 평균 노출 회원</span></div>
-  <div class="section-label">완화 후 하루 평균 약 2배, 날마다 차이는 있음 <span class="tag tag-fact">실측</span></div>
+  <div class="section-label">완화 후 약 2배, 7/1 존 완화 다음날 267명으로 더 상승 <span class="tag tag-fact">실측</span></div>
   <div class="card">
-    <div class="card-title">완화 후 노출은 약 2배로 늘어남 (다만 절대 수는 아직 적음)</div>
-    <div class="card-sub">완화 전과 후의 하루 평균 노출 회원 수 비교</div>
+    <div class="card-title">완화 후 노출은 약 2배, 존 완화 반영 다음날(7/2) 267명까지 올라섬</div>
+    <div class="card-sub">완화 전과 후의 하루 평균 노출 회원 수 비교. 7/2는 예외존 축소(7/1 반영) 첫날 수치</div>
     <div class="evidence">
       <div class="e"><div class="n">약 74명/일</div><div class="l">완화 전<br>5/21~6/2 (13일)</div></div>
-      <div class="e"><div class="n green">약 157명/일</div><div class="l">완화 후<br>6/25~7/1 (7일)</div></div>
-      <div class="e"><div class="n green">약 2배</div><div class="l">증가</div></div>
+      <div class="e"><div class="n green">약 170명/일</div><div class="l">완화 후<br>6/25~7/2 (8일)</div></div>
+      <div class="e"><div class="n green">267명</div><div class="l">존 완화 다음날<br>7/2 (반영 첫날)</div></div>
     </div>
     <div style="margin-top:14px" class="wait-box">
-      <b>6/25~7/1 노출이 완화 폭만큼 안 늘어난 이유</b><br>
-      이 기간은 예외존 축소 반영 전이라 대상 확대 효과가 빠져 있었음(7/1 반영 완료, 효과는 7/2부터)<br>
-      신규 12-15시 구간은 대상 예약 자체가 적어 수락도 적음. 증가분은 대부분 기존 15-20시 구간
+      <b>존 완화 전까지 눌려 있던 이유</b><br>
+      6/25~7/1은 예외존 축소 반영 전이라 대상 확대 효과가 빠져 있었고, 7/1 16:41 반영 후 7/2에 267명으로 올라섬<br>
+      신규 12-15시 구간은 대상 예약 자체가 적어, 증가분은 대부분 기존 15-20시 구간. 7/2는 하루라 추이는 더 봐야 함
     </div>
   </div>
 
@@ -410,16 +410,16 @@ WHERE page_name='upsell_bottomsheet' AND event_name='view'
       <thead><tr><th>기간</th><th class="num">전체 바텀시트 뷰(하루 평균)</th><th class="num">시간연장 뷰(하루 평균)</th><th class="num">전체 중 시간연장 비율</th></tr></thead>
       <tbody>
         <tr><td class="dt">완화 전(5/21~6/2)</td><td class="num">7,468</td><td class="num">74</td><td class="num">1.0%</td></tr>
-        <tr><td class="dt">완화 후(6/25~7/1)</td><td class="num">8,499</td><td class="num green">157</td><td class="num green">1.8%</td></tr>
+        <tr><td class="dt">완화 후(6/25~7/2)</td><td class="num">8,468</td><td class="num green">170</td><td class="num green">2.0%</td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="group-label">4. 노출을 눌러온 예외존 축소, 7/1 반영 완료 <span>7/1 회의 후속</span></div>
-  <div class="section-label">노출을 가장 크게 걸러온 예외존 축소가 반영됨 <span class="tag tag-fact">반영 완료</span></div>
+  <div class="group-label">4. 노출을 눌러온 예외존 축소, 7/1 반영 후 효과 확인 <span>7/1 회의 후속</span></div>
+  <div class="section-label">가장 크게 걸러온 예외존 축소 반영, 7/2 노출 상승으로 확인 <span class="tag tag-fact">반영·확인</span></div>
   <div class="card">
-    <div class="card-title">6/25~7/1 노출이 적었던 가장 큰 원인이 7/1 해소됨</div>
-    <div class="card-sub">6/25 배포에는 12-15시 신규 구간과 반납 조건만 들어갔고, 예외존 축소는 빠져 있었음. 이 마지막 조건이 7/1 16:41 반영됨(INFRAREQ-5200). 노출 확대 효과는 7/2부터 나타나며, 노출 로그가 7/1까지라 아직 수치로는 확인 전</div>
+    <div class="card-title">6/25~7/1 노출이 적었던 가장 큰 원인이 7/1 해소, 7/2 267명으로 상승</div>
+    <div class="card-sub">6/25 배포에는 12-15시 신규 구간과 반납 조건만 들어갔고, 예외존 축소는 빠져 있었음. 이 마지막 조건이 7/1 16:41 반영됨(INFRAREQ-5200). 반영 다음날 7/2 노출이 210명대에서 267명으로 올라서며 효과가 나타나기 시작함(하루 데이터라 추이는 더 봐야 함)</div>
     <div class="evidence">
       <div class="e"><div class="n">약 1,600개</div><div class="l">축소 전 예외존</div></div>
       <div class="e"><div class="n green">659개</div><div class="l">축소 후 예외존<br>(7/1 반영)</div></div>
@@ -452,7 +452,7 @@ WHERE page_name='upsell_bottomsheet' AND event_name='view'
   <div class="section-label">1순위. 예외존 축소 반영 <span class="tag tag-fact">7/1 완료</span></div>
   <div class="card">
     <div class="card-title">추가 개발 없이 노출 대상 약 2배 기대 (7/1 반영 완료)</div>
-    <div class="card-sub">예외존 목록을 약 1,600개에서 659개로 줄여 7/1 반영함(INFRAREQ-5200). 노출이 적던 가장 큰 원인이 해소됐고, 확대 효과는 7/2 이후 노출 로그로 확인 예정</div>
+    <div class="card-sub">예외존 목록을 약 1,600개에서 659개로 줄여 7/1 반영함(INFRAREQ-5200). 노출이 적던 가장 큰 원인이 해소됐고, 반영 다음날 7/2 노출이 267명으로 올라서며 효과가 나타나기 시작함</div>
   </div>
 
   <div class="section-label">2순위. 출발까지 시간을 24시간에서 36~48시간으로 늘리기 <span class="tag tag-info">가동률 근거</span></div>
@@ -511,8 +511,8 @@ new Chart(ctx, {
   data: {
     labels: ['6/25','6/26','6/27','6/28','6/29','6/30','7/1','7/2'],
     datasets: [
-      { label: '노출(회원)', data: [54,125,66,212,209,216,214,null], backgroundColor: '#bfdbfe' },
-      { label: '옵션 클릭(회원)', data: [19,52,32,100,68,73,70,null], backgroundColor: '#94a3b8' },
+      { label: '노출(회원)', data: [54,125,66,212,209,216,214,267], backgroundColor: '#bfdbfe' },
+      { label: '옵션 클릭(회원)', data: [19,52,32,100,68,73,70,86], backgroundColor: '#94a3b8' },
       { label: '수락 4,900', data: [11,43,21,58,42,50,49,66], backgroundColor: '#3b82f6' },
       { label: '수락 12,900', data: [0,1,1,4,4,2,5,3], backgroundColor: '#f59e0b' }
     ]
@@ -549,9 +549,9 @@ let anaChartDone = false;
 function initAnaChart() {
   if (anaChartDone) return;
   anaChartDone = true;
-  const days = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2',['6/3~6/24','노출 중단'],'6/25','6/26','6/27','6/28','6/29','6/30','7/1'];
-  const views = [47,47,36,64,65,81,84,129,50,28,104,136,96,null,54,125,66,212,209,216,214];
-  const colors = days.map((d,i) => i === 13 ? 'rgba(0,0,0,0)' : (i >= 14 ? '#f59e0b' : '#93c5fd'));
+  const days = ['5/21','5/22','5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2',['6/3~6/24','노출 중단'],'6/25','6/26','6/27','6/28','6/29','6/30','7/1','7/2'];
+  const views = [47,47,36,64,65,81,84,129,50,28,104,136,96,null,54,125,66,212,209,216,214,267];
+  const colors = days.map((d,i) => i === 13 ? 'rgba(0,0,0,0)' : (i === 22 ? '#16a34a' : (i >= 14 ? '#f59e0b' : '#93c5fd')));
   new Chart(document.getElementById('anaTimeline'), {
     type: 'bar',
     data: { labels: days, datasets: [{ label: '제안 뷰(회원)', data: views, backgroundColor: colors, borderRadius: 2 }] },
