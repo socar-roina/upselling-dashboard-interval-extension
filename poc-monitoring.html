@@ -169,24 +169,31 @@ summary:hover { color: #2563eb; }
     </details>
   </div>
 
-  <div class="group-label">참고 <span>유저가 실제로 얼마나 연장했나</span></div>
+  <div class="group-label">참고 <span>수락자가 원래 몇 시 반납 예약이었나</span></div>
 
-  <div class="section-label">원래 반납, 연장 후 반납, 연장 폭 <span class="tag tag-fact">실측 6/25~7/2</span></div>
+  <div class="section-label">원래 반납 시각 분포 <span class="tag tag-fact">실측 6/25~7/2, 취소 제외</span></div>
   <div class="card">
-    <div class="card-title">원래 반납을 그날 자정(24시)까지 미루는 상품, 수락자 전원이 자정으로 연장</div>
-    <div class="card-sub">시간연장은 반납 시각을 그날 자정으로 늦추는 방식. 원래 반납이 이를수록 연장 폭이 커지고 추가금도 높아짐. 신규 12-15시 구간이 더 많이(약 10.6시간) 연장해 12,900원을 받는 구조</div>
-    <table class="data-table" style="margin-top:4px">
-      <thead><tr><th>구간</th><th>원래 반납</th><th>연장 후 반납</th><th class="num">평균 연장</th><th class="num">추가금</th></tr></thead>
-      <tbody>
-        <tr><td class="dt">기존 15-20시</td><td>15~20시</td><td>자정(24시)</td><td class="num">약 5.9시간</td><td class="num">4,900원</td></tr>
-        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">신규 12-15시</td><td>12~14시</td><td>자정(24시)</td><td class="num" style="color:#b45309">약 10.6시간</td><td class="num">12,900원</td></tr>
-      </tbody>
-    </table>
-    <div class="evidence" style="margin-top:14px">
-      <div class="e"><div class="n">약 6.1시간</div><div class="l">건당 평균 연장<br>(취소 제외 280건)</div></div>
-      <div class="e"><div class="n">약 1,710시간</div><div class="l">완화 후 누적 연장<br>6/25~7/2</div></div>
-      <div class="e"><div class="n green">자정</div><div class="l">연장 후 반납<br>수락자 280명 전원</div></div>
-    </div>
+    <div class="card-title">저녁 18-19시 반납 예약이 연장으로 가장 많이 이어짐</div>
+    <div class="card-sub">수락자가 업셀링 제안을 받기 전 원래 예약했던 반납 시각(JWT의 originalInterval.end). 원래 반납이 15-20시면 4,900원, 12-14시면 12,900원 구간으로 갈림</div>
+    <div class="chart-wrap" style="height:280px"><canvas id="origReturnChart"></canvas></div>
+    <details style="margin-top:8px">
+      <summary>시간대별 상세 수치</summary>
+      <table class="data-table" style="margin-top:10px">
+        <thead><tr><th>원래 반납 시각</th><th>구간(추가금)</th><th class="num">취소 제외 수락</th></tr></thead>
+        <tbody>
+          <tr style="background:#fffbeb"><td class="dt">12시</td><td>12,900원</td><td class="num">5</td></tr>
+          <tr style="background:#fffbeb"><td class="dt">13시</td><td>12,900원</td><td class="num">4</td></tr>
+          <tr style="background:#fffbeb"><td class="dt">14시</td><td>12,900원</td><td class="num">6</td></tr>
+          <tr><td class="dt">15시</td><td>4,900원</td><td class="num">26</td></tr>
+          <tr><td class="dt">16시</td><td>4,900원</td><td class="num">27</td></tr>
+          <tr><td class="dt">17시</td><td>4,900원</td><td class="num">36</td></tr>
+          <tr><td class="dt">18시</td><td>4,900원</td><td class="num">65</td></tr>
+          <tr><td class="dt">19시</td><td>4,900원</td><td class="num">69</td></tr>
+          <tr><td class="dt">20시</td><td>4,900원</td><td class="num">42</td></tr>
+          <tr class="total"><td class="dt">합계</td><td></td><td class="num">280</td></tr>
+        </tbody>
+      </table>
+    </details>
   </div>
 
   <div class="group-label">부록 <span>용어와 검증 쿼리</span></div>
@@ -281,18 +288,19 @@ FROM te GROUP BY return_dow ORDER BY active DESC
 -- 결과(취소 제외 수락): 일 58, 화 43, 수 42, 금 41, 월 28, 목 14</div>
       </details>
       <details>
-        <summary>6. 연장 폭 (원래 반납 vs 연장 후 반납)</summary>
-        <div class="query-block">-- te는 위 2번과 동일 (결제 meta TIME_EXTENSION, 6/25~7/2, 취소 제외)
--- originalInterval.end(원래 반납)와 extendedInterval.end(연장 후 반납)의 차이를 시간으로
+        <summary>6. 수락자의 원래 반납 시각 분포</summary>
+        <div class="query-block">-- 각 수락자가 업셀링 제안 전 원래 예약했던 반납 시각(KST)
+-- te는 위 2번과 동일 (결제 meta TIME_EXTENSION, 6/25~7/2)
+-- originalInterval.end = 연장 전 원래 반납 시각. content_token(JWT) payload에서 디코딩
 SELECT
   SAFE_CAST(JSON_VALUE(SAFE.PARSE_JSON(d),'$.customerSurcharge') AS INT64) AS surcharge,
-  COUNT(DISTINCT reservation_id) AS active,
-  ROUND(AVG(TIMESTAMP_DIFF(
-    TIMESTAMP(JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.extendedInterval.end')),
-    TIMESTAMP(JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.originalInterval.end')), MINUTE)/60.0),1) AS avg_ext_h
-FROM te WHERE cancel_at IS NULL GROUP BY surcharge ORDER BY surcharge
--- 결과: 4900 -> 265건 / 평균 5.9시간, 12900 -> 15건 / 평균 10.6시간
--- 전체(280건) 평균 6.1시간, 누적 1,710시간. 연장 후 반납은 전원 자정(00:00 KST)</div>
+  EXTRACT(HOUR FROM DATETIME(TIMESTAMP(
+    JSON_VALUE(SAFE.PARSE_JSON(d),'$.payload.originalInterval.end')),'Asia/Seoul')) AS orig_return_hour,
+  COUNT(DISTINCT IF(cancel_at IS NULL, reservation_id, NULL)) AS active
+FROM te GROUP BY surcharge, orig_return_hour ORDER BY surcharge, orig_return_hour
+-- 결과(취소 제외): 12900 -> 12시 5, 13시 4, 14시 6
+--                 4900 -> 15시 26, 16시 27, 17시 36, 18시 65, 19시 69, 20시 42
+-- 합계 280건. 원래 반납이 15-20시면 4,900원, 12-14시면 12,900원 구간</div>
       </details>
     </div>
   </details>
@@ -463,6 +471,27 @@ new Chart(ctx, {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { position: 'bottom' } },
     scales: { y: { beginAtZero: true } }
+  }
+});
+
+new Chart(document.getElementById('origReturnChart'), {
+  type: 'bar',
+  data: {
+    labels: ['12시','13시','14시','15시','16시','17시','18시','19시','20시'],
+    datasets: [{
+      label: '취소 제외 수락(원래 반납 시각)',
+      data: [5,4,6,26,27,36,65,69,42],
+      backgroundColor: ['#f59e0b','#f59e0b','#f59e0b','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6'],
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { afterLabel: c => c.dataIndex < 3 ? '12,900원 구간' : '4,900원 구간' } }
+    },
+    scales: { x: { grid: { display: false } }, y: { beginAtZero: true } }
   }
 });
 
