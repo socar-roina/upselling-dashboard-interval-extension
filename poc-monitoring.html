@@ -110,7 +110,7 @@ summary:hover { color: #2563eb; }
   <div class="section-label">신규 구간 수락 현황 <span class="tag tag-fact">실측 6/25~7/6</span></div>
   <div class="card">
     <div class="card-title">12,900원 구간, 지금까지 23건 수락</div>
-    <div class="card-sub">반납 12-15시 고객에게 12,900원으로 연장을 제안한 결과<br>신규 구간은 노출이 적어 표본이 천천히 쌓이는 중 (구간별 노출은 로그에 분리 집계되지 않아 수락 건수로 진척을 봄)</div>
+    <div class="card-sub">반납 12-15시 고객에게 12,900원으로 연장을 제안한 결과<br>신규 구간은 노출이 적어 표본이 천천히 쌓이는 중. 구간별 노출은 7/6부터 로그에 분리 적재돼 이제 노출과 수락률을 나눠 볼 수 있음(아래 구간별 카드)</div>
     <div class="evidence">
       <div class="e"><div class="n amber">23건</div><div class="l">수락 (결제)<br>일 평균 약 1.9건</div></div>
       <div class="e"><div class="n">18건</div><div class="l">취소 제외 순</div></div>
@@ -119,6 +119,28 @@ summary:hover { color: #2563eb; }
     <div style="margin-top:14px" class="wait-box">
       <b>아직 수락률을 판단할 단계는 아님</b><br>비싼 구간이라 노출 자체가 적어, 신뢰할 수치가 나오려면 더 모아야 함<br>23건은 "팔리기 시작했다"는 신호 수준이며, 표본이 더 쌓일 때까지 수락 건수 추이를 지켜보는 중
     </div>
+  </div>
+
+  <div class="section-label">구간별 노출과 수락률 <span class="tag tag-fact">7/6부터 로그 적재</span></div>
+  <div class="card">
+    <div class="card-title">구간별 노출이 7/6부터 로그에 분리 적재됨</div>
+    <div class="card-sub">노출 로그에 추가금(sc)이 7/6 11:45부터 찍혀, 이제 4,900원과 12,900원 구간을 나눠 노출과 수락률을 볼 수 있음. 그 전은 구간 구분이 안 돼 전체로만 봤음</div>
+    <table class="data-table">
+      <thead><tr><th>날짜</th><th class="num">4,900 노출(회원)</th><th class="num">12,900 노출(회원)</th></tr></thead>
+      <tbody>
+        <tr><td class="dt">7/6 (11:45~)</td><td class="num">133</td><td class="num">9</td></tr>
+        <tr><td class="dt">7/7</td><td class="num">209</td><td class="num">19</td></tr>
+      </tbody>
+    </table>
+    <div class="card-sub" style="margin-top:18px;margin-bottom:8px">구간별 수락률 (노출과 수락이 같은 전일로 정렬되는 7/7 기준)</div>
+    <table class="data-table">
+      <thead><tr><th>구간</th><th class="num">노출</th><th class="num">수락</th><th class="num">수락률</th></tr></thead>
+      <tbody>
+        <tr><td class="dt">기존 15-20시 (4,900원)</td><td class="num">209</td><td class="num">48</td><td class="num green">약 23.0%</td></tr>
+        <tr style="background:#fffbeb"><td class="dt" style="color:#92400e">신규 12-15시 (12,900원)</td><td class="num">19</td><td class="num">1</td><td class="num">약 5.3%</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:#9ca3af;margin-top:8px">7/6은 11:45 적재 시작이라 부분, 7/7이 첫 전일 집계. 신규 구간은 하루 약 19명 노출이라 표본은 계속 쌓는 중</div>
   </div>
 
   <div class="group-label">참고 <span>기능 전체가 정상 작동하는지</span></div>
@@ -208,7 +230,7 @@ summary:hover { color: #2563eb; }
     <div class="term"><b>수락</b><div>제안받아 실제 연장을 결제한 예약 수. 취소되면 추가금도 환불되어, 취소 제외 순 건수를 함께 표기</div></div>
     <div class="term"><b>구간</b><div>반납 시간대에 따라 추가금이 다름. 기존 15-20시는 4,900원, 신규 12-15시는 12,900원</div></div>
     <div class="term"><b>수락률</b><div>6/25~7/6 기준 수락 575건 / 노출 2,013명 = 28.6%<br>비교할 대조군 없이 전체에 노출하는 시범 운영이라 추이로 봄</div></div>
-    <div class="term"><b>신규 구간 표본</b><div>12,900원 구간은 노출이 적어 수락률을 신뢰성 있게 보려면 노출이 약 380명은 쌓여야 함<br>다만 구간별 노출은 로그에 분리 집계되지 않아 직접 셀 수 없고, 수락 건수로 진척을 봄</div></div>
+    <div class="term"><b>신규 구간 표본</b><div>12,900원 구간은 노출이 적어 수락률을 신뢰성 있게 보려면 노출이 약 380명은 쌓여야 함<br>구간별 노출은 7/6부터 로그에 분리 적재됨(추가금 sc 필드). 하루 약 19명이라 표본은 계속 쌓는 중</div></div>
   </details>
 
   <details class="card" style="margin-bottom:48px">
@@ -352,6 +374,20 @@ FROM `socar-data.app_web_log.socar_app_web_log`
 WHERE page_name='upsell_bottomsheet' AND event_name='view'
   AND event_date_kst BETWEEN '2026-06-25' AND '2026-07-01'
 -- 로깅 정의서 4714070038 참조 (ut=업셀종류, pf=기존 면책, co/cu=차종 원본/업그레이드)</div>
+      </details>
+      <details>
+        <summary>10. 구간별(추가금) 노출 뷰, sc 필드 (7/6부터)</summary>
+        <div class="query-block">-- 추가금(sc) 필드는 7/6 11:45부터 노출 로그에 적재됨. 그 전은 sc 없음(구간 구분 불가)
+SELECT event_date_kst AS dt,
+  REGEXP_EXTRACT(form_data, r'sc:([0-9]+)') AS surcharge,
+  COUNT(DISTINCT IF(event_name='view', member_id, NULL)) AS view_m,
+  COUNT(DISTINCT IF(component_name='interval_option' AND event_name='click', member_id, NULL)) AS optclick_m
+FROM `socar-data.app_web_log.socar_app_web_log`
+WHERE page_name='upsell_bottomsheet'
+  AND REGEXP_EXTRACT(form_data, r'ut\??:\??([a-z]+)')='i'
+  AND event_date_kst >= '2026-07-06'
+GROUP BY dt, surcharge ORDER BY dt, surcharge
+-- 결과 7/7(첫 전일): 4900 노출 209, 12900 노출 19. 7/6은 11:45부터라 부분(4900 133, 12900 9)</div>
       </details>
     </div>
   </details>
@@ -499,7 +535,7 @@ WHERE page_name='upsell_bottomsheet' AND event_name='view'
     <div class="card-sub" style="margin-bottom:0">
       운영 시스템화: 가격, 기간, 요일, 존, 차종 등을 백오피스에서 설정하는 관리 체계. 지금은 조건 변경마다 인프라 티켓 수동 반영이라 장기적으로 필요<br><br>
       제안 확장: 뒤 시간이 비면 차종 업그레이드를 교차 제안, 출발 앞이 비면 예약 앞당기기 제안<br><br>
-      가격별 노출 로그: 지금은 구간별 노출이 안 찍혀 12-15시와 15-20시를 못 나눔. 이번 주 내 프론트엔드 작업 예정
+      가격별 노출 로그: 7/6 반영 완료(추가금 sc 필드). 이제 12-15시와 15-20시 구간을 나눠 노출과 수락률 확인 가능
     </div>
   </div>
 
